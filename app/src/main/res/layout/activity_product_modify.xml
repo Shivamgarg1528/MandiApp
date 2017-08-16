@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_tool_bar" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="@drawable/xml_cornor_signup_bg">
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.AppCompatImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/mImageViewProduct"
+                        android:background="@android:color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="05dp"
+                        android:src="@mipmap/ic_launcher"
+                        app:civ_border_color="@android:color/white"
+                        app:civ_border_width="2dp" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
+                        app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+
+                        <android.support.v7.widget.AppCompatEditText
+                            android:id="@+id/mEditTextProductName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/product_name"
+                            android:imeOptions="actionDone"
+                            android:maxLines="1"
+                            android:inputType="textPersonName"
+                            android:textSize="22sp" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
+                        app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+
+                        <android.support.v7.widget.AppCompatEditText
+                            android:id="@+id/mEditTextProductQty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/product_qty"
+                            android:inputType="phone"
+                            android:textSize="22sp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/mButtonProductAdd"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@android:color/white"
+                        android:text="@string/submit"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+            </ScrollView>
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

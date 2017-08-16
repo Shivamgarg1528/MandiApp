@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="155dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    card_view:cardBackgroundColor="@color/colorWhite"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="4dp"
+    card_view:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/rowPurchasePaymentdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLength="17"
+            android:maxLines="1"
+            android:padding="01dp"
+            android:text="2016-12-20"
+            android:textColor="@color/rowParentColor"
+            android:textSize="27sp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/rowPurchasePaymentType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="Cash"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="25sp" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/rowPurchaseCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:checked="true"
+            android:clickable="false"
+            android:text="Interest Amt Paid ?"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp" />
+
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rowPurchasePaymentdate"
+            android:paddingTop="02dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:text="Amount Paid"
+                    android:padding="01dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/rowParentColor" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/rowPurchaseAmtPaidValue"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:gravity="center|right"
+                    android:maxLines="1"
+                    android:padding="01dp"
+                    android:text="23.75"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/rowChildColor" />
+
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:padding="01dp"
+                    android:text="Interest Amount"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/rowParentColor" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/rowPurchaseInterestAmt"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:gravity="center|right"
+                    android:maxLines="1"
+                    android:padding="01dp"
+                    android:text="23.75"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/rowChildColor" />
+
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:padding="01dp"
+                    android:text="Total Amount Paid"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/rowParentColor" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="125dp"
+                        android:background="@color/colorAccent" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/rowPurchaseTotalAmtPaid"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:maxLines="1"
+                        android:padding="01dp"
+                        android:text="23.75"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/colorPrimary" />
+
+                </LinearLayout>
+
+            </TableRow>
+        </TableLayout>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/mTextViewInterestRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:maxLines="1"
+            android:padding="01dp"
+            android:text="2%"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/holo_red_dark" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

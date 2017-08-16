@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="380dp"
+    android:layout_gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/mTextViewProductName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/mTextViewMaxQtyInKg"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Max Qty Kg (1000)"
+                android:textColor="@color/colorWhite"
+                android:textSize="15sp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="Kg Per Quantity"
+                android:textColor="@color/colorWhite"
+                android:textSize="15sp" />
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/mSpinnerUnitListPurchase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:backgroundTint="@color/colorWhite"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
+
+            </android.support.v7.widget.AppCompatSpinner>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Quantity"
+                android:textColor="@color/colorWhite"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="45dp"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal"
+                android:weightSum="100">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/decreaseQtyBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="25"
+                    android:background="@null"
+                    android:src="@drawable/ic_decrease" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorWhite" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/qtyTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="48"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="1"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="40sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorWhite" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/increaseQtyBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="25"
+                    android:background="@null"
+                    android:src="@drawable/ic_increase" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="07dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="100">
+
+                <android.support.design.widget.TextInputLayout
+                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:theme="@style/TextAppearance.App.TextInputLayout.SignUp">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/mEditProductPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Product Price"
+                        android:maxLength="@integer/priceValueLimit"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
+                        android:textSize="18sp" />
+                </android.support.design.widget.TextInputLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorWhite" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="40"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rs In Kg"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/mSpinnerKgPrice"
+                        android:layout_width="wrap_content"
+                        app:backgroundTint="@color/colorWhite"
+                        android:layout_height="wrap_content"></android.support.v7.widget.AppCompatSpinner>
+                </LinearLayout>
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/saveBtnPurchase"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/selector_white_button"
+                android:gravity="center"
+                android:padding="05sp"
+                android:text="SAVE"
+
+                android:textColor="@drawable/selector_white_button_text"
+                android:textSize="23sp" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

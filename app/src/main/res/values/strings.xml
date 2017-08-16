@@ -1,0 +1,148 @@
+<resources>
+
+
+    <string-array name="paymentType">
+
+        <item>Cash</item>
+        <item>RTGS</item>
+        <item>Cheque</item>
+
+    </string-array>
+
+    <string-array name="kgPrice">
+
+        <item>100</item>
+        <item>40</item>
+
+    </string-array>
+
+    <string-array name="labourCost">
+
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+
+    </string-array>
+
+    <string-array name="qtyMultiplier">
+
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+
+    </string-array>
+
+    <string-array name="daamiArray">
+        <item>0</item>
+        <item>2.5</item>
+        <item>4</item>
+
+    </string-array>
+
+    <string name="NanumGothicBold">NanumGothic-Bold.ttf</string>
+    <string name="NanumGothicExtraBold">NanumGothic-ExtraBold.ttf</string>
+    <string name="NanumGothicRegular">NanumGothic-Regular.ttf</string>
+    <string name="app_name">DigitalMandi</string>
+    <string name="string_login">LOGIN</string>
+    <string name="registered_email_address">Registered Email Address</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot Password ?</string>
+    <string name="atleast_six_char_long">Password Atleast Six Character Long</string>
+    <string name="enter_valid_email_address">Please Enter Valid Email Address</string>
+    <string name="register">Register</string>
+
+    <!-- Register start-->
+    <string name="name">Name*</string>
+    <string name="reg_password">Password*</string>
+    <string name="confirm_password">Confirm Password*</string>
+    <string name="email_address">Email Address*</string>
+    <string name="phone_number">Phone Number*</string>
+    <string name="firm_name">Firm Name*</string>
+    <string name="tin_number">Tin Number*</string>
+    <string name="landmark">LandMark</string>
+    <string name="addresss">Address</string>
+    <string name="submit">Submit</string>
+    <string name="successfully_registered">SuccessFully Registered</string>
+    <string-array name="spinnerItems">
+        <item>Select Any Option...</item>
+        <item>Supplier</item>
+        <item>Customer</item>
+    </string-array>
+    <string name="title_activity_supplier_home">SupplierHomeActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="settings">Settings</string>
+    <string name="products">Products</string>
+    <string name="balance_sheet">Balance Sheet</string>
+    <string name="stock">Stock</string>
+    <string name="customers">Customers</string>
+    <string name="new_customer">New Customer</string>
+    <string name="add_customer">Add Customer</string>
+    <string name="please_try_again">Please Try Again</string>
+    <string name="product_name">Product Name *</string>
+    <string name="product_qty">Product Qty*</string>
+    <string name="no_new_product_found">No New Product Found</string>
+    <string name="no_product_found">No Product Found</string>
+    <string name="no_new_unit_found">No New Unit Found</string>
+    <string name="no_unit_found">No Unit Found</string>
+    <string name="unit_name">Unit Name*</string>
+    <string name="unit_value">Unit Value*</string>
+    <string name="please_enter_unit_name">Please Enter Unit Name</string>
+    <string name="unit_value_must_be_greater_than_zero">UnitValue Must Be Greater Than Or Equals To Zero</string>
+    <string name="add_new_unit">Add New Unit</string>
+    <string name="update_unit">"Update Unit ( %s )"</string>
+    <string name="no_result_found">No Unit Information Found. Contact App Admin For Better Assistance</string>
+    <string name="product_result">No Product Information Found. Contact App Admin For Better Assistance</string>
+    <string name="please_enter_product_name">Please Enter Product Name</string>
+    <string name="qty_must_be_greater_than_zero">Qty Must Be Greater Than Zero</string>
+    <string name="add_new_product">Add New Product</string>
+    <string name="update_product_string">"Update Product ( %s )"</string>
+    <string name="failed_to_logout_uer">Failed To Logout User</string>
+    <string name="successfully_logout">SuccessFully Logout</string>
+    <string name="please_contact_app_admin_for_better_support">Please Contact App Admin For Better Support For ( %s )</string>
+    <string name="signup_string">SignUp</string>
+    <string name="login_title">Login</string>
+    <string name="add_new_customer">Add New Customer</string>
+    <string name="title_activity_main2_activitya">Main2Activitya</string>
+    <string name="please_provide_purchased_item">Please Provide Purchased Item</string>
+    <string name="please_provide_sold_item">Please Provide Sold Item</string>
+    <string name="enter_payment_amount">Enter Payment Amount</string>
+    <string name="interest_amt">Interest Amt</string>
+    <string name="is_interest_also_paid">Interest Paid ?</string>
+    <string name="payment_history_title">Payment History ( %s )</string>
+    <!-- Register end-->
+</resources>

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_purchase_payment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_tool_bar" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30"
+            android:layout_gravity="center"
+            android:layout_margin="02dp"
+            android:background="@color/colorAccent">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_margin="03dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="02dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".7"
+                        android:text="Purchase Amount"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/mTextViewPurchaseAmt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".3"
+                        android:gravity="center|right"
+                        android:text="0.00"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="02dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        android:text="Paid Amount"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/mTextViewPaidAmt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        android:gravity="center|right"
+                        android:text="0.00"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="02dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        android:text="Due Amount"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/mTextViewDueAmt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        android:gravity="center|right"
+                        android:text="0.00"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+                </TableRow>                
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="02dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        android:text="Interest Amount"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/mTextViewInterestAmt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".5"
+                        android:gravity="center|right"
+                        android:text="0.00"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="02dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".7"
+                        android:text="Interest Paid Amount"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/mTextViewInterestPaidAmt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".3"
+                        android:gravity="center|right"
+                        android:text="0.00"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="02dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".7"
+                        android:text="Interest Due Amount"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/mTextViewInterestDueAmt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".3"
+                        android:gravity="center|right"
+                        android:text="0.00"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="02dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".7"
+                        android:text="Total Paid Amount"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/mTextViewTotalPaidAmt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".3"
+                        android:gravity="center|right"
+                        android:text="0.00"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+                </TableRow>
+            </TableLayout>
+
+        </ScrollView>
+
+        <include
+            layout="@layout/layout_common_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="70"></include>
+    </LinearLayout>
+
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/mButtonPurchasePayment"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"
+        android:layout_margin="10dp"
+        android:background="@drawable/selector_blue_button"
+        android:text="New Payment"
+        android:visibility="invisible"
+        android:textColor="@drawable/selector_blue_button_text"
+        android:textSize="23sp" />
+
+</LinearLayout>

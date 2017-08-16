@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_tool_bar" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="30dp"
+            android:background="@drawable/xml_corner_app_bg"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/xml_corner_app_bg">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <View
+                    android:id="@+id/leftLine"
+                    android:layout_width="5dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorPrimary" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/leftLine"
+                    android:layout_alignTop="@+id/leftLine"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/leftLine"
+                    android:text="@string/string_login"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/leftLine"
+                    android:layout_marginBottom="50dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="50dp"
+                    android:orientation="vertical">
+
+                    <!-- Email Label -->
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:theme="@style/TextAppearance.App.TextInputLayout.Login"
+                        android:layout_height="wrap_content">
+
+                        <android.support.v7.widget.AppCompatEditText
+                            android:id="@+id/mEditTextEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/registered_email_address"
+                            android:textSize="22sp"
+                            android:textColor="@color/colorPrimary"
+                            android:inputType="textEmailAddress" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <!-- Password Label -->
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:theme="@style/TextAppearance.App.TextInputLayout.Login"
+                        android:layout_height="wrap_content">
+
+                        <android.support.v7.widget.AppCompatEditText
+                            android:id="@+id/mEditTextPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="22sp"
+                            android:maxLines="1"
+                            android:maxLength="12"
+                            android:imeOptions="actionDone"
+                            android:hint="@string/password"
+                            android:textColor="@color/colorPrimary"
+                            android:inputType="textPassword" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btn_login"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/selector_blue_button"
+                        android:textColor="@drawable/selector_blue_button_text"
+                        android:textSize="20sp"
+                        android:text="Go" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/forgotPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimary"
+                        android:text="@string/forgot_password"
+                        android:textSize="20dip" />
+                </LinearLayout>
+            </RelativeLayout>
+
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/signUpButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="05dp"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/xml_create_account_bg"
+            android:padding="13dp"
+            android:src="@drawable/ic_edit" />
+
+        <ImageView
+            android:id="@+id/faceBookButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="140dp"
+            android:visibility="gone"
+            android:background="@drawable/xml_create_account_bg"
+            android:padding="13dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

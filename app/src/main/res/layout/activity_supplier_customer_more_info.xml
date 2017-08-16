@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+    <include layout="@layout/common_tool_bar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_height="70dp">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/mButtonStartDate"
+            android:layout_width="100dp"
+            android:layout_margin="05dp"
+            android:text="Start Date"
+            android:background="@drawable/selector_blue_button"
+            android:textColor="@drawable/selector_blue_button_text"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/mButtonEndDate"
+            android:layout_width="100dp"
+            android:text="End Date"
+            android:layout_margin="05dp"
+            android:background="@drawable/selector_blue_button"
+            android:textColor="@drawable/selector_blue_button_text"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/mButtonResetDate"
+            android:layout_width="100dp"
+            android:text="Reset Filter"
+            android:layout_margin="05dp"
+            android:background="@drawable/selector_blue_button"
+            android:textColor="@drawable/selector_blue_button_text"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+    <include layout="@layout/layout_common_recycler_view"/>
+</LinearLayout>

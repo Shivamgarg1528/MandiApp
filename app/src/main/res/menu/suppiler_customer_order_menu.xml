@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/supplier_customer_order_menu_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:title="Search"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_search" />
+
+    <item android:title="New Order"
+        android:id="@+id/supplier_customer_order_menu_add"
+        android:icon="@drawable/ic_add"
+        app:showAsAction="never"
+        android:visible="true" />
+
+    <item android:title="Refresh Orders"
+        android:id="@+id/supplier_customer_order_menu_refresh"
+        android:icon="@drawable/ic_refresh"
+        app:showAsAction="never"
+        android:visible="true" />
+</menu>

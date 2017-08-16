@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="280dp"
+    android:layout_height="90dp"
+    android:background="?android:attr/selectableItemBackground"
+    card_view:cardBackgroundColor="@color/colorWhite"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="3dp"
+    card_view:cardUseCompatPadding="true">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="04dp"
+        android:layout_marginRight="04dp"
+        android:background="@color/colorPrimary" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/rowAutoCompletePersonName"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:padding="01dp"
+            android:text="RamDas"
+            android:textColor="@color/rowParentColor"
+            android:textSize="20sp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/rowAutoCompleteDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:padding="05dp"
+            android:text="2016-18-22"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/rowChildColor" />
+
+
+        <LinearLayout
+            android:id="@+id/rowAutoCompleteTitleParent"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_below="@id/rowAutoCompletePersonName"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="40"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:padding="01dp"
+                android:text="Name"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/rowParentColor" />
+
+           
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="30"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="01dp"
+                android:text="Qty(KG)"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/rowParentColor" />
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="30"
+                android:gravity="center|right"
+                android:maxLines="1"
+                android:padding="01dp"
+                android:text="Price"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/rowParentColor" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/rowAutoCompleteTitleParentValue"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@id/rowAutoCompleteTitleParent"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/rowAutoCompleteProductName"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="40"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:padding="01dp"
+                android:text="Good"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/rowChildColor" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/rowAutoCompleteProductQty"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="30"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="01dp"
+                android:text="1000"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/rowChildColor" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/rowAutoCompleteProductPrice"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="30"
+                android:gravity="center|right"
+                android:maxLines="1"
+                android:padding="01dp"
+                android:text="22250.00"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/rowChildColor" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

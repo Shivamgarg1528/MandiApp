@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_tool_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="04dp"
+                android:text="Items"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
+
+            <FrameLayout
+                android:id="@+id/mFrameLayoutParent"
+                android:layout_width="match_parent"
+                android:background="#F1F1F1"
+                android:layout_height="100dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewItems"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    android:layout_height="match_parent">
+                </android.support.v7.widget.RecyclerView>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/emptyTextViewItems"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/colorPrimary" />
+
+            </FrameLayout>
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="04dp"
+                android:text="Cart Items"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
+
+            <include
+                layout="@layout/layout_common_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="230dp" />
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="04dp"
+                android:text="Details"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
+
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/mButtonDatePicker"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="07dp"
+                android:background="@drawable/selector_blue_button"
+                android:gravity="center"
+                android:text="Order Date"
+                android:textColor="@drawable/selector_blue_button_text"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="04dp"
+                android:background="@color/colorPrimary"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="05dp"
+                    android:text="Expenses (%)"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="15sp" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/mSpinnerExpenses"
+                    android:layout_width="match_parent"
+                    app:backgroundTint="@color/colorWhite"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"></android.support.v7.widget.AppCompatSpinner>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bardana Cost"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="15sp" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/mSpinnerBardana"
+                    android:layout_width="match_parent"
+                    app:backgroundTint="@color/colorWhite"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"></android.support.v7.widget.AppCompatSpinner>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Labour Cost"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="15sp" />
+
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/mSpinnerLabour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:backgroundTint="@color/colorWhite"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"></android.support.v7.widget.AppCompatSpinner>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
+                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/mEditTextVechileRent100Kg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Quintal Cost"
+                        android:maxLength="@integer/priceValueLimit"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18sp" />
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="05dp"
+                    android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
+                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/mEditTextDriverName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Driver Name"
+                        android:maxLength="20"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18sp" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
+                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/mEditTextDriverPhoneNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Driver Phone No"
+                        android:maxLength="10"
+                        android:inputType="phone"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18sp" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
+                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/mEditTextDriverVehicleNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Vehicle No"
+                        android:imeOptions="actionDone"
+                        android:maxLength="15"
+                        android:inputType="textCapCharacters"
+                        android:maxLines="1"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18sp" />
+                </android.support.design.widget.TextInputLayout>
+
+
+
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="03dp">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+                        android:layout_marginTop="02dp"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".7"
+                            android:text="SubTotal Amount"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/mTextViewSubTotalAmt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".3"
+                            android:gravity="center|right"
+                            android:text="0.00"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+                        android:layout_marginTop="02dp"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:text="Expenses"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/mTextViewExpensesAmt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:gravity="center|right"
+                            android:text="0.00"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+                        android:layout_marginTop="02dp"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:text="Labour Amount"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/mTextViewLaboutAmt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:gravity="center|right"
+                            android:text="0.00"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+                        android:layout_marginTop="02dp"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:text="Bardaana Amount"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/mTextViewBardanaAmt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:gravity="center|right"
+                            android:text="0.00"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+                        android:layout_marginTop="02dp"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".7"
+                            android:text="Total Amount"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/mTextViewTotalAmt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".3"
+                            android:gravity="center|right"
+                            android:text="0.00"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+                        android:layout_marginTop="02dp"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".7"
+                            android:text="Vehicle Amount"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/mTextViewVechileAmt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".3"
+                            android:gravity="center|right"
+                            android:text="0.00"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+                        android:layout_marginTop="02dp"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".7"
+                            android:text="Total Load (Q)"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/mTextViewTotalLoadInQuintal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".3"
+                            android:gravity="center|right"
+                            android:text="0.00"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1"
+                        android:layout_marginTop="02dp"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".7"
+                            android:text="Total Nag"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/mTextViewTotalNag"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".3"
+                            android:gravity="center|right"
+                            android:text="0.00"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="15sp" />
+                    </TableRow>
+
+                </TableLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="right"
+                    android:orientation="horizontal"
+                    android:padding="03dp"
+                    android:weightSum="1">
+
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/mButtonPayment"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".6"
+                        android:background="@drawable/selector_white_button"
+                        android:gravity="center"
+                        android:padding="05dp"
+                        android:text="Place Order"
+                        android:textColor="@drawable/selector_white_button_text"
+                        android:textSize="22sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

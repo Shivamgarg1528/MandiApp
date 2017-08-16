@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/MandiApp.iml" filepath="$PROJECT_DIR$/MandiApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SetupApp.iml" filepath="$PROJECT_DIR$/SetupApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="125dp"
+    android:background="?android:attr/selectableItemBackground"
+    card_view:cardBackgroundColor="@color/colorWhite"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="3dp"
+    card_view:cardUseCompatPadding="true">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="04dp"
+        android:layout_marginRight="04dp"
+        android:background="@color/colorPrimary" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
+
+        <LinearLayout
+            android:id="@+id/rowOrderDetailTitleParent"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="40"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:padding="01dp"
+                android:text="Name"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/rowParentColor" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="15"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="01dp"
+                android:text="Unit"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/rowParentColor" />
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="15"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="01dp"
+                android:text="Qty"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/rowParentColor" />
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="30"
+                android:gravity="center|right"
+                android:maxLines="1"
+                android:padding="01dp"
+                android:text="Price"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/rowParentColor" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/rowOrderDetailTitleParentValue"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@id/rowOrderDetailTitleParent"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/rowOrderDetailProductName"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="40"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:padding="01dp"
+                android:text="Good"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/rowChildColor" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/rowOrderDetailProductUnit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="15"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="01dp"
+                android:text="42.5"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/rowChildColor" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/rowOrderDetailProductQty"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="15"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="01dp"
+                android:text="1000"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/rowChildColor" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/rowOrderDetailProductPrice"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="30"
+                android:gravity="center|right"
+                android:maxLines="1"
+                android:padding="01dp"
+                android:text="22250.00"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/rowChildColor" />
+
+        </LinearLayout>
+
+        <TableLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rowOrderDetailTitleParentValue"
+            android:paddingTop="02dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:padding="01dp"
+                    android:text="Total Amount"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/rowParentColor" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/rowOrderDetailTotalAmount"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:gravity="center|right"
+                    android:maxLines="1"
+                    android:padding="01dp"
+                    android:text="23.75"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/rowChildColor" />
+            </TableRow>
+        </TableLayout>
+
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/rowOrderDetailQtyInKg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:maxLines="1"
+            android:padding="01dp"
+            android:text="Kg(12)"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/holo_green_dark" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/rowOrderDetailQtyInQuintal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:maxLines="1"
+            android:padding="01dp"
+            android:text="Kg(12)"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/holo_red_dark" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
