@@ -1,232 +1,132 @@
 package ig.com.digitalmandi.fragment.supplier;
 
-import android.app.Activity;
+import android.Manifest;
 import android.content.Intent;
-import android.database.Cursor;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.view.MenuItemCompat;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.supplier.SupplierCustomerAddActivity;
+import ig.com.digitalmandi.activity.supplier.SupplierCustomerOrderActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierCustomerAdapter;
-import ig.com.digitalmandi.base_package.BaseFragment;
-import ig.com.digitalmandi.base_package.ParentActivity;
-import ig.com.digitalmandi.beans.request.supplier.SupplierCustomerListReq;
-import ig.com.digitalmandi.beans.request.supplier.SupplierCustomerListRes;
-import ig.com.digitalmandi.database.BaseContract;
-import ig.com.digitalmandi.database.CustomerContract;
-import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebService;
-import ig.com.digitalmandi.retrofit.VerifyResponse;
-import ig.com.digitalmandi.utils.ConstantValues;
-import ig.com.digitalmandi.utils.MyPrefrences;
+import ig.com.digitalmandi.beans.request.supplier.SellerCustomerList;
+import ig.com.digitalmandi.database.ModifyPreference;
+import ig.com.digitalmandi.dialogs.CustomerDialog;
+import ig.com.digitalmandi.fragment.ListBaseFragment;
+import ig.com.digitalmandi.utils.AppConstant;
+import ig.com.digitalmandi.utils.AppSharedPrefs;
 import ig.com.digitalmandi.utils.Utils;
+import pub.devrel.easypermissions.EasyPermissions;
 
-/**
- * Created by shiva on 10/11/2016.
- */
+public class CustomerFragment extends ListBaseFragment<SellerCustomerList.Customer> implements EasyPermissions.PermissionCallbacks {
 
-public class CustomerFragment extends BaseFragment implements SearchView.OnQueryTextListener, BaseContract.OnInsertBulkDataSuccessFully, LoaderManager.LoaderCallbacks<Cursor> {
-
-    @BindView(R.id.recyclerView)
-    RecyclerView mRecyclerViewCustomer;
-    @BindView(R.id.emptyTextView)
-    TextView emptyView;
-    public SupplierCustomerAdapter mAdapter;
+    private CustomerDialog mCustomerDialog;
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case 100:
-                    onFetchDataFromServer(false);
-                    break;
+    protected SellerCustomerList getResponse() {
+        return AppSharedPrefs.getInstance(mBaseActivity).getSellerCustomers();
+    }
+
+    @Override
+    protected RecyclerView.Adapter getAdapter() {
+        return new SupplierCustomerAdapter(mDataList, mBaseActivity, this);
+    }
+
+    @Override
+    protected int getEmptyTextStringId() {
+        return R.string.string_no_customer_found_please_add_new_customer;
+    }
+
+    @Override
+    protected void fetchData() {
+        ModifyPreference modifyPreference = new ModifyPreference(mBaseActivity, this);
+        modifyPreference.addOrUpdateSellerCustomers();
+    }
+
+    @Override
+    protected Intent getRequestedIntent() {
+        return new Intent(mBaseActivity, SupplierCustomerAddActivity.class);
+    }
+
+    @Override
+    protected Comparator getComparator(int pComparatorType) {
+        switch (pComparatorType) {
+            case AppConstant.COMPARATOR_ALPHA: {
+                return new Comparator<SellerCustomerList.Customer>() {
+                    public int compare(SellerCustomerList.Customer left, SellerCustomerList.Customer right) {
+                        return String.CASE_INSENSITIVE_ORDER.compare(left.getUserName(), right.getUserName());
+                    }
+                };
+            }
+            case AppConstant.COMPARATOR_PHONE: {
+                return new Comparator<SellerCustomerList.Customer>() {
+                    public int compare(SellerCustomerList.Customer left, SellerCustomerList.Customer right) {
+                        return String.CASE_INSENSITIVE_ORDER.compare(left.getUserMobileNo(), right.getUserMobileNo());
+                    }
+                };
             }
         }
+        return null;
     }
 
-    private void sortCustomerListAlphabetically() {
-        Comparator<SupplierCustomerListRes.ResultBean> ALPHABETICAL_ORDER1 = new Comparator<SupplierCustomerListRes.ResultBean>() {
-            public int compare(SupplierCustomerListRes.ResultBean object1, SupplierCustomerListRes.ResultBean object2) {
-                int res = String.CASE_INSENSITIVE_ORDER.compare(object1.getUserName().toString(), object2.getUserName().toString());
-                return res;
+    @Override
+    public boolean onQueryTextChange(String pNewText) {
+        mDataList.clear();
+        for (SellerCustomerList.Customer data : mBackUpList) {
+            if (data.getUserFirmName().toLowerCase().contains(pNewText.toLowerCase()) || data.getUserName().toLowerCase().contains(pNewText.toLowerCase())) {
+                mDataList.add(data);
             }
-        };
-        Collections.sort(dataList, ALPHABETICAL_ORDER1);
-        mAdapter.notifyData(emptyView);
+        }
+        notifyAdapterAndView();
+        return true;
     }
 
-    private void sortCustomerListPhoneNumber() {
-        Comparator<SupplierCustomerListRes.ResultBean> PHONE_ORDER1 = new Comparator<SupplierCustomerListRes.ResultBean>() {
-            public int compare(SupplierCustomerListRes.ResultBean object1, SupplierCustomerListRes.ResultBean object2) {
-                int res = (int) (Long.parseLong(object1.getUserMobileNo()) - Long.parseLong(object2.getUserMobileNo()));
-                return res;
+    @Override
+    public void onEvent(int pOperationType, SellerCustomerList.Customer pCustomer) {
+        switch (pOperationType) {
+
+            case AppConstant.OPERATION_OPEN_CUSTOMER_POPUP: {
+                mCustomerDialog = new CustomerDialog(mBaseActivity, this);
+                mCustomerDialog.show(pCustomer);
+                break;
             }
-        };
-        Collections.sort(dataList, PHONE_ORDER1);
-        mAdapter.notifyData(emptyView);
-    }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.layout_supplier_customer, null);
-        ButterKnife.bind(this, mRootView);
-        return mRootView;
-    }
+            case AppConstant.OPERATION_EDIT: {
+                Intent intent = new Intent(mBaseActivity, SupplierCustomerOrderActivity.class);
+                intent.putExtra(AppConstant.KEY_OBJECT, pCustomer);
+                Utils.onActivityStart(mBaseActivity, false, null, intent, null);
+                break;
+            }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.supplier_customer_menu, menu);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.supplier_customer_menu_search));
-        if (searchView != null) {
-            searchView.setOnQueryTextListener(this);
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.supplier_customer_menu_sort_alpha:
-                sortCustomerListAlphabetically();
-                return true;
-
-            case R.id.supplier_customer_menu_sort_id:
-                sortCustomerListPhoneNumber();
-                return true;
-
-            case R.id.supplier_customer_menu_add:
-                Utils.onActivityStartForResultInFragment(this, false, new int[]{}, null, SupplierCustomerAddActivity.class, 100);
-                return true;
-
-            case R.id.supplier_customer_menu_refresh:
-                onFetchDataFromServer(false);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mAdapter = new SupplierCustomerAdapter(dataList, mHostActivity);
-        mRecyclerViewCustomer.setAdapter(mAdapter);
-        mRecyclerViewCustomer.setHasFixedSize(true);
-        emptyView.setText("No Customer Found\nPlease Add New Customer");
-        getLoaderManager().initLoader(1, null, this);
-    }
-
-    private void onFetchDataFromServer(final boolean showDialog) {
-
-        disableTouchEvent();
-        SupplierCustomerListReq supplierCustomerReqModel = new SupplierCustomerListReq();
-        supplierCustomerReqModel.setSellerId(MyPrefrences.getStringPrefrences(ConstantValues.USER_SELLER_ID, mHostActivity));
-
-
-        mHostActivity.apiEnqueueObject = RetrofitWebService.getInstance().getInterface().supplierCustomerList(supplierCustomerReqModel);
-        mHostActivity.apiEnqueueObject.enqueue(new RetrofitCallBack<SupplierCustomerListRes>(mHostActivity, showDialog) {
-
-            @Override
-            public void yesCall(SupplierCustomerListRes response, ParentActivity weakRef) {
-                enableTouchEvent();
-                if (VerifyResponse.isResponseOk(response, true)) {
-                    CustomerContract customerContract = new CustomerContract(weakRef);
-                    customerContract.insertBulkData(response.getResult(), CustomerContract.Customer.CONTENT_URI, CustomerFragment.this);
+            case AppConstant.OPERATION_CALL: {
+                if (EasyPermissions.hasPermissions(mBaseActivity, Manifest.permission.CALL_PHONE)) {
+                    mCustomerDialog.makeCall();
+                } else {
+                    EasyPermissions.requestPermissions(this, getString(R.string.string_allow_customer_to_make_a_call), AppConstant.REQUEST_CODE_CALL_PERMISSION, Manifest.permission.CALL_PHONE);
                 }
-            }
-
-            @Override
-            public void noCall(Throwable error) {
-                enableTouchEvent();
-            }
-        });
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        dataList.clear();
-
-        if (TextUtils.isEmpty(newText)) {
-            dataList.addAll(backUpList);
-            mAdapter.notifyData(emptyView);
-            return true;
-        }
-
-        for (int index = 0; index < backUpList.size(); index++) {
-            SupplierCustomerListRes.ResultBean mCustomerBean = (SupplierCustomerListRes.ResultBean) backUpList.get(index);
-
-            if (mCustomerBean.getUserFirmName().toLowerCase().contains(newText.toLowerCase()) || mCustomerBean.getUserName().toLowerCase().contains(newText.toLowerCase())) {
-                dataList.add(mCustomerBean);
+                break;
             }
         }
-        mAdapter.notifyData(emptyView);
-        return true;
     }
 
     @Override
-    public void onInsertBulkDataSuccess() {
-        new Handler().post(restartLoaderASAP);
-        enableTouchEvent();
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-    Runnable restartLoaderASAP = new Runnable() {
-        @Override
-        public void run() {
-            getLoaderManager().restartLoader(1, null, CustomerFragment.this);
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        if (requestCode == AppConstant.REQUEST_CODE_CALL_PERMISSION && perms.size() > 0) {
+            mCustomerDialog.makeCall();
         }
-    };
-
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        CursorLoader cursorLoader = new CursorLoader(mHostActivity, CustomerContract.Customer.CONTENT_URI, null, null, null, null);
-        return cursorLoader;
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
 
-        dataList.clear();
-        backUpList.clear();
-
-        CustomerContract customerContract = new CustomerContract(mHostActivity);
-        dataList.addAll(customerContract.getListOfObject(data));
-
-        backUpList.addAll(dataList);
-        mAdapter.notifyData(emptyView);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        dataList.clear();
-        backUpList.clear();
-        mAdapter.notifyData(emptyView);
     }
 }

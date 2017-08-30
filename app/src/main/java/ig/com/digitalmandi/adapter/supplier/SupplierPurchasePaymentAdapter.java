@@ -48,17 +48,17 @@ public class SupplierPurchasePaymentAdapter extends RecyclerView.Adapter<Supplie
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         SupplierPaymentListRes.ResultBean purchaseObject = paymentList.get(position);
-        holder.rowPurchasePaymentListAmountPaid.setText(Utils.onStringFormat(purchaseObject.getAmount()));
-        holder.rowPurchaseInterestAmt          .setText(Utils.onStringFormat(purchaseObject.getInterestAmt()));
+        holder.rowPurchasePaymentListAmountPaid.setText(Utils.formatStringUpTo2Precision(purchaseObject.getAmount()));
+        holder.rowPurchaseInterestAmt.setText(Utils.formatStringUpTo2Precision(purchaseObject.getInterestAmt()));
         holder.rowPurchasePaymentdate          .setText(purchaseObject.getDate());
         holder.rowPurchasePaymentType          .setText(purchaseObject.getPaymentType());
-        holder.mTextViewInterestRate           .setText("@"+Utils.onStringFormat(purchaseObject.getInterestRate())+"% Interest");
+        holder.mTextViewInterestRate.setText("@" + Utils.formatStringUpTo2Precision(purchaseObject.getInterestRate()) + "% Interest");
         holder.rowPurchaseCheckBox             .setChecked(purchaseObject.getInterestPaid().equalsIgnoreCase("1"));
         if(purchaseObject.getInterestPaid().equalsIgnoreCase("1")) {
-            holder.rowPurchaseTotalAmtPaid         .setText(Utils.onStringFormat(String.valueOf(Float.parseFloat(purchaseObject.getAmount()) + Float.parseFloat(purchaseObject.getInterestAmt()))));
+            holder.rowPurchaseTotalAmtPaid.setText(Utils.formatStringUpTo2Precision(String.valueOf(Float.parseFloat(purchaseObject.getAmount()) + Float.parseFloat(purchaseObject.getInterestAmt()))));
         }
         else {
-            holder.rowPurchaseTotalAmtPaid         .setText(Utils.onStringFormat(purchaseObject.getAmount()));
+            holder.rowPurchaseTotalAmtPaid.setText(Utils.formatStringUpTo2Precision(purchaseObject.getAmount()));
         }
 
     }

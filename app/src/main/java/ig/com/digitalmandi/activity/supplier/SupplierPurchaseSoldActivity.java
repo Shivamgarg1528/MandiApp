@@ -10,16 +10,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.adapter.supplier.SupplierOrderDetailAdapter;
-import ig.com.digitalmandi.base_package.ParentActivity;
-import ig.com.digitalmandi.beans.request.supplier.SupplierOrderDetailListReq;
-import ig.com.digitalmandi.beans.response.supplier.SupplierOrderDetailListRes;
+import ig.com.digitalmandi.base_package.BaseActivity;
+import ig.com.digitalmandi.beans.request.supplier.SupplierOrderDetailListRequest;
+import ig.com.digitalmandi.beans.response.supplier.SupplierOrderDetailListResponse;
 import ig.com.digitalmandi.beans.response.supplier.SupplierPurchaseListRes;
+import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebService;
-import ig.com.digitalmandi.retrofit.VerifyResponse;
-import ig.com.digitalmandi.utils.ConstantValues;
+import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.utils.AppConstant;
 
-public class SupplierPurchaseSoldActivity extends ParentActivity {
+public class SupplierPurchaseSoldActivity extends BaseActivity {
 
     public static String PURCHASE_OBJECT_KEY = "purchaseObject";
     @BindView(R.id.recyclerView)
@@ -39,11 +39,11 @@ public class SupplierPurchaseSoldActivity extends ParentActivity {
         }
 
         Intent intent = getIntent();
-        purchaseInfo = (SupplierPurchaseListRes.ResultBean) intent.getParcelableExtra(PURCHASE_OBJECT_KEY);
+        purchaseInfo = intent.getParcelableExtra(PURCHASE_OBJECT_KEY);
         setTitle("Sold Details Of " + purchaseInfo.getNameOfPerson().trim() +"'s Item" );
         ButterKnife.bind(this);
 
-        mAdapter = new SupplierOrderDetailAdapter(dataList, mRunningActivity);
+        mAdapter = new SupplierOrderDetailAdapter(mDataList);
         emptyTextView.setText("No Details Found\n Please Sale Item First");
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mAdapter);
@@ -53,24 +53,24 @@ public class SupplierPurchaseSoldActivity extends ParentActivity {
 
 
     private void fetchDataFromServer() {
-        onShowOrHideBar(true);
-        SupplierOrderDetailListReq supplierOrderDetailListReq = new SupplierOrderDetailListReq();
-        supplierOrderDetailListReq.setFlag(ConstantValues.COLUMN_PURCHASE_ID);
-        supplierOrderDetailListReq.setId(purchaseInfo.getPurchaseId());
+        showOrHideProgressBar(true);
+        SupplierOrderDetailListRequest supplierOrderDetailListRequest = new SupplierOrderDetailListRequest();
+        supplierOrderDetailListRequest.setFlag(AppConstant.COLUMN_PURCHASE_ID);
+        supplierOrderDetailListRequest.setId(purchaseInfo.getPurchaseId());
 
-        apiEnqueueObject = RetrofitWebService.getInstance().getInterface().orderDetailListOfAnyCustomer(supplierOrderDetailListReq);
-        apiEnqueueObject.enqueue(new RetrofitCallBack<SupplierOrderDetailListRes>(mRunningActivity, false) {
+        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().orderDetailsOfGivenCustomer(supplierOrderDetailListRequest);
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierOrderDetailListResponse>(mBaseActivity, false) {
 
             @Override
-            public void yesCall(SupplierOrderDetailListRes response, ParentActivity weakRef) {
-                if (VerifyResponse.isResponseOk(response,false)) {
-                    dataList.addAll(response.getResult());
+            public void onSuccess(SupplierOrderDetailListResponse pResponse, BaseActivity pBaseActivity) {
+                if (ResponseVerification.isResponseOk(pResponse, false)) {
+                    mDataList.addAll(pResponse.getResult());
                 }
                 mAdapter.notifyData(emptyTextView);
             }
 
             @Override
-            public void noCall(Throwable error) {
+            public void onFailure(String pErrorMsg) {
                 mAdapter.notifyData(emptyTextView);
             }
         });

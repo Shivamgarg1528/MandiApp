@@ -1,145 +1,135 @@
 package ig.com.digitalmandi.activity.supplier;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
-import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base_package.ParentActivity;
-import ig.com.digitalmandi.beans.request.supplier.SupplierProductModifyReq;
+import ig.com.digitalmandi.base_package.BaseActivity;
+import ig.com.digitalmandi.beans.request.supplier.SupplierProductModifyRequest;
 import ig.com.digitalmandi.beans.response.common.EmptyResponse;
-import ig.com.digitalmandi.beans.response.supplier.SupplierProductListRes;
+import ig.com.digitalmandi.beans.response.supplier.SellerProductList;
+import ig.com.digitalmandi.dialogs.ImageDialog;
+import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebService;
-import ig.com.digitalmandi.retrofit.VerifyResponse;
-import ig.com.digitalmandi.utils.ConstantValues;
-import ig.com.digitalmandi.utils.MyPrefrences;
+import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.utils.AppConstant;
 import ig.com.digitalmandi.utils.Utils;
 
-public class SupplierProductModifyActivity extends ParentActivity {
+public class SupplierProductModifyActivity extends BaseActivity implements View.OnClickListener, ImageDialog.OnItemSelectedListener {
 
-    public static final String PRODUCT_OBJECT_KEY        = "productKey";
-    public static final String PRODUCT_OBJECT_KEY_UPDATE = "productUpdate";
-    public static final int REQUEST_CODE_ADD_UPDATE_PRODUCT = 1001;
+    private AppCompatEditText mEditTextProductName;
 
-    @BindView(R.id.mImageViewProduct)
-    AppCompatImageView mImageViewProduct;
-    @BindView(R.id.mEditTextProductName)
-    AppCompatEditText mEditTextProductName;
-    @BindView(R.id.mEditTextProductQty)
-    AppCompatEditText mEditTextProductQty;
-    @BindView(R.id.mButtonProductAdd)
-    AppCompatButton mButtonProductAdd;
-    private SupplierProductListRes.ResultBean productObject;
-    private boolean isUpdateTrue = false;
+    private SellerProductList.Product mProductObject;
+    private AppCompatImageView mImageViewProduct;
+    private ImageDialog mDialogImagePicker;
+    private String mStringBase64;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, R.layout.activity_product_modify);
-        ButterKnife.bind(this);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_product_modify);
+        setToolbar(true);
 
-        if (mToolBar != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        mEditTextProductName = (AppCompatEditText) findViewById(R.id.activity_product_modify_edt_product_name);
+        findViewById(R.id.activity_product_modify_btn_submit).setOnClickListener(this);
+
+        mImageViewProduct = (AppCompatImageView) findViewById(R.id.activity_product_modify_iv_product_image);
+        mImageViewProduct.setOnClickListener(this);
 
         Intent intent = getIntent();
+        mProductObject = (SellerProductList.Product) intent.getSerializableExtra(AppConstant.KEY_OBJECT);
 
-        if (intent.getBooleanExtra(PRODUCT_OBJECT_KEY_UPDATE, false)) {
-
-            if (intent == null || (SupplierProductListRes.ResultBean) intent.getParcelableExtra(PRODUCT_OBJECT_KEY) == null) {
-                Toast.makeText(mRunningActivity, R.string.product_result, Toast.LENGTH_SHORT).show();
-                finish();
-                return;
-            }
-
-            isUpdateTrue  = true;
-            productObject = (SupplierProductListRes.ResultBean) intent.getParcelableExtra(PRODUCT_OBJECT_KEY);
-            mEditTextProductName.setText(productObject.getProductName());
-            mEditTextProductQty .setText(productObject.getProductQty());
-            Picasso.with(this).load("http://www.aiob.in/shivam/product/201610111330154088.png").into(mImageViewProduct);
-            setTitle(getString(R.string.update_product_string,productObject.getProductName()));
+        if (mProductObject != null) {
+            mEditTextProductName.setText(mProductObject.getProductName());
+            Utils.setImage(this, AppConstant.END_POINT.concat("product/201610111330154088.png"), mImageViewProduct);
+            setTitle(getString(R.string.update_product_string, mProductObject.getProductName()));
             return;
         }
         setTitle(getString(R.string.add_new_product));
     }
 
-    public boolean validate() {
-        String productName  = mEditTextProductName.getText().toString();
-        String productQty   = mEditTextProductQty.getText().toString();
-
-        if (productName.isEmpty()) {
-            Toast.makeText(this, R.string.please_enter_product_name, Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        /*if (productQty.isEmpty() || Long.parseLong(productQty) <=  0) {
-            Toast.makeText(this, R.string.qty_must_be_greater_than_zero, Toast.LENGTH_SHORT).show();
-            return false;
-        }*/
-        return true;
-    }
-
-    @OnClick({R.id.mImageViewProduct, R.id.mButtonProductAdd})
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.mImageViewProduct:
+            case R.id.activity_product_modify_iv_product_image:
+                mDialogImagePicker = new ImageDialog(mBaseActivity, this, mImageViewProduct.getWidth(), mImageViewProduct.getHeight());
+                mDialogImagePicker.show();
                 break;
 
-            case R.id.mButtonProductAdd:
-                Utils.onHideSoftKeyBoard(this,mEditTextProductName);
+            case R.id.activity_product_modify_btn_submit:
 
-                if(!validate()){
+                Utils.onHideSoftKeyBoard(this, mEditTextProductName);
+
+                String productName = mEditTextProductName.getText().toString();
+                if (Utils.isEmpty(productName)) {
+                    mBaseActivity.showToast(getString(R.string.please_enter_product_name));
                     return;
                 }
 
-                SupplierProductModifyReq reqModel = new SupplierProductModifyReq();
-                //reqModel.setProductQty(mEditTextProductQty.getText().toString());
-                reqModel.setProductQty(String.valueOf(0));
-                reqModel.setProductName(mEditTextProductName.getText().toString());
-                reqModel.setSellerId(MyPrefrences.getStringPrefrences(ConstantValues.USER_SELLER_ID,mRunningActivity));
-                reqModel.setProductImageBase64("");
+                SupplierProductModifyRequest supplierProductModifyRequest = new SupplierProductModifyRequest();
+                supplierProductModifyRequest.setProductQty(String.valueOf(0));
+                supplierProductModifyRequest.setProductName(mEditTextProductName.getText().toString());
+                supplierProductModifyRequest.setSellerId(mLoginUser.getSellerId());
 
-                if(isUpdateTrue){
-                    reqModel.setProductId(productObject.getProductId());
-                    reqModel.setProductStatus(productObject.getProductStatus());
-                    reqModel.setProductOperation(ConstantValues.UPDATE);
-
+                if (mProductObject != null) {
+                    //mStringBase64 = Utils.getStringImage(((BitmapDrawable) mImageViewProduct.getDrawable()).getBitmap());
+                    supplierProductModifyRequest.setProductImageBase64(mStringBase64);
+                    supplierProductModifyRequest.setProductId(mProductObject.getProductId());
+                    supplierProductModifyRequest.setProductOperation(AppConstant.UPDATE);
+                    supplierProductModifyRequest.setProductStatus(mProductObject.getProductStatus());
+                } else {
+                    supplierProductModifyRequest.setProductOperation(AppConstant.ADD);
+                    supplierProductModifyRequest.setProductStatus(AppConstant.ENABLE);
+                    supplierProductModifyRequest.setProductImageBase64(mStringBase64);
                 }
-                else{
-                    reqModel.setProductOperation(ConstantValues.ADD);
-                    reqModel.setProductStatus(ConstantValues.ENABLE);
-                }
 
-                apiEnqueueObject = RetrofitWebService.getInstance().getInterface().modifiedProduct(reqModel);
-                apiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(this,true) {
-
+                mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().modifiedProduct(supplierProductModifyRequest);
+                mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(this) {
                     @Override
-                    public void yesCall(EmptyResponse response, ParentActivity weakRef) {
-                       if(VerifyResponse.isResponseOk(response)){
-                            setResult(RESULT_OK,null);
+                    public void onSuccess(EmptyResponse pResponse, BaseActivity pBaseActivity) {
+                        if (ResponseVerification.isResponseOk(pResponse)) {
+                            setResult(RESULT_OK);
                             finish();
+                        } else {
+                            mBaseActivity.showToast(getString(R.string.please_try_again));
                         }
-                        else
-                            Toast.makeText(mRunningActivity, R.string.please_try_again, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void noCall(Throwable error) {
+                    public void onFailure(String pErrorMsg) {
 
                     }
                 });
-
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mDialogImagePicker.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRemoveItemTap() {
+        mImageViewProduct.setImageBitmap(null);
+        mStringBase64 = "";
+
+    }
+
+    @Override
+    public void onCancelItemTap() {
+
+    }
+
+    @Override
+    public void onImageReceived(Bitmap pBitmap) {
+        mImageViewProduct.setImageBitmap(pBitmap);
+        mStringBase64 = Utils.getStringImage(pBitmap);
     }
 }

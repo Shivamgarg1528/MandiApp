@@ -8,77 +8,58 @@
 
     <include layout="@layout/common_tool_bar" />
 
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/xml_corner_sign_up_bg"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <FrameLayout
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:background="@drawable/xml_cornor_signup_bg">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
-
-            <ScrollView
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/activity_unit_modify_edt_unit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:scrollbars="none">
+                android:hint="@string/unit_name"
+                android:inputType="text"
+                android:textSize="22sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+        </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                        app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
-                        <android.support.v7.widget.AppCompatEditText
-                            android:id="@+id/mEditTextUnitName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/unit_name"
-                            android:inputType="textPersonName"
-                            android:textSize="22sp" />
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/activity_unit_modify_edt_unit_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/unit_value"
+                android:inputType="numberDecimal"
+                android:maxLength="@integer/priceValueLimit"
+                android:textSize="22sp" />
+        </android.support.design.widget.TextInputLayout>
 
-                    </android.support.design.widget.TextInputLayout>
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/activity_unit_modify_btn_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/selector_white_button"
+            android:text="@string/submit"
+            android:textColor="@drawable/selector_white_button_text"
+            android:textSize="20sp" />
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                        app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+    </LinearLayout>
 
-                        <android.support.v7.widget.AppCompatEditText
-                            android:id="@+id/mEditTextUnitValue"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/unit_value"
-                            android:maxLength="@integer/priceValueLimit"
-                            android:inputType="numberDecimal"
-                            android:textSize="22sp" />
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/mButtonUnitAdd"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:background="@android:color/white"
-                        android:text="@string/submit"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="20sp" />
-
-                </LinearLayout>
-            </ScrollView>
-        </FrameLayout>
-
-    </RelativeLayout>
 
 </LinearLayout>

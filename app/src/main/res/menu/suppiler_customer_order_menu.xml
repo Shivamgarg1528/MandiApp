@@ -3,20 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/supplier_customer_order_menu_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/string_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        android:title="Search"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_search" />
+        app:showAsAction="ifRoom" />
 
-    <item android:title="New Order"
+    <item
         android:id="@+id/supplier_customer_order_menu_add"
         android:icon="@drawable/ic_add"
-        app:showAsAction="never"
-        android:visible="true" />
+        android:title="@string/string_new_order"
+        android:visible="true"
+        app:showAsAction="never" />
 
-    <item android:title="Refresh Orders"
+    <item
         android:id="@+id/supplier_customer_order_menu_refresh"
         android:icon="@drawable/ic_refresh"
-        app:showAsAction="never"
-        android:visible="true" />
+        android:title="@string/string_refresh"
+        android:visible="true"
+        app:showAsAction="never" />
 </menu>

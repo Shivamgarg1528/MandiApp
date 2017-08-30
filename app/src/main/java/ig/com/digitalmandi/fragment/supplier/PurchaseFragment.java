@@ -1,7 +1,6 @@
 package ig.com.digitalmandi.fragment.supplier;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -35,21 +34,18 @@ import ig.com.digitalmandi.activity.supplier.SupplierPurchaseActivity;
 import ig.com.digitalmandi.activity.supplier.SupplierPurchasePaymentActivity;
 import ig.com.digitalmandi.activity.supplier.SupplierPurchaseSoldActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierPurchaseAdapter;
+import ig.com.digitalmandi.base_package.BaseActivity;
 import ig.com.digitalmandi.base_package.BaseFragment;
 import ig.com.digitalmandi.base_package.LoadMoreClass;
-import ig.com.digitalmandi.base_package.ParentActivity;
-import ig.com.digitalmandi.beans.request.supplier.SupplierOrderDeleteReq;
+import ig.com.digitalmandi.beans.request.supplier.SupplierItemDeleteRequest;
 import ig.com.digitalmandi.beans.request.supplier.SupplierPurchaseListReq;
-import ig.com.digitalmandi.beans.response.common.EmptyResponse;
 import ig.com.digitalmandi.beans.response.supplier.SupplierPurchaseListRes;
 import ig.com.digitalmandi.database.PurchaseContract;
 import ig.com.digitalmandi.dialogs.DatePickerClass;
-import ig.com.digitalmandi.dialogs.MyAlertDialog;
-import ig.com.digitalmandi.interfaces.OnAlertDialogCallBack;
+import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebService;
-import ig.com.digitalmandi.retrofit.VerifyResponse;
-import ig.com.digitalmandi.utils.ConstantValues;
+import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.utils.AppConstant;
 import ig.com.digitalmandi.utils.MyPrefrences;
 import ig.com.digitalmandi.utils.Utils;
 
@@ -59,16 +55,16 @@ import ig.com.digitalmandi.utils.Utils;
 
 public class PurchaseFragment extends BaseFragment implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor>, SupplierPurchaseAdapter.PurchaseCallBack, DatePickerClass.OnDateSelected {
 
+    public static final int PURCHASE_REQUEST_CODE = 1001;
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerViewCustomer;
     @BindView(R.id.emptyTextView)
     TextView emptyView;
-    public static final int PURCHASE_REQUEST_CODE = 1001;
-    @BindView(R.id.mButtonStartDate)
+    @BindView(R.id.activity_supplier_customer_more_info_btn_start_date)
     AppCompatButton mButtonStartDate;
-    @BindView(R.id.mButtonEndDate)
+    @BindView(R.id.activity_supplier_customer_more_info_btn_end_date)
     AppCompatButton mButtonEndDate;
-    @BindView(R.id.mButtonResetDate)
+    @BindView(R.id.activity_supplier_customer_more_info_btn_reset_date)
     AppCompatButton mButtonResetDate;
     private SupplierPurchaseAdapter mAdapter;
     private Date startDate, endDate;
@@ -105,50 +101,50 @@ public class PurchaseFragment extends BaseFragment implements SearchView.OnQuery
 
     private void fetchDataFromServer(boolean show, final boolean refresh) {
         disableTouchEvent();
-        mHostActivity.onShowOrHideBar(true);
+        mBaseActivity.showOrHideProgressBar(true);
         SupplierPurchaseListReq purchaseListReqModel = new SupplierPurchaseListReq();
 
         if (endDate != null)
-            purchaseListReqModel.setEndDate(Utils.onConvertDateToString(endDate.getTime(), ConstantValues.API_DATE_FORMAT));
+            purchaseListReqModel.setEndDate(Utils.getDateString(endDate.getTime(), AppConstant.API_DATE_FORMAT));
         else
             purchaseListReqModel.setEndDate("");
 
         if (startDate != null)
-            purchaseListReqModel.setStartDate(Utils.onConvertDateToString(startDate.getTime(), ConstantValues.API_DATE_FORMAT));
+            purchaseListReqModel.setStartDate(Utils.getDateString(startDate.getTime(), AppConstant.API_DATE_FORMAT));
         else
             purchaseListReqModel.setStartDate("");
 
-        purchaseListReqModel.setSellerId(MyPrefrences.getStringPrefrences(ConstantValues.USER_SELLER_ID, mHostActivity));
+        purchaseListReqModel.setSellerId(MyPrefrences.getStringPrefrences(AppConstant.USER_SELLER_ID, mBaseActivity));
         purchaseListReqModel.setPage(String.valueOf(pageCount));
-        purchaseListReqModel.setFlag(ConstantValues.PURCHASE_LIST_PAGING);
+        purchaseListReqModel.setFlag(AppConstant.PURCHASE_LIST_PAGING);
 
-        mHostActivity.apiEnqueueObject = RetrofitWebService.getInstance().getInterface().purchaseList(purchaseListReqModel);
-        mHostActivity.apiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPurchaseListRes>(mHostActivity, false) {
+        mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().purchaseList(purchaseListReqModel);
+        mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPurchaseListRes>(mBaseActivity, false) {
 
             @Override
-            public void yesCall(SupplierPurchaseListRes response, ParentActivity weakRef) {
+            public void onSuccess(SupplierPurchaseListRes pResponse, BaseActivity pBaseActivity) {
 
                 stopLoading();
-                if (VerifyResponse.isResponseOk(response, false)) {
+                if (ResponseVerification.isResponseOk(pResponse, false)) {
 
-                    if (response.getResult().size() == 0)
-                        Toast.makeText(weakRef, "No Purchased Item Found", Toast.LENGTH_SHORT).show();
+                    if (pResponse.getResult().size() == 0)
+                        Toast.makeText(pBaseActivity, "No Purchased Item Found", Toast.LENGTH_SHORT).show();
 
                     if (refresh) {
                         mRecyclerViewCustomer.scrollToPosition(0);
-                        dataList.clear();
-                        backUpList.clear();
+                        mDataList.clear();
+                        mBackUpList.clear();
                     }
 
-                    dataList.addAll(response.getResult());
-                    backUpList.addAll(response.getResult());
+                    mDataList.addAll(pResponse.getResult());
+                    mBackUpList.addAll(pResponse.getResult());
                 }
                 mAdapter.notifyData(emptyView);
 
             }
 
             @Override
-            public void noCall(Throwable error) {
+            public void onFailure(String pErrorMsg) {
                 stopLoading();
             }
         });
@@ -158,9 +154,9 @@ public class PurchaseFragment extends BaseFragment implements SearchView.OnQuery
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         emptyView.setText("No Purchase Added Yet\n Please Add Purchased Items");
-        mRecyclerViewCustomer.setLayoutManager(new GridLayoutManager(mHostActivity, 1));
+        mRecyclerViewCustomer.setLayoutManager(new GridLayoutManager(mBaseActivity, 1));
         mRecyclerViewCustomer.setHasFixedSize(true);
-        mAdapter = new SupplierPurchaseAdapter(dataList, mHostActivity, this);
+        mAdapter = new SupplierPurchaseAdapter(mDataList, mBaseActivity, this);
         mRecyclerViewCustomer.setAdapter(mAdapter);
 
         loadMoreClass = new LoadMoreClass((GridLayoutManager) mRecyclerViewCustomer.getLayoutManager()) {
@@ -209,18 +205,18 @@ public class PurchaseFragment extends BaseFragment implements SearchView.OnQuery
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        dataList.clear();
+        mDataList.clear();
 
         if (TextUtils.isEmpty(newText)) {
-            dataList.addAll(backUpList);
+            mDataList.addAll(mBackUpList);
             mAdapter.notifyData(emptyView);
             return true;
         }
 
-        for (int index = 0; index < backUpList.size(); index++) {
-            SupplierPurchaseListRes.ResultBean model = (SupplierPurchaseListRes.ResultBean) backUpList.get(index);
+        for (int index = 0; index < mBackUpList.size(); index++) {
+            SupplierPurchaseListRes.ResultBean model = (SupplierPurchaseListRes.ResultBean) mBackUpList.get(index);
             if (model.getPurchaseDate().contains(newText) || model.getNameOfPerson().toLowerCase().contains(newText.toLowerCase()) || model.getProductName().toLowerCase().contains(newText.toLowerCase())) {
-                dataList.add(model);
+                mDataList.add(model);
             }
         }
         mAdapter.notifyData(emptyView);
@@ -230,33 +226,33 @@ public class PurchaseFragment extends BaseFragment implements SearchView.OnQuery
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(mHostActivity, PurchaseContract.Purchase.CONTENT_URI, null, null, null, null);
+        return new CursorLoader(mBaseActivity, PurchaseContract.Purchase.CONTENT_URI, null, null, null, null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.d("PurchaseFragment", "data.getCount():" + data.getCount());
-        dataList.addAll(new PurchaseContract(mHostActivity).getListOfObject(data));
+        mDataList.addAll(new PurchaseContract(mBaseActivity).getListOfObject(data));
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        dataList.clear();
+        mDataList.clear();
     }
 
     @Override
     public void onPayment(SupplierPurchaseListRes.ResultBean object, View view) {
-        Utils.onActivityStart(mHostActivity, false, new int[]{}, convertIntoIntent(object), null);
+        Utils.onActivityStart(mBaseActivity, false, new int[]{}, convertIntoIntent(object), null);
     }
 
     @Override
     public void onDelete(SupplierPurchaseListRes.ResultBean object, View view) {
 
-        final SupplierOrderDeleteReq supplierOrderDeleteReq = new SupplierOrderDeleteReq();
-        supplierOrderDeleteReq.setFlag(ConstantValues.PURCHASE_PAYMENT);
-        supplierOrderDeleteReq.setId(object.getPurchaseId());
+        final SupplierItemDeleteRequest supplierItemDeleteRequest = new SupplierItemDeleteRequest();
+        supplierItemDeleteRequest.setFlag(AppConstant.DELETE_PURCHASE);
+        supplierItemDeleteRequest.setId(object.getPurchaseId());
 
-        MyAlertDialog.onShowAlertDialog(mHostActivity, "Continue,To Delete This Purchase!", "Continue", "Leave", true, new OnAlertDialogCallBack() {
+       /* MyAlertDialog.onShowAlertDialog(mBaseActivity, "Continue,To Delete This Purchase!", "Continue", "Leave", true,  new OnAlertDialogCallBack() {
 
             @Override
             public void onNegative(DialogInterface dialogInterface, int i) {
@@ -265,42 +261,42 @@ public class PurchaseFragment extends BaseFragment implements SearchView.OnQuery
 
             @Override
             public void onPositive(DialogInterface dialogInterface, int i) {
-                mHostActivity.apiEnqueueObject = RetrofitWebService.getInstance().getInterface().deletePurchase(supplierOrderDeleteReq);
-                mHostActivity.apiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mHostActivity) {
+                mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().deletePurchase(supplierItemDeleteRequest);
+                mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
 
                     @Override
-                    public void yesCall(EmptyResponse response, ParentActivity weakRef) {
-                        if (VerifyResponse.isResponseOk(response)) {
-                            Toast.makeText(weakRef, "Purchased Deleted Successfully", Toast.LENGTH_SHORT).show();
+                    public void onSuccess(EmptyResponse pResponse, BaseActivity pBaseActivity) {
+                        if (ResponseVerification.isResponseOk(pResponse)) {
+                            Toast.makeText(pBaseActivity, "Purchased Deleted Successfully", Toast.LENGTH_SHORT).show();
                             fetchDataFromServer(false, true);
                         } else
-                            Toast.makeText(weakRef, "Sorry You Can't Delete This Purchase", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(pBaseActivity, "Sorry You Can't Delete This Purchase", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void noCall(Throwable error) {
+                    public void onFailure(String pErrorMsg) {
 
                     }
                 });
             }
-        });
+        });*/
 
 
     }
 
     @Override
     public void onSales(SupplierPurchaseListRes.ResultBean object, View view) {
-        Utils.onActivityStart(mHostActivity, false, new int[]{}, convertIntoIntentForSale(object), null);
+        Utils.onActivityStart(mBaseActivity, false, new int[]{}, convertIntoIntentForSale(object), null);
     }
 
     private Intent convertIntoIntent(SupplierPurchaseListRes.ResultBean object) {
-        Intent intent = new Intent(mHostActivity, SupplierPurchasePaymentActivity.class);
+        Intent intent = new Intent(mBaseActivity, SupplierPurchasePaymentActivity.class);
         intent.putExtra(SupplierPurchasePaymentActivity.PURCHASE_OBJECT_KEY, object);
         return intent;
     }
 
     private Intent convertIntoIntentForSale(SupplierPurchaseListRes.ResultBean object) {
-        Intent intent = new Intent(mHostActivity, SupplierPurchaseSoldActivity.class);
+        Intent intent = new Intent(mBaseActivity, SupplierPurchaseSoldActivity.class);
         intent.putExtra(SupplierPurchaseSoldActivity.PURCHASE_OBJECT_KEY, object);
         return intent;
     }
@@ -317,17 +313,17 @@ public class PurchaseFragment extends BaseFragment implements SearchView.OnQuery
 
     private void callFilter() {
         if (startDate == null) {
-            Toast.makeText(mHostActivity, "Please Select Start Date", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, "Please Select Start Date", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (endDate == null) {
-            Toast.makeText(mHostActivity, "Please Select End Date", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, "Please Select End Date", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (startDate.after(endDate)) {
-            Toast.makeText(mHostActivity, "Start Date Must Be Greater Or Equals To End Date", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, "Start Date Must Be Greater Or Equals To End Date", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -335,21 +331,21 @@ public class PurchaseFragment extends BaseFragment implements SearchView.OnQuery
         fetchDataFromServer(false, true);
     }
 
-    @OnClick({R.id.mButtonStartDate, R.id.mButtonEndDate, R.id.mButtonResetDate})
+    @OnClick({R.id.activity_supplier_customer_more_info_btn_start_date, R.id.activity_supplier_customer_more_info_btn_end_date, R.id.activity_supplier_customer_more_info_btn_reset_date})
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.mButtonStartDate:
-                DatePickerClass.showDatePicker(DatePickerClass.START_DATE, this, mHostActivity, ConstantValues.API_DATE_FORMAT);
+            case R.id.activity_supplier_customer_more_info_btn_start_date:
+                DatePickerClass.showDatePicker(mBaseActivity, DatePickerClass.START_DATE, this, AppConstant.API_DATE_FORMAT);
                 break;
 
-            case R.id.mButtonEndDate:
-                DatePickerClass.showDatePicker(DatePickerClass.END_DATE, this, mHostActivity, ConstantValues.API_DATE_FORMAT);
+            case R.id.activity_supplier_customer_more_info_btn_end_date:
+                DatePickerClass.showDatePicker(mBaseActivity, DatePickerClass.END_DATE, this, AppConstant.API_DATE_FORMAT);
                 break;
 
-            case R.id.mButtonResetDate:
+            case R.id.activity_supplier_customer_more_info_btn_reset_date:
 
-                MyAlertDialog.onShowAlertDialog(mHostActivity, "Reset Applied Filters", "Reset", "Leave", true, new OnAlertDialogCallBack() {
+                /*MyAlertDialog.onShowAlertDialog(mBaseActivity, "Reset Applied Filters", "Reset", "Leave", new OnAlertDialogCallBack() {
                     @Override
                     public void onNegative(DialogInterface dialogInterface, int i) {
 
@@ -359,7 +355,7 @@ public class PurchaseFragment extends BaseFragment implements SearchView.OnQuery
                     public void onPositive(DialogInterface dialogInterface, int i) {
                         callAfterReset();
                     }
-                });
+                });*/
 
                 break;
         }

@@ -27,25 +27,29 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base_package.ParentActivity;
+import ig.com.digitalmandi.base_package.BaseActivity;
 import ig.com.digitalmandi.beans.request.supplier.SupplierPurchaseAddReq;
-import ig.com.digitalmandi.beans.response.supplier.SupplierProductListRes;
+import ig.com.digitalmandi.beans.response.supplier.SellerProductList;
+import ig.com.digitalmandi.beans.response.supplier.SellerUnitList;
 import ig.com.digitalmandi.beans.response.supplier.SupplierPurchaseListRes;
-import ig.com.digitalmandi.beans.response.supplier.SupplierUnitListRes;
 import ig.com.digitalmandi.database.ProductContract;
 import ig.com.digitalmandi.database.UnitContract;
 import ig.com.digitalmandi.dialogs.QtyPickerDialog;
+import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebService;
-import ig.com.digitalmandi.retrofit.VerifyResponse;
+import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.utils.AppConstant;
 import ig.com.digitalmandi.utils.ChangeSpinnerItemBg;
 import ig.com.digitalmandi.utils.CheckForFloat;
-import ig.com.digitalmandi.utils.ConstantValues;
 import ig.com.digitalmandi.utils.MyPrefrences;
 import ig.com.digitalmandi.utils.Utils;
 
-public class SupplierPurchaseActivity extends ParentActivity implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemSelectedListener {
+public class SupplierPurchaseActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemSelectedListener {
 
+    private final int QTY_MAX = 1000;
+    private final int QTY_MIN = 1;
+    private final int PRODUCT_LOADER = 0;
+    private final int UNIT_LOADER = 1;
     @BindView(R.id.mSpinnerProductListPurchase)
     AppCompatSpinner mSpinnerProductListPurchase;
     @BindView(R.id.mSpinnerUnitListPurchase)
@@ -71,19 +75,14 @@ public class SupplierPurchaseActivity extends ParentActivity implements LoaderMa
     @BindView(R.id.mSpinnerKgPrice)
     AppCompatSpinner mSpinnerKgPrice;
     private Unbinder mUnbind;
-
-    private final int QTY_MAX = 1000;
-    private final int QTY_MIN = 1;
     private int productQty = 1, labourCostPer100Kg = 3;
     private Calendar purchaseDate;
     private float unitValueFloat = 0.0f, actualPurchaseAmt = 0.0f, daamiPriceInPercentage = 2.5f;
-    private List<SupplierUnitListRes.ResultBean> unitList = new ArrayList<>();
-    private List<SupplierProductListRes.ResultBean> productList = new ArrayList<>();
-    private final int PRODUCT_LOADER = 0;
-    private final int UNIT_LOADER = 1;
+    private List<SellerUnitList.Unit> unitList = new ArrayList<>();
+    private List<SellerProductList.Product> productList = new ArrayList<>();
     private String[] unitArray, productArray;
-    private SupplierProductListRes.ResultBean product;
-    private SupplierUnitListRes.ResultBean unit;
+    private SellerProductList.Product product;
+    private SellerUnitList.Unit unit;
     private boolean isProductPriceAccTo40Kg = false;
 
     private void updateQtyTextView() {
@@ -91,7 +90,7 @@ public class SupplierPurchaseActivity extends ParentActivity implements LoaderMa
     }
 
     private void updateDateTextView(long miliSeconds) {
-        mButtonDatePicker.setText(Utils.onConvertDateToString(miliSeconds, "dd-MM-yyyy"));
+        mButtonDatePicker.setText(Utils.getDateString(miliSeconds, "dd-MM-yyyy"));
     }
 
     private void onStartBothLoaders() {
@@ -108,7 +107,7 @@ public class SupplierPurchaseActivity extends ParentActivity implements LoaderMa
 
 
         if (purchaseDate == null || product == null || unit == null || !CheckForFloat.onCheckFloat(mEditProductPrice.getText().toString()) || TextUtils.isEmpty(mEditPersonNamePurchase.getText().toString())) {
-            Toast.makeText(mRunningActivity, "Provide All Information", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, "Provide All Information", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -137,7 +136,7 @@ public class SupplierPurchaseActivity extends ParentActivity implements LoaderMa
         purchaseAddReqModel.setProductQty(productQty);
         purchaseAddReqModel.setPurchaseAmtAcc40Kg(productPriceAccTo40Kg);
         purchaseAddReqModel.setPurchaseAmtAcc100kg(productPriceAccTo100Kg);
-        purchaseAddReqModel.setPurchaseDate(Utils.onConvertDateToString(purchaseDate.getTimeInMillis(), "yyyy-MM-dd"));
+        purchaseAddReqModel.setPurchaseDate(Utils.getDateString(purchaseDate.getTimeInMillis(), "yyyy-MM-dd"));
         purchaseAddReqModel.setSubTotalAmt(actualPurchaseAmt);
         purchaseAddReqModel.setTotalAmount(actualPurchaseAmt + daamiCost + totalLabourCost);
         purchaseAddReqModel.setUnitId(unit.getUnitId());
@@ -147,25 +146,25 @@ public class SupplierPurchaseActivity extends ParentActivity implements LoaderMa
         purchaseAddReqModel.setDaamiValue(daamiPriceInPercentage);
         purchaseAddReqModel.setLabourCost(totalLabourCost);
         purchaseAddReqModel.setLabourValue(labourCostPer100Kg);
-        purchaseAddReqModel.setStockStatus(ConstantValues.IN_STOCK);
-        purchaseAddReqModel.setPurchaseOperation(ConstantValues.ADD);
-        purchaseAddReqModel.setSellerId(MyPrefrences.getStringPrefrences(ConstantValues.USER_SELLER_ID, mRunningActivity));
+        purchaseAddReqModel.setStockStatus(AppConstant.IN_STOCK);
+        purchaseAddReqModel.setPurchaseOperation(AppConstant.ADD);
+        purchaseAddReqModel.setSellerId(MyPrefrences.getStringPrefrences(AppConstant.USER_SELLER_ID, mBaseActivity));
 
-        apiEnqueueObject = RetrofitWebService.getInstance().getInterface().purchaseModification(purchaseAddReqModel);
-        apiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPurchaseListRes>(mRunningActivity, true) {
+        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().purchaseModification(purchaseAddReqModel);
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPurchaseListRes>(mBaseActivity, true) {
 
             @Override
-            public void yesCall(SupplierPurchaseListRes response, ParentActivity weakRef) {
-                if (VerifyResponse.isResponseOk(response, false)) {
+            public void onSuccess(SupplierPurchaseListRes pResponse, BaseActivity pBaseActivity) {
+                if (ResponseVerification.isResponseOk(pResponse, false)) {
                     setResult(RESULT_OK, null);
                     finish();
                 } else
-                    Toast.makeText(getApplicationContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), pResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
-            public void noCall(Throwable error) {
+            public void onFailure(String pErrorMsg) {
 
             }
         });
@@ -212,9 +211,9 @@ public class SupplierPurchaseActivity extends ParentActivity implements LoaderMa
         mUnbind = ButterKnife.bind(this);
         setTitle("Add Purchased Product");
 
-        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mRunningActivity, mResources.getStringArray(R.array.daamiArray), mSpinnerDaami);
-        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mRunningActivity, mResources.getStringArray(R.array.labourCost), mSpinnerLabour);
-        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mRunningActivity, mResources.getStringArray(R.array.kgPrice), mSpinnerKgPrice);
+        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mBaseActivity, mResources.getStringArray(R.array.daamiArray), mSpinnerDaami);
+        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mBaseActivity, mResources.getStringArray(R.array.labourCost), mSpinnerLabour);
+        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mBaseActivity, mResources.getStringArray(R.array.kgPrice), mSpinnerKgPrice);
 
         mSpinnerProductListPurchase.setOnItemSelectedListener(this);
         mSpinnerUnitListPurchase.setOnItemSelectedListener(this);
@@ -254,8 +253,8 @@ public class SupplierPurchaseActivity extends ParentActivity implements LoaderMa
                 break;
 
             case R.id.qtyTextView:
-                Utils.onHideSoftKeyBoard(mRunningActivity, mEditProductPrice);
-                QtyPickerDialog qtyPickerDialog = new QtyPickerDialog(mRunningActivity, true, true, R.layout.dialog_qty_selected_layout, new QtyPickerDialog.OnQtySelected() {
+                Utils.onHideSoftKeyBoard(mBaseActivity, mEditProductPrice);
+                QtyPickerDialog qtyPickerDialog = new QtyPickerDialog(mBaseActivity, true, true, R.layout.dialog_qty_selected_layout, new QtyPickerDialog.OnQtySelected() {
 
                     @Override
                     public void onQtySelectedCallBack(int qty) {
@@ -291,14 +290,14 @@ public class SupplierPurchaseActivity extends ParentActivity implements LoaderMa
 
             case UNIT_LOADER:
                 try {
-                    UnitContract unitContract = new UnitContract(mRunningActivity);
+                    UnitContract unitContract = new UnitContract(mBaseActivity);
                     unitList.clear();
                     unitList.addAll(unitContract.getListOfObject(cursor));
                     unitArray = new String[unitList.size()];
                     for (int index = 0; index < unitList.size(); index++) {
                         unitArray[index] = unitList.get(index).getUnitName();
                     }
-                    ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mRunningActivity, unitArray, mSpinnerUnitListPurchase);
+                    ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mBaseActivity, unitArray, mSpinnerUnitListPurchase);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -306,14 +305,14 @@ public class SupplierPurchaseActivity extends ParentActivity implements LoaderMa
 
             case PRODUCT_LOADER:
                 try {
-                    ProductContract productContract = new ProductContract(mRunningActivity);
+                    ProductContract productContract = new ProductContract(mBaseActivity);
                     productList.clear();
                     productList.addAll(productContract.getListOfObject(cursor));
                     productArray = new String[productList.size()];
                     for (int index = 0; index < productList.size(); index++) {
                         productArray[index] = productList.get(index).getProductName();
                     }
-                    ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mRunningActivity, productArray, mSpinnerProductListPurchase);
+                    ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mBaseActivity, productArray, mSpinnerProductListPurchase);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -374,10 +373,7 @@ public class SupplierPurchaseActivity extends ParentActivity implements LoaderMa
             case R.id.mSpinnerKgPrice:
                 try {
 
-                    if (Float.parseFloat((String) adapterView.getSelectedItem()) == 40)
-                        isProductPriceAccTo40Kg = true;
-                    else
-                        isProductPriceAccTo40Kg = false;
+                    isProductPriceAccTo40Kg = Float.parseFloat((String) adapterView.getSelectedItem()) == 40;
 
                 } catch (Exception ex) {
                     ex.printStackTrace();

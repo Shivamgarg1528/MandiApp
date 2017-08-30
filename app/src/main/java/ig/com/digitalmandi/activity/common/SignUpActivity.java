@@ -3,255 +3,109 @@ package ig.com.digitalmandi.activity.common;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base_package.ParentActivity;
-import ig.com.digitalmandi.beans.request.supplier.RegistrationReqModel;
-import ig.com.digitalmandi.beans.request.supplier.SupplierSellerListReq;
-import ig.com.digitalmandi.beans.response.common.LoginResModel;
-import ig.com.digitalmandi.beans.response.supplier.SupplierListRes;
+import ig.com.digitalmandi.base_package.BaseActivity;
+import ig.com.digitalmandi.beans.request.supplier.RegistrationRequest;
+import ig.com.digitalmandi.beans.request.supplier.SupplierListRequest;
+import ig.com.digitalmandi.beans.response.common.LoginResponse;
+import ig.com.digitalmandi.beans.response.supplier.SupplierListResponse;
 import ig.com.digitalmandi.dialogs.ImageDialog;
+import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitConstant;
-import ig.com.digitalmandi.retrofit.RetrofitWebService;
-import ig.com.digitalmandi.retrofit.VerifyResponse;
-import ig.com.digitalmandi.services_parsing.Parsing;
-import ig.com.digitalmandi.toast.ToastMessage;
-import ig.com.digitalmandi.utils.ConstantValues;
+import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.utils.AppConstant;
+import ig.com.digitalmandi.utils.AppSharedPrefs;
 import ig.com.digitalmandi.utils.EditTextVerification;
 import ig.com.digitalmandi.utils.Utils;
 
 
-public class SignUpActivity extends ParentActivity implements AdapterView.OnItemSelectedListener, ImageDialog.OnItemSelectedListener {
+public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, ImageDialog.OnItemSelectedListener, View.OnClickListener {
 
-    @BindView(R.id.mEditTextName)
-    AppCompatEditText mEditTextName;
-    @BindView(R.id.mEditTextPhoneNumber)
-    AppCompatEditText mEditTextPhoneNumber;
-    @BindView(R.id.mEditTextEmail)
-    AppCompatEditText mEditTextEmail;
-    @BindView(R.id.mEditTextPassword)
-    AppCompatEditText mEditTextPassword;
-    @BindView(R.id.inputConfirmPassword)
-    AppCompatEditText mEditTextConfirmPassword;
-    @BindView(R.id.mButtonSignUp)
-    AppCompatButton mButtonSignUp;
-    Unbinder mUnbinder;
-    @BindView(R.id.mSpinnerCustomerType)
-    AppCompatSpinner spinnerCustomerType;
-    @BindView(R.id.mEditTextFirmName)
-    AppCompatEditText mEditTextFirmName;
-    @BindView(R.id.mEditTextTinNumber)
-    AppCompatEditText mEditTextTinNumber;
-    @BindView(R.id.mEditTextLandMark)
-    AppCompatEditText mEditTextLandMark;
-    @BindView(R.id.mEditTextAddress)
-    AppCompatEditText mEditTextAddress;
-    @BindView(R.id.mCircleImageViewUser)
-    CircleImageView mCircleImageViewUser;
-    @BindView(R.id.mSpinnerSellerName)
-    AppCompatSpinner mSpinnerSellerName;
-    @BindView(R.id.mTextViewAlreadyHaveAccount)
-    AppCompatTextView mTextViewAlreadyHaveAccount;
-    private int spinnerItem = 0;
-    private String imageString64 = "";
-    private String[] sellerName = new String[0];
-    private List<SupplierListRes.ResultBean> sellerList = new ArrayList<>();
-    private ArrayAdapter<String> arrayAdapter;
-    private String supplierId = "-1";
-    private ImageDialog mImageDialog;
+    private AppCompatEditText mEditTxtName;
+    private AppCompatEditText mEditTxtPhoneNumber;
+    private AppCompatEditText mEditTxtEmail;
+    private AppCompatEditText mEditTxtPassword;
+    private AppCompatEditText mEditTxtConfirmPassword;
+    private AppCompatEditText mEditTxtFirmName;
+    private AppCompatEditText mEditTxtTinNumber;
+    private AppCompatEditText mEditTxtLandMark;
+    private AppCompatEditText mEditTxtAddress;
+    private AppCompatSpinner mSpinnerSeller;
+    private CircleImageView mCircleImageUser;
 
+    private int mIndexOfUserType = 0;
+    private String mStringBase64 = "";
 
-    private void getSellerList() {
-        SupplierSellerListReq sellerReqModel = new SupplierSellerListReq();
-        sellerReqModel.setCustomerType(ConstantValues.SELLER);
+    private int mIndexOfSelectedSeller = 0;
+    private List<String> mSellerNameList = new ArrayList<>(0);
+    private List<SupplierListResponse.ResultBean> mSellerList = new ArrayList<>(0);
+    private ArrayAdapter<String> mSellerAdapter;
 
-        apiEnqueueObject = RetrofitWebService.getInstance().getInterface().sellerInfo(sellerReqModel);
-        apiEnqueueObject.enqueue(new RetrofitCallBack<SupplierListRes>(this) {
+    private ImageDialog mDialogImagePicker;
 
-            @Override
-            public void yesCall(SupplierListRes response, ParentActivity weakRef) {
-                if (VerifyResponse.isResponseOk(response, true)) {
-                    sellerList.clear();
-                    sellerList.addAll(response.getResult());
-                    SupplierListRes.ResultBean temp = new SupplierListRes.ResultBean();
-                    temp.setUserId("0");
-                    temp.setUserName("Please Select Any Supplier...");
-                    sellerList.add(0, temp);
-                    sellerName = new String[sellerList.size()];
-                    for (int index = 0; index < sellerList.size(); index++) {
-                        sellerName[index] = sellerList.get(index).getUserName();
-                    }
-                    arrayAdapter = new ArrayAdapter(mRunningActivity, android.R.layout.simple_spinner_item, sellerName);
-                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    try {
-                        mSpinnerSellerName.setAdapter(arrayAdapter);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else
-                    mSpinnerSellerName.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void noCall(Throwable error) {
-            }
-        });
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, R.layout.activity_sign_up);
-        if (mToolBar != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-        mUnbinder = ButterKnife.bind(this);
-        spinnerCustomerType.setOnItemSelectedListener(this);
-        mSpinnerSellerName.setOnItemSelectedListener(this);
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.layout_activity_sign_up);
+        setToolbar(true);
+        setTitle(getString(R.string.string_sign_up));
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        setTitle(getString(R.string.signup_string));
-    }
 
-    public void signUpCode() {
+        mEditTxtName = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_name);
+        mEditTxtPhoneNumber = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_phone);
+        mEditTxtEmail = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_email_address);
+        mEditTxtPassword = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_password);
+        mEditTxtConfirmPassword = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_confirm_password);
+        mEditTxtFirmName = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_firm_name);
+        mEditTxtTinNumber = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_tin_number);
+        mEditTxtLandMark = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_land_mark);
+        mEditTxtAddress = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_address);
 
-        if (!isInputOk()) {
-            return;
-        }
+        AppCompatSpinner spinnerUserType = (AppCompatSpinner) findViewById(R.id.layout_activity_sign_up_spinner_user_type);
+        spinnerUserType.setOnItemSelectedListener(this);
 
-        String name = mEditTextName.getText().toString();
-        String email = mEditTextEmail.getText().toString();
-        String password = mEditTextPassword.getText().toString();
-        String tinNumber = mEditTextTinNumber.getText().toString();
-        String firmName = mEditTextFirmName.getText().toString();
-        String address = mEditTextAddress.getText().toString();
-        String landMark = mEditTextLandMark.getText().toString();
-        String phoneNo = mEditTextPhoneNumber.getText().toString();
+        mCircleImageUser = (CircleImageView) findViewById(R.id.layout_activity_sign_up_btn_user_image);
+        mCircleImageUser.setOnClickListener(this);
 
+        findViewById(R.id.layout_activity_sign_up_btn_submit).setOnClickListener(this);
+        findViewById(R.id.layout_activity_sign_up_btn_already_account).setOnClickListener(this);
 
-        RegistrationReqModel registrationReqModel = new RegistrationReqModel();
-        registrationReqModel.setUserName(name);
-        registrationReqModel.setUserPassword(Utils.onConvertIntoBase64(password));
-        registrationReqModel.setDeviceType(RetrofitConstant.ANDROID_DEVICE);
-        registrationReqModel.setDeviceId(Utils.getDeviceId(mRunningActivity));
-        registrationReqModel.setDeviceToken("xyz");
-        registrationReqModel.setUserAddress(address);
-        registrationReqModel.setUserFirmName(firmName);
-        registrationReqModel.setUserTinNumber(tinNumber);
-        registrationReqModel.setUserLandMark(landMark);
-        registrationReqModel.setUserEmailAddress(email);
-        registrationReqModel.setUserMobileNo(phoneNo);
-        registrationReqModel.setUserPicBase64(imageString64);
-        registrationReqModel.setUserType(String.valueOf(spinnerItem));
+        mSellerAdapter = new ArrayAdapter(mBaseActivity, android.R.layout.simple_spinner_item, mSellerNameList);
+        mSellerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        if (Integer.parseInt(supplierId) <= 0)
-            registrationReqModel.setSellerId("");
-        else
-            registrationReqModel.setSellerId(supplierId);
-
-
-        apiEnqueueObject = RetrofitWebService.getInstance().getInterface().registerUser(registrationReqModel);
-        apiEnqueueObject.enqueue(new RetrofitCallBack<LoginResModel>(this) {
-
-            @Override
-            public void yesCall(LoginResModel response, ParentActivity weakRef) {
-                if (VerifyResponse.isResponseOk(response, true)) {
-                    Parsing.parseLoginUserData(mRunningActivity, response.getResult().get(0));
-                    showToast(ToastMessage.SUCCESSFULLY_REGISTERED);
-                    setResult(RESULT_OK, null);
-                    finish();
-                } else
-                    showToast(ToastMessage.FAILED_REGISTERED);
-            }
-
-            @Override
-            public void noCall(Throwable error) {}
-        });
-
-    }
-
-    public boolean isInputOk() {
-
-        String name = mEditTextName.getText().toString();
-        String email = mEditTextEmail.getText().toString();
-        String password = mEditTextPassword.getText().toString();
-        String cPassword = mEditTextConfirmPassword.getText().toString();
-        String tinNumber = mEditTextTinNumber.getText().toString();
-        String firmName = mEditTextFirmName.getText().toString();
-        String phoneNo = mEditTextPhoneNumber.getText().toString();
-
-        if (!EditTextVerification.isPersonNameOk(name, (ParentActivity) mRunningActivity))
-            return false;
-
-        if (!EditTextVerification.isPhoneNoOk(phoneNo, (ParentActivity) mRunningActivity))
-            return false;
-
-        if (!EditTextVerification.isEmailAddressOk(email, (ParentActivity) mRunningActivity))
-            return false;
-
-        if (!EditTextVerification.isPasswordOk(password, (ParentActivity) mRunningActivity))
-            return false;
-
-        if (!EditTextVerification.isPasswordOk(cPassword, (ParentActivity) mRunningActivity))
-            return false;
-
-        if (!cPassword.equals(password)) {
-            showToast(ToastMessage.PASSWORD_MATCH);
-            return false;
-        }
-
-        if (!EditTextVerification.isTinNoOk(tinNumber, (ParentActivity) mRunningActivity))
-            return false;
-
-        if (!EditTextVerification.isFirmOk(firmName, (ParentActivity) mRunningActivity))
-            return false;
-
-
-        if (spinnerItem <= 0) {
-            Toast.makeText(mRunningActivity, "Please Select Appropriate CustomerFragment Type From Drop Down", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (String.valueOf(spinnerItem).equalsIgnoreCase(ConstantValues.CUSTOMER) && Integer.parseInt(supplierId) <= 0) {
-            Toast.makeText(mRunningActivity, "Please Select Any Supplier From Drop Down", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
+        mSpinnerSeller = (AppCompatSpinner) findViewById(R.id.layout_activity_sign_up_spinner_seller);
+        mSpinnerSeller.setAdapter(mSellerAdapter);
+        mSpinnerSeller.setOnItemSelectedListener(this);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
         switch (adapterView.getId()) {
 
-            case R.id.mSpinnerSellerName:
-                if (position > 0)
-                    supplierId = sellerList.get(position).getUserId();
+            case R.id.layout_activity_sign_up_spinner_seller:
+                mIndexOfSelectedSeller = Integer.parseInt(mSellerList.get(position).getUserId());
                 break;
 
-            case R.id.mSpinnerCustomerType:
-                spinnerItem = position;
-                if (spinnerItem == 0 || spinnerItem == 1)
-                    mSpinnerSellerName.setVisibility(View.GONE);
-                else {
-                    mSpinnerSellerName.setVisibility(View.VISIBLE);
+            case R.id.layout_activity_sign_up_spinner_user_type:
+                mIndexOfUserType = position;
+                if (mIndexOfUserType < AppConstant.CUSTOMER) {
+                    mSpinnerSeller.setVisibility(View.INVISIBLE);
+                } else {
+                    mIndexOfSelectedSeller = 0;
+                    mSpinnerSeller.setVisibility(View.VISIBLE);
                     getSellerList();
                 }
                 break;
@@ -262,21 +116,21 @@ public class SignUpActivity extends ParentActivity implements AdapterView.OnItem
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
 
-    @OnClick({R.id.mCircleImageViewUser, R.id.mButtonSignUp, R.id.mTextViewAlreadyHaveAccount})
+    @Override
     public void onClick(View view) {
+
         switch (view.getId()) {
-
-            case R.id.mCircleImageViewUser:
-                mImageDialog = new ImageDialog(this, this, mCircleImageViewUser.getWidth(), mCircleImageViewUser.getHeight());
-                mImageDialog.onShowDialog();
+            case R.id.layout_activity_sign_up_btn_user_image:
+                mDialogImagePicker = new ImageDialog(this, this, mCircleImageUser.getWidth(), mCircleImageUser.getHeight());
+                mDialogImagePicker.show();
                 break;
 
-            case R.id.mButtonSignUp:
-                signUpCode();
+            case R.id.layout_activity_sign_up_btn_submit:
+                doSignUp();
                 break;
 
-            case R.id.mTextViewAlreadyHaveAccount:
-                setResult(RESULT_CANCELED, null);
+            case R.id.layout_activity_sign_up_btn_already_account:
+                setResult(RESULT_CANCELED);
                 finish();
                 break;
         }
@@ -285,15 +139,13 @@ public class SignUpActivity extends ParentActivity implements AdapterView.OnItem
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == ImageDialog.CAMERA_REQ_CODE || resultCode == ImageDialog.GALLERY_REQ_CODE) {
-            mImageDialog.onActivityResult(requestCode, resultCode, data);
-        }
+        mDialogImagePicker.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onRemoveItemTap() {
-        mCircleImageViewUser.setImageResource(R.drawable.ic_user_default);
-        imageString64 = "";
+        mCircleImageUser.setImageResource(R.drawable.ic_user_default);
+        mStringBase64 = "";
     }
 
     @Override
@@ -302,8 +154,133 @@ public class SignUpActivity extends ParentActivity implements AdapterView.OnItem
     }
 
     @Override
-    public void onImageReceived(Bitmap bitmap) {
-        imageString64 = Utils.getStringImage(bitmap);
-        mCircleImageViewUser.setImageBitmap(bitmap);
+    public void onImageReceived(Bitmap pBitmap) {
+        mStringBase64 = Utils.getStringImage(pBitmap);
+        mCircleImageUser.setImageBitmap(pBitmap);
+    }
+
+    private void doSignUp() {
+        if (!checkInput()) {
+            return;
+        }
+        String name = mEditTxtName.getText().toString();
+        String email = mEditTxtEmail.getText().toString();
+        String password = mEditTxtPassword.getText().toString();
+        String tinNumber = mEditTxtTinNumber.getText().toString();
+        String firmName = mEditTxtFirmName.getText().toString();
+        String address = mEditTxtAddress.getText().toString();
+        String landMark = mEditTxtLandMark.getText().toString();
+        String phoneNo = mEditTxtPhoneNumber.getText().toString();
+
+        RegistrationRequest registrationRequest = new RegistrationRequest();
+        registrationRequest.setUserName(name);
+        registrationRequest.setUserPassword(Utils.getBase64String(password));
+        registrationRequest.setDeviceType(AppConstant.ANDROID_DEVICE);
+        registrationRequest.setDeviceId(Utils.getDeviceId(mBaseActivity));
+        registrationRequest.setDeviceToken("");
+        registrationRequest.setUserAddress(address);
+        registrationRequest.setUserFirmName(firmName);
+        registrationRequest.setUserTinNumber(tinNumber);
+        registrationRequest.setUserLandMark(landMark);
+        registrationRequest.setUserEmailAddress(email);
+        registrationRequest.setUserMobileNo(phoneNo);
+        registrationRequest.setUserPicBase64(mStringBase64);
+        registrationRequest.setUserType(String.valueOf(mIndexOfUserType));
+
+        if (mIndexOfSelectedSeller <= 0)
+            registrationRequest.setSellerId("");
+        else
+            registrationRequest.setSellerId(String.valueOf(mIndexOfSelectedSeller));
+
+        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().registerUser(registrationRequest);
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<LoginResponse>(this) {
+            @Override
+            public void onSuccess(LoginResponse pResponse, BaseActivity pBaseActivity) {
+                if (ResponseVerification.isResponseOk(pResponse, true)) {
+                    AppSharedPrefs.getInstance(mBaseActivity).setLoginUserModel(pResponse.getResult().get(0));
+                    showToast(getString(R.string.successfully_registered));
+                    setResult(RESULT_OK);
+                    finish();
+                } else {
+                    showToast(getString(R.string.string_failed_to_register_new_user));
+                }
+            }
+
+            @Override
+            public void onFailure(String pErrorMsg) {
+            }
+        });
+    }
+
+    private boolean checkInput() {
+
+        String name = mEditTxtName.getText().toString();
+        String phoneNo = mEditTxtPhoneNumber.getText().toString();
+        String email = mEditTxtEmail.getText().toString();
+        String password = mEditTxtPassword.getText().toString();
+        String cPassword = mEditTxtConfirmPassword.getText().toString();
+        String tinNumber = mEditTxtTinNumber.getText().toString();
+        String firmName = mEditTxtFirmName.getText().toString();
+
+        if (!EditTextVerification.isPersonNameOk(name, mBaseActivity)) {
+            return false;
+        } else if (!EditTextVerification.isPhoneNoOk(phoneNo, mBaseActivity)) {
+            return false;
+        } else if (!EditTextVerification.isEmailAddressOk(email, mBaseActivity)) {
+            return false;
+        } else if (!EditTextVerification.isPasswordOk(password, mBaseActivity)) {
+            return false;
+        } else if (!EditTextVerification.isPasswordOk(cPassword, mBaseActivity)) {
+            return false;
+        } else if (!cPassword.equals(password)) {
+            showToast(getString(R.string.string_password_match_failed));
+            return false;
+        } else if (!EditTextVerification.isTinNoOk(tinNumber, mBaseActivity)) {
+            return false;
+        } else if (!EditTextVerification.isFirmOk(firmName, mBaseActivity)) {
+            return false;
+        } else if (mIndexOfUserType <= 0) {
+            showToast(getString(R.string.string_please_select_appropriate_customer_type));
+            return false;
+        } else if (AppConstant.CUSTOMER == mIndexOfUserType && mIndexOfSelectedSeller <= 0) {
+            showToast(getString(R.string.string_please_select_any_supplier_from_drop_down));
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void getSellerList() {
+        SupplierListRequest supplierListRequest = new SupplierListRequest();
+        supplierListRequest.setCustomerType(String.valueOf(AppConstant.SELLER));
+
+        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().sellerInfo(supplierListRequest);
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierListResponse>(this) {
+
+            @Override
+            public void onSuccess(SupplierListResponse pResponse, BaseActivity pBaseActivity) {
+                if (ResponseVerification.isResponseOk(pResponse, true)) {
+
+                    SupplierListResponse.ResultBean tempItem = new SupplierListResponse.ResultBean();
+                    tempItem.setUserId("0");
+                    tempItem.setUserName(getString(R.string.string_please_select_any_supplier));
+
+                    mSellerList.clear();
+                    mSellerList.addAll(pResponse.getResult());
+                    mSellerList.add(0, tempItem);
+
+                    mSellerNameList.clear();
+                    for (SupplierListResponse.ResultBean resultBean : mSellerList) {
+                        mSellerNameList.add(resultBean.getUserName());
+                    }
+                    mSellerAdapter.notifyDataSetChanged();
+                } else
+                    mSpinnerSeller.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(String pErrorMsg) {
+            }
+        });
     }
 }

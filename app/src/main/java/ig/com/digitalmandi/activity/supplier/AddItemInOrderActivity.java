@@ -2,7 +2,6 @@ package ig.com.digitalmandi.activity.supplier;
 
 import android.app.LoaderManager;
 import android.content.CursorLoader;
-import android.content.DialogInterface;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -29,33 +28,31 @@ import butterknife.OnClick;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.adapter.supplier.AddItemListAdapter;
 import ig.com.digitalmandi.adapter.supplier.ItemsAdapter;
-import ig.com.digitalmandi.base_package.ParentActivity;
+import ig.com.digitalmandi.base_package.BaseActivity;
 import ig.com.digitalmandi.beans.request.supplier.SupplierOrderAddReq;
 import ig.com.digitalmandi.beans.request.supplier.SupplierPurchaseListReq;
-import ig.com.digitalmandi.beans.response.common.EmptyResponse;
+import ig.com.digitalmandi.beans.response.supplier.SellerUnitList;
 import ig.com.digitalmandi.beans.response.supplier.SupplierPurchaseListRes;
-import ig.com.digitalmandi.beans.response.supplier.SupplierUnitListRes;
 import ig.com.digitalmandi.database.UnitContract;
 import ig.com.digitalmandi.dialogs.AddItemDialog;
 import ig.com.digitalmandi.dialogs.DatePickerClass;
-import ig.com.digitalmandi.dialogs.MyAlertDialog;
 import ig.com.digitalmandi.interfaces.AdapterCallBack;
-import ig.com.digitalmandi.interfaces.OnAlertDialogCallBack;
 import ig.com.digitalmandi.interfaces.OnItemAddedCallBack;
 import ig.com.digitalmandi.interfaces.OrderCallBack;
+import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebService;
-import ig.com.digitalmandi.retrofit.VerifyResponse;
+import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.utils.AppConstant;
 import ig.com.digitalmandi.utils.ChangePurchaseModel;
 import ig.com.digitalmandi.utils.ChangeSpinnerItemBg;
 import ig.com.digitalmandi.utils.CheckForFloat;
-import ig.com.digitalmandi.utils.ConstantValues;
 import ig.com.digitalmandi.utils.EditTextVerification;
 import ig.com.digitalmandi.utils.MyPrefrences;
 import ig.com.digitalmandi.utils.Utils;
 
-public class AddItemInOrderActivity extends ParentActivity implements AdapterCallBack, LoaderManager.LoaderCallbacks<Cursor>, OrderCallBack, AdapterView.OnItemSelectedListener {
+public class AddItemInOrderActivity extends BaseActivity implements AdapterCallBack, LoaderManager.LoaderCallbacks<Cursor>, OrderCallBack, AdapterView.OnItemSelectedListener {
 
+    private final int UNIT_LOADER = 1;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.emptyTextView)
@@ -100,16 +97,14 @@ public class AddItemInOrderActivity extends ParentActivity implements AdapterCal
     RecyclerView recyclerViewItems;
     @BindView(R.id.emptyTextViewItems)
     AppCompatTextView emptyTextViewItems;
-    private final int UNIT_LOADER = 1;
-    private List<SupplierUnitListRes.ResultBean> unitList = new ArrayList<>();
+    float mFloatBardanaPer100KgInRs, mFloatExpensesPercentage, mFloatLabourPer100KgInRs;
+    private List<SellerUnitList.Unit> unitList = new ArrayList<>();
     private String[] unitArray;
     private SupplierOrderAddReq orderAddReqModel;
     private List<SupplierOrderAddReq.OrderDetailsBean> orderDetailList = new ArrayList<>();
     private AddItemListAdapter mAdapter;
     private ItemsAdapter mItemsAdapter;
     private float totalQty, subTotalAmt, expensesAmt, totalAmt, labourAmt, bardanaAmt, totalQtyInKg, totalVechileAmt;
-
-    float mFloatBardanaPer100KgInRs, mFloatExpensesPercentage, mFloatLabourPer100KgInRs;
     private Date orderDate;
 
     private void onStartBothLoaders() {
@@ -138,24 +133,24 @@ public class AddItemInOrderActivity extends ParentActivity implements AdapterCal
         orderAddReqModel = new SupplierOrderAddReq();
         orderAddReqModel.setOrderDetails(orderDetailList);
 
-        mAdapter = new AddItemListAdapter(orderDetailList, mRunningActivity, this);
+        mAdapter = new AddItemListAdapter(orderDetailList, mBaseActivity, this);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mRunningActivity));
+        recyclerView.setLayoutManager(new LinearLayoutManager(mBaseActivity));
 
 
-        mItemsAdapter = new ItemsAdapter(mRunningActivity, dataList, this);
+        mItemsAdapter = new ItemsAdapter(mBaseActivity, mDataList, this);
         recyclerViewItems.setHasFixedSize(true);
-        recyclerViewItems.setLayoutManager(new LinearLayoutManager(mRunningActivity, LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewItems.setLayoutManager(new LinearLayoutManager(mBaseActivity, LinearLayoutManager.HORIZONTAL, false));
         recyclerViewItems.setAdapter(mItemsAdapter);
 
         onStartBothLoaders();
         onGetDataStockFromServer();
         mAdapter.notifyData(emptyTextView);
 
-        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mRunningActivity, mResources.getStringArray(R.array.labourCost),mSpinnerBardana);
-        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mRunningActivity, mResources.getStringArray(R.array.labourCost),mSpinnerExpenses);
-        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mRunningActivity, mResources.getStringArray(R.array.labourCost),mSpinnerLabour);
+        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mBaseActivity, mResources.getStringArray(R.array.labourCost), mSpinnerBardana);
+        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mBaseActivity, mResources.getStringArray(R.array.labourCost), mSpinnerExpenses);
+        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mBaseActivity, mResources.getStringArray(R.array.labourCost), mSpinnerLabour);
 
         mSpinnerBardana  .setOnItemSelectedListener(this);
         mSpinnerExpenses .setOnItemSelectedListener(this);
@@ -182,15 +177,15 @@ public class AddItemInOrderActivity extends ParentActivity implements AdapterCal
                 if(text.length() > 0){
                     try {
                         totalVechileAmt = Float.parseFloat(text) * totalQtyInKg * .01f;
-                        mTextViewVechileAmt.setText(Utils.onStringFormat(String.valueOf(totalVechileAmt)));
+                        mTextViewVechileAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(totalVechileAmt)));
                     } catch (Exception ex) {
                         totalVechileAmt = 0.0f;
-                        mTextViewVechileAmt.setText(Utils.onStringFormat(String.valueOf(totalVechileAmt)));
+                        mTextViewVechileAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(totalVechileAmt)));
                     }
                 }
                 else{
                     totalVechileAmt = 0.0f;
-                    mTextViewVechileAmt.setText(Utils.onStringFormat(String.valueOf(totalVechileAmt)));
+                    mTextViewVechileAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(totalVechileAmt)));
                 }
             }
         });
@@ -201,27 +196,27 @@ public class AddItemInOrderActivity extends ParentActivity implements AdapterCal
         SupplierPurchaseListReq purchaseListReqModel = new SupplierPurchaseListReq();
         purchaseListReqModel.setEndDate("");
         purchaseListReqModel.setStartDate("");
-        purchaseListReqModel.setSellerId(MyPrefrences.getStringPrefrences(ConstantValues.USER_SELLER_ID, mRunningActivity));
+        purchaseListReqModel.setSellerId(MyPrefrences.getStringPrefrences(AppConstant.USER_SELLER_ID, mBaseActivity));
         purchaseListReqModel.setPage(String.valueOf(1));
-        purchaseListReqModel.setFlag(ConstantValues.PURCHASE_LIST_ALL);
+        purchaseListReqModel.setFlag(AppConstant.PURCHASE_LIST_ALL);
 
-        apiEnqueueObject = RetrofitWebService.getInstance().getInterface().purchaseList(purchaseListReqModel);
-        apiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPurchaseListRes>(mRunningActivity, false) {
+        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().purchaseList(purchaseListReqModel);
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPurchaseListRes>(mBaseActivity, false) {
 
             @Override
-            public void yesCall(SupplierPurchaseListRes response, ParentActivity weakRef) {
+            public void onSuccess(SupplierPurchaseListRes pResponse, BaseActivity pBaseActivity) {
 
-                if (VerifyResponse.isResponseOk(response, false)) {
-                    dataList.addAll(response.getResult());
+                if (ResponseVerification.isResponseOk(pResponse, false)) {
+                    mDataList.addAll(pResponse.getResult());
                 }
 
-                if (!dataList.isEmpty())
-                    ChangePurchaseModel.onChangePurchaseModel(dataList);
+                if (!mDataList.isEmpty())
+                    ChangePurchaseModel.onChangePurchaseModel(mDataList);
                 mItemsAdapter.notifyData(emptyTextViewItems);
             }
 
             @Override
-            public void noCall(Throwable error) {
+            public void onFailure(String pErrorMsg) {
             }
         });
     }
@@ -230,11 +225,11 @@ public class AddItemInOrderActivity extends ParentActivity implements AdapterCal
     public void onItemClick(Object object) {
         SupplierPurchaseListRes.ResultBean selectedObject = (SupplierPurchaseListRes.ResultBean) object;
         if (unitList.isEmpty()) {
-            Toast.makeText(mRunningActivity, "No Unit Added Yet Please Add Any Unit", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, "No Unit Added Yet Please Add Any Unit", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        AddItemDialog addItemDialog = new AddItemDialog(mRunningActivity, true, true, R.layout.dialog_add_item_into_cart);
+        AddItemDialog addItemDialog = new AddItemDialog(mBaseActivity, true, true, R.layout.dialog_add_item_into_cart);
         addItemDialog.show(selectedObject, unitArray, unitList, new OnItemAddedCallBack<SupplierOrderAddReq.OrderDetailsBean>() {
             @Override
             public void onItemAddedCallBacks(SupplierOrderAddReq.OrderDetailsBean object) {
@@ -263,7 +258,7 @@ public class AddItemInOrderActivity extends ParentActivity implements AdapterCal
 
             case UNIT_LOADER:
                 try {
-                    UnitContract unitContract = new UnitContract(mRunningActivity);
+                    UnitContract unitContract = new UnitContract(mBaseActivity);
                     unitList.clear();
                     unitList.addAll(unitContract.getListOfObject(cursor));
                     unitArray = new String[unitList.size()];
@@ -289,8 +284,8 @@ public class AddItemInOrderActivity extends ParentActivity implements AdapterCal
     @Override
     public void onDelete(Object object, View view) {
         SupplierOrderAddReq.OrderDetailsBean removedObject = (SupplierOrderAddReq.OrderDetailsBean) object;
-        for (int index = dataList.size() - 1; index >= 0; index--) {
-            SupplierPurchaseListRes.ResultBean traversedObject = (SupplierPurchaseListRes.ResultBean) dataList.get(index);
+        for (int index = mDataList.size() - 1; index >= 0; index--) {
+            SupplierPurchaseListRes.ResultBean traversedObject = (SupplierPurchaseListRes.ResultBean) mDataList.get(index);
             if (traversedObject.getPurchaseId().equalsIgnoreCase(removedObject.getPurchaseId())) {
                 traversedObject.setLocalSoldQty(String.valueOf(Float.parseFloat(traversedObject.getLocalSoldQty()) - (Float.parseFloat(removedObject.getQtyInKg()))));
                 break;
@@ -307,7 +302,7 @@ public class AddItemInOrderActivity extends ParentActivity implements AdapterCal
         subTotalAmt  = 0;
         totalQtyInKg = 0;
         for (int index = orderDetailList.size() - 1; index >= 0; index--) {
-            SupplierOrderAddReq.OrderDetailsBean addedObject = (SupplierOrderAddReq.OrderDetailsBean) orderDetailList.get(index);
+            SupplierOrderAddReq.OrderDetailsBean addedObject = orderDetailList.get(index);
             totalQty     += Float.parseFloat(addedObject.getQty());
             subTotalAmt  += Float.parseFloat(addedObject.getTotalPrice());
             totalQtyInKg += Float.parseFloat(addedObject.getQtyInKg());
@@ -327,14 +322,14 @@ public class AddItemInOrderActivity extends ParentActivity implements AdapterCal
         bardanaAmt = totalQty * mFloatBardanaPer100KgInRs;
         totalAmt = subTotalAmt + bardanaAmt + expensesAmt + labourAmt;
 
-        mTextViewBardanaAmt.setText(Utils.onStringFormat(String.valueOf(bardanaAmt)));
-        mTextViewExpensesAmt.setText(Utils.onStringFormat(String.valueOf(expensesAmt)));
-        mTextViewLaboutAmt.setText(Utils.onStringFormat(String.valueOf(labourAmt)));
-        mTextViewSubTotalAmt.setText(Utils.onStringFormat(String.valueOf(subTotalAmt)));
-        mTextViewTotalAmt.setText(Utils.onStringFormat(String.valueOf(totalAmt)));
-        mTextViewTotalLoadInQuintal.setText(Utils.onStringFormat(String.valueOf(totalQtyInKg * .01f)));
-        mTextViewVechileAmt.setText(Utils.onStringFormat(String.valueOf(0.00)));
-        mTextViewTotalNag.setText(Utils.onStringFormat(String.valueOf(totalQty)));
+        mTextViewBardanaAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(bardanaAmt)));
+        mTextViewExpensesAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(expensesAmt)));
+        mTextViewLaboutAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(labourAmt)));
+        mTextViewSubTotalAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(subTotalAmt)));
+        mTextViewTotalAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(totalAmt)));
+        mTextViewTotalLoadInQuintal.setText(Utils.formatStringUpTo2Precision(String.valueOf(totalQtyInKg * .01f)));
+        mTextViewVechileAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(0.00)));
+        mTextViewTotalNag.setText(Utils.formatStringUpTo2Precision(String.valueOf(totalQty)));
 
     }
 
@@ -369,13 +364,13 @@ public class AddItemInOrderActivity extends ParentActivity implements AdapterCal
         switch (view.getId()) {
 
             case R.id.mButtonDatePicker:
-                DatePickerClass.showDatePicker(DatePickerClass.END_DATE, new DatePickerClass.OnDateSelected() {
+                DatePickerClass.showDatePicker(mBaseActivity, DatePickerClass.END_DATE, new DatePickerClass.OnDateSelected() {
                     @Override
                     public void onDateSelectedCallBack(int id, Date newCalendar1, String stringResOfDate, long milliSeconds, int numberOfDays) {
                         mButtonDatePicker.setText(stringResOfDate);
                         orderDate = newCalendar1;
                     }
-                }, mRunningActivity, ConstantValues.API_DATE_FORMAT);
+                }, AppConstant.API_DATE_FORMAT);
                 break;
 
             case R.id.mButtonPayment:
@@ -385,41 +380,41 @@ public class AddItemInOrderActivity extends ParentActivity implements AdapterCal
     }
 
     private void doOrder() {
-        Utils.onHideSoftKeyBoard(mRunningActivity, mEditTextDriverVehicleNo);
+        Utils.onHideSoftKeyBoard(mBaseActivity, mEditTextDriverVehicleNo);
 
-        if (dataList.isEmpty()) {
-            Toast.makeText(mRunningActivity, "Please Add Any Item IntoCart First", Toast.LENGTH_SHORT).show();
+        if (mDataList.isEmpty()) {
+            Toast.makeText(mBaseActivity, "Please Add Any Item IntoCart First", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (orderDate == null) {
-            Toast.makeText(mRunningActivity, "Please Select Order Date First", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, "Please Select Order Date First", Toast.LENGTH_SHORT).show();
             return;
         }
 
 
         if (mEditTextVechileRent100Kg.getText().toString().isEmpty()) {
-            Toast.makeText(mRunningActivity, "Vehicle Rent Can't Be Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, "Vehicle Rent Can't Be Empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if(!CheckForFloat.onCheckFloat(mEditTextVechileRent100Kg.getText().toString())){
-            Toast.makeText(mRunningActivity, "Please Enter Valid Vehicle Rent", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, "Please Enter Valid Vehicle Rent", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(!EditTextVerification.isPersonNameOk(mEditTextDriverName.getText().toString(), (ParentActivity) mRunningActivity))
+        if (!EditTextVerification.isPersonNameOk(mEditTextDriverName.getText().toString(), mBaseActivity))
             return;
 
-        if(!EditTextVerification.isPhoneNoOk(mEditTextDriverPhoneNumber.getText().toString(), (ParentActivity) mRunningActivity))
+        if (!EditTextVerification.isPhoneNoOk(mEditTextDriverPhoneNumber.getText().toString(), mBaseActivity))
             return;
 
         if (mEditTextDriverVehicleNo.getText().toString().isEmpty()) {
-            Toast.makeText(mRunningActivity, "Please Provide Vehicle Number", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, "Please Provide Vehicle Number", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        orderAddReqModel.setCustomerId(MyPrefrences.getStringPrefrences(ConstantValues.CUSTOMER_ID_ORDER, mRunningActivity));
+        orderAddReqModel.setCustomerId(MyPrefrences.getStringPrefrences(AppConstant.CUSTOMER_ID_ORDER, mBaseActivity));
         orderAddReqModel.setDriverName(mEditTextDriverName.getText().toString());
         orderAddReqModel.setDriverNumber(mEditTextDriverPhoneNumber.getText().toString());
         orderAddReqModel.setDriverVechileNo(mEditTextDriverVehicleNo.getText().toString());
@@ -429,16 +424,16 @@ public class AddItemInOrderActivity extends ParentActivity implements AdapterCal
         orderAddReqModel.setOrderDaamiValue(String.valueOf(mFloatExpensesPercentage));
         orderAddReqModel.setOrderLabourAmt(String.valueOf(labourAmt));
         orderAddReqModel.setOrderLabourValue(String.valueOf(mFloatLabourPer100KgInRs));
-        orderAddReqModel.setOrderDate(Utils.onConvertDateToString(orderDate.getTime(), ConstantValues.API_DATE_FORMAT));
-        orderAddReqModel.setSellerId(MyPrefrences.getStringPrefrences(ConstantValues.USER_SELLER_ID, mRunningActivity));
+        orderAddReqModel.setOrderDate(Utils.getDateString(orderDate.getTime(), AppConstant.API_DATE_FORMAT));
+        orderAddReqModel.setSellerId(MyPrefrences.getStringPrefrences(AppConstant.USER_SELLER_ID, mBaseActivity));
         orderAddReqModel.setOrderTotalAmt(String.valueOf(totalAmt));
         orderAddReqModel.setOrderSubtotalAmt(String.valueOf(subTotalAmt));
-        orderAddReqModel.setVechileRentValue(Utils.onStringFormat(mEditTextVechileRent100Kg.getText().toString()));
-        orderAddReqModel.setVechileRent(Utils.onStringFormat(String.valueOf(totalVechileAmt)));
+        orderAddReqModel.setVechileRentValue(Utils.formatStringUpTo2Precision(mEditTextVechileRent100Kg.getText().toString()));
+        orderAddReqModel.setVechileRent(Utils.formatStringUpTo2Precision(String.valueOf(totalVechileAmt)));
         orderAddReqModel.setOrderTotalNag(String.valueOf(totalQty));
         orderAddReqModel.setOrderTotalQuintal(String.valueOf(totalQtyInKg * .01f));
 
-        MyAlertDialog.onShowAlertDialog(this, "Continue, To Place Order!", "Continue", "Leave", true, new OnAlertDialogCallBack() {
+        /*MyAlertDialog.onShowAlertDialog(this, "Continue, To Place Order!", "Continue", "Leave", new OnAlertDialogCallBack() {
             @Override
             public void onNegative(DialogInterface dialogInterface, int i) {
 
@@ -446,24 +441,24 @@ public class AddItemInOrderActivity extends ParentActivity implements AdapterCal
 
             @Override
             public void onPositive(DialogInterface dialogInterface, int i) {
-                apiEnqueueObject = RetrofitWebService.getInstance().getInterface().insertNewOrder(orderAddReqModel);
-                apiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mRunningActivity, true) {
+                mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().insertNewOrder(orderAddReqModel);
+                mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity, true) {
 
                     @Override
-                    public void yesCall(EmptyResponse response, ParentActivity weakRef) {
-                        if (VerifyResponse.isResponseOk(response)) {
-                            Toast.makeText(weakRef, "Order Placed SuccessFully", Toast.LENGTH_SHORT).show();
+                    public void onSuccess(EmptyResponse pResponse, BaseActivity pBaseActivity) {
+                        if (ResponseVerification.isResponseOk(pResponse)) {
+                            Toast.makeText(pBaseActivity, "Order Placed SuccessFully", Toast.LENGTH_SHORT).show();
                             setResult(RESULT_OK);
                             finish();
                         }
                     }
 
                     @Override
-                    public void noCall(Throwable error) {
+                    public void onFailure(String pErrorMsg) {
 
                     }
                 });
             }
-        });
+        });*/
     }
 }

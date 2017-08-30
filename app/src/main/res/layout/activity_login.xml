@@ -7,17 +7,15 @@
 
     <include layout="@layout/common_tool_bar" />
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="30dp"
-            android:background="@drawable/xml_corner_app_bg"/>
+            android:background="@drawable/xml_corner_app_bg" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -65,56 +63,56 @@
                     <!-- Email Label -->
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
-                        android:theme="@style/TextAppearance.App.TextInputLayout.Login"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:theme="@style/TextAppearance.App.TextInputLayout.Login">
 
                         <android.support.v7.widget.AppCompatEditText
-                            android:id="@+id/mEditTextEmail"
+                            android:id="@+id/activity_login_edt_email_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/registered_email_address"
-                            android:textSize="22sp"
+                            android:inputType="textEmailAddress"
                             android:textColor="@color/colorPrimary"
-                            android:inputType="textEmailAddress" />
+                            android:textSize="22sp" />
                     </android.support.design.widget.TextInputLayout>
 
                     <!-- Password Label -->
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
-                        android:theme="@style/TextAppearance.App.TextInputLayout.Login"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:theme="@style/TextAppearance.App.TextInputLayout.Login">
 
                         <android.support.v7.widget.AppCompatEditText
-                            android:id="@+id/mEditTextPassword"
+                            android:id="@+id/activity_login_edt_password"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="22sp"
-                            android:maxLines="1"
-                            android:maxLength="12"
-                            android:imeOptions="actionDone"
                             android:hint="@string/password"
+                            android:imeOptions="actionDone"
+                            android:inputType="textPassword"
+                            android:maxLength="12"
+                            android:maxLines="1"
                             android:textColor="@color/colorPrimary"
-                            android:inputType="textPassword" />
+                            android:textSize="22sp" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/btn_login"
+                        android:id="@+id/activity_login_btn_login"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
                         android:background="@drawable/selector_blue_button"
+                        android:text="@string/go"
                         android:textColor="@drawable/selector_blue_button_text"
-                        android:textSize="20sp"
-                        android:text="Go" />
+                        android:textSize="20sp" />
 
                     <android.support.v7.widget.AppCompatTextView
-                        android:id="@+id/forgotPassword"
+                        android:id="@+id/activity_login_btn_forgot_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
-                        android:textColor="@color/colorPrimary"
                         android:text="@string/forgot_password"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="20dip" />
                 </LinearLayout>
             </RelativeLayout>
@@ -122,7 +120,7 @@
         </FrameLayout>
 
         <ImageView
-            android:id="@+id/signUpButton"
+            android:id="@+id/activity_login_btn_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -133,14 +131,14 @@
             android:src="@drawable/ic_edit" />
 
         <ImageView
-            android:id="@+id/faceBookButton"
+            android:id="@+id/activity_login_btn_facebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="140dp"
-            android:visibility="gone"
             android:background="@drawable/xml_create_account_bg"
-            android:padding="13dp" />
+            android:padding="13dp"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

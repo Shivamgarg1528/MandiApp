@@ -12,46 +12,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dp"
-        android:orientation="horizontal"
-        android:weightSum="100">
+        android:baselineAligned="false"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="88"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/mTextViewUnitName"
+                android:id="@+id/row_layout_unit_cardview_txtview_unit_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
-                android:textColor="@color/rowParentColor"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/rowParentColor" />
 
-            <TextView
-                android:id="@+id/mTextViewUnitInfo"
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/row_layout_unit_cardview_txtview_unit_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
-                android:textColor="@color/rowChildColor"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/rowChildColor" />
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="12"
-            android:gravity="center"
-            android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/mImageViewStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_checkbox_checked"/>
-        </LinearLayout>
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/row_layout_unit_card_view_img_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_checkbox_checked" />
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

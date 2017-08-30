@@ -16,6 +16,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -41,7 +43,6 @@ import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,6 +52,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import ig.com.digitalmandi.BuildConfig;
+import ig.com.digitalmandi.base_package.BaseActivity;
 import okhttp3.ResponseBody;
 
 
@@ -60,53 +63,66 @@ import okhttp3.ResponseBody;
 
 public class Utils {
 
-    public static void uploadImageIfUrlValid(Context mContext, String url, View imageVew) {
+    public static void vibrate(Context pContext) {
+        Vibrator vb = (Vibrator) pContext.getSystemService(Context.VIBRATOR_SERVICE);
+        long[] pattern = {0, 1000, 0};
+        vb.vibrate(pattern, 0);
+        vb.cancel();
+    }
+
+    public static boolean isEmpty(String pString) {
+        return pString == null || pString.trim().length() == 0;
+    }
+
+    public static boolean isFloat(String pValue) {
         try {
-            URL url1 = new URL(url);
-            Picasso.with(mContext).load(url).into((ImageView) imageVew);
+            float v = Float.parseFloat(pValue);
+            return true;
         } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    public static void setImage(Context mContext, String url, View imageVew) {
+        try {
+            if (URLUtil.isValidUrl(url)) {
+                Picasso.with(mContext).load(url).into((ImageView) imageVew);
+            }
+        } catch (Exception ignored) {
         }
     }
 
 
-    public static Bitmap getBitmapFromPath(String mCurrentPhotoPath, int targetW, int targetH) {
+    public static Bitmap getBitmapFromPath(String pCurrentPhotoPath, int pTargetW, int pTargetH) {
 
-        /* There isn't enough memory to open up more than a couple camera photos */
-        /* So pre-scale the target bitmap into which the file is decoded */
-        /* Get the size of the image */
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+        BitmapFactory.decodeFile(pCurrentPhotoPath, bmOptions);
         int photoW = bmOptions.outWidth;
         int photoH = bmOptions.outHeight;
 
-		/* Figure out which way needs to be reduced less */
         int scaleFactor = 1;
-        if ((targetW > 0) || (targetH > 0)) {
-            scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+        if ((pTargetW > 0) || (pTargetH > 0)) {
+            scaleFactor = Math.min(photoW / pTargetW, photoH / pTargetH);
         }
 
-		/* Set bitmap options to scale the image decode target */
         bmOptions.inJustDecodeBounds = false;
         bmOptions.inSampleSize = scaleFactor;
         bmOptions.inPurgeable = true;
 
-		/* Decode the JPEG file into a Bitmap */
-        return BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+        return BitmapFactory.decodeFile(pCurrentPhotoPath, bmOptions);
     }
 
     public static String getStringImage(Bitmap bmp) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        return encodedImage;
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] imageBytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
 
 
     public static String getDeviceId(Context mContext) {
-        String androidId = Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
-        return androidId;
+        return Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
 
@@ -117,7 +133,7 @@ public class Utils {
 
     public static <T> T onGetWeakReference(T anyObject) {
         if (anyObject != null)
-            return (T) new WeakReference<T>(anyObject).get();
+            return new WeakReference<T>(anyObject).get();
         else
             return null;
     }
@@ -134,11 +150,12 @@ public class Utils {
      */
 
     public static <T> void onActivityStart(Context mContext, boolean isNoHistoryTrue, int[] flagsArray, Intent predefinedIntent, Class<T> targetClassName) {
-
         if (predefinedIntent == null) {
             predefinedIntent = new Intent(mContext, targetClassName);
-            for (int i = 0; i < flagsArray.length; i++) {
-                predefinedIntent.addFlags(flagsArray[i]);
+            if (flagsArray != null) {
+                for (int aFlag : flagsArray) {
+                    predefinedIntent.addFlags(aFlag);
+                }
             }
         }
         mContext.startActivity(predefinedIntent);
@@ -149,7 +166,7 @@ public class Utils {
     /**
      * to start any android activity for result
      *
-     * @param activityRef      specify the reference of activity from where you want to start new activity
+     * @param pActivity        specify the reference of activity from where you want to start new activity
      * @param isNoHistoryTrue  true if you want to finish previous activity otherwise false
      * @param flagsArray       A flag array that you want to bind with requested component or new int[]{} if you want to skip
      * @param predefinedIntent A reference of intent that you want to fire otherwise null in case (if you want to specify the targetClassName)
@@ -158,17 +175,18 @@ public class Utils {
      */
 
 
-    public static <T> void onActivityStartForResult(Activity activityRef, boolean isNoHistoryTrue, int[] flagsArray, Intent predefinedIntent, Class<T> targetClassName, int requestCode) {
-        Activity activityWeakRef = onGetWeakReference(activityRef);
-        if (activityWeakRef != null) {
-            if (predefinedIntent == null) {
-                predefinedIntent = new Intent(activityWeakRef, targetClassName);
-                for (int flags : flagsArray) predefinedIntent.addFlags(flags);
+    public static <T> void onActivityStartForResult(Activity pActivity, boolean isNoHistoryTrue, int[] flagsArray, Intent predefinedIntent, Class<T> targetClassName, int requestCode) {
+        if (predefinedIntent == null) {
+            predefinedIntent = new Intent(pActivity, targetClassName);
+            if (flagsArray != null) {
+                for (int aFlag : flagsArray) {
+                    predefinedIntent.addFlags(aFlag);
+                }
             }
-            activityWeakRef.startActivityForResult(predefinedIntent, requestCode);
-            if (isNoHistoryTrue)
-                activityWeakRef.finish();
         }
+        pActivity.startActivityForResult(predefinedIntent, requestCode);
+        if (isNoHistoryTrue)
+            pActivity.finish();
     }
 
     /**
@@ -254,20 +272,16 @@ public class Utils {
      * format the float value in 2 precision
      *
      * @param value float value in String that you want to format
-     * @return a formated value in string with 2 precision
+     * @return a formatted value in string with 2 precision
      */
 
-    public static String onStringFormat(String value) {
-
+    public static String formatStringUpTo2Precision(String value) {
         try {
-            if (TextUtils.isEmpty(value))
-                value = "0";
-
+            if (isEmpty(value))
+                return "0.00";
             float conversion = Float.parseFloat(value);
-            String convertedValue = String.format(Locale.getDefault(), "%.2f", conversion);
-            return convertedValue;
+            return String.format(Locale.getDefault(), "%.2f", conversion);
         } catch (NumberFormatException e) {
-            e.printStackTrace();
             return "0.00";
         }
     }
@@ -277,7 +291,6 @@ public class Utils {
         String convertedValue = String.format(Locale.getDefault(), "%.2f", conversion);
         return ("00000000000" + convertedValue).substring(convertedValue.length());
     }
-
 
     /**
      * Check Internet is Available or Not.
@@ -370,72 +383,21 @@ public class Utils {
 
     public static String onGetBasicAuth(String stringOne, String stringTwo) {
         StringBuilder str = new StringBuilder();
-        str.append("Basic ").append(onConvertIntoBase64(stringOne.concat(":").concat(stringTwo)));
+        str.append("Basic ").append(getBase64String(stringOne.concat(":").concat(stringTwo)));
         return str.toString();
-    }
-
-    public static boolean writeResponseBodyToDisk(ResponseBody body, String id, boolean isOrderBill) {
-
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
-
-        try {
-            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-
-            File folder = new File(extStorageDirectory, ConstantValues.ORDER_BILL_PATH);
-            folder.mkdir();
-
-            File pdfFile = new File(folder, (isOrderBill == true ? ConstantValues.ORDER_BILL_PREFIX : ConstantValues.PAYMENT_BILL_PREFIX).concat(id+".pdf"));
-            pdfFile.createNewFile();
-
-
-            byte[] fileReader = new byte[4096];
-
-            inputStream = body.byteStream();
-            outputStream = new FileOutputStream(pdfFile);
-
-            while (true) {
-                int read = inputStream.read(fileReader);
-                if (read == -1) {
-                    break;
-                }
-                outputStream.write(fileReader, 0, read);
-            }
-            outputStream.flush();
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
 
     /**
      * convert into base64 of given string
      *
-     * @param pwd given string that you want to convert in base64
+     * @param pString given string that you want to convert in base64
      * @return base64 String
      */
 
-    public static String onConvertIntoBase64(String pwd) {
+    public static String getBase64String(String pString) {
         try {
-            byte[] data = pwd.getBytes("UTF-8");
+            byte[] data = pString.getBytes("UTF-8");
             return Base64.encodeToString(data, Base64.DEFAULT);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -551,14 +513,14 @@ public class Utils {
         return date;
     }
 
-    public static String onConvertDateToString(long milliSeconds, String dateFormat) {
-        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
-        return formatter.format(milliSeconds);
+    public static String getDateString(long pMilliSeconds, String pDateFormat) {
+        SimpleDateFormat formatter = new SimpleDateFormat(pDateFormat);
+        return formatter.format(pMilliSeconds);
     }
 
     public static String onConvertDateStringToOtherStringFormat(String dateStr) {
-        SimpleDateFormat fromFormat = new SimpleDateFormat(ConstantValues.API_DATE_FORMAT);
-        SimpleDateFormat toFormat = new SimpleDateFormat(ConstantValues.API_DATE_FORMAT);
+        SimpleDateFormat fromFormat = new SimpleDateFormat(AppConstant.API_DATE_FORMAT);
+        SimpleDateFormat toFormat = new SimpleDateFormat(AppConstant.API_DATE_FORMAT);
         Date date = null;
         try {
             date = fromFormat.parse(dateStr);
@@ -701,17 +663,76 @@ public class Utils {
         return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
-    public static void showPDFActivity(AppCompatActivity mRunningActivity, String path) {
-        File pdfFile = new File(path);
-        Uri uriPath = Uri.fromFile(pdfFile);
-        Log.d("Utils", path);
-        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
-        pdfIntent.setDataAndType(uriPath, "application/pdf");
-        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    public static boolean writePdf(ResponseBody pResponseBody, String pPdfId, boolean pOrderOrPaymentBill) {
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
         try {
-            mRunningActivity.startActivity(pdfIntent);
+            File dir = new File(Environment.getExternalStorageDirectory(), AppConstant.DIRECTORY_NAME);
+            if (!dir.isDirectory()) {
+                boolean isSuccess = dir.mkdir();
+                if (BuildConfig.DEBUG) {
+                    Log.d("Utils", "Dir Created ? true/false =" + isSuccess);
+                }
+            }
+            String fileName = (pOrderOrPaymentBill ? AppConstant.ORDER_BILL_PREFIX : AppConstant.PAYMENT_BILL_PREFIX).concat(pPdfId).concat(".pdf");
+            File pdfFile = new File(dir, fileName);
+            if (!pdfFile.isFile()) {
+                boolean isSuccess = pdfFile.createNewFile();
+                if (BuildConfig.DEBUG) {
+                    Log.d("Utils", "File Created ? true/false =" + isSuccess);
+                }
+            }
+            byte[] bytes = new byte[4096];
+            inputStream = pResponseBody.byteStream();
+            outputStream = new FileOutputStream(pdfFile);
+
+            while (true) {
+                int read = inputStream.read(bytes);
+                if (read == -1) {
+                    break;
+                }
+                outputStream.write(bytes, 0, read);
+            }
+            outputStream.flush();
+            return true;
+        } catch (Exception ex) {
+            return false;
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static void readPdf(BaseActivity pBaseActivity, String pPdfId, boolean pOrderOrPaymentBill) {
+
+        String filePath = Environment.getExternalStorageDirectory().toString()
+                .concat("/")
+                .concat(AppConstant.DIRECTORY_NAME)
+                .concat("/")
+                .concat((pOrderOrPaymentBill ? AppConstant.ORDER_BILL_PREFIX : AppConstant.PAYMENT_BILL_PREFIX).concat(pPdfId).concat(".pdf"));
+        if (BuildConfig.DEBUG) {
+            Log.d("Utils", filePath);
+        }
+        File file = new File(filePath);
+        Uri uri = Uri.fromFile(file);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri, "application/pdf");
+        try {
+            pBaseActivity.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(mRunningActivity, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
+            Toast.makeText(pBaseActivity, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -10,45 +10,28 @@ import ig.com.digitalmandi.R;
 
 public abstract class BaseDialog extends Dialog {
 
-	private View rootView;
-	private LayoutInflater layoutInflater;
-	protected Context mContext;
-	protected ParentActivity mRunningActivity;
+    protected BaseActivity mBaseActivity;
+    private View mRootView;
 
+    public BaseDialog(Context context, boolean isOutSideTouch, boolean isCancelable, int layoutId) {
+        super(context, R.style.AlertDialog_Slide);
+        mBaseActivity = (BaseActivity) context;
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        mRootView = layoutInflater.inflate(layoutId, null);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setCanceledOnTouchOutside(isOutSideTouch);
+        setContentView(mRootView);
+        getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        setCancelable(isCancelable);
+    }
 
-	public BaseDialog(Context context, int theme , int width ,int height , boolean isOutSideTouch , boolean isCancelable, int layoutId) {
-		super(context, theme);
-		mContext       = context;
-		mRunningActivity = (ParentActivity)mContext;
-		layoutInflater = LayoutInflater.from(context);
-		rootView       = layoutInflater.inflate(layoutId, null);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setCanceledOnTouchOutside(isOutSideTouch);
-		setContentView(rootView);
-		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-		getWindow().setLayout(width, height);
-		setCancelable(isCancelable);
-	}
+    public BaseDialog(BaseActivity pBaseActivity) {
+        super(pBaseActivity, R.style.AlertDialog_Slide);
+        mBaseActivity = pBaseActivity;
+        getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+    }
 
-	public BaseDialog(Context context,boolean isOutSideTouch , boolean isCancelable, int layoutId) {
-		super(context, R.style.myCoolDialog);
-		mContext         = context;
-		mRunningActivity = (ParentActivity)mContext;
-		layoutInflater   = LayoutInflater.from(context);
-		rootView         = layoutInflater.inflate(layoutId, null);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setCanceledOnTouchOutside(isOutSideTouch);
-		setContentView(rootView);
-		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-		setCancelable(isCancelable);
-	}
-
-	@SuppressWarnings("unchecked")
-	public <T> T findViewByIdAndCast(int id) {
-		return (T) rootView.findViewById(id);
-	}
-
-	public ParentActivity getmRunningActivity() {
-		return mRunningActivity;
-	}
+    public BaseActivity getBaseActivity() {
+        return mBaseActivity;
+    }
 }

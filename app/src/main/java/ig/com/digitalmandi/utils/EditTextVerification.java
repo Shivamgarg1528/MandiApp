@@ -1,61 +1,56 @@
 package ig.com.digitalmandi.utils;
 
-import android.text.TextUtils;
 import android.util.Patterns;
 
-import ig.com.digitalmandi.base_package.ParentActivity;
-import ig.com.digitalmandi.toast.ToastMessage;
-
-/**
- * Created by shiva on 11/3/2016.
- */
+import ig.com.digitalmandi.R;
+import ig.com.digitalmandi.base_package.BaseActivity;
 
 public class EditTextVerification {
 
-    public static boolean isEmailAddressOk(String email, ParentActivity mContext){
-        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            mContext.showToast(ToastMessage.EMAIL_ADDRESS);
+    public static boolean isEmailAddressOk(String pEmailAddress, BaseActivity pBaseActivity) {
+        if (Utils.isEmpty(pEmailAddress) || !Patterns.EMAIL_ADDRESS.matcher(pEmailAddress).matches()) {
+            pBaseActivity.showToast(pBaseActivity.getString(R.string.enter_valid_email_address));
             return false;
         }
         return true;
     }
 
-    public static boolean isPasswordOk(String password, ParentActivity mContext){
-        if (password.isEmpty() || password.length() < 6) {
-            mContext.showToast(ToastMessage.PASSWORD_SIX_);
+    public static boolean isPasswordOk(String pPassword, BaseActivity pBaseActivity) {
+        if (Utils.isEmpty(pPassword) || pPassword.length() < 6) {
+            pBaseActivity.showToast(pBaseActivity.getString(R.string.string_password_at_least_six_char_long));
             return false;
         }
         return true;
     }
 
-    public static boolean isTinNoOk(String tinNumber, ParentActivity mContext){
-        if (TextUtils.isEmpty(tinNumber)) {
-            mContext.showToast(ToastMessage.FIRM_TIN_NUMBER);
+    public static boolean isTinNoOk(String pTinNumber, BaseActivity pBaseActivity) {
+        if (Utils.isEmpty(pTinNumber)) {
+            pBaseActivity.showToast(pBaseActivity.getString(R.string.string_enter_tin_number));
             return false;
         }
         return true;
     }
 
-    public static boolean isFirmOk(String firmName, ParentActivity mContext){
-        if (TextUtils.isEmpty(firmName)) {
-            mContext.showToast(ToastMessage.FIRM_NAME);
+    public static boolean isFirmOk(String pFirmName, BaseActivity pBaseActivity) {
+        if (Utils.isEmpty(pFirmName)) {
+            pBaseActivity.showToast(pBaseActivity.getString(R.string.string_please_enter_firm_name));
             return false;
         }
         return true;
     }
 
 
-    public static boolean isPhoneNoOk(String phoneNo, ParentActivity mContext){
-        if(phoneNo.isEmpty() || phoneNo.length() != 10){
-            mContext.showToast(ToastMessage.PHONE_NUMBER);
+    public static boolean isPhoneNoOk(String pPhoneNo, BaseActivity pBaseActivity) {
+        if (Utils.isEmpty(pPhoneNo) || pPhoneNo.length() != 10) {
+            pBaseActivity.showToast(pBaseActivity.getString(R.string.string_enter_valid_phone_number));
             return false;
         }
         return true;
     }
 
-    public static boolean isPersonNameOk(String name, ParentActivity mContext){
-        if (name.isEmpty() || name.length() < 3) {
-            mContext.showToast(ToastMessage.NAME);
+    public static boolean isPersonNameOk(String pName, BaseActivity pBaseActivity) {
+        if (Utils.isEmpty(pName) || pName.length() < 3) {
+            pBaseActivity.showToast(pBaseActivity.getString(R.string.string_name_at_least_three_char_long));
             return false;
         }
         return true;

@@ -1,9 +1,7 @@
 package ig.com.digitalmandi.dialogs;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
@@ -23,16 +21,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.base_package.BaseDialog;
-import ig.com.digitalmandi.base_package.ParentActivity;
 import ig.com.digitalmandi.beans.request.supplier.SupplierPurchasePaymentReq;
-import ig.com.digitalmandi.beans.response.common.EmptyResponse;
-import ig.com.digitalmandi.beans.response.supplier.SupplierOrderListRes;
+import ig.com.digitalmandi.beans.response.supplier.SupplierOrderListResponse;
 import ig.com.digitalmandi.beans.response.supplier.SupplierPurchaseListRes;
-import ig.com.digitalmandi.interfaces.OnAlertDialogCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebService;
-import ig.com.digitalmandi.retrofit.VerifyResponse;
-import ig.com.digitalmandi.utils.ConstantValues;
+import ig.com.digitalmandi.utils.AppConstant;
 import ig.com.digitalmandi.utils.Utils;
 
 /**
@@ -41,6 +33,8 @@ import ig.com.digitalmandi.utils.Utils;
 
 public class PurchasePaymentDialog extends BaseDialog implements DatePickerClass.OnDateSelected, View.OnFocusChangeListener {
 
+    //private SupplierPurchaseListRes.LoginUser purchaseObject;
+    private final int OFFERS_DAYS = 10;
     @BindView(R.id.mEditTextPaymentAmt)
     AppCompatEditText mEditTextPaymentAmt;
     @BindView(R.id.mEditTextInterestRate)
@@ -60,12 +54,14 @@ public class PurchasePaymentDialog extends BaseDialog implements DatePickerClass
     @BindView(R.id.mTextViewNoOfDays)
     AppCompatTextView mTextViewNoOfDays;
     private Date paymentDate, purchaseDate;
-    //private SupplierPurchaseListRes.ResultBean purchaseObject;
-    private final int OFFERS_DAYS = 10;
     private OnPaymentDone onPaymentDone;
     private int interestDays = 0;
     private int numberOfDaysInMonth = 30;
     private String dateString = "",objectId="",flag="";
+
+    public PurchasePaymentDialog(Context context, boolean isOutSideTouch, boolean isCancelable, int layoutId) {
+        super(context, isOutSideTouch, isCancelable, layoutId);
+    }
 
     @Override
     public void onFocusChange(View view, boolean b) {
@@ -84,16 +80,8 @@ public class PurchasePaymentDialog extends BaseDialog implements DatePickerClass
 
         if (interestDays > 0) {
             interestAmt = ((paidAmount * rateOfInter * interestDays) / (numberOfDaysInMonth * 100.f));
-            mEditTextInterestAmt.setText(Utils.onStringFormat(String.valueOf(interestAmt)));
+            mEditTextInterestAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(interestAmt)));
         }
-    }
-
-    public interface OnPaymentDone {
-        public void onPaymentDoneSuccess();
-    }
-
-    public PurchasePaymentDialog(Context context, boolean isOutSideTouch, boolean isCancelable, int layoutId) {
-        super(context, isOutSideTouch, isCancelable, layoutId);
     }
 
     @Override
@@ -101,7 +89,7 @@ public class PurchasePaymentDialog extends BaseDialog implements DatePickerClass
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dilaog_purchase_payment);
         ButterKnife.bind(this);
-        purchaseDate = Utils.onConvertStringToDate(dateString, ConstantValues.API_DATE_FORMAT);
+        purchaseDate = Utils.onConvertStringToDate(dateString, AppConstant.API_DATE_FORMAT);
         mEditTextPaymentAmt.setOnFocusChangeListener(this);
         mEditTextInterestRate.setOnFocusChangeListener(this);
     }
@@ -111,16 +99,16 @@ public class PurchasePaymentDialog extends BaseDialog implements DatePickerClass
         switch (view.getId()) {
 
             case R.id.mButtonDatePicker:
-                Utils.onHideSoftKeyBoard(mContext, mEditTextPaymentAmt);
+                Utils.onHideSoftKeyBoard(mBaseActivity, mEditTextPaymentAmt);
                 if (purchaseDate == null) {
-                    Toast.makeText(mContext, "Purchase Date Can't Be Null", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mBaseActivity, "Purchase Date Can't Be Null", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                DatePickerClass.showDatePicker(DatePickerClass.PAYMENT_DATE, this, (AppCompatActivity) mContext, ConstantValues.API_DATE_FORMAT);
+                DatePickerClass.showDatePicker(mBaseActivity, DatePickerClass.PAYMENT_DATE, this, AppConstant.API_DATE_FORMAT);
                 break;
 
             case R.id.mButtonPayment:
-                Utils.onHideSoftKeyBoard(mContext, mEditTextPaymentAmt);
+                Utils.onHideSoftKeyBoard(mBaseActivity, mEditTextPaymentAmt);
                 goForPayment();
                 break;
         }
@@ -129,17 +117,17 @@ public class PurchasePaymentDialog extends BaseDialog implements DatePickerClass
     private void goForPayment() {
 
         if (mEditTextPaymentAmt.getText().toString().isEmpty()) {
-            Toast.makeText(mContext, "Please Enter Payment Amount", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, "Please Enter Payment Amount", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (mEditTextInterestRate.getText().toString().isEmpty()) {
-            Toast.makeText(mContext, "Rate Of Interest Can't Be Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, "Rate Of Interest Can't Be Empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (mEditTextInterestAmt.getText().toString().isEmpty()) {
-            Toast.makeText(mContext, "Interest Amt Can't Be Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, "Interest Amt Can't Be Empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -149,12 +137,12 @@ public class PurchasePaymentDialog extends BaseDialog implements DatePickerClass
 
         if (interestDays > 0) {
             interestAmt = ((paidAmount * rateOfInter * interestDays) / (numberOfDaysInMonth * 100.f));
-            mEditTextInterestAmt.setText(Utils.onStringFormat(String.valueOf(interestAmt)));
+            mEditTextInterestAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(interestAmt)));
         }
 
         SupplierPurchasePaymentReq purchasePaymentReqModel = new SupplierPurchasePaymentReq();
         purchasePaymentReqModel.setAmount(mEditTextPaymentAmt.getText().toString());
-        purchasePaymentReqModel.setDate(Utils.onConvertDateToString(paymentDate.getTime(), ConstantValues.API_DATE_FORMAT));
+        purchasePaymentReqModel.setDate(Utils.getDateString(paymentDate.getTime(), AppConstant.API_DATE_FORMAT));
         purchasePaymentReqModel.setFlag(flag);
         purchasePaymentReqModel.setId(objectId);
         purchasePaymentReqModel.setInterestAmt(String.valueOf(interestAmt));
@@ -167,7 +155,7 @@ public class PurchasePaymentDialog extends BaseDialog implements DatePickerClass
     private void showAlertDialogWithOption(final SupplierPurchasePaymentReq purchasePaymentReqModel) {
         Gson h = new Gson();
         Log.d("PurchasePaymentDialog", h.toJson(purchasePaymentReqModel));
-        MyAlertDialog.onShowAlertDialog(mContext, "Continue For Payment", "Continue", "Leave", true, new OnAlertDialogCallBack() {
+        /*MyAlertDialog.onShowAlertDialog(mBaseActivity, "Continue For Payment", "Continue", "Leave", new OnAlertDialogCallBack() {
             @Override
             public void onNegative(DialogInterface dialogInterface, int i) {
 
@@ -175,26 +163,26 @@ public class PurchasePaymentDialog extends BaseDialog implements DatePickerClass
 
             @Override
             public void onPositive(DialogInterface dialogInterface, int i) {
-                getmRunningActivity().apiEnqueueObject = RetrofitWebService.getInstance().getInterface().doPurchase(purchasePaymentReqModel);
-                getmRunningActivity().apiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>((AppCompatActivity) mContext, true) {
+                getBaseActivity().mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().doPurchase(purchasePaymentReqModel);
+                getBaseActivity().mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>((AppCompatActivity) mBaseActivity, true) {
 
                     @Override
-                    public void yesCall(EmptyResponse response, ParentActivity weakRef) {
-                        if (VerifyResponse.isResponseOk(response)) {
-                            Toast.makeText(weakRef, "Payment Done SuccessFully", Toast.LENGTH_SHORT).show();
+                    public void onSuccess(EmptyResponse pResponse, BaseActivity pBaseActivity) {
+                        if (ResponseVerification.isResponseOk(pResponse)) {
+                            Toast.makeText(pBaseActivity, "Payment Done SuccessFully", Toast.LENGTH_SHORT).show();
                             dismiss();
                             onPaymentDone.onPaymentDoneSuccess();
                         } else
-                            Toast.makeText(mContext, response.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mBaseActivity, pResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void noCall(Throwable error) {
+                    public void onFailure(String pErrorMsg) {
 
                     }
                 });
             }
-        });
+        });*/
     }
 
     @Override
@@ -205,7 +193,7 @@ public class PurchasePaymentDialog extends BaseDialog implements DatePickerClass
 
         if (paymentDate.before(purchaseDate)) {
             paymentDate = null;
-            Toast.makeText(mContext, "Payment Date Must Be Equals or Greater Of Purchasing Date", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, "Payment Date Must Be Equals or Greater Of Purchasing Date", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -230,15 +218,19 @@ public class PurchasePaymentDialog extends BaseDialog implements DatePickerClass
         this.onPaymentDone = onPaymentDone;
         this.dateString    = purchaseObject.getPurchaseDate();
         this.objectId      = purchaseObject.getPurchaseId();
-        this.flag          = ConstantValues.PURCHASE_PAYMENT;
+        this.flag = AppConstant.DELETE_PURCHASE;
         show();
     }
 
-    public void show(SupplierOrderListRes.ResultBean soldObject, OnPaymentDone onPaymentDone) {
+    public void show(SupplierOrderListResponse.Order soldObject, OnPaymentDone onPaymentDone) {
         this.onPaymentDone = onPaymentDone;
         this.dateString    = soldObject.getOrderDate();
         this.objectId      = soldObject.getOrderId();
-        this.flag          = ConstantValues.ORDER_PAYMENT;
+        this.flag = AppConstant.DELETE_ORDER;
         show();
+    }
+
+    public interface OnPaymentDone {
+        void onPaymentDoneSuccess();
     }
 }

@@ -16,52 +16,50 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base_package.ParentActivity;
-import ig.com.digitalmandi.beans.request.supplier.RegistrationReqModel;
-import ig.com.digitalmandi.beans.response.common.LoginResModel;
-import ig.com.digitalmandi.beans.response.supplier.SupplierListRes;
+import ig.com.digitalmandi.base_package.BaseActivity;
+import ig.com.digitalmandi.beans.request.supplier.RegistrationRequest;
+import ig.com.digitalmandi.beans.response.common.LoginResponse;
+import ig.com.digitalmandi.beans.response.supplier.SupplierListResponse;
 import ig.com.digitalmandi.dialogs.ImageDialog;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitConstant;
-import ig.com.digitalmandi.retrofit.RetrofitWebService;
-import ig.com.digitalmandi.services_parsing.Parsing;
+import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.toast.ToastMessage;
-import ig.com.digitalmandi.utils.ConstantValues;
+import ig.com.digitalmandi.utils.AppConstant;
+import ig.com.digitalmandi.utils.AppSharedPrefs;
 import ig.com.digitalmandi.utils.EditTextVerification;
-import ig.com.digitalmandi.utils.MyPrefrences;
 import ig.com.digitalmandi.utils.Utils;
 import retrofit2.Call;
 
-public class SupplierCustomerAddActivity extends ParentActivity implements ImageDialog.OnItemSelectedListener {
+public class SupplierCustomerAddActivity extends BaseActivity implements ImageDialog.OnItemSelectedListener {
 
-    @BindView(R.id.mEditTextName)
-    AppCompatEditText mEditTextName;
-    @BindView(R.id.mEditTextPhoneNumber)
-    AppCompatEditText mEditTextPhoneNumber;
-    @BindView(R.id.mEditTextEmail)
-    AppCompatEditText mEditTextEmail;
-    @BindView(R.id.mEditTextPassword)
-    AppCompatEditText mEditTextPassword;
-    @BindView(R.id.inputConfirmPassword)
-    AppCompatEditText mEditTextConfirmPassword;
-    @BindView(R.id.mButtonSignUp)
-    AppCompatButton mButtonSignUp;
-    Unbinder mUnbinder;
-    @BindView(R.id.mEditTextFirmName)
-    AppCompatEditText mEditTextFirmName;
-    @BindView(R.id.mEditTextTinNumber)
-    AppCompatEditText mEditTextTinNumber;
-    @BindView(R.id.mEditTextLandMark)
-    AppCompatEditText mEditTextLandMark;
-    @BindView(R.id.mEditTextAddress)
-    AppCompatEditText mEditTextAddress;
-    @BindView(R.id.mCircleImageViewUser)
-    CircleImageView mCircleImageViewUser;
-    private String[] permission  = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private String imageString64 = "";
-    Call<SupplierListRes> sellerResModelCall;
     private final int CAMERA_REQ_CODE = 100;
     private final int GALLERY_REQ_CODE = 101;
+    @BindView(R.id.layout_activity_sign_up_edt_name)
+    AppCompatEditText mEditTextName;
+    @BindView(R.id.layout_activity_sign_up_edt_phone)
+    AppCompatEditText mEditTextPhoneNumber;
+    @BindView(R.id.activity_login_edt_email_address)
+    AppCompatEditText mEditTextEmail;
+    @BindView(R.id.activity_login_edt_password)
+    AppCompatEditText mEditTextPassword;
+    @BindView(R.id.layout_activity_sign_up_edt_confirm_password)
+    AppCompatEditText mEditTextConfirmPassword;
+    @BindView(R.id.layout_activity_sign_up_btn_submit)
+    AppCompatButton mButtonSignUp;
+    Unbinder mUnbinder;
+    @BindView(R.id.layout_activity_sign_up_edt_firm_name)
+    AppCompatEditText mEditTextFirmName;
+    @BindView(R.id.layout_activity_sign_up_edt_tin_number)
+    AppCompatEditText mEditTextTinNumber;
+    @BindView(R.id.layout_activity_sign_up_edt_land_mark)
+    AppCompatEditText mEditTextLandMark;
+    @BindView(R.id.layout_activity_sign_up_edt_address)
+    AppCompatEditText mEditTextAddress;
+    @BindView(R.id.layout_activity_sign_up_btn_user_image)
+    CircleImageView mCircleImageViewUser;
+    Call<SupplierListResponse> sellerResModelCall;
+    private String[] permission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private String imageString64 = "";
     private ImageDialog mImageDialog;
 
     @Override
@@ -81,7 +79,7 @@ public class SupplierCustomerAddActivity extends ParentActivity implements Image
         super.onDestroy();
         mUnbinder.unbind();
 
-        if(sellerResModelCall != null)
+        if (sellerResModelCall != null)
             sellerResModelCall.cancel();
     }
 
@@ -105,39 +103,39 @@ public class SupplierCustomerAddActivity extends ParentActivity implements Image
         String phoneNo = mEditTextPhoneNumber.getText().toString();
 
 
-        RegistrationReqModel registrationReqModel = new RegistrationReqModel();
-        registrationReqModel.setUserName(name);
-        registrationReqModel.setUserPassword(Utils.onConvertIntoBase64(password));
-        registrationReqModel.setDeviceType(RetrofitConstant.ANDROID_DEVICE);
-        registrationReqModel.setDeviceId(Utils.getDeviceId(mRunningActivity));
-        registrationReqModel.setDeviceToken("xyz");
-        registrationReqModel.setUserAddress(address);
-        registrationReqModel.setUserFirmName(firmName);
-        registrationReqModel.setUserTinNumber(tinNumber);
-        registrationReqModel.setUserLandMark(landMark);
-        registrationReqModel.setUserEmailAddress(email);
-        registrationReqModel.setUserMobileNo(phoneNo);
-        registrationReqModel.setUserPicBase64(imageString64);
-        registrationReqModel.setUserType("2");
-        registrationReqModel.setSellerId(MyPrefrences.getStringPrefrences(ConstantValues.USER_SELLER_ID,mRunningActivity));
+        RegistrationRequest registrationRequest = new RegistrationRequest();
+        registrationRequest.setUserName(name);
+        registrationRequest.setUserPassword(Utils.getBase64String(password));
+        registrationRequest.setDeviceType(AppConstant.ANDROID_DEVICE);
+        registrationRequest.setDeviceId(Utils.getDeviceId(mBaseActivity));
+        registrationRequest.setDeviceToken("xyz");
+        registrationRequest.setUserAddress(address);
+        registrationRequest.setUserFirmName(firmName);
+        registrationRequest.setUserTinNumber(tinNumber);
+        registrationRequest.setUserLandMark(landMark);
+        registrationRequest.setUserEmailAddress(email);
+        registrationRequest.setUserMobileNo(phoneNo);
+        registrationRequest.setUserPicBase64(imageString64);
+        registrationRequest.setUserType("2");
+        registrationRequest.setSellerId(AppSharedPrefs.getInstance(mBaseActivity).getLoginUserModel().getSellerId());
 
 
-        apiEnqueueObject = RetrofitWebService.getInstance().getInterface().registerUser(registrationReqModel);
-        apiEnqueueObject.enqueue(new RetrofitCallBack<LoginResModel>(this,true) {
+        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().registerUser(registrationRequest);
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<LoginResponse>(this, true) {
             @Override
-            public void yesCall(LoginResModel response, ParentActivity weakRef) {
-                if (response.isSuccess() && response.getResponseCode() == 200 && response.getResult().size() > 0 && weakRef != null) {
-                    Parsing.parseLoginUserData(mRunningActivity, response.getResult().get(0));
-                    Toast.makeText(weakRef, R.string.successfully_registered, Toast.LENGTH_SHORT).show();
+            public void onSuccess(LoginResponse pResponse, BaseActivity pBaseActivity) {
+                if (pResponse.isSuccess() && pResponse.getResponseCode() == 200 && pResponse.getResult().size() > 0 && pBaseActivity != null) {
+                    //AppSharedPrefs.getInstance(mBaseActivity).s pResponse.getResult().get(0));
+                    Toast.makeText(pBaseActivity, R.string.successfully_registered, Toast.LENGTH_SHORT).show();
                     setResult(RESULT_OK, null);
                     finish();
                 } else
-                    Toast.makeText(weakRef, response.getResponseCode() + response.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(pBaseActivity, pResponse.getResponseCode() + pResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
-            public void noCall(Throwable error) {
+            public void onFailure(String pErrorMsg) {
                 onSubmitEnable();
             }
 
@@ -163,19 +161,19 @@ public class SupplierCustomerAddActivity extends ParentActivity implements Image
         String firmName = mEditTextFirmName.getText().toString();
         String phoneNo = mEditTextPhoneNumber.getText().toString();
 
-        if (!EditTextVerification.isPersonNameOk(name, (ParentActivity) mRunningActivity))
+        if (!EditTextVerification.isPersonNameOk(name, mBaseActivity))
             return false;
 
-        if (!EditTextVerification.isPhoneNoOk(phoneNo, (ParentActivity) mRunningActivity))
+        if (!EditTextVerification.isPhoneNoOk(phoneNo, mBaseActivity))
             return false;
 
-        if (!EditTextVerification.isEmailAddressOk(email, (ParentActivity) mRunningActivity))
+        if (!EditTextVerification.isEmailAddressOk(email, mBaseActivity))
             return false;
 
-        if (!EditTextVerification.isPasswordOk(password, (ParentActivity) mRunningActivity))
+        if (!EditTextVerification.isPasswordOk(password, mBaseActivity))
             return false;
 
-        if (!EditTextVerification.isPasswordOk(cPassword, (ParentActivity) mRunningActivity))
+        if (!EditTextVerification.isPasswordOk(cPassword, mBaseActivity))
             return false;
 
         if (!cPassword.equals(password)) {
@@ -183,32 +181,31 @@ public class SupplierCustomerAddActivity extends ParentActivity implements Image
             return false;
         }
 
-        if (!EditTextVerification.isTinNoOk(tinNumber, (ParentActivity) mRunningActivity))
+        if (!EditTextVerification.isTinNoOk(tinNumber, mBaseActivity))
             return false;
 
-        if (!EditTextVerification.isFirmOk(firmName, (ParentActivity) mRunningActivity))
-            return false;
-        return true;
+        return EditTextVerification.isFirmOk(firmName, mBaseActivity);
     }
 
-    @OnClick({R.id.mCircleImageViewUser, R.id.mButtonSignUp})
+    @OnClick({R.id.layout_activity_sign_up_btn_user_image, R.id.layout_activity_sign_up_btn_submit})
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.mCircleImageViewUser:
+            case R.id.layout_activity_sign_up_btn_user_image:
                 mImageDialog = new ImageDialog(this, this, mCircleImageViewUser.getWidth(), mCircleImageViewUser.getHeight());
-                mImageDialog.onShowDialog();
+                mImageDialog.show();
                 break;
 
-            case R.id.mButtonSignUp:
+            case R.id.layout_activity_sign_up_btn_submit:
                 signUpCode();
                 break;
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == ImageDialog.CAMERA_REQ_CODE || resultCode == ImageDialog.GALLERY_REQ_CODE) {
+        if (resultCode == ImageDialog.REQUEST_CODE_IMAGE) {
             mImageDialog.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -225,8 +222,8 @@ public class SupplierCustomerAddActivity extends ParentActivity implements Image
     }
 
     @Override
-    public void onImageReceived(Bitmap bitmap) {
-        imageString64 = Utils.getStringImage(bitmap);
-        mCircleImageViewUser.setImageBitmap(bitmap);
+    public void onImageReceived(Bitmap pBitmap) {
+        imageString64 = Utils.getStringImage(pBitmap);
+        mCircleImageViewUser.setImageBitmap(pBitmap);
     }
 }

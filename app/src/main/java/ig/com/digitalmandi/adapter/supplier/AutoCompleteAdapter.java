@@ -76,8 +76,8 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
         holder.rowAutoCompletePersonName.setText(object.getNameOfPerson());
         holder.rowAutoCompleteDate.setText(object.getPurchaseDate());
         holder.rowAutoCompleteProductName.setText(object.getProductName());
-        holder.rowAutoCompleteProductQty.setText(Utils.onStringFormat(object.onGetLeftQty()));
-        holder.rowAutoCompleteProductPrice.setText(Utils.onStringFormat(object.getPurchaseAmtAcc100Kg()));
+        holder.rowAutoCompleteProductQty.setText(Utils.formatStringUpTo2Precision(object.onGetLeftQty()));
+        holder.rowAutoCompleteProductPrice.setText(Utils.formatStringUpTo2Precision(object.getPurchaseAmtAcc100Kg()));
         holder.parent.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -93,6 +93,25 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
     @Override
     public Filter getFilter() {
         return filter;
+    }
+
+    static class ViewHolder {
+        View parent;
+        @BindView(R.id.rowAutoCompletePersonName)
+        AppCompatTextView rowAutoCompletePersonName;
+        @BindView(R.id.rowAutoCompleteDate)
+        AppCompatTextView rowAutoCompleteDate;
+        @BindView(R.id.rowAutoCompleteProductName)
+        AppCompatTextView rowAutoCompleteProductName;
+        @BindView(R.id.rowAutoCompleteProductQty)
+        AppCompatTextView rowAutoCompleteProductQty;
+        @BindView(R.id.rowAutoCompleteProductPrice)
+        AppCompatTextView rowAutoCompleteProductPrice;
+
+        ViewHolder(View view) {
+            parent = view;
+            ButterKnife.bind(this, view);
+        }
     }
 
     /**
@@ -126,25 +145,6 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
             } else {
                 notifyDataSetInvalidated();
             }
-        }
-    }
-
-    static class ViewHolder {
-        View parent;
-        @BindView(R.id.rowAutoCompletePersonName)
-        AppCompatTextView rowAutoCompletePersonName;
-        @BindView(R.id.rowAutoCompleteDate)
-        AppCompatTextView rowAutoCompleteDate;
-        @BindView(R.id.rowAutoCompleteProductName)
-        AppCompatTextView rowAutoCompleteProductName;
-        @BindView(R.id.rowAutoCompleteProductQty)
-        AppCompatTextView rowAutoCompleteProductQty;
-        @BindView(R.id.rowAutoCompleteProductPrice)
-        AppCompatTextView rowAutoCompleteProductPrice;
-
-        ViewHolder(View view) {
-            parent = view;
-            ButterKnife.bind(this, view);
         }
     }
 }

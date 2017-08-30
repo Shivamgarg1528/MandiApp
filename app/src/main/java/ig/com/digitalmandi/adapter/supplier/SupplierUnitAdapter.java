@@ -2,48 +2,31 @@ package ig.com.digitalmandi.adapter.supplier;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
-import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base_package.ParentActivity;
-import ig.com.digitalmandi.beans.response.supplier.SupplierUnitListRes;
-import ig.com.digitalmandi.interfaces.OnItemClickListeners;
-import ig.com.digitalmandi.utils.ConstantValues;
-
-/**
- * Created by Shivam.Garg on 12-10-2016.
- */
+import ig.com.digitalmandi.base_package.BaseActivity;
+import ig.com.digitalmandi.beans.response.supplier.SellerUnitList;
+import ig.com.digitalmandi.interfaces.EventListener;
+import ig.com.digitalmandi.utils.AppConstant;
 
 public class SupplierUnitAdapter extends RecyclerView.Adapter<SupplierUnitAdapter.ViewHolder> {
 
-    private List<SupplierUnitListRes.ResultBean> unitList;
-    private ParentActivity mHostActivity;
-    private OnItemClickListeners listener;
+    private BaseActivity mBaseActivity;
+    private List<SellerUnitList.Unit> mDataList;
+    private EventListener mListener;
 
-    public SupplierUnitAdapter(List<SupplierUnitListRes.ResultBean> unitList, AppCompatActivity mHostActivity, OnItemClickListeners listener) {
-        this.unitList      = unitList;
-        this.mHostActivity = (ParentActivity) mHostActivity;
-        this.listener      = listener;
-    }
-
-    public void notifyData(TextView emptyView) {
-        if(unitList.isEmpty())
-            emptyView.setVisibility(View.VISIBLE);
-        else
-            emptyView.setVisibility(View.GONE);
-        notifyDataSetChanged();
+    public SupplierUnitAdapter(List<SellerUnitList.Unit> pDataList, BaseActivity pBaseActivity, EventListener pListener) {
+        this.mDataList = pDataList;
+        this.mBaseActivity = pBaseActivity;
+        this.mListener = pListener;
     }
 
     @Override
@@ -53,67 +36,69 @@ public class SupplierUnitAdapter extends RecyclerView.Adapter<SupplierUnitAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        SellerUnitList.Unit data = mDataList.get(position);
+        holder.mTextViewUnitName.setText(data.getUnitName());
+        holder.mTextViewUnitInfo.setText(data.getKgValue());
+        holder.mImageViewStatus.setImageResource(AppConstant.ENABLE.equalsIgnoreCase(data.getUnitStatus()) ? R.drawable.ic_checkbox_checked : R.drawable.ic_checkbox_unchecked);
 
-        SupplierUnitListRes.ResultBean unit = unitList.get(position);
-        holder.mTextViewUnitName  .setText(unit.getUnitName());
-        holder.mTextViewUnitInfo  .setText(unit.getKgValue());
-        holder.mImageViewStatus   .setImageResource(unit.getUnitStatus().equalsIgnoreCase(ConstantValues.ENABLE) ? R.drawable.ic_checkbox_checked : R.drawable.ic_checkbox_unchecked);
-
-        holder.mParentView.setOnClickListener(new View.OnClickListener() {
+        holder.mParentView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(final View view) {
-                view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
-                final SupplierUnitListRes.ResultBean unit = unitList.get(position);
-                CharSequence status = unit.getUnitStatus().equalsIgnoreCase(ConstantValues.ENABLE)?"Disable":"Enable";
+            public boolean onLongClick(final View view) {
 
-                CharSequence array[] = {"Delete","Edit",status};
+                final SellerUnitList.Unit data = mDataList.get(holder.getAdapterPosition());
+                CharSequence dataStatus = AppConstant.ENABLE.equalsIgnoreCase(data.getUnitStatus()) ? mBaseActivity.getString(R.string.string_disable) : mBaseActivity.getString(R.string.string_enable);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(mHostActivity);
-                builder.setTitle("Select Operation");
-                builder.setItems(array, new DialogInterface.OnClickListener() {
+                CharSequence[] charSequenceArray = {
+                        mBaseActivity.getString(R.string.string_delete),
+                        mBaseActivity.getString(R.string.string_edit),
+                        dataStatus};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(mBaseActivity);
+                builder.setTitle(R.string.string_select_operation);
+                builder.setItems(charSequenceArray, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int item) {
                         switch (item) {
 
                             case 0:
-                                listener.onItemDelete(view,unit);
+                                mListener.onEvent(AppConstant.OPERATION_DELETE, data);
                                 break;
 
                             case 1:
-                                listener.onItemEdit(view,unit);
+                                mListener.onEvent(AppConstant.OPERATION_EDIT, data);
                                 break;
 
                             case 2:
-                                listener.onItemChangeStatus(view,unit);
+                                mListener.onEvent(AppConstant.OPERATION_STATUS_MODIFY, data);
                                 break;
                         }
                     }
                 });
                 builder.show();
+                return true;
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return unitList.size();
+        return mDataList.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.mTextViewUnitName)
-        AppCompatTextView mTextViewUnitName;
-        @BindView(R.id.mTextViewUnitInfo)
-        AppCompatTextView mTextViewUnitInfo;
         View mParentView;
-        @BindView(R.id.mImageViewStatus)
+        AppCompatTextView mTextViewUnitName;
+        AppCompatTextView mTextViewUnitInfo;
         AppCompatImageView mImageViewStatus;
 
         ViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this, view);
             mParentView = view;
+            mTextViewUnitName = (AppCompatTextView) mParentView.findViewById(R.id.row_layout_unit_cardview_txtview_unit_name);
+            mTextViewUnitInfo = (AppCompatTextView) mParentView.findViewById(R.id.row_layout_unit_cardview_txtview_unit_value);
+            mImageViewStatus = (AppCompatImageView) mParentView.findViewById(R.id.row_layout_unit_card_view_img_status);
         }
     }
 }

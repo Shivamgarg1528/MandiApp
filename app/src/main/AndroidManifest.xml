@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -32,14 +33,19 @@
         </activity>
 
         <activity android:name=".activity.common.LoginActivity" />
-        <activity android:name=".activity.common.SignUpActivity" android:theme="@style/AppTheme.Dark" android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activity.common.SyncActivity"   android:label="Syncing" />
+        <activity
+            android:name=".activity.common.SignUpActivity"
+            android:theme="@style/AppTheme.Dark"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activity.common.SyncActivity" />
         <activity android:name=".activity.supplier.SupplierHomeActivity" />
         <activity android:name=".activity.supplier.SupplierCustomerOrderActivity" />
-        <activity android:name=".activity.supplier.SupplierCustomerAddActivity" android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activity.supplier.SupplierCustomerAddActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.supplier.SupplierProductModifyActivity" />
-        <activity android:name=".activity.supplier.SupplierUnitModifyActivity" />
-        <activity android:name=".camera.PhotoIntentActivity" />
+        <activity android:name=".activity.supplier.SellerUnitModifyActivity" />
+
         <activity android:name=".activity.supplier.SupplierPurchaseActivity" />
         <activity android:name=".activity.supplier.SupplierPurchasePaymentActivity" />
         <activity android:name=".activity.customer.CustomerActivity" />

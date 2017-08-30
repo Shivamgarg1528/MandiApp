@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite"
     android:orientation="vertical">
     <include layout="@layout/common_tool_bar" />
@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:background="@drawable/xml_cornor_signup_bg">
+            android:background="@drawable/xml_corner_sign_up_bg">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                     android:textStyle="bold" />
 
                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/mCircleImageViewUser"
+                    android:id="@+id/layout_activity_sign_up_btn_user_image"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_alignParentRight="true"
@@ -68,145 +68,145 @@
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:layout_height="wrap_content">
+                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
                             <android.support.v7.widget.AppCompatEditText
-                                android:id="@+id/mEditTextName"
+                                android:id="@+id/layout_activity_sign_up_edt_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="22sp"
                                 android:hint="@string/name"
-                                android:inputType="textPersonName" />
+                                android:inputType="textPersonName"
+                                android:textSize="22sp" />
 
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:layout_height="wrap_content">
+                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
                             <android.support.v7.widget.AppCompatEditText
-                                android:id="@+id/mEditTextPhoneNumber"
+                                android:id="@+id/layout_activity_sign_up_edt_phone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="22sp"
                                 android:hint="@string/phone_number"
                                 android:inputType="phone"
-                                android:maxLength="10" />
+                                android:maxLength="10"
+                                android:textSize="22sp" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:layout_height="wrap_content">
+                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
                             <android.support.v7.widget.AppCompatEditText
-                                android:id="@+id/mEditTextEmail"
+                                android:id="@+id/activity_login_edt_email_address"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="22sp"
                                 android:hint="@string/email_address"
-                                android:inputType="textEmailAddress" />
+                                android:inputType="textEmailAddress"
+                                android:textSize="22sp" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:layout_height="wrap_content">
+                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
                             <android.support.v7.widget.AppCompatEditText
-                                android:id="@+id/mEditTextPassword"
+                                android:id="@+id/activity_login_edt_password"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="22sp"
                                 android:hint="@string/reg_password"
-                                android:inputType="textPassword" />
+                                android:inputType="textPassword"
+                                android:textSize="22sp" />
                         </android.support.design.widget.TextInputLayout>
 
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:layout_height="wrap_content">
+                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
                             <android.support.v7.widget.AppCompatEditText
-                                android:id="@+id/inputConfirmPassword"
+                                android:id="@+id/layout_activity_sign_up_edt_confirm_password"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="22sp"
                                 android:hint="@string/confirm_password"
-                                android:inputType="textPassword" />
+                                android:inputType="textPassword"
+                                android:textSize="22sp" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:layout_height="wrap_content">
+                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
                             <android.support.v7.widget.AppCompatEditText
-                                android:id="@+id/mEditTextFirmName"
+                                android:id="@+id/layout_activity_sign_up_edt_firm_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="22sp"
                                 android:hint="@string/firm_name"
-                                android:inputType="text" />
+                                android:inputType="text"
+                                android:textSize="22sp" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:layout_height="wrap_content">
+                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
                             <android.support.v7.widget.AppCompatEditText
-                                android:id="@+id/mEditTextTinNumber"
+                                android:id="@+id/layout_activity_sign_up_edt_tin_number"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="22sp"
                                 android:hint="@string/tin_number"
-                                android:inputType="number" />
+                                android:inputType="number"
+                                android:textSize="22sp" />
                         </android.support.design.widget.TextInputLayout>
 
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:layout_height="wrap_content">
+                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
                             <android.support.v7.widget.AppCompatEditText
-                                android:id="@+id/mEditTextLandMark"
+                                android:id="@+id/layout_activity_sign_up_edt_land_mark"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="22sp"
                                 android:hint="@string/landmark"
-                                android:inputType="text" />
+                                android:inputType="text"
+                                android:textSize="22sp" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:layout_height="wrap_content">
+                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
                             <android.support.v7.widget.AppCompatEditText
-                                android:id="@+id/mEditTextAddress"
+                                android:id="@+id/layout_activity_sign_up_edt_address"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="22sp"
                                 android:hint="@string/addresss"
-                                android:inputType="text" />
+                                android:inputType="text"
+                                android:textSize="22sp" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.v7.widget.AppCompatButton
-                            android:id="@+id/mButtonSignUp"
+                            android:id="@+id/layout_activity_sign_up_btn_submit"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"

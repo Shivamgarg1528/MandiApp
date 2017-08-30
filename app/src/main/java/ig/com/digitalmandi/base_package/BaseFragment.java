@@ -9,40 +9,43 @@ import android.view.WindowManager;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by shiva on 10/11/2016.
- */
+import ig.com.digitalmandi.beans.response.common.LoginResponse;
+import ig.com.digitalmandi.utils.AppSharedPrefs;
 
 public abstract class BaseFragment<T> extends Fragment {
 
-    protected ParentActivity mHostActivity;
+    protected BaseActivity mBaseActivity;
     protected View mRootView;
 
-    protected List<T> dataList     = new ArrayList<>();
-    protected List<T> backUpList   = new ArrayList<>();
+    protected List<T> mDataList = new ArrayList<>(0);
+    protected List<T> mBackUpList = new ArrayList<>(0);
+    protected LoginResponse.LoginUser mLoginUser;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if(context instanceof AppCompatActivity)
-            mHostActivity = (ParentActivity) context;
+        if (context instanceof AppCompatActivity)
+            mBaseActivity = (BaseActivity) context;
 
         setRetainInstance(true);
         setHasOptionsMenu(true);
+        mLoginUser = AppSharedPrefs.getInstance(mBaseActivity).getLoginUserModel();
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
+    public void onDetach() {
+        if (mBaseActivity != null && mBaseActivity.mApiEnqueueObject != null) {
+            mBaseActivity.mApiEnqueueObject.cancel();
+        }
+        super.onDetach();
     }
 
-    protected void disableTouchEvent(){
-        mHostActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    protected void disableTouchEvent() {
+        mBaseActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    protected void enableTouchEvent(){
-        mHostActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    protected void enableTouchEvent() {
+        mBaseActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
-
 }

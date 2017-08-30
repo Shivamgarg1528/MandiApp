@@ -55,12 +55,12 @@ public class AddItemListAdapter extends RecyclerView.Adapter<AddItemListAdapter.
     public void onBindViewHolder(AddItemListAdapter.ViewHolder holder, final int position) {
         SupplierOrderAddReq.OrderDetailsBean purchaseObject = purchaseList.get(position);
         holder.rowOrderDetailProductName.setText(purchaseObject.getProductName());
-        holder.rowOrderDetailProductUnit.setText(Utils.onStringFormat(purchaseObject.getUnitValue()));
+        holder.rowOrderDetailProductUnit.setText(Utils.formatStringUpTo2Precision(purchaseObject.getUnitValue()));
         holder.rowOrderDetailProductQty.setText(purchaseObject.getQty());
-        holder.rowOrderDetailProductPrice.setText(Utils.onStringFormat(purchaseObject.getPrice()));
-        holder.rowOrderDetailTotalAmount.setText(Utils.onStringFormat(purchaseObject.getTotalPrice()));
-        holder.rowOrderDetailQtyInKg.setText(Utils.onStringFormat(purchaseObject.getQtyInKg()) + "(KG)");
-        holder.rowOrderDetailQtyInQuintal.setText(Utils.onStringFormat(String.valueOf(Float.parseFloat(purchaseObject.getQtyInKg()) * .01f)) + "(Q)");
+        holder.rowOrderDetailProductPrice.setText(Utils.formatStringUpTo2Precision(purchaseObject.getPrice()));
+        holder.rowOrderDetailTotalAmount.setText(Utils.formatStringUpTo2Precision(purchaseObject.getTotalPrice()));
+        holder.rowOrderDetailQtyInKg.setText(Utils.formatStringUpTo2Precision(purchaseObject.getQtyInKg()) + "(KG)");
+        holder.rowOrderDetailQtyInQuintal.setText(Utils.formatStringUpTo2Precision(String.valueOf(Float.parseFloat(purchaseObject.getQtyInKg()) * .01f)) + "(Q)");
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

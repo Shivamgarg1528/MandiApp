@@ -1,73 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginLeft="13dp"
         android:layout_height="68dp"
+        android:layout_marginStart="13dp"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_marginTop="9dp"
-            android:layout_marginBottom="9dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/mTextViewCustomerImage"
+            android:id="@+id/row_layout_seller_customer_iv_customer_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:civ_border_width="2dp"
+            android:layout_gravity="center_vertical"
             android:src="@drawable/ic_user_454545"
             app:civ_border_color="@android:color/black"
-            android:layout_gravity="center_vertical"
-            />
+            app:civ_border_width="1dp" />
 
         <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
             android:gravity="center_vertical"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/mTextViewCustomerName"
+                android:id="@+id/row_layout_seller_customer_tv_customer_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:textColor="@color/rowParentColor"
                 android:maxLines="1"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:padding="2dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/rowParentColor" />
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/mTextViewCustomerFirmName"
+                android:id="@+id/row_layout_seller_customer_tv_customer_firm_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
                 android:maxLines="1"
-                android:textColor="@color/rowChildColor"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:padding="2dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/rowChildColor" />
 
         </LinearLayout>
 
         <android.support.v7.widget.AppCompatImageView
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:padding="10dp"
-            android:src="@drawable/ic_arrow_right"/>
+            android:src="@drawable/ic_arrow_right" />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="5dp"
-        android:background="@color/lineColor"/>
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="80dp"
+        android:background="@color/lineColor" />
 
 </LinearLayout>
 

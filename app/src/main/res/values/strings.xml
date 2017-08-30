@@ -93,11 +93,6 @@
     <string name="addresss">Address</string>
     <string name="submit">Submit</string>
     <string name="successfully_registered">SuccessFully Registered</string>
-    <string-array name="spinnerItems">
-        <item>Select Any Option...</item>
-        <item>Supplier</item>
-        <item>Customer</item>
-    </string-array>
     <string name="title_activity_supplier_home">SupplierHomeActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -131,10 +126,9 @@
     <string name="qty_must_be_greater_than_zero">Qty Must Be Greater Than Zero</string>
     <string name="add_new_product">Add New Product</string>
     <string name="update_product_string">"Update Product ( %s )"</string>
-    <string name="failed_to_logout_uer">Failed To Logout User</string>
+    <string name="unsuccesfully_logout">Failed To Logout User</string>
     <string name="successfully_logout">SuccessFully Logout</string>
-    <string name="please_contact_app_admin_for_better_support">Please Contact App Admin For Better Support For ( %s )</string>
-    <string name="signup_string">SignUp</string>
+
     <string name="login_title">Login</string>
     <string name="add_new_customer">Add New Customer</string>
     <string name="title_activity_main2_activitya">Main2Activitya</string>
@@ -144,5 +138,115 @@
     <string name="interest_amt">Interest Amt</string>
     <string name="is_interest_also_paid">Interest Paid ?</string>
     <string name="payment_history_title">Payment History ( %s )</string>
+
     <!-- Register end-->
+
+    <!-- New String-->
+
+    <!--Splash-->
+    <string name="string_dm">DM</string>
+
+    <!-- Login-->
+    <string name="string_enter_valid_email_address">Please Enter Valid Email Address</string>
+    <string name="string_login_failed">Login Failed. Please Check Your Credential</string>
+    <string name="string_password_at_least_six_char_long">Password At-Least Six Character Long</string>
+
+    <!--Sign Up-->
+    <string name="string_sign_up">SignUp</string>
+    <string name="string_enter_tin_number">Please Enter Firm Tin Number</string>
+    <string name="string_enter_valid_phone_number">Please Enter Valid Phone Number</string>
+    <string name="string_name_at_least_three_char_long">Name At-Least Three Character Long</string>
+    <string name="string_password_match_failed">Password Match Failed</string>
+    <string name="string_please_enter_firm_name">Please Enter Firm Name</string>
+    <string name="string_successfully_registered">SuccessFully Registered</string>
+    <string name="string_failed_to_register_new_user">Failed To Registered New User</string>
+    <string name="string_please_select_appropriate_customer_type">Please Select Appropriate Customer Type From Drop Down</string>
+    <string name="string_please_select_any_supplier_from_drop_down">Please Select Any Supplier From Drop Down</string>
+    <string name="string_please_select_any_supplier">Please Select Any Supplier…</string>
+    <string-array name="string_array_users">
+        <item>Select Any User…</item>
+        <item>Supplier</item>
+        <item>Customer</item>
+    </string-array>
+
+    <!--Sync Activity-->
+    <string name="sync_in_progress_please_wait">Syncing in progress\nPlease Wait…</string>
+    <string name="string_syncing">Syncing</string>
+    <string name="string_sync_completed">Syncing Completed</string>
+
+    <!--Error Alert Message-->
+    <string name="please_contact_app_admin_for_better_support">Please Contact App Admin For Better Support For ( %s )</string>
+    <string name="string_password_has_been_sent">Password Has Been Sent On Your Registered Email Address</string>
+    <string name="already_have_an_account_login">Already Have An Account ? Login</string>
+    <string name="string_camera">CAMERA</string>
+    <string name="string_please_allow_camera_to_take_picture">Please Allow Camera To Take Picture</string>
+
+    <!-- Operations Text-->
+    <string name="string_search">Search</string>
+    <string name="string_sort_alphabetically">Sort Alphabetically</string>
+    <string name="string_report">Report</string>
+    <string name="string_add">Add</string>
+    <string name="string_refresh">Refresh</string>
+    <string name="string_disable">Disable</string>
+    <string name="string_enable">Enable</string>
+    <string name="string_delete">Delete</string>
+    <string name="string_edit">Edit</string>
+    <string name="string_select_operation">Select Operation</string>
+    <string name="string_continue">Continue</string>
+    <string name="string_leave">Leave</string>
+    <string name="string_no_modification_done">No Modification Done</string>
+    <string name="string_error_in_on_response">Error In onResponse</string>
+    <string name="string_error_in_on_failure">Error In onFailure</string>
+    <string name="go">Go</string>
+
+    <!-- Unit Fragment-->
+    <string name="string_no_unit_found_please_add_new_unit">No Unit Found\nPlease Add New Unit</string>
+    <string name="string_continue_to_delete_unit">Continue, To Delete Unit!</string>
+    <string name="string_sorry_you_cant_delete_this_unit">Sorry You can\'t delete this unit</string>
+
+    <!-- Product Fragment-->
+    <string name="string_no_product_found_please_add_new_product">No Product Found\nPlease Add New Product</string>
+    <string name="string_continue_to_delete_product">Continue, To Delete Product!</string>
+    <string name="string_sorry_you_cant_delete_this_product">Sorry You can\'t delete this product</string>
+
+    <!--Customer Fragment-->
+    <string name="string_no_customer_found_please_add_new_customer">No Customer Found\nPlease Add New Customer</string>
+    <string name="string_customer_orders">\'s Orders</string>
+
+    <!-- Runtime Permission text-->
+    <string name="string_allow_customer_to_make_a_call">Allow Access To Make Call</string>
+    <string name="string_allow_external_storage_access">Allow Access External Storage For Reading And Writing Data</string>
+
+    <!-- Customer Order's Activity-->
+    <string name="string_no_customer_info_found">No Customer Information Found</string>
+    <string name="string_no_order_found_please_add_new_order">No Order Found\nPlease Add New Order</string>
+    <string name="string_start_date">Start Date</string>
+    <string name="string_end_date">End Date</string>
+    <string name="string_reset_filter">Reset Filter</string>
+    <string name="string_driver_mobile">(M)</string>
+    <string name="string_payment_history">Payment History</string>
+    <string name="string_order_details">Order Details</string>
+    <string name="string_bill_print">Bill Print</string>
+    <string name="string_sub_total">Sub Total</string>
+    <string name="string_expenses">Expenses</string>
+    <string name="string_labour_cost">Labour Cost</string>
+    <string name="string_bardana_cost">Bardana Cost</string>
+    <string name="string_total">Total</string>
+    <string name="string_vehicle_cost">Vehicle Cost</string>
+    <string name="string_no_orders_found">No Orders Found</string>
+    <string name="string_new_order">New Order</string>
+    <string name="string_please_select_start_date">Please Select Start Date</string>
+    <string name="string_please_select_end_date">Please Select End Date</string>
+    <string name="string_start_date_must_less_than_end_date">Start Date Must Be Greater Or Equals To End Date</string>
+    <string name="string_please_enable_auto_date_time_from_setting">Please Enable Auto Date From Device</string>
+    <string name="string_reset_applied_filters">Reset Applied Filters</string>
+    <string name="string_failed_to_get_pdf_from_server">Failed To Get PDF From Server</string>
+    <string name="string_order_deleted_successfully">Order Deleted Successfully</string>
+    <string name="string_order_deleted_unsuccessfully">Sorry You Can\'t Delete This Order</string>
+    <string name="string_continue_to_delete_order">Continue,To Delete This Order!</string>
+
+    <!-- Order Details-->
+    <string name="string_order_id_details">Order (%s) Details</string>
+    <string name="string_no_order_details_found_please_try_again_later">No Order Details Found\nPlease Try Again Later</string>
+
 </resources>

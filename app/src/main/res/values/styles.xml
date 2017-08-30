@@ -43,21 +43,22 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="Custom" parent="android:Theme.DeviceDefault.Dialog">
-        <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
-        <item name="DialogTitleText">Please Wait..</item>
-        <item name="DialogSpotColor">@color/colorAccent</item>
-        <item name="DialogSpotCount">5</item>
-    </style>
 
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
-    <style name="myCoolDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="AlertDialog.Slide" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:gravity">center</item>
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+    </style>
+
+    <style name="AlertDialog.Transparent" parent="android:Theme.DeviceDefault.Dialog">
+        <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="DialogTitleText">Please Wait..</item>
+        <item name="DialogSpotColor">@color/colorAccent</item>
+        <item name="DialogSpotCount">5</item>
     </style>
 
 

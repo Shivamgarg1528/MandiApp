@@ -35,7 +35,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="50dp"
-            android:background="@drawable/xml_cornor_signup_bg">
+            android:background="@drawable/xml_corner_sign_up_bg">
 
 
             <ScrollView
@@ -247,8 +247,8 @@
                         android:layout_marginTop="6dp"
                         android:background="@drawable/selector_white_button"
                         android:gravity="center"
-                        android:text="Select Purchase Date"
                         android:padding="05sp"
+                        android:text="Select Purchase Date"
                         android:textColor="@drawable/selector_white_button_text"
                         android:textSize="23sp" />
 

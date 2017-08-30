@@ -1,89 +1,69 @@
 package ig.com.digitalmandi.activity.supplier;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.adapter.supplier.SupplierOrderDetailAdapter;
-import ig.com.digitalmandi.base_package.ParentActivity;
-import ig.com.digitalmandi.beans.request.supplier.SupplierCustomerListRes;
-import ig.com.digitalmandi.beans.request.supplier.SupplierOrderDetailListReq;
-import ig.com.digitalmandi.beans.response.supplier.SupplierOrderDetailListRes;
-import ig.com.digitalmandi.beans.response.supplier.SupplierOrderListRes;
+import ig.com.digitalmandi.base_package.BaseActivity;
+import ig.com.digitalmandi.beans.request.supplier.SupplierOrderDetailListRequest;
+import ig.com.digitalmandi.beans.response.supplier.SupplierOrderDetailListResponse;
+import ig.com.digitalmandi.beans.response.supplier.SupplierOrderListResponse;
+import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebService;
-import ig.com.digitalmandi.retrofit.VerifyResponse;
-import ig.com.digitalmandi.utils.ConstantValues;
+import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.utils.AppConstant;
 
-public class SupplierCustomerOrderDetailActivity extends ParentActivity {
+public class SupplierCustomerOrderDetailActivity extends BaseActivity<SupplierOrderDetailListResponse.OrderDetail> {
 
-    public static String CUSTOMER_OBJECT_KEY = "customerObject";
-    public static String ORDER_OBJECT_KEY = "orderObject";
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    @BindView(R.id.emptyTextView)
-    AppCompatTextView emptyTextView;
-    private SupplierCustomerListRes.ResultBean customerInfo;
-    private SupplierOrderListRes.ResultBean orderInfo;
     private SupplierOrderDetailAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, R.layout.activity_supplier_customer_order_detail);
-
-        if (mToolBar != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-
-        Intent intent = getIntent();
-        if (intent == null || (SupplierCustomerListRes.ResultBean) intent.getParcelableExtra(CUSTOMER_OBJECT_KEY) == null || (SupplierOrderListRes.ResultBean) intent.getParcelableExtra(ORDER_OBJECT_KEY) == null) {
-            Toast.makeText(mRunningActivity, "No Customer Information Found. Contact App Admin For Better Assistance", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-
-        customerInfo = (SupplierCustomerListRes.ResultBean) intent.getParcelableExtra(CUSTOMER_OBJECT_KEY);
-        orderInfo = (SupplierOrderListRes.ResultBean) intent.getParcelableExtra(ORDER_OBJECT_KEY);
-        setTitle("Order " + orderInfo.getOrderId() + " Details");
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_supplier_customer_order_detail);
         ButterKnife.bind(this);
+        setToolbar(true);
 
-        mAdapter = new SupplierOrderDetailAdapter(dataList, mRunningActivity);
-        emptyTextView.setText("No Order Details Found\n Please Try Again Later");
+        SupplierOrderListResponse.Order mOrderObj = (SupplierOrderListResponse.Order) getIntent().getSerializableExtra(AppConstant.KEY_OBJECT);
+        setTitle(String.format(getString(R.string.string_order_id_details), mOrderObj.getOrderId()));
+
+        mAdapter = new SupplierOrderDetailAdapter(mDataList);
+
+        final AppCompatTextView textViewEmpty = (AppCompatTextView) findViewById(R.id.emptyTextView);
+        textViewEmpty.setText(R.string.string_no_order_details_found_please_try_again_later);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-        fetchDataFromServer();
-    }
 
+        showOrHideProgressBar(true);
 
-    private void fetchDataFromServer() {
-        onShowOrHideBar(true);
-        SupplierOrderDetailListReq supplierOrderDetailListReq = new SupplierOrderDetailListReq();
-        supplierOrderDetailListReq.setFlag(ConstantValues.COLUMN_ORDER_ID);
-        supplierOrderDetailListReq.setId(orderInfo.getOrderId());
+        SupplierOrderDetailListRequest supplierOrderDetailListRequest = new SupplierOrderDetailListRequest();
+        supplierOrderDetailListRequest.setFlag(AppConstant.COLUMN_ORDER_ID);
+        supplierOrderDetailListRequest.setId(mOrderObj.getOrderId());
 
-        apiEnqueueObject = RetrofitWebService.getInstance().getInterface().orderDetailListOfAnyCustomer(supplierOrderDetailListReq);
-        apiEnqueueObject.enqueue(new RetrofitCallBack<SupplierOrderDetailListRes>(mRunningActivity, false) {
+        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().orderDetailsOfGivenCustomer(supplierOrderDetailListRequest);
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierOrderDetailListResponse>(mBaseActivity, false) {
 
             @Override
-            public void yesCall(SupplierOrderDetailListRes response, ParentActivity weakRef) {
-                if (VerifyResponse.isResponseOk(response,false)) {
-                    dataList.addAll(response.getResult());
+            public void onSuccess(SupplierOrderDetailListResponse pResponse, BaseActivity pBaseActivity) {
+                if (ResponseVerification.isResponseOk(pResponse, false)) {
+                    mDataList.addAll(pResponse.getResult());
                 }
-                mAdapter.notifyData(emptyTextView);
+                mAdapter.notifyData(textViewEmpty);
             }
 
             @Override
-            public void noCall(Throwable error) {
-                mAdapter.notifyData(emptyTextView);
+            public void onFailure(String pErrorMsg) {
+                mAdapter.notifyData(textViewEmpty);
             }
         });
     }
+
+
 }

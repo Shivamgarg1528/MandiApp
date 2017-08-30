@@ -29,12 +29,6 @@ public class SupplierPurchaseAdapter extends RecyclerView.Adapter<SupplierPurcha
     private AppCompatActivity mHostActivity;
     private PurchaseCallBack callBack;
 
-    public interface PurchaseCallBack {
-        public void onPayment(SupplierPurchaseListRes.ResultBean object, View view);
-        public void onDelete(SupplierPurchaseListRes.ResultBean object, View view);
-        public void onSales(SupplierPurchaseListRes.ResultBean object, View view);
-    }
-
     public SupplierPurchaseAdapter(List<SupplierPurchaseListRes.ResultBean> purchaseList, AppCompatActivity mHostActivity, PurchaseCallBack callBack) {
         this.purchaseList = purchaseList;
         this.mHostActivity = mHostActivity;
@@ -63,17 +57,17 @@ public class SupplierPurchaseAdapter extends RecyclerView.Adapter<SupplierPurcha
         holder.rowPurchaseDate         .setText(Utils.onConvertDateStringToOtherStringFormat(purchaseObject.getPurchaseDate()));
 
         holder.rowPurchaseProductName  .setText(purchaseObject.getProductName());
-        holder.rowPurchaseProductUnit  .setText(Utils.onStringFormat(purchaseObject.getUnitValue()));
+        holder.rowPurchaseProductUnit.setText(Utils.formatStringUpTo2Precision(purchaseObject.getUnitValue()));
         holder.rowPurchaseProductQty   .setText(purchaseObject.getProductQty());
-        holder.rowPurchaseProductPrice .setText(Utils.onStringFormat(purchaseObject.getPurchaseAmtAcc100Kg()));
+        holder.rowPurchaseProductPrice.setText(Utils.formatStringUpTo2Precision(purchaseObject.getPurchaseAmtAcc100Kg()));
 
-        holder.rowPurchaseSubTotal     .setText(Utils.onStringFormat(purchaseObject.getSubTotalAmt()));
-        holder.rowPurchaseDaamiValue   .setText(Utils.onStringFormat(purchaseObject.getDaamiCost()));
-        holder.rowPurchaseLabourValue  .setText(Utils.onStringFormat(purchaseObject.getLabourCost()));
-        holder.rowPurchaseTotalValue   .setText(Utils.onStringFormat(purchaseObject.getTotalAmount()));
+        holder.rowPurchaseSubTotal.setText(Utils.formatStringUpTo2Precision(purchaseObject.getSubTotalAmt()));
+        holder.rowPurchaseDaamiValue.setText(Utils.formatStringUpTo2Precision(purchaseObject.getDaamiCost()));
+        holder.rowPurchaseLabourValue.setText(Utils.formatStringUpTo2Precision(purchaseObject.getLabourCost()));
+        holder.rowPurchaseTotalValue.setText(Utils.formatStringUpTo2Precision(purchaseObject.getTotalAmount()));
 
-        holder.rowPurchaseQtyInHand    .setText("Kg ("+Utils.onStringFormat(purchaseObject.getProductInKg())+")");
-        holder.rowPurchaseQtySold      .setText("Kg ("+Utils.onStringFormat(purchaseObject.getSumOfProductInKg())+")");
+        holder.rowPurchaseQtyInHand.setText("Kg (" + Utils.formatStringUpTo2Precision(purchaseObject.getProductInKg()) + ")");
+        holder.rowPurchaseQtySold.setText("Kg (" + Utils.formatStringUpTo2Precision(purchaseObject.getSumOfProductInKg()) + ")");
 
         holder.parentView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +106,14 @@ public class SupplierPurchaseAdapter extends RecyclerView.Adapter<SupplierPurcha
     @Override
     public int getItemCount() {
         return purchaseList.size();
+    }
+
+    public interface PurchaseCallBack {
+        void onPayment(SupplierPurchaseListRes.ResultBean object, View view);
+
+        void onDelete(SupplierPurchaseListRes.ResultBean object, View view);
+
+        void onSales(SupplierPurchaseListRes.ResultBean object, View view);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

@@ -9,7 +9,7 @@ import android.net.Uri;
 import java.util.ArrayList;
 import java.util.List;
 
-import ig.com.digitalmandi.beans.response.supplier.SupplierProductListRes;
+import ig.com.digitalmandi.beans.response.supplier.SellerProductList;
 
 /**
  * Created by shivam.garg on 20-10-2016.
@@ -20,6 +20,10 @@ public class ProductContract <T> extends BaseContract<T> {
     public static final String PATH  = "product";
     private static final String TYPE = ".product_items";
 
+    public ProductContract(Context mContext) {
+        super(mContext);
+    }
+
     @Override
     public void insertBulkData(final List<T> dataList, final Uri mUri,final OnInsertBulkDataSuccessFully listener) {
 
@@ -29,17 +33,17 @@ public class ProductContract <T> extends BaseContract<T> {
             protected void onDeleteComplete(int token, Object cookie, int result) {
                 super.onDeleteComplete(token, cookie, result);
 
-                List<SupplierProductListRes.ResultBean> productList     = (List<SupplierProductListRes.ResultBean>) dataList;
+                List<SellerProductList.Product> productList = (List<SellerProductList.Product>) dataList;
                 ArrayList<ContentProviderOperation> batch                = new ArrayList<ContentProviderOperation>(productList.size());
                 for(int index = 0 ;index < productList.size() ; index++){
-                    SupplierProductListRes.ResultBean product     = productList.get(index);
+                    SellerProductList.Product product = productList.get(index);
                     ContentProviderOperation.Builder builder       = ContentProviderOperation.newInsert(mUri);
-                    builder.withValue(Product.PRODUCT_ID            ,product.getProductId());
-                    builder.withValue(Product.PRODUCT_NAME          ,product.getProductName());
-                    builder.withValue(Product.PRODUCT_STATUS        ,product.getProductStatus());
-                    builder.withValue(Product.PRODUCT_IMAGE_URL     ,product.getProductImage());
-                    builder.withValue(Product.PRODUCT_QTY           ,product.getProductQty());
-                    builder.withValue(Product.PRODUCT_QTY_SOLD      ,product.getProductQtySold());
+                    builder.withValue(ProductContract.Product.PRODUCT_ID, product.getProductId());
+                    builder.withValue(ProductContract.Product.PRODUCT_NAME, product.getProductName());
+                    builder.withValue(ProductContract.Product.PRODUCT_STATUS, product.getProductStatus());
+                    builder.withValue(ProductContract.Product.PRODUCT_IMAGE_URL, product.getProductImage());
+                    builder.withValue(ProductContract.Product.PRODUCT_QTY, product.getProductQty());
+                    builder.withValue(ProductContract.Product.PRODUCT_QTY_SOLD, product.getProductQtySold());
                     batch.add(builder.build());
                 }
                 applyBatchOperation(batch,listener);
@@ -53,13 +57,13 @@ public class ProductContract <T> extends BaseContract<T> {
     public T getSingleObject(Cursor cursor) {
         if(cursor != null && cursor.getCount() > 0){
             for (Cursor iterableCursor : new IterableCursor(cursor)) {
-                SupplierProductListRes.ResultBean product = new SupplierProductListRes.ResultBean();
-                product.setProductId            (iterableCursor.getString(iterableCursor.getColumnIndex(Product.PRODUCT_ID)));
-                product.setProductStatus        (iterableCursor.getString(iterableCursor.getColumnIndex(Product.PRODUCT_STATUS)));
-                product.setProductName          (iterableCursor.getString(iterableCursor.getColumnIndex(Product.PRODUCT_NAME)));
-                product.setProductImage         (iterableCursor.getString(iterableCursor.getColumnIndex(Product.PRODUCT_IMAGE_URL)));
-                product.setProductQty           (iterableCursor.getString(iterableCursor.getColumnIndex(Product.PRODUCT_QTY)));
-                product.setProductQtySold       (iterableCursor.getString(iterableCursor.getColumnIndex(Product.PRODUCT_QTY_SOLD)));
+                SellerProductList.Product product = new SellerProductList.Product();
+                product.setProductId(iterableCursor.getString(iterableCursor.getColumnIndex(ProductContract.Product.PRODUCT_ID)));
+                product.setProductStatus(iterableCursor.getString(iterableCursor.getColumnIndex(ProductContract.Product.PRODUCT_STATUS)));
+                product.setProductName(iterableCursor.getString(iterableCursor.getColumnIndex(ProductContract.Product.PRODUCT_NAME)));
+                product.setProductImage(iterableCursor.getString(iterableCursor.getColumnIndex(ProductContract.Product.PRODUCT_IMAGE_URL)));
+                product.setProductQty(iterableCursor.getString(iterableCursor.getColumnIndex(ProductContract.Product.PRODUCT_QTY)));
+                product.setProductQtySold(iterableCursor.getString(iterableCursor.getColumnIndex(ProductContract.Product.PRODUCT_QTY_SOLD)));
                 return (T) product;
             }
         }
@@ -70,24 +74,20 @@ public class ProductContract <T> extends BaseContract<T> {
 
     @Override
     public List<T> getListOfObject(Cursor cursor) {
-        List<SupplierProductListRes.ResultBean> customerList = new ArrayList<>();
+        List<SellerProductList.Product> customerList = new ArrayList<>();
         if(cursor != null && cursor.getCount() > 0){
             for (Cursor iterableCursor : new IterableCursor(cursor)) {
-                SupplierProductListRes.ResultBean product = new SupplierProductListRes.ResultBean();
-                product.setProductId            (iterableCursor.getString(iterableCursor.getColumnIndex(Product.PRODUCT_ID)));
-                product.setProductStatus        (iterableCursor.getString(iterableCursor.getColumnIndex(Product.PRODUCT_STATUS)));
-                product.setProductName          (iterableCursor.getString(iterableCursor.getColumnIndex(Product.PRODUCT_NAME)));
-                product.setProductImage         (iterableCursor.getString(iterableCursor.getColumnIndex(Product.PRODUCT_IMAGE_URL)));
-                product.setProductQty           (iterableCursor.getString(iterableCursor.getColumnIndex(Product.PRODUCT_QTY)));
-                product.setProductQtySold       (iterableCursor.getString(iterableCursor.getColumnIndex(Product.PRODUCT_QTY_SOLD)));
+                SellerProductList.Product product = new SellerProductList.Product();
+                product.setProductId(iterableCursor.getString(iterableCursor.getColumnIndex(ProductContract.Product.PRODUCT_ID)));
+                product.setProductStatus(iterableCursor.getString(iterableCursor.getColumnIndex(ProductContract.Product.PRODUCT_STATUS)));
+                product.setProductName(iterableCursor.getString(iterableCursor.getColumnIndex(ProductContract.Product.PRODUCT_NAME)));
+                product.setProductImage(iterableCursor.getString(iterableCursor.getColumnIndex(ProductContract.Product.PRODUCT_IMAGE_URL)));
+                product.setProductQty(iterableCursor.getString(iterableCursor.getColumnIndex(ProductContract.Product.PRODUCT_QTY)));
+                product.setProductQtySold(iterableCursor.getString(iterableCursor.getColumnIndex(ProductContract.Product.PRODUCT_QTY_SOLD)));
                 customerList.add(product);
             }
         }
         return (List<T>) customerList;
-    }
-
-    public ProductContract(Context mContext) {
-        super(mContext);
     }
 
     public static final class Product {

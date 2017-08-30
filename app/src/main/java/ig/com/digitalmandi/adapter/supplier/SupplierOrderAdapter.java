@@ -2,10 +2,8 @@ package ig.com.digitalmandi.adapter.supplier;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
-import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,31 +11,27 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.beans.response.supplier.SupplierOrderListRes;
-import ig.com.digitalmandi.interfaces.OrderCallBack;
+import ig.com.digitalmandi.base_package.BaseActivity;
+import ig.com.digitalmandi.beans.response.supplier.SupplierOrderListResponse;
+import ig.com.digitalmandi.interfaces.EventListener;
+import ig.com.digitalmandi.utils.AppConstant;
 import ig.com.digitalmandi.utils.Utils;
 
-/**
- * Created by Shivam.Garg on 27-10-2016.
- */
+public class SupplierOrderAdapter extends RecyclerView.Adapter<SupplierOrderAdapter.ViewHolder> {
 
-public class SupplierOrderAdapter extends RecyclerView.Adapter<SupplierOrderAdapter.OrderAdapter> {
+    private List<SupplierOrderListResponse.Order> mDataList;
+    private BaseActivity mBaseActivity;
+    private EventListener mEventListener;
 
-    private List<SupplierOrderListRes.ResultBean> dataList;
-    private AppCompatActivity mHostActivity;
-    private OrderCallBack callBack;
-
-    public SupplierOrderAdapter(List<SupplierOrderListRes.ResultBean> dataList, AppCompatActivity supplierCustomerOrderActivity, OrderCallBack callBack) {
-        this.dataList = dataList;
-        this.mHostActivity = supplierCustomerOrderActivity;
-        this.callBack = callBack;
+    public SupplierOrderAdapter(List<SupplierOrderListResponse.Order> pDataList, BaseActivity pBaseActivity, EventListener pEventListener) {
+        this.mDataList = pDataList;
+        this.mBaseActivity = pBaseActivity;
+        this.mEventListener = pEventListener;
     }
 
     public void notifyData(TextView emptyView) {
-        if (dataList.isEmpty())
+        if (mDataList.isEmpty())
             emptyView.setVisibility(View.VISIBLE);
         else
             emptyView.setVisibility(View.GONE);
@@ -45,94 +39,103 @@ public class SupplierOrderAdapter extends RecyclerView.Adapter<SupplierOrderAdap
     }
 
     @Override
-    public OrderAdapter onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View holderView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout_supplier_order_cardview, parent, false);
-        return new OrderAdapter(holderView);
+        return new ViewHolder(holderView);
     }
 
     @Override
-    public void onBindViewHolder(OrderAdapter holder, final int position) {
-        SupplierOrderListRes.ResultBean orderObject = dataList.get(position);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        SupplierOrderListResponse.Order data = mDataList.get(position);
 
-        holder.rowOrderDate        .setText(orderObject.getOrderDate());
-        holder.rowOrderSubTotal    .setText(Utils.onStringFormat(orderObject.getOrderSubTotalAmt()));
-        holder.rowOrderExpenses    .setText(Utils.onStringFormat(orderObject.getOrderDaamiAmt()));
-        holder.rowOrderLabourValue .setText(Utils.onStringFormat(orderObject.getOrderLabourAmt()));
-        holder.rowOrderBardanaValue.setText(Utils.onStringFormat(orderObject.getOrderBardanaAmt()));
-        holder.rowOrderTotalValue  .setText(Utils.onStringFormat(orderObject.getOrderTotalAmt()));
-        holder.rowOrderVehicleRent .setText(Utils.onStringFormat(orderObject.getVechileRent()));
-        holder.rowOrderDriverNo    .setText(orderObject.getDriverNumber()+" (M)");
-        holder.rowOrderTotalNagAndQuintal.setText(Utils.onStringFormat(orderObject.getOrderTotalNag())+" (N) - "+Utils.onStringFormat(orderObject.getOrderTotalQuintal())+" (Q)");
-        holder.rowOrderOrderId     .setText(orderObject.getOrderId());
+        holder.mTextViewOrderDate.setText(data.getOrderDate());
+        holder.mTextViewSubTotal.setText(Utils.formatStringUpTo2Precision(data.getOrderSubTotalAmt()));
+        holder.mTextViewOrderExpenses.setText(Utils.formatStringUpTo2Precision(data.getOrderDaamiAmt()));
+        holder.mTextViewLabourValue.setText(Utils.formatStringUpTo2Precision(data.getOrderLabourAmt()));
+        holder.mTextViewBardanaValue.setText(Utils.formatStringUpTo2Precision(data.getOrderBardanaAmt()));
+        holder.mTextViewTotalValue.setText(Utils.formatStringUpTo2Precision(data.getOrderTotalAmt()));
+        holder.mTextViewVehicleRent.setText(Utils.formatStringUpTo2Precision(data.getVechileRent()));
+        holder.mTextViewDriverNo.setText(String.format("%s%s", data.getDriverNumber(), mBaseActivity.getString(R.string.string_driver_mobile)));
+        holder.mTextViewTotalNagAndQuintal.setText(String.format("%s (N) - %s (Q)", Utils.formatStringUpTo2Precision(data.getOrderTotalNag()), Utils.formatStringUpTo2Precision(data.getOrderTotalQuintal())));
+        holder.mTextViewOrderId.setText(data.getOrderId());
 
-        holder.parentView.setOnClickListener(new View.OnClickListener() {
+        holder.mParentView.setOnLongClickListener(new View.OnLongClickListener() {
+
             @Override
-            public void onClick(final View view) {
-                view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
-                final SupplierOrderListRes.ResultBean orderObject = dataList.get(position);
-                CharSequence array[] = {"Delete","Payment History","Order Details","Bill Print"};
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(mHostActivity);
-                builder.setTitle("Select Operation");
+            public boolean onLongClick(View v) {
+                final SupplierOrderListResponse.Order orderObject = mDataList.get(holder.getAdapterPosition());
+                CharSequence array[] = {
+                        mBaseActivity.getString(R.string.string_delete),
+                        mBaseActivity.getString(R.string.string_payment_history),
+                        mBaseActivity.getString(R.string.string_order_details),
+                        mBaseActivity.getString(R.string.string_bill_print)
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(mBaseActivity);
+                builder.setTitle(mBaseActivity.getString(R.string.string_select_operation));
                 builder.setItems(array, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int item) {
                         switch (item) {
 
-                            case 0:
-                                callBack.onDelete(orderObject, view);
+                            case 0: {
+                                mEventListener.onEvent(AppConstant.OPERATION_DELETE, orderObject);
                                 break;
+                            }
 
-                            case 1:
-                                callBack.onPayment(orderObject, view);
+                            case 1: {
+                                mEventListener.onEvent(AppConstant.OPERATION_PAYMENT_HISTORY, orderObject);
                                 break;
+                            }
 
-                            case 2:
-                                callBack.onDetail(orderObject, view);
+                            case 2: {
+                                mEventListener.onEvent(AppConstant.OPERATION_DETAILS, orderObject);
                                 break;
+                            }
 
-                            case 3:
-                                callBack.onPrint(orderObject,view);
+                            case 3: {
+                                mEventListener.onEvent(AppConstant.OPERATION_BILL_PRINT, orderObject);
+                                break;
+                            }
                         }
                     }
                 });
                 builder.show();
+                return true;
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return dataList.size();
+        return mDataList.size();
     }
 
-    static class OrderAdapter extends RecyclerView.ViewHolder  {
-        @BindView(R.id.rowOrderOrderId)
-        AppCompatTextView rowOrderOrderId;
-        @BindView(R.id.rowOrderDate)
-        AppCompatTextView rowOrderDate;
-        @BindView(R.id.rowOrderSubTotal)
-        AppCompatTextView rowOrderSubTotal;
-        @BindView(R.id.rowOrderExpenses)
-        AppCompatTextView rowOrderExpenses;
-        @BindView(R.id.rowOrderLabourValue)
-        AppCompatTextView rowOrderLabourValue;
-        @BindView(R.id.rowOrderTotalValue)
-        AppCompatTextView rowOrderTotalValue;
-        @BindView(R.id.rowOrderDriverNo)
-        AppCompatTextView rowOrderDriverNo;
-        @BindView(R.id.rowOrderVehicleRent)
-        AppCompatTextView rowOrderVehicleRent;
-        @BindView(R.id.rowOrderTotalNagAndQuintal)
-        AppCompatTextView rowOrderTotalNagAndQuintal;
-        @BindView(R.id.rowOrderBardanaValue)
-        AppCompatTextView rowOrderBardanaValue;
-        View parentView;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        private AppCompatTextView mTextViewOrderId;
+        private AppCompatTextView mTextViewOrderDate;
+        private AppCompatTextView mTextViewSubTotal;
+        private AppCompatTextView mTextViewOrderExpenses;
+        private AppCompatTextView mTextViewLabourValue;
+        private AppCompatTextView mTextViewTotalValue;
+        private AppCompatTextView mTextViewDriverNo;
+        private AppCompatTextView mTextViewVehicleRent;
+        private AppCompatTextView mTextViewTotalNagAndQuintal;
+        private AppCompatTextView mTextViewBardanaValue;
+        private View mParentView;
 
-        OrderAdapter(View view) {
+        ViewHolder(View view) {
             super(view);
-            parentView = view;
-            ButterKnife.bind(this, view);
+            mParentView = view;
+            mTextViewOrderId = (AppCompatTextView) view.findViewById(R.id.row_layout_supplier_order_tv_order_id);
+            mTextViewOrderDate = (AppCompatTextView) view.findViewById(R.id.row_layout_supplier_order_tv_order_date);
+            mTextViewSubTotal = (AppCompatTextView) view.findViewById(R.id.row_layout_supplier_order_tv_order_subtotal);
+            mTextViewOrderExpenses = (AppCompatTextView) view.findViewById(R.id.row_layout_supplier_order_tv_order_expenses);
+            mTextViewLabourValue = (AppCompatTextView) view.findViewById(R.id.row_layout_supplier_order_tv_order_labour_value);
+            mTextViewBardanaValue = (AppCompatTextView) view.findViewById(R.id.row_layout_supplier_order_tv_order_bardana_value);
+            mTextViewTotalValue = (AppCompatTextView) view.findViewById(R.id.row_layout_supplier_order_tv_order_total_value);
+            mTextViewVehicleRent = (AppCompatTextView) view.findViewById(R.id.row_layout_supplier_order_tv_order_vehicle_rent);
+            mTextViewDriverNo = (AppCompatTextView) view.findViewById(R.id.row_layout_supplier_order_tv_driver_number);
+            mTextViewTotalNagAndQuintal = (AppCompatTextView) view.findViewById(R.id.row_layout_supplier_order_tv_order_nag_and_quaintal);
         }
     }
 }

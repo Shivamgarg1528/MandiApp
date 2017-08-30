@@ -16,18 +16,18 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.adapter.supplier.SupplierPurchasePaymentAdapter;
-import ig.com.digitalmandi.base_package.ParentActivity;
+import ig.com.digitalmandi.base_package.BaseActivity;
 import ig.com.digitalmandi.beans.request.supplier.SupplierPurchasePaymentListReq;
 import ig.com.digitalmandi.beans.response.supplier.SupplierPaymentListRes;
 import ig.com.digitalmandi.beans.response.supplier.SupplierPurchaseListRes;
 import ig.com.digitalmandi.dialogs.PurchasePaymentDialog;
+import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebService;
-import ig.com.digitalmandi.retrofit.VerifyResponse;
-import ig.com.digitalmandi.utils.ConstantValues;
+import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.utils.AppConstant;
 import ig.com.digitalmandi.utils.Utils;
 
-public class SupplierPurchasePaymentActivity extends ParentActivity {
+public class SupplierPurchasePaymentActivity extends BaseActivity {
 
     public static final String PURCHASE_OBJECT_KEY = "purchaseObjKey";
     @BindView(R.id.mButtonPurchasePayment)
@@ -67,21 +67,21 @@ public class SupplierPurchasePaymentActivity extends ParentActivity {
         }
 
         if (getIntent() == null) {
-            Toast.makeText(mRunningActivity, R.string.please_provide_purchased_item, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, R.string.please_provide_purchased_item, Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
         purchaseObject = getIntent().getParcelableExtra(PURCHASE_OBJECT_KEY);
 
         if (purchaseObject == null) {
-            Toast.makeText(mRunningActivity, R.string.please_provide_purchased_item, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, R.string.please_provide_purchased_item, Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
         ButterKnife.bind(this);
         emptyTextView.setText("No Payment Found\nPlease Pay Due Amount");
         setTitle(getString(R.string.payment_history_title, purchaseObject.getNameOfPerson()));
-        purchaseAmt = Float.parseFloat(Utils.onStringFormat(purchaseObject.getTotalAmount()));
+        purchaseAmt = Float.parseFloat(Utils.formatStringUpTo2Precision(purchaseObject.getTotalAmount()));
         mAdapter = new SupplierPurchasePaymentAdapter(dataList, this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mAdapter);
@@ -90,7 +90,7 @@ public class SupplierPurchasePaymentActivity extends ParentActivity {
 
     @OnClick(R.id.mButtonPurchasePayment)
     public void onClick() {
-        PurchasePaymentDialog dialog = new PurchasePaymentDialog(mRunningActivity, true, true, R.layout.dilaog_purchase_payment);
+        PurchasePaymentDialog dialog = new PurchasePaymentDialog(mBaseActivity, true, true, R.layout.dilaog_purchase_payment);
         dialog.show(purchaseObject, new PurchasePaymentDialog.OnPaymentDone() {
 
             @Override
@@ -118,13 +118,13 @@ public class SupplierPurchasePaymentActivity extends ParentActivity {
         dueInterestAmt = interestAmt - paidInterestAmt;
         total = paymentAmt + paidInterestAmt;
 
-        mTextViewPurchaseAmt.setText(Utils.onStringFormat(String.valueOf(purchaseAmt)));
-        mTextViewPaidAmt.setText(Utils.onStringFormat(String.valueOf(paymentAmt)));
-        mTextViewDueAmt.setText(Utils.onStringFormat(String.valueOf(dueAmt)));
-        mTextViewInterestAmt.setText(Utils.onStringFormat(String.valueOf(interestAmt)));
-        mTextViewInterestPaidAmt.setText(Utils.onStringFormat(String.valueOf(paidInterestAmt)));
-        mTextViewInterestDueAmt.setText(Utils.onStringFormat(String.valueOf(dueInterestAmt)));
-        mTextViewTotalPaidAmt.setText(Utils.onStringFormat(String.valueOf(total)));
+        mTextViewPurchaseAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(purchaseAmt)));
+        mTextViewPaidAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(paymentAmt)));
+        mTextViewDueAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(dueAmt)));
+        mTextViewInterestAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(interestAmt)));
+        mTextViewInterestPaidAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(paidInterestAmt)));
+        mTextViewInterestDueAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(dueInterestAmt)));
+        mTextViewTotalPaidAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(total)));
 
         if (dueAmt > 0 || dueInterestAmt > 0)
             mButtonPurchasePayment.setVisibility(View.VISIBLE);
@@ -134,25 +134,25 @@ public class SupplierPurchasePaymentActivity extends ParentActivity {
 
     private void onFetchDataFromServer(boolean showDialog) {
 
-        onShowOrHideBar(true);
+        showOrHideProgressBar(true);
         SupplierPurchasePaymentListReq supplierPurchasePaymentListReq = new SupplierPurchasePaymentListReq();
         supplierPurchasePaymentListReq.setId(purchaseObject.getPurchaseId());
-        supplierPurchasePaymentListReq.setFlag(ConstantValues.PURCHASE_PAYMENT);
+        supplierPurchasePaymentListReq.setFlag(AppConstant.DELETE_PURCHASE);
 
-        apiEnqueueObject = RetrofitWebService.getInstance().getInterface().supplierPurchasePaymentList(supplierPurchasePaymentListReq);
-        apiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPaymentListRes>(mRunningActivity, showDialog) {
+        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().supplierPurchasePaymentList(supplierPurchasePaymentListReq);
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPaymentListRes>(mBaseActivity, showDialog) {
 
             @Override
-            public void yesCall(SupplierPaymentListRes response, ParentActivity weakRef) {
-                if (VerifyResponse.isResponseOk(response, false)) {
+            public void onSuccess(SupplierPaymentListRes pResponse, BaseActivity pBaseActivity) {
+                if (ResponseVerification.isResponseOk(pResponse, false)) {
                     dataList.clear();
-                    dataList.addAll(response.getResult());
+                    dataList.addAll(pResponse.getResult());
                 }
                 onCalculateAllPaidAmt();
             }
 
             @Override
-            public void noCall(Throwable error) {
+            public void onFailure(String pErrorMsg) {
                 onCalculateAllPaidAmt();
             }
         });

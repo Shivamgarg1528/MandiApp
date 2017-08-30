@@ -27,21 +27,17 @@ public class QtyPickerDialog extends BaseDialog {
     AppCompatButton mButtonSave;
     private OnQtySelected listener;
 
-    @OnClick(R.id.mButtonSave)
-    public void onClick() {
-        Utils.onHideSoftKeyBoard(mContext,mNumberPickerQty);
-        int qty = Integer.parseInt((String) mSpinnerMultiplier.getSelectedItem()) * mNumberPickerQty.getValue();
-        listener.onQtySelectedCallBack(qty);
-        dismiss();
-    }
-
-    public interface OnQtySelected {
-        public void onQtySelectedCallBack(int qty);
-    }
-
     public QtyPickerDialog(Context context, boolean isOutSideTouch, boolean isCancelable, int layoutId, OnQtySelected nQtySelected) {
         super(context, isOutSideTouch, isCancelable, layoutId);
         this.listener = nQtySelected;
+    }
+
+    @OnClick(R.id.mButtonSave)
+    public void onClick() {
+        Utils.onHideSoftKeyBoard(mBaseActivity, mNumberPickerQty);
+        int qty = Integer.parseInt((String) mSpinnerMultiplier.getSelectedItem()) * mNumberPickerQty.getValue();
+        listener.onQtySelectedCallBack(qty);
+        dismiss();
     }
 
     @Override
@@ -60,5 +56,9 @@ public class QtyPickerDialog extends BaseDialog {
                 numberPicker.setValue(i1);
             }
         });
+    }
+
+    public interface OnQtySelected {
+        void onQtySelectedCallBack(int qty);
     }
 }

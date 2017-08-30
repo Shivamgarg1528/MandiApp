@@ -16,18 +16,18 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.adapter.supplier.SupplierPurchasePaymentAdapter;
-import ig.com.digitalmandi.base_package.ParentActivity;
+import ig.com.digitalmandi.base_package.BaseActivity;
 import ig.com.digitalmandi.beans.request.supplier.SupplierPurchasePaymentListReq;
-import ig.com.digitalmandi.beans.response.supplier.SupplierOrderListRes;
+import ig.com.digitalmandi.beans.response.supplier.SupplierOrderListResponse;
 import ig.com.digitalmandi.beans.response.supplier.SupplierPaymentListRes;
 import ig.com.digitalmandi.dialogs.PurchasePaymentDialog;
+import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebService;
-import ig.com.digitalmandi.retrofit.VerifyResponse;
-import ig.com.digitalmandi.utils.ConstantValues;
+import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.utils.AppConstant;
 import ig.com.digitalmandi.utils.Utils;
 
-public class SupplierSoldPaymentActivity extends ParentActivity {
+public class SupplierSoldPaymentActivity extends BaseActivity {
 
     public static final String SOLD_OBJECT_KEY = "soldObjKey";
     @BindView(R.id.mButtonPurchasePayment)
@@ -52,7 +52,7 @@ public class SupplierSoldPaymentActivity extends ParentActivity {
     AppCompatTextView mTextViewTotalPaidAmt;
     @BindView(R.id.activity_purchase_payment)
     LinearLayout activityPurchasePayment;
-    private SupplierOrderListRes.ResultBean soldObject;
+    private SupplierOrderListResponse.Order soldObject;
     private SupplierPurchasePaymentAdapter mAdapter;
     private List<SupplierPaymentListRes.ResultBean> dataList = new ArrayList<>();
     private float orderTotalAmt = 0.0f;
@@ -67,21 +67,21 @@ public class SupplierSoldPaymentActivity extends ParentActivity {
         }
 
         if (getIntent() == null) {
-            Toast.makeText(mRunningActivity, R.string.please_provide_sold_item, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, R.string.please_provide_sold_item, Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
-        soldObject = getIntent().getParcelableExtra(SOLD_OBJECT_KEY);
+        soldObject = (SupplierOrderListResponse.Order) getIntent().getSerializableExtra(AppConstant.KEY_OBJECT);
 
         if (soldObject == null) {
-            Toast.makeText(mRunningActivity, R.string.please_provide_sold_item, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, R.string.please_provide_sold_item, Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
         ButterKnife.bind(this);
         emptyTextView.setText("No Payment Found\nPlease Pay Due Amount");
         setTitle(getString(R.string.payment_history_title, soldObject.getOrderId()));
-        orderTotalAmt = Float.parseFloat(Utils.onStringFormat(soldObject.getOrderTotalAmt()));
+        orderTotalAmt = Float.parseFloat(Utils.formatStringUpTo2Precision(soldObject.getOrderTotalAmt()));
         mAdapter = new SupplierPurchasePaymentAdapter(dataList, this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mAdapter);
@@ -90,7 +90,7 @@ public class SupplierSoldPaymentActivity extends ParentActivity {
 
     @OnClick(R.id.mButtonPurchasePayment)
     public void onClick() {
-        PurchasePaymentDialog dialog = new PurchasePaymentDialog(mRunningActivity, true, true, R.layout.dilaog_purchase_payment);
+        PurchasePaymentDialog dialog = new PurchasePaymentDialog(mBaseActivity, true, true, R.layout.dilaog_purchase_payment);
         dialog.show(soldObject, new PurchasePaymentDialog.OnPaymentDone() {
 
             @Override
@@ -118,13 +118,13 @@ public class SupplierSoldPaymentActivity extends ParentActivity {
         dueInterestAmt = interestAmt - paidInterestAmt;
         total = paymentAmt + paidInterestAmt;
 
-        mTextViewPurchaseAmt.setText(Utils.onStringFormat(String.valueOf(orderTotalAmt)));
-        mTextViewPaidAmt.setText(Utils.onStringFormat(String.valueOf(paymentAmt)));
-        mTextViewDueAmt.setText(Utils.onStringFormat(String.valueOf(dueAmt)));
-        mTextViewInterestAmt.setText(Utils.onStringFormat(String.valueOf(interestAmt)));
-        mTextViewInterestPaidAmt.setText(Utils.onStringFormat(String.valueOf(paidInterestAmt)));
-        mTextViewInterestDueAmt.setText(Utils.onStringFormat(String.valueOf(dueInterestAmt)));
-        mTextViewTotalPaidAmt.setText(Utils.onStringFormat(String.valueOf(total)));
+        mTextViewPurchaseAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(orderTotalAmt)));
+        mTextViewPaidAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(paymentAmt)));
+        mTextViewDueAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(dueAmt)));
+        mTextViewInterestAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(interestAmt)));
+        mTextViewInterestPaidAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(paidInterestAmt)));
+        mTextViewInterestDueAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(dueInterestAmt)));
+        mTextViewTotalPaidAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(total)));
 
         if (dueAmt > 0 || dueInterestAmt > 0)
             mButtonPurchasePayment.setVisibility(View.VISIBLE);
@@ -134,25 +134,25 @@ public class SupplierSoldPaymentActivity extends ParentActivity {
 
     private void onFetchDataFromServer(boolean showDialog) {
 
-        onShowOrHideBar(true);
+        showOrHideProgressBar(true);
         SupplierPurchasePaymentListReq supplierPurchasePaymentListReq = new SupplierPurchasePaymentListReq();
         supplierPurchasePaymentListReq.setId(soldObject.getOrderId());
-        supplierPurchasePaymentListReq.setFlag(ConstantValues.ORDER_PAYMENT);
+        supplierPurchasePaymentListReq.setFlag(AppConstant.DELETE_ORDER);
 
-        apiEnqueueObject = RetrofitWebService.getInstance().getInterface().supplierPurchasePaymentList(supplierPurchasePaymentListReq);
-        apiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPaymentListRes>(mRunningActivity, showDialog) {
+        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().supplierPurchasePaymentList(supplierPurchasePaymentListReq);
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPaymentListRes>(mBaseActivity, showDialog) {
 
             @Override
-            public void yesCall(SupplierPaymentListRes response, ParentActivity weakRef) {
-                if (VerifyResponse.isResponseOk(response, false)) {
+            public void onSuccess(SupplierPaymentListRes pResponse, BaseActivity pBaseActivity) {
+                if (ResponseVerification.isResponseOk(pResponse, false)) {
                     dataList.clear();
-                    dataList.addAll(response.getResult());
+                    dataList.addAll(pResponse.getResult());
                 }
                 onCalculateAllPaidAmt();
             }
 
             @Override
-            public void noCall(Throwable error) {
+            public void onFailure(String pErrorMsg) {
                 onCalculateAllPaidAmt();
             }
         });

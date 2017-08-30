@@ -1,6 +1,5 @@
 package ig.com.digitalmandi.adapter.supplier;
 
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,21 +12,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.beans.response.supplier.SupplierOrderDetailListRes;
+import ig.com.digitalmandi.beans.response.supplier.SupplierOrderDetailListResponse;
 import ig.com.digitalmandi.utils.Utils;
-
-/**
- * Created by Shivam.Garg on 27-10-2016.
- */
 
 public class SupplierOrderDetailAdapter extends RecyclerView.Adapter<SupplierOrderDetailAdapter.ViewHolder> {
 
-    private List<SupplierOrderDetailListRes.ResultBean> purchaseList;
-    private AppCompatActivity mHostActivity;
+    private List<SupplierOrderDetailListResponse.OrderDetail> mDataList;
 
-    public SupplierOrderDetailAdapter(List<SupplierOrderDetailListRes.ResultBean> purchaseList, AppCompatActivity mHostActivity) {
-        this.purchaseList = purchaseList;
-        this.mHostActivity = mHostActivity;
+    public SupplierOrderDetailAdapter(List<SupplierOrderDetailListResponse.OrderDetail> pDataList) {
+        this.mDataList = pDataList;
     }
 
     @Override
@@ -37,7 +30,7 @@ public class SupplierOrderDetailAdapter extends RecyclerView.Adapter<SupplierOrd
     }
 
     public void notifyData(TextView emptyView) {
-        if (purchaseList.isEmpty())
+        if (mDataList.isEmpty())
             emptyView.setVisibility(View.VISIBLE);
         else
             emptyView.setVisibility(View.GONE);
@@ -46,22 +39,22 @@ public class SupplierOrderDetailAdapter extends RecyclerView.Adapter<SupplierOrd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        SupplierOrderDetailListRes.ResultBean purchaseObject = purchaseList.get(position);
-        holder.rowOrderDetailProductName  .setText(purchaseObject.getProductName());
-        holder.rowOrderDetailProductUnit  .setText(Utils.onStringFormat(purchaseObject.getUnitValue()));
-        holder.rowOrderDetailProductQty   .setText(purchaseObject.getQty());
-        holder.rowOrderDetailProductPrice .setText(Utils.onStringFormat(purchaseObject.getPrice()));
-        holder.rowOrderDetailTotalAmount  .setText(Utils.onStringFormat(purchaseObject.getTotalPrice()));
-        holder.rowOrderDetailQtyInKg      .setText(Utils.onStringFormat(purchaseObject.getQtyInKg())+"(KG)");
-        holder.rowOrderDetailQtyInQuintal .setText(Utils.onStringFormat(String.valueOf(Float.parseFloat(purchaseObject.getQtyInKg()) * .01f))+"(Q)");
+        SupplierOrderDetailListResponse.OrderDetail data = mDataList.get(position);
+        holder.rowOrderDetailProductName.setText(data.getProductName());
+        holder.rowOrderDetailProductUnit.setText(Utils.formatStringUpTo2Precision(data.getUnitValue()));
+        holder.rowOrderDetailProductQty.setText(data.getQty());
+        holder.rowOrderDetailProductPrice.setText(Utils.formatStringUpTo2Precision(data.getPrice()));
+        holder.rowOrderDetailTotalAmount.setText(Utils.formatStringUpTo2Precision(data.getTotalPrice()));
+        holder.rowOrderDetailQtyInKg.setText(Utils.formatStringUpTo2Precision(data.getQtyInKg()) + "(KG)");
+        holder.rowOrderDetailQtyInQuintal.setText(Utils.formatStringUpTo2Precision(String.valueOf(Float.parseFloat(data.getQtyInKg()) * .01f)) + "(Q)");
     }
 
     @Override
     public int getItemCount() {
-        return purchaseList.size();
+        return mDataList.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.rowOrderDetailProductName)
         AppCompatTextView rowOrderDetailProductName;
         @BindView(R.id.rowOrderDetailProductUnit)

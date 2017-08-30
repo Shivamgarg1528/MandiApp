@@ -4,49 +4,52 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical">
-    <include layout="@layout/common_tool_bar"/>
+
+    <include layout="@layout/common_tool_bar" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
+        android:layout_height="60dp"
         android:gravity="center"
-        android:layout_height="70dp">
+        android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/mButtonStartDate"
-            android:layout_width="100dp"
-            android:layout_margin="05dp"
-            android:text="Start Date"
+            android:id="@+id/activity_supplier_customer_more_info_btn_start_date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
             android:background="@drawable/selector_blue_button"
-            android:textColor="@drawable/selector_blue_button_text"
-            android:textSize="14sp"
             android:gravity="center"
-            android:layout_height="wrap_content" />
+            android:text="@string/string_start_date"
+            android:textColor="@drawable/selector_blue_button_text"
+            android:textSize="14sp" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/mButtonEndDate"
-            android:layout_width="100dp"
-            android:text="End Date"
-            android:layout_margin="05dp"
+            android:id="@+id/activity_supplier_customer_more_info_btn_end_date"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
             android:background="@drawable/selector_blue_button"
-            android:textColor="@drawable/selector_blue_button_text"
-            android:textSize="14sp"
             android:gravity="center"
-            android:layout_height="wrap_content" />
+            android:text="@string/string_end_date"
+            android:textColor="@drawable/selector_blue_button_text"
+            android:textSize="14sp" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/mButtonResetDate"
-            android:layout_width="100dp"
-            android:text="Reset Filter"
-            android:layout_margin="05dp"
+            android:id="@+id/activity_supplier_customer_more_info_btn_reset_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
             android:background="@drawable/selector_blue_button"
-            android:textColor="@drawable/selector_blue_button_text"
-            android:textSize="14sp"
             android:gravity="center"
-            android:layout_height="wrap_content" />
+            android:text="@string/string_reset_filter"
+            android:textColor="@drawable/selector_blue_button_text"
+            android:textSize="14sp" />
 
     </LinearLayout>
 
-
-    <include layout="@layout/layout_common_recycler_view"/>
+    <include layout="@layout/layout_common_recycler_view" />
 </LinearLayout>

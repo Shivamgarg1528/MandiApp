@@ -19,8 +19,8 @@ import butterknife.OnClick;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.base_package.BaseDialog;
 import ig.com.digitalmandi.beans.request.supplier.SupplierOrderAddReq;
+import ig.com.digitalmandi.beans.response.supplier.SellerUnitList;
 import ig.com.digitalmandi.beans.response.supplier.SupplierPurchaseListRes;
-import ig.com.digitalmandi.beans.response.supplier.SupplierUnitListRes;
 import ig.com.digitalmandi.interfaces.OnItemAddedCallBack;
 import ig.com.digitalmandi.utils.ChangeSpinnerItemBg;
 import ig.com.digitalmandi.utils.CheckForFloat;
@@ -32,6 +32,8 @@ import ig.com.digitalmandi.utils.Utils;
 
 public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelectedListener {
 
+    private final int QTY_MAX = 1000;
+    private final int QTY_MIN = 1;
     @BindView(R.id.mSpinnerUnitListPurchase)
     AppCompatSpinner mSpinnerUnitListPurchase;
     @BindView(R.id.decreaseQtyBtn)
@@ -50,13 +52,10 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
     AppCompatTextView mTextViewProductName;
     @BindView(R.id.mTextViewMaxQtyInKg)
     AppCompatTextView mTextViewMaxQtyInKg;
+    List<SellerUnitList.Unit> unitList;
     private SupplierPurchaseListRes.ResultBean selectedObj;
-    private SupplierUnitListRes.ResultBean unit;
-    List<SupplierUnitListRes.ResultBean> unitList;
+    private SellerUnitList.Unit unit;
     private String[] unitArray;
-
-    private final int QTY_MAX = 1000;
-    private final int QTY_MIN = 1;
     private int productQty = 1;
     private float unitValueFloat = 0.0f, actualPurchaseAmt = 0.0f;
     private boolean isProductPriceAccTo40Kg = false;
@@ -73,13 +72,13 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
         setContentView(R.layout.dialog_add_item_into_cart);
         ButterKnife.bind(this);
 
-        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mRunningActivity, unitArray, mSpinnerUnitListPurchase);
-        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mRunningActivity, mRunningActivity.mResources.getStringArray(R.array.kgPrice), mSpinnerKgPrice);
+        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mBaseActivity, unitArray, mSpinnerUnitListPurchase);
+        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mBaseActivity, mBaseActivity.mResources.getStringArray(R.array.kgPrice), mSpinnerKgPrice);
 
         mSpinnerUnitListPurchase.setOnItemSelectedListener(this);
         mSpinnerKgPrice         .setOnItemSelectedListener(this);
 
-        mTextViewMaxQtyInKg.setText("Max Qty KG(" + Utils.onStringFormat(selectedObj.onGetLeftQty()) + ")");
+        mTextViewMaxQtyInKg.setText("Max Qty KG(" + Utils.formatStringUpTo2Precision(selectedObj.onGetLeftQty()) + ")");
         mTextViewProductName.setText(selectedObj.getProductName());
 
         try {
@@ -98,8 +97,8 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
                 break;
             case R.id.qtyTextView:
 
-                Utils.onHideSoftKeyBoard(mContext, mEditProductPrice);
-                QtyPickerDialog qtyPickerDialog = new QtyPickerDialog(mContext, true, true, R.layout.dialog_qty_selected_layout, new QtyPickerDialog.OnQtySelected() {
+                Utils.onHideSoftKeyBoard(mBaseActivity, mEditProductPrice);
+                QtyPickerDialog qtyPickerDialog = new QtyPickerDialog(mBaseActivity, true, true, R.layout.dialog_qty_selected_layout, new QtyPickerDialog.OnQtySelected() {
 
                     @Override
                     public void onQtySelectedCallBack(int qty) {
@@ -121,7 +120,7 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
         }
     }
 
-    public void show(SupplierPurchaseListRes.ResultBean selectedObject, String[] unitArray, List<SupplierUnitListRes.ResultBean> unitList, OnItemAddedCallBack<SupplierOrderAddReq.OrderDetailsBean> onItemAddedCallBack) {
+    public void show(SupplierPurchaseListRes.ResultBean selectedObject, String[] unitArray, List<SellerUnitList.Unit> unitList, OnItemAddedCallBack<SupplierOrderAddReq.OrderDetailsBean> onItemAddedCallBack) {
         this.selectedObj = selectedObject;
         this.unitArray = unitArray;
         this.unitList = unitList;
@@ -138,7 +137,7 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
 
 
         if (!CheckForFloat.onCheckFloat(mEditProductPrice.getText().toString())) {
-            Toast.makeText(mContext, "Please Enter Product Price", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, "Please Enter Product Price", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -148,7 +147,7 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
         float productPriceAccTo100Kg = 0.0f;
 
         if (totalProductKg > maxQtyInKg) {
-            Toast.makeText(mContext, "You Don't Have Enough Stock Please Reduce Qty Or Unit Value", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mBaseActivity, "You Don't Have Enough Stock Please Reduce Qty Or Unit Value", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -164,13 +163,13 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
 
         SupplierOrderAddReq.OrderDetailsBean addedObject = new SupplierOrderAddReq.OrderDetailsBean();
         addedObject.setUnitId(unit.getUnitId());
-        addedObject.setUnitValue(Utils.onStringFormat(String.valueOf(unit.getKgValue())));
+        addedObject.setUnitValue(Utils.formatStringUpTo2Precision(String.valueOf(unit.getKgValue())));
         addedObject.setProductId(selectedObj.getProductId());
         addedObject.setProductName(selectedObj.getProductName());
-        addedObject.setPrice(Utils.onStringFormat(String.valueOf(productPriceAccTo100Kg)));
+        addedObject.setPrice(Utils.formatStringUpTo2Precision(String.valueOf(productPriceAccTo100Kg)));
         addedObject.setQty(String.valueOf(productQty));
-        addedObject.setQtyInKg(Utils.onStringFormat(String.valueOf(totalProductKg)));
-        addedObject.setTotalPrice(Utils.onStringFormat(String.valueOf(actualPurchaseAmt)));
+        addedObject.setQtyInKg(Utils.formatStringUpTo2Precision(String.valueOf(totalProductKg)));
+        addedObject.setTotalPrice(Utils.formatStringUpTo2Precision(String.valueOf(actualPurchaseAmt)));
         addedObject.setPurchaseId(selectedObj.getPurchaseId());
         selectedObj.setLocalSoldQty(String.valueOf(Float.parseFloat(selectedObj.getLocalSoldQty()) + totalProductKg));
         onItemAddedCallBack.onItemAddedCallBacks(addedObject);
@@ -211,10 +210,7 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
             case R.id.mSpinnerKgPrice:
                 try {
 
-                    if (Float.parseFloat((String) adapterView.getSelectedItem()) == 40)
-                        isProductPriceAccTo40Kg = true;
-                    else
-                        isProductPriceAccTo40Kg = false;
+                    isProductPriceAccTo40Kg = Float.parseFloat((String) adapterView.getSelectedItem()) == 40;
 
                 } catch (Exception ex) {
                     ex.printStackTrace();

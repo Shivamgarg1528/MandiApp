@@ -55,8 +55,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         holder.rowAutoCompletePersonName.setText(object.getNameOfPerson());
         holder.rowAutoCompleteDate.setText(object.getPurchaseDate());
         holder.rowAutoCompleteProductName.setText(object.getProductName());
-        holder.rowAutoCompleteProductQty.setText(Utils.onStringFormat(object.onGetLeftQty()));
-        holder.rowAutoCompleteProductPrice.setText(Utils.onStringFormat(object.getPurchaseAmtAcc100Kg()));
+        holder.rowAutoCompleteProductQty.setText(Utils.formatStringUpTo2Precision(object.onGetLeftQty()));
+        holder.rowAutoCompleteProductPrice.setText(Utils.formatStringUpTo2Precision(object.getPurchaseAmtAcc100Kg()));
         holder.parent.setOnClickListener(new View.OnClickListener() {
 
             @Override

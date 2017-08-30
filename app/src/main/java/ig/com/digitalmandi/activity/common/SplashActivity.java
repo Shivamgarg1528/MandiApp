@@ -5,38 +5,39 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.activity.supplier.SupplierHomeActivity;
-import ig.com.digitalmandi.base_package.ParentActivity;
-import ig.com.digitalmandi.utils.ConstantValues;
-import ig.com.digitalmandi.utils.MyPrefrences;
+import ig.com.digitalmandi.base_package.BaseActivity;
+import ig.com.digitalmandi.beans.response.common.LoginResponse;
+import ig.com.digitalmandi.utils.AppSharedPrefs;
 import ig.com.digitalmandi.utils.Utils;
 
-public class SplashActivity extends ParentActivity {
+public class SplashActivity extends BaseActivity implements Runnable {
 
-    private Handler mHandler;
-    private Runnable removeCallbacks = new Runnable() {
-        @Override
-        public void run() {
-            if (MyPrefrences.getBooleanPrefrences(ConstantValues.IS_LOGIN, mRunningActivity))
-                Utils.onActivityStart(mRunningActivity, true, new int[]{}, null, SupplierHomeActivity.class);
-            else
-                Utils.onActivityStart(mRunningActivity, true, new int[]{}, null, LoginActivity.class);
-        }
-    };
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, R.layout.activity_splash);
-        mHandler = new Handler();
-        mHandler.postDelayed(removeCallbacks, 1500);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStart() {
+        super.onStart();
+        mHandler.postDelayed(this, 1500);
+    }
 
-        if (mHandler != null) {
-            mHandler.removeCallbacks(removeCallbacks);
-        }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mHandler.removeCallbacks(this);
+    }
+
+    @Override
+    public void run() {
+        LoginResponse.LoginUser loginUserModel = AppSharedPrefs.getInstance(mBaseActivity).getLoginUserModel();
+        if (loginUserModel != null)
+            Utils.onActivityStart(mBaseActivity, true, null, null, SyncActivity.class);
+        else
+            Utils.onActivityStart(mBaseActivity, true, null, null, LoginActivity.class);
     }
 }

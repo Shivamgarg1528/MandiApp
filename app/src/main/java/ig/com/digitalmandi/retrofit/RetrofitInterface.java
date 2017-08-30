@@ -1,35 +1,35 @@
 package ig.com.digitalmandi.retrofit;
 
-import ig.com.digitalmandi.beans.request.common.ForgotPasswordReqModel;
-import ig.com.digitalmandi.beans.request.common.LoginReqModel;
-import ig.com.digitalmandi.beans.request.common.LogoutReqModel;
-import ig.com.digitalmandi.beans.request.supplier.RegistrationReqModel;
-import ig.com.digitalmandi.beans.request.supplier.SupplierCustomerListReq;
-import ig.com.digitalmandi.beans.request.supplier.SupplierCustomerListRes;
+import ig.com.digitalmandi.beans.request.common.ForgotPasswordRequest;
+import ig.com.digitalmandi.beans.request.common.LoginRequest;
+import ig.com.digitalmandi.beans.request.common.LogoutRequest;
+import ig.com.digitalmandi.beans.request.supplier.RegistrationRequest;
+import ig.com.digitalmandi.beans.request.supplier.SellerCustomerList;
+import ig.com.digitalmandi.beans.request.supplier.SellerCustomerListRequest;
+import ig.com.digitalmandi.beans.request.supplier.SellerProductListRequest;
+import ig.com.digitalmandi.beans.request.supplier.SellerUnitListRequest;
+import ig.com.digitalmandi.beans.request.supplier.SupplierItemDeleteRequest;
+import ig.com.digitalmandi.beans.request.supplier.SupplierListRequest;
 import ig.com.digitalmandi.beans.request.supplier.SupplierOrderAddReq;
-import ig.com.digitalmandi.beans.request.supplier.SupplierOrderBillPrintReq;
-import ig.com.digitalmandi.beans.request.supplier.SupplierOrderDeleteReq;
-import ig.com.digitalmandi.beans.request.supplier.SupplierOrderDetailListReq;
-import ig.com.digitalmandi.beans.request.supplier.SupplierOrderListReq;
-import ig.com.digitalmandi.beans.request.supplier.SupplierProductListReq;
-import ig.com.digitalmandi.beans.request.supplier.SupplierProductModifyReq;
+import ig.com.digitalmandi.beans.request.supplier.SupplierOrderBillPrintRequest;
+import ig.com.digitalmandi.beans.request.supplier.SupplierOrderDetailListRequest;
+import ig.com.digitalmandi.beans.request.supplier.SupplierOrderListRequest;
+import ig.com.digitalmandi.beans.request.supplier.SupplierProductModifyRequest;
 import ig.com.digitalmandi.beans.request.supplier.SupplierPurchaseAddReq;
 import ig.com.digitalmandi.beans.request.supplier.SupplierPurchaseListReq;
 import ig.com.digitalmandi.beans.request.supplier.SupplierPurchasePaymentListReq;
 import ig.com.digitalmandi.beans.request.supplier.SupplierPurchasePaymentReq;
-import ig.com.digitalmandi.beans.request.supplier.SupplierSellerListReq;
-import ig.com.digitalmandi.beans.request.supplier.SupplierUnitListReq;
-import ig.com.digitalmandi.beans.request.supplier.SupplierUnitModifyReq;
+import ig.com.digitalmandi.beans.request.supplier.SupplierUnitModifyRequest;
 import ig.com.digitalmandi.beans.response.common.EmptyResponse;
-import ig.com.digitalmandi.beans.response.common.LoginResModel;
+import ig.com.digitalmandi.beans.response.common.LoginResponse;
+import ig.com.digitalmandi.beans.response.supplier.SellerProductList;
+import ig.com.digitalmandi.beans.response.supplier.SellerUnitList;
 import ig.com.digitalmandi.beans.response.supplier.SupplierBillPrintRes;
-import ig.com.digitalmandi.beans.response.supplier.SupplierListRes;
-import ig.com.digitalmandi.beans.response.supplier.SupplierOrderDetailListRes;
-import ig.com.digitalmandi.beans.response.supplier.SupplierOrderListRes;
+import ig.com.digitalmandi.beans.response.supplier.SupplierListResponse;
+import ig.com.digitalmandi.beans.response.supplier.SupplierOrderDetailListResponse;
+import ig.com.digitalmandi.beans.response.supplier.SupplierOrderListResponse;
 import ig.com.digitalmandi.beans.response.supplier.SupplierPaymentListRes;
-import ig.com.digitalmandi.beans.response.supplier.SupplierProductListRes;
 import ig.com.digitalmandi.beans.response.supplier.SupplierPurchaseListRes;
-import ig.com.digitalmandi.beans.response.supplier.SupplierUnitListRes;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -37,74 +37,92 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Url;
 
-/**
- * Created by dinesh.sengar on 26-08-2016.
- */
 public interface RetrofitInterface {
 
-    @POST(RetrofitConstant.LOGIN_API)
-    Call<LoginResModel> loginUser(@Body LoginReqModel loginReqModel);
+    String LOGIN_API = "loginUser";
+    String LOGOUT_API = "logoutUser";
+    String REGISTRATION_API = "registerUser";
+    String SELLER_API = "sellerInfo";
+    String FORGOT_API = "forgetPassword";
+    String CUSTOMER_API = "customerInfo";
+    String PRODUCT_API = "productList";
+    String UNIT_API = "unitList";
+    String PRODUCT_MODIFIED_API = "productModification";
+    String UNIT_MODIFIED_API = "unitModification";
+    String PURCHASE_LIST = "purchaseList";
+    String PURCHASE_MODIFICATION_API = "purchaseModification";
+    String PURCHASE_PAYMENT = "doPayment";
+    String PURCHASE_PAYMENT_LIST = "paymentList";
+    String CUSTOMER_ORDER_LIST = "orderList";
+    String CUSTOMER_ORDER_DETAIL_LIST = "orderDetailList";
+    String INSERT_NEW_ORDER = "insertOrder";
+    String DELETE_ORDER = "deleteOrder";
+    String DELETE_PURCHASE = "purchaseDelete";
+    String DELETE_PRODUCT_UNIT = "deleteProductUnit";
+    String ORDER_BILL_PRINT = "printBill";
 
-    @POST(RetrofitConstant.LOGOUT_API)
-    Call<EmptyResponse> logoutUser(@Body LogoutReqModel logoutReqModel);
+    @POST(LOGIN_API)
+    Call<LoginResponse> loginUser(@Body LoginRequest loginRequest);
 
-    @POST(RetrofitConstant.REGISTRATION_API)
-    Call<LoginResModel> registerUser(@Body RegistrationReqModel registrationReqModel);
+    @POST(LOGOUT_API)
+    Call<EmptyResponse> logoutUser(@Body LogoutRequest logoutRequest);
 
-    @POST(RetrofitConstant.SELLER_API)
-    Call<SupplierListRes> sellerInfo(@Body SupplierSellerListReq sellerReqModel);
+    @POST(REGISTRATION_API)
+    Call<LoginResponse> registerUser(@Body RegistrationRequest registrationRequest);
 
-    @POST(RetrofitConstant.FORGOT_API)
-    Call<EmptyResponse> forgotPassword(@Body ForgotPasswordReqModel forgotPasswordReqModel);
+    @POST(SELLER_API)
+    Call<SupplierListResponse> sellerInfo(@Body SupplierListRequest sellerReqModel);
 
-    @POST(RetrofitConstant.CUSTOMER_API)
-    Call<SupplierCustomerListRes> supplierCustomerList(@Body SupplierCustomerListReq supplierCustomerReqModel);
+    @POST(FORGOT_API)
+    Call<EmptyResponse> forgotPassword(@Body ForgotPasswordRequest forgotPasswordRequest);
 
-    @POST(RetrofitConstant.PRODUCT_API)
-    Call<SupplierProductListRes> supplierProductList(@Body SupplierProductListReq supplierProductReqModel);
+    @POST(CUSTOMER_API)
+    Call<SellerCustomerList> supplierCustomerList(@Body SellerCustomerListRequest supplierCustomerReqModel);
 
-    @POST(RetrofitConstant.UNIT_API)
-    Call<SupplierUnitListRes> supplierUnitList(@Body SupplierUnitListReq supplierUnitReqModel);
+    @POST(PRODUCT_API)
+    Call<SellerProductList> supplierProductList(@Body SellerProductListRequest supplierProductReqModel);
 
-    @POST(RetrofitConstant.PRODUCT_MODIFIED_API)
-    Call<EmptyResponse> modifiedProduct(@Body SupplierProductModifyReq supplierProductModifyReqModel);
+    @POST(UNIT_API)
+    Call<SellerUnitList> supplierUnitList(@Body SellerUnitListRequest supplierUnitReqModel);
 
+    @POST(PRODUCT_MODIFIED_API)
+    Call<EmptyResponse> modifiedProduct(@Body SupplierProductModifyRequest supplierProductModifyRequestModel);
 
-    @POST(RetrofitConstant.UNIT_MODIFIED_API)
-    Call<EmptyResponse> modifiedUnit(@Body SupplierUnitModifyReq supplierUnitModifyReqModel);
+    @POST(UNIT_MODIFIED_API)
+    Call<EmptyResponse> modifiedUnit(@Body SupplierUnitModifyRequest supplierUnitModifyReqModel);
 
-    @POST(RetrofitConstant.PURCHASE_LIST)
+    @POST(PURCHASE_LIST)
     Call<SupplierPurchaseListRes> purchaseList(@Body SupplierPurchaseListReq purchaseListReqModel);
 
-    @POST(RetrofitConstant.PURCHASE_MODIFICATION_API)
+    @POST(PURCHASE_MODIFICATION_API)
     Call<SupplierPurchaseListRes> purchaseModification(@Body SupplierPurchaseAddReq purchaseListReqModel);
 
-    @POST(RetrofitConstant.PURCHASE_PAYMENT)
+    @POST(PURCHASE_PAYMENT)
     Call<EmptyResponse> doPurchase(@Body SupplierPurchasePaymentReq purchasePaymentReqModel);
 
-    @POST(RetrofitConstant.PURCHASE_PAYMENT_LIST)
+    @POST(PURCHASE_PAYMENT_LIST)
     Call<SupplierPaymentListRes> supplierPurchasePaymentList(@Body SupplierPurchasePaymentListReq paymentListReqModel);
 
-    @POST(RetrofitConstant.CUSTOMER_ORDER_LIST)
-    Call<SupplierOrderListRes> orderListOfAnyCustomer(@Body SupplierOrderListReq supplierOrderListReq);
+    @POST(CUSTOMER_ORDER_LIST)
+    Call<SupplierOrderListResponse> getOrdersOfGivenCustomer(@Body SupplierOrderListRequest supplierOrderListRequest);
 
-    @POST(RetrofitConstant.CUSTOMER_ORDER_DETAIL_LIST)
-    Call<SupplierOrderDetailListRes> orderDetailListOfAnyCustomer(@Body SupplierOrderDetailListReq supplierOrderDetailListReq);
+    @POST(CUSTOMER_ORDER_DETAIL_LIST)
+    Call<SupplierOrderDetailListResponse> orderDetailsOfGivenCustomer(@Body SupplierOrderDetailListRequest supplierOrderDetailListRequest);
 
-    @POST(RetrofitConstant.INSERT_NEW_ORDER)
+    @POST(INSERT_NEW_ORDER)
     Call<EmptyResponse> insertNewOrder(@Body SupplierOrderAddReq supplierOrderAddReq);
 
-    @POST(RetrofitConstant.DELETE_ORDER)
-    Call<EmptyResponse> deleteOrder(@Body SupplierOrderDeleteReq supplierOrderDeleteReq);
+    @POST(DELETE_ORDER)
+    Call<EmptyResponse> deleteOrder(@Body SupplierItemDeleteRequest supplierItemDeleteRequest);
 
-    @POST(RetrofitConstant.DELETE_PURCHASE)
-    Call<EmptyResponse> deletePurchase(@Body SupplierOrderDeleteReq supplierOrderDeleteReq);
+    @POST(DELETE_PURCHASE)
+    Call<EmptyResponse> deletePurchase(@Body SupplierItemDeleteRequest supplierItemDeleteRequest);
 
-    @POST(RetrofitConstant.DELETE_PRODUCT_UNIT)
-    Call<EmptyResponse> deleteProductUnit(@Body SupplierOrderDeleteReq supplierOrderDeleteReq);
+    @POST(DELETE_PRODUCT_UNIT)
+    Call<EmptyResponse> deleteProductUnit(@Body SupplierItemDeleteRequest supplierItemDeleteRequest);
 
-    @POST(RetrofitConstant.ORDER_BILL_PRINT)
-    Call<SupplierBillPrintRes> orderBillPrint(@Body SupplierOrderBillPrintReq supplierOrderBillPrintReq);
+    @POST(ORDER_BILL_PRINT)
+    Call<SupplierBillPrintRes> orderBillPrint(@Body SupplierOrderBillPrintRequest supplierOrderBillPrintReq);
 
     @GET
     Call<ResponseBody> downloadFileWithDynamicUrlSync(@Url String fileUrl);

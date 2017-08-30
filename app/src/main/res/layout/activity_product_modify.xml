@@ -9,90 +9,53 @@
     <include layout="@layout/common_tool_bar" />
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/xml_corner_sign_up_bg"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <FrameLayout
+        <android.support.v7.widget.AppCompatImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/activity_product_modify_iv_product_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:background="@drawable/xml_cornor_signup_bg">
+            android:layout_height="200dp"
+            android:background="@android:color/white"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_launcher"
+            app:civ_border_color="@android:color/white"
+            app:civ_border_width="2dp" />
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
-            <ScrollView
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/activity_product_modify_edt_product_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:scrollbars="none">
+                android:hint="@string/product_name"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:textSize="22sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+        </android.support.design.widget.TextInputLayout>
 
-                    <android.support.v7.widget.AppCompatImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/mImageViewProduct"
-                        android:background="@android:color/white"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="05dp"
-                        android:src="@mipmap/ic_launcher"
-                        app:civ_border_color="@android:color/white"
-                        app:civ_border_width="2dp" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/activity_product_modify_btn_submit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/selector_white_button"
+            android:text="@string/submit"
+            android:textColor="@drawable/selector_white_button_text"
+            android:textSize="20sp" />
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                        app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
-
-                        <android.support.v7.widget.AppCompatEditText
-                            android:id="@+id/mEditTextProductName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/product_name"
-                            android:imeOptions="actionDone"
-                            android:maxLines="1"
-                            android:inputType="textPersonName"
-                            android:textSize="22sp" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                        app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
-
-                        <android.support.v7.widget.AppCompatEditText
-                            android:id="@+id/mEditTextProductQty"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/product_qty"
-                            android:inputType="phone"
-                            android:textSize="22sp" />
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/mButtonProductAdd"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:background="@android:color/white"
-                        android:text="@string/submit"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="20sp" />
-
-                </LinearLayout>
-            </ScrollView>
-        </FrameLayout>
-
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

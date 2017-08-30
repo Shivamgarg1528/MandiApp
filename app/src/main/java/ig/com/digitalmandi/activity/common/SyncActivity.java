@@ -1,68 +1,50 @@
 package ig.com.digitalmandi.activity.common;
 
 import android.os.Bundle;
-import android.os.Handler;
 
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.supplier.SupplierHomeActivity;
-import ig.com.digitalmandi.base_package.ParentActivity;
-import ig.com.digitalmandi.database.BaseContract;
-import ig.com.digitalmandi.database.DataBaseOperation;
-import ig.com.digitalmandi.utils.ConstantValues;
-import ig.com.digitalmandi.utils.MyPrefrences;
+import ig.com.digitalmandi.base_package.BaseActivity;
+import ig.com.digitalmandi.beans.response.common.LoginResponse;
+import ig.com.digitalmandi.database.ModifyPreference;
+import ig.com.digitalmandi.interfaces.ApiCallback;
+import ig.com.digitalmandi.utils.AppConstant;
+import ig.com.digitalmandi.utils.AppSharedPrefs;
 import ig.com.digitalmandi.utils.Utils;
 
-public class SyncActivity extends ParentActivity implements BaseContract.OnInsertBulkDataSuccessFully {
+public class SyncActivity extends BaseActivity implements ApiCallback {
 
-    private Handler handler   = new Handler();
-    private int totalApiCount = 3;
-    private Runnable runnable = new Runnable() {
-
-        @Override
-        public void run() {
-            handler.removeCallbacks(this);
-            if(totalApiCount == DataBaseOperation.operationCount) {
-                DataBaseOperation.operationCount = 0;
-                MyPrefrences.setBooleanPrefrences(ConstantValues.IS_SETUP,true,mRunningActivity);
-                onStartHome();
-            }
-            else
-                handler.postDelayed(this,500);
-        }
-    };
-
-    private void onStartHome(){
-        if (MyPrefrences.getStringPrefrences(ConstantValues.USER_TYPE, mRunningActivity).equalsIgnoreCase(ConstantValues.SELLER)) {
-            Utils.onActivityStart(mRunningActivity, true, new int[]{}, null, SupplierHomeActivity.class);
-        }
-        else{
-
-        }
-    }
+    private int mApiCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, R.layout.activity_sync);
-        MyPrefrences.setBooleanPrefrences(ConstantValues.IS_LOGIN,true,mRunningActivity);
-        if(MyPrefrences.getBooleanPrefrences(ConstantValues.IS_SETUP,mRunningActivity)){
-            onStartHome();
-        }
-        else{
-            handler.postDelayed(runnable,500);
-            DataBaseOperation.insertIntoCustomerTable((ParentActivity) mRunningActivity,this);
-            DataBaseOperation.insertIntoUnitTable((ParentActivity) mRunningActivity,this);
-            DataBaseOperation.insertIntoProductTable((ParentActivity) mRunningActivity,this);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sync);
+        setToolbar(false);
+        setTitle(getString(R.string.string_syncing));
+
+        ModifyPreference modifyPreference = new ModifyPreference(this, this);
+        modifyPreference.addOrUpdateSellerCustomers();
+        modifyPreference.addOrUpdateSellerProducts();
+        modifyPreference.addOrUpdateSellerUnits();
+
+    }
+
+    public void startAfterSync() {
+        LoginResponse.LoginUser loginUserModel = AppSharedPrefs.getInstance(this).getLoginUserModel();
+        if (loginUserModel.getUserType() == AppConstant.SELLER) {
+            Utils.onActivityStart(mBaseActivity, true, null, null, SupplierHomeActivity.class);
+        } else if (loginUserModel.getUserType() == AppConstant.CUSTOMER) {
+            //Utils.onActivityStart(mBaseActivity, true, null, null, CustomerHomeActivity.class);
         }
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        handler.removeCallbacks(runnable);
-    }
-
-    @Override
-    public void onInsertBulkDataSuccess() {
-        ++DataBaseOperation.operationCount;
+    public void onApiResponse() {
+        ++mApiCount;
+        if (mApiCount == 3) {
+            mBaseActivity.showToast(getString(R.string.string_sync_completed));
+            startAfterSync();
+        }
     }
 }

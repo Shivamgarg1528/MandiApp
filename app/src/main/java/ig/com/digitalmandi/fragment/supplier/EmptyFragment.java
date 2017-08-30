@@ -8,12 +8,7 @@ import android.view.ViewGroup;
 
 import ig.com.digitalmandi.base_package.BaseFragment;
 
-/**
- * Created by shivam.garg on 13-10-2016.
- */
-
-public class EmptyFragment extends BaseFragment{
-
+public class EmptyFragment extends BaseFragment {
 
     @Nullable
     @Override
