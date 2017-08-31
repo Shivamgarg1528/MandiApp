@@ -3,7 +3,7 @@ package ig.com.digitalmandi.util;
 import android.util.Patterns;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base.BaseActivity;
+import ig.com.digitalmandi.activity.BaseActivity;
 
 public class EditTextVerification {
 

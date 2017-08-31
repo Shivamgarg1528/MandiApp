@@ -1,6 +1,6 @@
 package ig.com.digitalmandi.retrofit;
 
-import ig.com.digitalmandi.base.AbstractResponse;
+import ig.com.digitalmandi.bean.AbstractResponse;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
 
 public class ResponseVerification {

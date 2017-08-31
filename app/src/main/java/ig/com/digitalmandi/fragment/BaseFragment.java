@@ -1,4 +1,4 @@
-package ig.com.digitalmandi.base;
+package ig.com.digitalmandi.fragment;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.response.LoginResponse;
 import ig.com.digitalmandi.util.AppSharedPrefs;
 

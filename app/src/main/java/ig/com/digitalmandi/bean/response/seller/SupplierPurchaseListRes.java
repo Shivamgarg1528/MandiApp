@@ -3,7 +3,7 @@ package ig.com.digitalmandi.bean.response.seller;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import ig.com.digitalmandi.base.AbstractResponse;
+import ig.com.digitalmandi.bean.AbstractResponse;
 
 /**
  * Created by shiva on 10/23/2016.

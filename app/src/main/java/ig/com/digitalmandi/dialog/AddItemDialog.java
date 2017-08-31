@@ -17,7 +17,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base.BaseDialog;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderAddReq;
 import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
 import ig.com.digitalmandi.bean.response.seller.SupplierPurchaseListRes;

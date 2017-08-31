@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.seller.SupplierHomeActivity;
-import ig.com.digitalmandi.base.BaseActivity;
 import ig.com.digitalmandi.bean.response.LoginResponse;
 import ig.com.digitalmandi.callback.ApiCallback;
 import ig.com.digitalmandi.util.AppConstant;

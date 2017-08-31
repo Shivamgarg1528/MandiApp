@@ -7,7 +7,6 @@ import android.util.Patterns;
 import android.view.View;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base.BaseActivity;
 import ig.com.digitalmandi.bean.request.LoginRequest;
 import ig.com.digitalmandi.bean.response.LoginResponse;
 import ig.com.digitalmandi.dialog.ForgotPasswordDialog;

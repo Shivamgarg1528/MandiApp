@@ -6,7 +6,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base.BaseActivity;
+import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.request.seller.SupplierUnitModifyRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerUnitList;

@@ -2,7 +2,7 @@ package ig.com.digitalmandi.bean.response.seller;
 
 import java.io.Serializable;
 
-import ig.com.digitalmandi.base.AbstractResponse;
+import ig.com.digitalmandi.bean.AbstractResponse;
 
 public class SellerUnitList extends AbstractResponse<SellerUnitList.Unit> {
 

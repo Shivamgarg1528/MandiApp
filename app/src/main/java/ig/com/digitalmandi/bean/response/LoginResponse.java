@@ -1,6 +1,6 @@
 package ig.com.digitalmandi.bean.response;
 
-import ig.com.digitalmandi.base.AbstractResponse;
+import ig.com.digitalmandi.bean.AbstractResponse;
 
 public class LoginResponse extends AbstractResponse<LoginResponse.LoginUser> {
 

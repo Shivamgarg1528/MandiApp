@@ -21,8 +21,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base.AbstractResponse;
-import ig.com.digitalmandi.base.BaseFragment;
+import ig.com.digitalmandi.bean.AbstractResponse;
 import ig.com.digitalmandi.callback.ApiCallback;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;

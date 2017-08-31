@@ -53,7 +53,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import ig.com.digitalmandi.BuildConfig;
-import ig.com.digitalmandi.base.BaseActivity;
+import ig.com.digitalmandi.activity.BaseActivity;
 import okhttp3.ResponseBody;
 
 

@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base.BaseActivity;
+import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.util.Utils;
 
 public class DatePickerClass {

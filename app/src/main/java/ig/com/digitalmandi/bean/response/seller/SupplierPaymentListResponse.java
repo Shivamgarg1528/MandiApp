@@ -1,6 +1,6 @@
 package ig.com.digitalmandi.bean.response.seller;
 
-import ig.com.digitalmandi.base.AbstractResponse;
+import ig.com.digitalmandi.bean.AbstractResponse;
 
 public class SupplierPaymentListResponse extends AbstractResponse<SupplierPaymentListResponse.Payment> {
 

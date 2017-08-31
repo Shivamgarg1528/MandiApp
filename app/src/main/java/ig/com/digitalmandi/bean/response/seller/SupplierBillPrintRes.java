@@ -1,6 +1,6 @@
 package ig.com.digitalmandi.bean.response.seller;
 
-import ig.com.digitalmandi.base.AbstractResponse;
+import ig.com.digitalmandi.bean.AbstractResponse;
 
 /**
  * Created by shivam.garg on 11-11-2016.

@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import ig.com.digitalmandi.base.BaseFragment;
+import ig.com.digitalmandi.fragment.BaseFragment;
 
 public class EmptyFragment extends BaseFragment {
 

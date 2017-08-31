@@ -1,4 +1,4 @@
-package ig.com.digitalmandi.base;
+package ig.com.digitalmandi.activity;
 
 import android.app.AlertDialog;
 import android.content.res.Resources;

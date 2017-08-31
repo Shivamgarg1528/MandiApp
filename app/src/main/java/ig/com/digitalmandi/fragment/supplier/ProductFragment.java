@@ -8,10 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import java.util.Comparator;
 
 import ig.com.digitalmandi.R;
+import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.activity.seller.SupplierProductModifyActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierProductAdapter;
-import ig.com.digitalmandi.base.AbstractResponse;
-import ig.com.digitalmandi.base.BaseActivity;
+import ig.com.digitalmandi.bean.AbstractResponse;
 import ig.com.digitalmandi.bean.request.seller.SupplierItemDeleteRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierProductModifyRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;

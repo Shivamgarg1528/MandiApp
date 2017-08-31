@@ -17,9 +17,9 @@ import java.util.Date;
 import java.util.List;
 
 import ig.com.digitalmandi.R;
+import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.activity.ListBaseActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierOrderAdapter;
-import ig.com.digitalmandi.base.BaseActivity;
 import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
 import ig.com.digitalmandi.bean.request.seller.SupplierItemDeleteRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderBillPrintRequest;

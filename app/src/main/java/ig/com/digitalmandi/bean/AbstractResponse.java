@@ -1,4 +1,4 @@
-package ig.com.digitalmandi.base;
+package ig.com.digitalmandi.bean;
 
 import java.util.List;
 

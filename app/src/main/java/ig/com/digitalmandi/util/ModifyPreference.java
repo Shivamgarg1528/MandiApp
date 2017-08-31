@@ -1,6 +1,6 @@
 package ig.com.digitalmandi.util;
 
-import ig.com.digitalmandi.base.BaseActivity;
+import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
 import ig.com.digitalmandi.bean.request.seller.SellerCustomerListRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerProductListRequest;

@@ -10,7 +10,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base.BaseDialog;
 import ig.com.digitalmandi.util.Utils;
 
 /**

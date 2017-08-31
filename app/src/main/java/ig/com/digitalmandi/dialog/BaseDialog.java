@@ -1,4 +1,4 @@
-package ig.com.digitalmandi.base;
+package ig.com.digitalmandi.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 
 import ig.com.digitalmandi.R;
+import ig.com.digitalmandi.activity.BaseActivity;
 
 public abstract class BaseDialog extends Dialog {
 

@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base.BaseActivity;
-import ig.com.digitalmandi.base.BaseFragment;
+import ig.com.digitalmandi.activity.BaseActivity;
+import ig.com.digitalmandi.fragment.BaseFragment;
 import ig.com.digitalmandi.fragment.supplier.CustomerFragment;
 import ig.com.digitalmandi.fragment.supplier.EmptyFragment;
 import ig.com.digitalmandi.fragment.supplier.LogoutFragment;

@@ -16,7 +16,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base.BaseActivity;
+import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.request.seller.RegistrationRequest;
 import ig.com.digitalmandi.bean.response.LoginResponse;
 import ig.com.digitalmandi.bean.response.seller.SupplierListResponse;

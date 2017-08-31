@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base.BaseActivity;
 
 public abstract class ListBaseActivity<T> extends BaseActivity {
 

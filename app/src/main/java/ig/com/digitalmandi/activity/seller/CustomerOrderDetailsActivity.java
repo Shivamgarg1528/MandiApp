@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import ig.com.digitalmandi.R;
+import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.activity.ListBaseActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierOrderDetailAdapter;
-import ig.com.digitalmandi.base.BaseActivity;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderDetailListRequest;
 import ig.com.digitalmandi.bean.response.seller.SupplierOrderDetailListResponse;
 import ig.com.digitalmandi.bean.response.seller.SupplierOrderListResponse;

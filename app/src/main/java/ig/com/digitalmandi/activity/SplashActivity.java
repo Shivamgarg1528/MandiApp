@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base.BaseActivity;
 import ig.com.digitalmandi.bean.response.LoginResponse;
 import ig.com.digitalmandi.util.AppSharedPrefs;
 import ig.com.digitalmandi.util.Utils;

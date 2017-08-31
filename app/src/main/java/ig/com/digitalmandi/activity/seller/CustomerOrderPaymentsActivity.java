@@ -7,8 +7,8 @@ import android.view.View;
 
 import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
+import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierPurchasePaymentAdapter;
-import ig.com.digitalmandi.base.BaseActivity;
 import ig.com.digitalmandi.bean.request.seller.SupplierPurchasePaymentListRequest;
 import ig.com.digitalmandi.bean.response.seller.SupplierOrderListResponse;
 import ig.com.digitalmandi.bean.response.seller.SupplierPaymentListResponse;

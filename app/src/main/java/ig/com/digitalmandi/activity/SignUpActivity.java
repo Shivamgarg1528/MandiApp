@@ -15,7 +15,6 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base.BaseActivity;
 import ig.com.digitalmandi.bean.request.seller.RegistrationRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierListRequest;
 import ig.com.digitalmandi.bean.response.LoginResponse;
