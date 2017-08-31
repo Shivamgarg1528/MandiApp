@@ -8,6 +8,6 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ig.com.digitalmandi.activity.supplier.SupplierPurchaseSoldActivity">
+    tools:context="ig.com.digitalmandi.activity.seller.SupplierPurchaseSoldActivity">
 
 </RelativeLayout>

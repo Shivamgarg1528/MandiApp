@@ -13,18 +13,18 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base_package.BaseActivity;
-import ig.com.digitalmandi.beans.response.supplier.SellerProductList;
-import ig.com.digitalmandi.interfaces.EventListener;
-import ig.com.digitalmandi.utils.AppConstant;
+import ig.com.digitalmandi.base.BaseActivity;
+import ig.com.digitalmandi.bean.response.seller.SellerProductList;
+import ig.com.digitalmandi.callback.EventCallback;
+import ig.com.digitalmandi.util.AppConstant;
 
 public class SupplierProductAdapter extends RecyclerView.Adapter<SupplierProductAdapter.ViewHolder> {
 
     private List<SellerProductList.Product> mDataList;
     private BaseActivity mBaseActivity;
-    private EventListener mListener;
+    private EventCallback mListener;
 
-    public SupplierProductAdapter(List<SellerProductList.Product> pProductList, BaseActivity pBaseActivity, EventListener pListener) {
+    public SupplierProductAdapter(List<SellerProductList.Product> pProductList, BaseActivity pBaseActivity, EventCallback pListener) {
         this.mDataList = pProductList;
         this.mBaseActivity = pBaseActivity;
         this.mListener = pListener;

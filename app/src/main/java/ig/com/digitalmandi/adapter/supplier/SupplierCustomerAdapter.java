@@ -10,22 +10,22 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base_package.BaseActivity;
-import ig.com.digitalmandi.beans.request.supplier.SellerCustomerList;
-import ig.com.digitalmandi.interfaces.EventListener;
-import ig.com.digitalmandi.utils.AppConstant;
-import ig.com.digitalmandi.utils.Utils;
+import ig.com.digitalmandi.base.BaseActivity;
+import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
+import ig.com.digitalmandi.callback.EventCallback;
+import ig.com.digitalmandi.util.AppConstant;
+import ig.com.digitalmandi.util.Utils;
 
 public class SupplierCustomerAdapter extends RecyclerView.Adapter<SupplierCustomerAdapter.ViewHolder> {
 
     private final BaseActivity mBaseActivity;
-    private final EventListener mEventListener;
+    private final EventCallback mEventCallback;
     private List<SellerCustomerList.Customer> mDataList;
 
-    public SupplierCustomerAdapter(List<SellerCustomerList.Customer> pDataList, BaseActivity pBaseActivity, EventListener pEventListener) {
+    public SupplierCustomerAdapter(List<SellerCustomerList.Customer> pDataList, BaseActivity pBaseActivity, EventCallback pEventCallback) {
         this.mDataList = pDataList;
         this.mBaseActivity = pBaseActivity;
-        mEventListener = pEventListener;
+        mEventCallback = pEventCallback;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class SupplierCustomerAdapter extends RecyclerView.Adapter<SupplierCustom
             @Override
             public void onClick(View view) {
                 SellerCustomerList.Customer data = mDataList.get(holder.getAdapterPosition());
-                mEventListener.onEvent(AppConstant.OPERATION_CUSTOMER_OPEN, data);
+                mEventCallback.onEvent(AppConstant.OPERATION_CUSTOMER_OPEN, data);
             }
         });
 
@@ -56,7 +56,7 @@ public class SupplierCustomerAdapter extends RecyclerView.Adapter<SupplierCustom
             @Override
             public void onClick(View view) {
                 SellerCustomerList.Customer data = mDataList.get(holder.getAdapterPosition());
-                mEventListener.onEvent(AppConstant.OPERATION_CUSTOMER_ORDERS, data);
+                mEventCallback.onEvent(AppConstant.OPERATION_CUSTOMER_ORDERS, data);
             }
         });
     }

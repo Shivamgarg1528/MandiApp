@@ -5,16 +5,16 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.activity.common.SplashActivity;
-import ig.com.digitalmandi.base_package.BaseActivity;
-import ig.com.digitalmandi.base_package.BaseFragment;
-import ig.com.digitalmandi.beans.request.common.LogoutRequest;
-import ig.com.digitalmandi.beans.response.common.EmptyResponse;
+import ig.com.digitalmandi.activity.SplashActivity;
+import ig.com.digitalmandi.base.BaseActivity;
+import ig.com.digitalmandi.base.BaseFragment;
+import ig.com.digitalmandi.bean.request.LogoutRequest;
+import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
-import ig.com.digitalmandi.utils.AppSharedPrefs;
-import ig.com.digitalmandi.utils.Utils;
+import ig.com.digitalmandi.util.AppSharedPrefs;
+import ig.com.digitalmandi.util.Utils;
 
 public class LogoutFragment extends BaseFragment {
 

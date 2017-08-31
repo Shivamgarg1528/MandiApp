@@ -12,22 +12,22 @@ import android.widget.TextView;
 import java.util.List;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base_package.BaseActivity;
-import ig.com.digitalmandi.beans.response.supplier.SupplierOrderListResponse;
-import ig.com.digitalmandi.interfaces.EventListener;
-import ig.com.digitalmandi.utils.AppConstant;
-import ig.com.digitalmandi.utils.Utils;
+import ig.com.digitalmandi.base.BaseActivity;
+import ig.com.digitalmandi.bean.response.seller.SupplierOrderListResponse;
+import ig.com.digitalmandi.callback.EventCallback;
+import ig.com.digitalmandi.util.AppConstant;
+import ig.com.digitalmandi.util.Utils;
 
 public class SupplierOrderAdapter extends RecyclerView.Adapter<SupplierOrderAdapter.ViewHolder> {
 
     private List<SupplierOrderListResponse.Order> mDataList;
     private BaseActivity mBaseActivity;
-    private EventListener mEventListener;
+    private EventCallback mEventCallback;
 
-    public SupplierOrderAdapter(List<SupplierOrderListResponse.Order> pDataList, BaseActivity pBaseActivity, EventListener pEventListener) {
+    public SupplierOrderAdapter(List<SupplierOrderListResponse.Order> pDataList, BaseActivity pBaseActivity, EventCallback pEventCallback) {
         this.mDataList = pDataList;
         this.mBaseActivity = pBaseActivity;
-        this.mEventListener = pEventListener;
+        this.mEventCallback = pEventCallback;
     }
 
     public void notifyData(TextView emptyView) {
@@ -78,22 +78,22 @@ public class SupplierOrderAdapter extends RecyclerView.Adapter<SupplierOrderAdap
                         switch (item) {
 
                             case 0: {
-                                mEventListener.onEvent(AppConstant.OPERATION_DELETE, orderObject);
+                                mEventCallback.onEvent(AppConstant.OPERATION_DELETE, orderObject);
                                 break;
                             }
 
                             case 1: {
-                                mEventListener.onEvent(AppConstant.OPERATION_ORDER_PAYMENT_DETAILS, orderObject);
+                                mEventCallback.onEvent(AppConstant.OPERATION_ORDER_PAYMENT_DETAILS, orderObject);
                                 break;
                             }
 
                             case 2: {
-                                mEventListener.onEvent(AppConstant.OPERATION_ORDER_DETAILS, orderObject);
+                                mEventCallback.onEvent(AppConstant.OPERATION_ORDER_DETAILS, orderObject);
                                 break;
                             }
 
                             case 3: {
-                                mEventListener.onEvent(AppConstant.OPERATION_ORDER_BILL_PRINT, orderObject);
+                                mEventCallback.onEvent(AppConstant.OPERATION_ORDER_BILL_PRINT, orderObject);
                                 break;
                             }
                         }

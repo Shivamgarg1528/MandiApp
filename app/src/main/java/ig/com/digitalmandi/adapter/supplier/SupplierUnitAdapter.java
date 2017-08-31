@@ -12,18 +12,18 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base_package.BaseActivity;
-import ig.com.digitalmandi.beans.response.supplier.SellerUnitList;
-import ig.com.digitalmandi.interfaces.EventListener;
-import ig.com.digitalmandi.utils.AppConstant;
+import ig.com.digitalmandi.base.BaseActivity;
+import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
+import ig.com.digitalmandi.callback.EventCallback;
+import ig.com.digitalmandi.util.AppConstant;
 
 public class SupplierUnitAdapter extends RecyclerView.Adapter<SupplierUnitAdapter.ViewHolder> {
 
     private BaseActivity mBaseActivity;
     private List<SellerUnitList.Unit> mDataList;
-    private EventListener mListener;
+    private EventCallback mListener;
 
-    public SupplierUnitAdapter(List<SellerUnitList.Unit> pDataList, BaseActivity pBaseActivity, EventListener pListener) {
+    public SupplierUnitAdapter(List<SellerUnitList.Unit> pDataList, BaseActivity pBaseActivity, EventCallback pListener) {
         this.mDataList = pDataList;
         this.mBaseActivity = pBaseActivity;
         this.mListener = pListener;

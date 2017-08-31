@@ -9,16 +9,16 @@ import java.util.Comparator;
 import java.util.List;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.activity.supplier.CustomerOrdersActivity;
-import ig.com.digitalmandi.activity.supplier.SupplierCustomerAddActivity;
+import ig.com.digitalmandi.activity.seller.CustomerOrdersActivity;
+import ig.com.digitalmandi.activity.seller.SupplierCustomerAddActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierCustomerAdapter;
-import ig.com.digitalmandi.beans.request.supplier.SellerCustomerList;
-import ig.com.digitalmandi.database.ModifyPreference;
-import ig.com.digitalmandi.dialogs.CustomerDialog;
+import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
+import ig.com.digitalmandi.dialog.CustomerDialog;
 import ig.com.digitalmandi.fragment.ListBaseFragment;
-import ig.com.digitalmandi.utils.AppConstant;
-import ig.com.digitalmandi.utils.AppSharedPrefs;
-import ig.com.digitalmandi.utils.Utils;
+import ig.com.digitalmandi.util.AppConstant;
+import ig.com.digitalmandi.util.AppSharedPrefs;
+import ig.com.digitalmandi.util.ModifyPreference;
+import ig.com.digitalmandi.util.Utils;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class CustomerFragment extends ListBaseFragment<SellerCustomerList.Customer> implements EasyPermissions.PermissionCallbacks {

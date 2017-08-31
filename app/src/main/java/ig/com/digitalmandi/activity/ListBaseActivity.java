@@ -11,14 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base_package.BaseActivity;
+import ig.com.digitalmandi.base.BaseActivity;
 
 public abstract class ListBaseActivity<T> extends BaseActivity {
 
     protected List<T> mDataList = new ArrayList<>(0);
     protected List<T> mBackUpList = new ArrayList<>(0);
-    private TextView mTextViewEmpty;
+    protected RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
+    private TextView mTextViewEmpty;
 
     protected abstract RecyclerView.Adapter getAdapter();
 
@@ -26,7 +27,7 @@ public abstract class ListBaseActivity<T> extends BaseActivity {
 
     protected abstract int getEmptyTextStringId();
 
-    protected abstract void fetchData();
+    protected abstract void fetchData(boolean pRefresh);
 
     protected abstract void getIntentData();
 
@@ -39,12 +40,11 @@ public abstract class ListBaseActivity<T> extends BaseActivity {
         mTextViewEmpty = (AppCompatTextView) findViewById(R.id.layout_common_list_tv_empty_text_view);
         mTextViewEmpty.setText(getEmptyTextStringId());
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.layout_common_list_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(mAdapter = getAdapter());
-        fetchData();
+        mRecyclerView = (RecyclerView) findViewById(R.id.layout_common_list_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mAdapter = getAdapter());
+        fetchData(true);
     }
-
 
     protected void notifyAdapterAndView() {
         mTextViewEmpty.setVisibility(mDataList.isEmpty() ? View.VISIBLE : View.INVISIBLE);

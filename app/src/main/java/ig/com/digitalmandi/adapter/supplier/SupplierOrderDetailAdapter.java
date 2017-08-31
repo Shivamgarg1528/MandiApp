@@ -11,8 +11,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.beans.response.supplier.SupplierOrderDetailListResponse;
-import ig.com.digitalmandi.utils.Utils;
+import ig.com.digitalmandi.bean.response.seller.SupplierOrderDetailListResponse;
+import ig.com.digitalmandi.util.Utils;
 
 public class SupplierOrderDetailAdapter extends RecyclerView.Adapter<SupplierOrderDetailAdapter.ViewHolder> {
 

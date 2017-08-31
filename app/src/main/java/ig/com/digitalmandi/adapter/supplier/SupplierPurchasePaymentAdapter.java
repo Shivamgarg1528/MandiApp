@@ -13,9 +13,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.beans.response.supplier.SupplierPaymentListResponse;
-import ig.com.digitalmandi.utils.AppConstant;
-import ig.com.digitalmandi.utils.Utils;
+import ig.com.digitalmandi.bean.response.seller.SupplierPaymentListResponse;
+import ig.com.digitalmandi.util.AppConstant;
+import ig.com.digitalmandi.util.Utils;
 
 public class SupplierPurchasePaymentAdapter extends RecyclerView.Adapter<SupplierPurchasePaymentAdapter.ViewHolder> {
 

@@ -21,14 +21,14 @@ import java.util.Comparator;
 import java.util.List;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base_package.AbstractResponse;
-import ig.com.digitalmandi.base_package.BaseFragment;
-import ig.com.digitalmandi.interfaces.ApiCallback;
-import ig.com.digitalmandi.interfaces.EventListener;
-import ig.com.digitalmandi.utils.AppConstant;
-import ig.com.digitalmandi.utils.Utils;
+import ig.com.digitalmandi.base.AbstractResponse;
+import ig.com.digitalmandi.base.BaseFragment;
+import ig.com.digitalmandi.callback.ApiCallback;
+import ig.com.digitalmandi.callback.EventCallback;
+import ig.com.digitalmandi.util.AppConstant;
+import ig.com.digitalmandi.util.Utils;
 
-public abstract class ListBaseFragment<T> extends BaseFragment implements EventListener<T>, SearchView.OnQueryTextListener, ApiCallback {
+public abstract class ListBaseFragment<T> extends BaseFragment implements EventCallback<T>, SearchView.OnQueryTextListener, ApiCallback {
 
     protected List<T> mDataList = new ArrayList<>(0);
     protected List<T> mBackUpList = new ArrayList<>(0);

@@ -2,7 +2,7 @@ package ig.com.digitalmandi.retrofit;
 
 import java.util.concurrent.TimeUnit;
 
-import ig.com.digitalmandi.utils.AppConstant;
+import ig.com.digitalmandi.util.AppConstant;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;

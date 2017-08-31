@@ -219,7 +219,7 @@
 
     <!-- Customer Order's Activity-->
     <string name="string_no_customer_info_found">No Customer Information Found</string>
-    <string name="string_no_order_found_please_add_new_order">No Order Found\nPlease Add New Order</string>
+    <string name="string_no_customer_orders_found_please_add_new_order">No Order Found\nPlease Add New Order</string>
     <string name="string_start_date">Start Date</string>
     <string name="string_end_date">End Date</string>
     <string name="string_reset_filter">Reset Filter</string>

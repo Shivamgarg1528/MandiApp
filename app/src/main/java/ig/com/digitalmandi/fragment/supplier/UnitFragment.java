@@ -7,22 +7,22 @@ import android.support.v7.widget.RecyclerView;
 import java.util.Comparator;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.activity.supplier.SellerUnitModifyActivity;
+import ig.com.digitalmandi.activity.seller.SellerUnitModifyActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierUnitAdapter;
-import ig.com.digitalmandi.base_package.BaseActivity;
-import ig.com.digitalmandi.beans.request.supplier.SupplierItemDeleteRequest;
-import ig.com.digitalmandi.beans.request.supplier.SupplierUnitModifyRequest;
-import ig.com.digitalmandi.beans.response.common.EmptyResponse;
-import ig.com.digitalmandi.beans.response.supplier.SellerUnitList;
-import ig.com.digitalmandi.database.ModifyPreference;
-import ig.com.digitalmandi.dialogs.MyAlertDialog;
+import ig.com.digitalmandi.base.BaseActivity;
+import ig.com.digitalmandi.bean.request.seller.SupplierItemDeleteRequest;
+import ig.com.digitalmandi.bean.request.seller.SupplierUnitModifyRequest;
+import ig.com.digitalmandi.bean.response.EmptyResponse;
+import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
+import ig.com.digitalmandi.dialog.MyAlertDialog;
 import ig.com.digitalmandi.fragment.ListBaseFragment;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
-import ig.com.digitalmandi.utils.AppConstant;
-import ig.com.digitalmandi.utils.AppSharedPrefs;
-import ig.com.digitalmandi.utils.Utils;
+import ig.com.digitalmandi.util.AppConstant;
+import ig.com.digitalmandi.util.AppSharedPrefs;
+import ig.com.digitalmandi.util.ModifyPreference;
+import ig.com.digitalmandi.util.Utils;
 
 public class UnitFragment extends ListBaseFragment<SellerUnitList.Unit> {
 

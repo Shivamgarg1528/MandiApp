@@ -4,7 +4,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.base_package.BaseActivity;
+import ig.com.digitalmandi.base.BaseActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

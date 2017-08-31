@@ -9,7 +9,7 @@ import android.net.Uri;
 import java.util.ArrayList;
 import java.util.List;
 
-import ig.com.digitalmandi.beans.response.supplier.SupplierPurchaseListRes;
+import ig.com.digitalmandi.bean.response.seller.SupplierPurchaseListRes;
 
 /**
  * Created by shiva on 10/23/2016.
@@ -19,6 +19,10 @@ public class PurchaseContract <T> extends BaseContract<T> {
 
     public static final String PATH  = "purchase";
     private static final String TYPE = ".purchase_items";
+
+    public PurchaseContract(Context mContext) {
+        super(mContext);
+    }
 
     @Override
     public void insertBulkData(final List<T> dataList, final Uri mUri, final OnInsertBulkDataSuccessFully listener) {
@@ -121,10 +125,6 @@ public class PurchaseContract <T> extends BaseContract<T> {
             }
         }
         return (List<T>) purchaseList;
-    }
-
-    public PurchaseContract(Context mContext) {
-        super(mContext);
     }
 
     public static final class Purchase {

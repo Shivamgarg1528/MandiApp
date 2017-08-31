@@ -30,24 +30,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.activity.supplier.SupplierPurchaseActivity;
-import ig.com.digitalmandi.activity.supplier.SupplierPurchasePaymentActivity;
-import ig.com.digitalmandi.activity.supplier.SupplierPurchaseSoldActivity;
+import ig.com.digitalmandi.activity.seller.SupplierPurchaseActivity;
+import ig.com.digitalmandi.activity.seller.SupplierPurchasePaymentActivity;
+import ig.com.digitalmandi.activity.seller.SupplierPurchaseSoldActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierPurchaseAdapter;
-import ig.com.digitalmandi.base_package.BaseActivity;
-import ig.com.digitalmandi.base_package.BaseFragment;
-import ig.com.digitalmandi.base_package.LoadMoreClass;
-import ig.com.digitalmandi.beans.request.supplier.SupplierItemDeleteRequest;
-import ig.com.digitalmandi.beans.request.supplier.SupplierPurchaseListReq;
-import ig.com.digitalmandi.beans.response.supplier.SupplierPurchaseListRes;
+import ig.com.digitalmandi.base.BaseActivity;
+import ig.com.digitalmandi.base.BaseFragment;
+import ig.com.digitalmandi.bean.request.seller.SupplierItemDeleteRequest;
+import ig.com.digitalmandi.bean.request.seller.SupplierPurchaseListReq;
+import ig.com.digitalmandi.bean.response.seller.SupplierPurchaseListRes;
 import ig.com.digitalmandi.database.PurchaseContract;
-import ig.com.digitalmandi.dialogs.DatePickerClass;
+import ig.com.digitalmandi.dialog.DatePickerClass;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
-import ig.com.digitalmandi.utils.AppConstant;
-import ig.com.digitalmandi.utils.MyPrefrences;
-import ig.com.digitalmandi.utils.Utils;
+import ig.com.digitalmandi.util.AppConstant;
+import ig.com.digitalmandi.util.LoadMoreClass;
+import ig.com.digitalmandi.util.MyPrefrences;
+import ig.com.digitalmandi.util.Utils;
 
 /**
  * Created by shiva on 10/22/2016.

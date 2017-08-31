@@ -9,7 +9,7 @@ import android.net.Uri;
 import java.util.ArrayList;
 import java.util.List;
 
-import ig.com.digitalmandi.beans.request.supplier.SellerCustomerList;
+import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
 
 /**
  * Created by shivam.garg on 18-10-2016.

@@ -14,14 +14,14 @@
         android:required="true" />
 
     <application
-        android:name=".base_package.ApplicationClass"
+        android:name=".ApplicationClass"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:overrideLibrary="gun0912.tedbottompicker"
         tools:replace="android:icon">
 
-        <activity android:name=".activity.common.SplashActivity">
+        <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,26 +29,26 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.common.LoginActivity" />
+        <activity android:name=".activity.LoginActivity" />
         <activity
-            android:name=".activity.common.SignUpActivity"
+            android:name=".activity.SignUpActivity"
             android:theme="@style/AppTheme.Dark"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activity.common.SyncActivity" />
-        <activity android:name=".activity.supplier.SupplierHomeActivity" />
-        <activity android:name=".activity.supplier.CustomerOrdersActivity" />
+        <activity android:name=".activity.SyncActivity" />
+        <activity android:name=".activity.seller.SupplierHomeActivity" />
+        <activity android:name=".activity.seller.CustomerOrdersActivity" />
         <activity
-            android:name=".activity.supplier.SupplierCustomerAddActivity"
+            android:name=".activity.seller.SupplierCustomerAddActivity"
             android:windowSoftInputMode="adjustPan" />
 
-        <activity android:name=".activity.supplier.SupplierProductModifyActivity" />
-        <activity android:name=".activity.supplier.SellerUnitModifyActivity" />
-        <activity android:name=".activity.supplier.SupplierPurchaseActivity" />
-        <activity android:name=".activity.supplier.SupplierPurchasePaymentActivity" />
-        <activity android:name=".activity.supplier.AddItemInOrderActivity" />
-        <activity android:name=".activity.supplier.CustomerOrderDetailsActivity" />
-        <activity android:name=".activity.supplier.CustomerOrderPaymentsActivity" />
-        <activity android:name=".activity.supplier.SupplierPurchaseSoldActivity" />
+        <activity android:name=".activity.seller.SupplierProductModifyActivity" />
+        <activity android:name=".activity.seller.SellerUnitModifyActivity" />
+        <activity android:name=".activity.seller.SupplierPurchaseActivity" />
+        <activity android:name=".activity.seller.SupplierPurchasePaymentActivity" />
+        <activity android:name=".activity.seller.AddItemInOrderActivity" />
+        <activity android:name=".activity.seller.CustomerOrderDetailsActivity" />
+        <activity android:name=".activity.seller.CustomerOrderPaymentsActivity" />
+        <activity android:name=".activity.seller.SupplierPurchaseSoldActivity" />
 
         <activity android:name=".activity.customer.CustomerActivity" />
 

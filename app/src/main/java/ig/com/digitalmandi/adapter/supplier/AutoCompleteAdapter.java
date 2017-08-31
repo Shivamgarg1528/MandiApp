@@ -15,9 +15,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.beans.response.supplier.SupplierPurchaseListRes;
-import ig.com.digitalmandi.interfaces.AdapterCallBack;
-import ig.com.digitalmandi.utils.Utils;
+import ig.com.digitalmandi.bean.response.seller.SupplierPurchaseListRes;
+import ig.com.digitalmandi.callback.AdapterCallback;
+import ig.com.digitalmandi.util.Utils;
 
 /**
  * Created by shiva on 10/28/2016.
@@ -29,13 +29,13 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
     private List<SupplierPurchaseListRes.ResultBean> originalList;
     private List<SupplierPurchaseListRes.ResultBean> suggestions = new ArrayList<>();
     private Filter filter = new CustomFilter();
-    private AdapterCallBack callBack;
+    private AdapterCallback callBack;
 
     /**
      * @param context      Context
      * @param originalList Original list used to compare in constraints.
      */
-    public AutoCompleteAdapter(Context context, List<SupplierPurchaseListRes.ResultBean> originalList, AdapterCallBack callBack) {
+    public AutoCompleteAdapter(Context context, List<SupplierPurchaseListRes.ResultBean> originalList, AdapterCallback callBack) {
         this.context      = context;
         this.originalList = originalList;
         this.callBack     = callBack;

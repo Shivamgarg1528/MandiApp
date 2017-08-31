@@ -13,9 +13,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.beans.response.supplier.SupplierPurchaseListRes;
-import ig.com.digitalmandi.interfaces.AdapterCallBack;
-import ig.com.digitalmandi.utils.Utils;
+import ig.com.digitalmandi.bean.response.seller.SupplierPurchaseListRes;
+import ig.com.digitalmandi.callback.AdapterCallback;
+import ig.com.digitalmandi.util.Utils;
 
 /**
  * Created by shiva on 11/5/2016.
@@ -25,9 +25,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     private AppCompatActivity mHostActivity;
     private List<SupplierPurchaseListRes.ResultBean> originalList;
-    private AdapterCallBack callBack;
+    private AdapterCallback callBack;
 
-    public ItemsAdapter(AppCompatActivity mHostActivity, List<SupplierPurchaseListRes.ResultBean> originalList, AdapterCallBack callBack) {
+    public ItemsAdapter(AppCompatActivity mHostActivity, List<SupplierPurchaseListRes.ResultBean> originalList, AdapterCallback callBack) {
         this.mHostActivity = mHostActivity;
         this.originalList = originalList;
         this.callBack = callBack;
