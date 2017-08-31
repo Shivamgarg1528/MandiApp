@@ -4,7 +4,7 @@ package ig.com.digitalmandi.beans.request.supplier;
  * Created by shivam.garg on 25-10-2016.
  */
 
-public class SupplierPurchasePaymentListReq {
+public class SupplierPurchasePaymentListRequest {
 
     /**
      * id : 12

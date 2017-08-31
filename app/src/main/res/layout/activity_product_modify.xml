@@ -6,7 +6,7 @@
     android:background="@color/colorWhite"
     android:orientation="vertical">
 
-    <include layout="@layout/common_tool_bar" />
+    <include layout="@layout/layout_common_top_bar" />
 
 
     <LinearLayout

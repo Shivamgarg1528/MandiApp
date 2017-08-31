@@ -5,7 +5,7 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/common_tool_bar" />
+    <include layout="@layout/layout_common_top_bar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,10 +15,9 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/activity_supplier_customer_more_info_btn_start_date"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:layout_weight="1"
             android:background="@drawable/selector_blue_button"
             android:gravity="center"
             android:text="@string/string_start_date"
@@ -27,10 +26,9 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/activity_supplier_customer_more_info_btn_end_date"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:layout_weight="1"
             android:background="@drawable/selector_blue_button"
             android:gravity="center"
             android:text="@string/string_end_date"
@@ -39,10 +37,9 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/activity_supplier_customer_more_info_btn_reset_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:layout_weight="1"
             android:background="@drawable/selector_blue_button"
             android:gravity="center"
             android:text="@string/string_reset_filter"
@@ -51,5 +48,5 @@
 
     </LinearLayout>
 
-    <include layout="@layout/layout_common_recycler_view" />
+    <include layout="@layout/layout_common_list" />
 </LinearLayout>

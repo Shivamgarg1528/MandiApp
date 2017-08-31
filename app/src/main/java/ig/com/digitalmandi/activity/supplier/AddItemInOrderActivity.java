@@ -53,11 +53,11 @@ import ig.com.digitalmandi.utils.Utils;
 public class AddItemInOrderActivity extends BaseActivity implements AdapterCallBack, LoaderManager.LoaderCallbacks<Cursor>, OrderCallBack, AdapterView.OnItemSelectedListener {
 
     private final int UNIT_LOADER = 1;
-    @BindView(R.id.recyclerView)
+    @BindView(R.id.layout_common_list_recycler_view)
     RecyclerView recyclerView;
-    @BindView(R.id.emptyTextView)
+    @BindView(R.id.layout_common_list_tv_empty_text_view)
     AppCompatTextView emptyTextView;
-    @BindView(R.id.id_fragment_progressbar)
+    @BindView(R.id.layout_common_list_progress_bar)
     ProgressBar idFragmentProgressbar;
     @BindView(R.id.mButtonDatePicker)
     AppCompatButton mButtonDatePicker;

@@ -17,8 +17,8 @@ import butterknife.OnClick;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.adapter.supplier.SupplierPurchasePaymentAdapter;
 import ig.com.digitalmandi.base_package.BaseActivity;
-import ig.com.digitalmandi.beans.request.supplier.SupplierPurchasePaymentListReq;
-import ig.com.digitalmandi.beans.response.supplier.SupplierPaymentListRes;
+import ig.com.digitalmandi.beans.request.supplier.SupplierPurchasePaymentListRequest;
+import ig.com.digitalmandi.beans.response.supplier.SupplierPaymentListResponse;
 import ig.com.digitalmandi.beans.response.supplier.SupplierPurchaseListRes;
 import ig.com.digitalmandi.dialogs.PurchasePaymentDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
@@ -30,31 +30,31 @@ import ig.com.digitalmandi.utils.Utils;
 public class SupplierPurchasePaymentActivity extends BaseActivity {
 
     public static final String PURCHASE_OBJECT_KEY = "purchaseObjKey";
-    @BindView(R.id.mButtonPurchasePayment)
+    @BindView(R.id.activity_purchase_payment_tv_payment)
     AppCompatButton mButtonPurchasePayment;
-    @BindView(R.id.recyclerView)
+    @BindView(R.id.layout_common_list_recycler_view)
     RecyclerView recyclerView;
-    @BindView(R.id.emptyTextView)
+    @BindView(R.id.layout_common_list_tv_empty_text_view)
     AppCompatTextView emptyTextView;
-    @BindView(R.id.mTextViewPurchaseAmt)
+    @BindView(R.id.activity_purchase_payment_tv_order_amount)
     AppCompatTextView mTextViewPurchaseAmt;
-    @BindView(R.id.mTextViewPaidAmt)
+    @BindView(R.id.activity_purchase_payment_tv_paid_amount)
     AppCompatTextView mTextViewPaidAmt;
-    @BindView(R.id.mTextViewDueAmt)
+    @BindView(R.id.activity_purchase_payment_tv_due_amount)
     AppCompatTextView mTextViewDueAmt;
-    @BindView(R.id.mTextViewInterestAmt)
+    @BindView(R.id.activity_purchase_payment_tv_interest_amount)
     AppCompatTextView mTextViewInterestAmt;
-    @BindView(R.id.mTextViewInterestPaidAmt)
+    @BindView(R.id.activity_purchase_payment_tv_interest_paid_amount)
     AppCompatTextView mTextViewInterestPaidAmt;
-    @BindView(R.id.mTextViewInterestDueAmt)
+    @BindView(R.id.activity_purchase_payment_tv_interest_due_amount)
     AppCompatTextView mTextViewInterestDueAmt;
-    @BindView(R.id.mTextViewTotalPaidAmt)
+    @BindView(R.id.activity_purchase_payment_tv_total_paid_amount)
     AppCompatTextView mTextViewTotalPaidAmt;
     @BindView(R.id.activity_purchase_payment)
     LinearLayout activityPurchasePayment;
     private SupplierPurchaseListRes.ResultBean purchaseObject;
     private SupplierPurchasePaymentAdapter mAdapter;
-    private List<SupplierPaymentListRes.ResultBean> dataList = new ArrayList<>();
+    private List<SupplierPaymentListResponse.Payment> dataList = new ArrayList<>();
     private float purchaseAmt = 0.0f;
 
     @Override
@@ -82,13 +82,13 @@ public class SupplierPurchasePaymentActivity extends BaseActivity {
         emptyTextView.setText("No Payment Found\nPlease Pay Due Amount");
         setTitle(getString(R.string.payment_history_title, purchaseObject.getNameOfPerson()));
         purchaseAmt = Float.parseFloat(Utils.formatStringUpTo2Precision(purchaseObject.getTotalAmount()));
-        mAdapter = new SupplierPurchasePaymentAdapter(dataList, this);
+        mAdapter = new SupplierPurchasePaymentAdapter(dataList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mAdapter);
         onFetchDataFromServer(false);
     }
 
-    @OnClick(R.id.mButtonPurchasePayment)
+    @OnClick(R.id.activity_purchase_payment_tv_payment)
     public void onClick() {
         PurchasePaymentDialog dialog = new PurchasePaymentDialog(mBaseActivity, true, true, R.layout.dilaog_purchase_payment);
         dialog.show(purchaseObject, new PurchasePaymentDialog.OnPaymentDone() {
@@ -109,7 +109,7 @@ public class SupplierPurchasePaymentActivity extends BaseActivity {
         float dueInterestAmt = 0.0f;
         float total = 0.0f;
 
-        for (SupplierPaymentListRes.ResultBean iterableObject : dataList) {
+        for (SupplierPaymentListResponse.Payment iterableObject : dataList) {
             paymentAmt += Float.parseFloat(iterableObject.getAmount());
             interestAmt += Float.parseFloat(iterableObject.getInterestAmt());
             paidInterestAmt += iterableObject.getInterestPaid().equalsIgnoreCase("1") ? Float.parseFloat(iterableObject.getInterestAmt()) : 0.0f;
@@ -135,15 +135,15 @@ public class SupplierPurchasePaymentActivity extends BaseActivity {
     private void onFetchDataFromServer(boolean showDialog) {
 
         showOrHideProgressBar(true);
-        SupplierPurchasePaymentListReq supplierPurchasePaymentListReq = new SupplierPurchasePaymentListReq();
-        supplierPurchasePaymentListReq.setId(purchaseObject.getPurchaseId());
-        supplierPurchasePaymentListReq.setFlag(AppConstant.DELETE_PURCHASE);
+        SupplierPurchasePaymentListRequest supplierPurchasePaymentListRequest = new SupplierPurchasePaymentListRequest();
+        supplierPurchasePaymentListRequest.setId(purchaseObject.getPurchaseId());
+        supplierPurchasePaymentListRequest.setFlag(AppConstant.DELETE_OR_PAYMENT_PURCHASE);
 
-        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().supplierPurchasePaymentList(supplierPurchasePaymentListReq);
-        mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPaymentListRes>(mBaseActivity, showDialog) {
+        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().supplierPurchasePaymentList(supplierPurchasePaymentListRequest);
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPaymentListResponse>(mBaseActivity, showDialog) {
 
             @Override
-            public void onSuccess(SupplierPaymentListRes pResponse, BaseActivity pBaseActivity) {
+            public void onSuccess(SupplierPaymentListResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     dataList.clear();
                     dataList.addAll(pResponse.getResult());

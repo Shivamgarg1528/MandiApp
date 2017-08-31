@@ -17,7 +17,7 @@ import ig.com.digitalmandi.beans.request.supplier.SupplierOrderListRequest;
 import ig.com.digitalmandi.beans.request.supplier.SupplierProductModifyRequest;
 import ig.com.digitalmandi.beans.request.supplier.SupplierPurchaseAddReq;
 import ig.com.digitalmandi.beans.request.supplier.SupplierPurchaseListReq;
-import ig.com.digitalmandi.beans.request.supplier.SupplierPurchasePaymentListReq;
+import ig.com.digitalmandi.beans.request.supplier.SupplierPurchasePaymentListRequest;
 import ig.com.digitalmandi.beans.request.supplier.SupplierPurchasePaymentReq;
 import ig.com.digitalmandi.beans.request.supplier.SupplierUnitModifyRequest;
 import ig.com.digitalmandi.beans.response.common.EmptyResponse;
@@ -28,7 +28,7 @@ import ig.com.digitalmandi.beans.response.supplier.SupplierBillPrintRes;
 import ig.com.digitalmandi.beans.response.supplier.SupplierListResponse;
 import ig.com.digitalmandi.beans.response.supplier.SupplierOrderDetailListResponse;
 import ig.com.digitalmandi.beans.response.supplier.SupplierOrderListResponse;
-import ig.com.digitalmandi.beans.response.supplier.SupplierPaymentListRes;
+import ig.com.digitalmandi.beans.response.supplier.SupplierPaymentListResponse;
 import ig.com.digitalmandi.beans.response.supplier.SupplierPurchaseListRes;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -101,7 +101,7 @@ public interface RetrofitInterface {
     Call<EmptyResponse> doPurchase(@Body SupplierPurchasePaymentReq purchasePaymentReqModel);
 
     @POST(PURCHASE_PAYMENT_LIST)
-    Call<SupplierPaymentListRes> supplierPurchasePaymentList(@Body SupplierPurchasePaymentListReq paymentListReqModel);
+    Call<SupplierPaymentListResponse> supplierPurchasePaymentList(@Body SupplierPurchasePaymentListRequest paymentListReqModel);
 
     @POST(CUSTOMER_ORDER_LIST)
     Call<SupplierOrderListResponse> getOrdersOfGivenCustomer(@Body SupplierOrderListRequest supplierOrderListRequest);

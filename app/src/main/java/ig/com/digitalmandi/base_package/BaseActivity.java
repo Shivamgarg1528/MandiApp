@@ -34,7 +34,7 @@ public abstract class BaseActivity<T> extends AppCompatActivity {
 
     public void showOrHideProgressBar(boolean pShownOrHide) {
         try {
-            ProgressBar progressBar = (ProgressBar) findViewById(R.id.id_fragment_progressbar);
+            ProgressBar progressBar = (ProgressBar) findViewById(R.id.layout_common_list_progress_bar);
             progressBar.setIndeterminate(true);
             progressBar.setVisibility(pShownOrHide ? View.VISIBLE : View.INVISIBLE);
         } catch (Exception ex) {

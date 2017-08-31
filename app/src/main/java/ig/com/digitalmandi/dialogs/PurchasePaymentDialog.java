@@ -218,7 +218,7 @@ public class PurchasePaymentDialog extends BaseDialog implements DatePickerClass
         this.onPaymentDone = onPaymentDone;
         this.dateString    = purchaseObject.getPurchaseDate();
         this.objectId      = purchaseObject.getPurchaseId();
-        this.flag = AppConstant.DELETE_PURCHASE;
+        this.flag = AppConstant.DELETE_OR_PAYMENT_PURCHASE;
         show();
     }
 
@@ -226,7 +226,7 @@ public class PurchasePaymentDialog extends BaseDialog implements DatePickerClass
         this.onPaymentDone = onPaymentDone;
         this.dateString    = soldObject.getOrderDate();
         this.objectId      = soldObject.getOrderId();
-        this.flag = AppConstant.DELETE_ORDER;
+        this.flag = AppConstant.DELETE_OR_PAYMENT_ORDER;
         show();
     }
 

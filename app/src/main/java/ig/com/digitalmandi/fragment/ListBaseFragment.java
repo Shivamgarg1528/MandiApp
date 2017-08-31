@@ -59,11 +59,11 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventL
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mTextViewEmpty = (TextView) view.findViewById(R.id.emptyTextView);
+        mTextViewEmpty = (TextView) view.findViewById(R.id.layout_common_list_tv_empty_text_view);
         mTextViewEmpty.setText(getEmptyTextStringId());
 
         // create adapter and set on recycler view
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.layout_common_list_recycler_view);
         recyclerView.setAdapter(mAdapter = getAdapter());
         recyclerView.setHasFixedSize(true);
 

@@ -247,6 +247,19 @@
 
     <!-- Order Details-->
     <string name="string_order_id_details">Order (%s) Details</string>
-    <string name="string_no_order_details_found_please_try_again_later">No Order Details Found\nPlease Try Again Later</string>
+    <string name="string_no_customer_order_details_found_please_try_again_later">No Order Details Found\nPlease Try Again Later</string>
+    <string name="string_no_customer_payment_found_please_pay_due_amount">No Payment Found\nPlease Pay Due Amount</string>
+
+    <!--Payment -->
+    <string name="string_new_payment">New Payment</string>
+    <string name="string_order_amount">Order Amount</string>
+    <string name="string_paid_amount">Paid Amount</string>
+    <string name="string_due_amount">Due Amount</string>
+    <string name="string_interest_amount">Interest Amount</string>
+    <string name="string_interest_paid_amount">Interest Paid Amount</string>
+    <string name="string_interest_due_amount">Interest Due Amount</string>
+    <string name="string_total_paid_amount">Total Paid Amount</string>
+    <string name="string_interest_paid">Interest Paid ?</string>
+    <string name="string_interest_text">\@%s%% Interest</string>
 
 </resources>

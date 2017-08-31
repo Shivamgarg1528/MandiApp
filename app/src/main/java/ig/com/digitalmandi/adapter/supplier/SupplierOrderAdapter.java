@@ -83,17 +83,17 @@ public class SupplierOrderAdapter extends RecyclerView.Adapter<SupplierOrderAdap
                             }
 
                             case 1: {
-                                mEventListener.onEvent(AppConstant.OPERATION_PAYMENT_HISTORY, orderObject);
+                                mEventListener.onEvent(AppConstant.OPERATION_ORDER_PAYMENT_DETAILS, orderObject);
                                 break;
                             }
 
                             case 2: {
-                                mEventListener.onEvent(AppConstant.OPERATION_DETAILS, orderObject);
+                                mEventListener.onEvent(AppConstant.OPERATION_ORDER_DETAILS, orderObject);
                                 break;
                             }
 
                             case 3: {
-                                mEventListener.onEvent(AppConstant.OPERATION_BILL_PRINT, orderObject);
+                                mEventListener.onEvent(AppConstant.OPERATION_ORDER_BILL_PRINT, orderObject);
                                 break;
                             }
                         }

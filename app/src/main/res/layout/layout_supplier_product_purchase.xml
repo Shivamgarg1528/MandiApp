@@ -47,5 +47,5 @@
     </LinearLayout>
 
 
-    <include layout="@layout/layout_common_recycler_view"/>
+    <include layout="@layout/layout_common_list" />
 </LinearLayout>

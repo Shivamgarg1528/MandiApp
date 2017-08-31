@@ -56,9 +56,9 @@ import ig.com.digitalmandi.utils.Utils;
 public class PurchaseFragment extends BaseFragment implements SearchView.OnQueryTextListener, LoaderManager.LoaderCallbacks<Cursor>, SupplierPurchaseAdapter.PurchaseCallBack, DatePickerClass.OnDateSelected {
 
     public static final int PURCHASE_REQUEST_CODE = 1001;
-    @BindView(R.id.recyclerView)
+    @BindView(R.id.layout_common_list_recycler_view)
     RecyclerView mRecyclerViewCustomer;
-    @BindView(R.id.emptyTextView)
+    @BindView(R.id.layout_common_list_tv_empty_text_view)
     TextView emptyView;
     @BindView(R.id.activity_supplier_customer_more_info_btn_start_date)
     AppCompatButton mButtonStartDate;
@@ -159,7 +159,7 @@ public class PurchaseFragment extends BaseFragment implements SearchView.OnQuery
         mAdapter = new SupplierPurchaseAdapter(mDataList, mBaseActivity, this);
         mRecyclerViewCustomer.setAdapter(mAdapter);
 
-        loadMoreClass = new LoadMoreClass((GridLayoutManager) mRecyclerViewCustomer.getLayoutManager()) {
+        loadMoreClass = new LoadMoreClass() {
 
             @Override
             public void onLoadMore() {
@@ -249,7 +249,7 @@ public class PurchaseFragment extends BaseFragment implements SearchView.OnQuery
     public void onDelete(SupplierPurchaseListRes.ResultBean object, View view) {
 
         final SupplierItemDeleteRequest supplierItemDeleteRequest = new SupplierItemDeleteRequest();
-        supplierItemDeleteRequest.setFlag(AppConstant.DELETE_PURCHASE);
+        supplierItemDeleteRequest.setFlag(AppConstant.DELETE_OR_PAYMENT_PURCHASE);
         supplierItemDeleteRequest.setId(object.getPurchaseId());
 
        /* MyAlertDialog.onShowAlertDialog(mBaseActivity, "Continue,To Delete This Purchase!", "Continue", "Leave", true,  new OnAlertDialogCallBack() {

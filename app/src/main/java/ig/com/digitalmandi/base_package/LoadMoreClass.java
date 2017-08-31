@@ -6,11 +6,6 @@ import android.support.v7.widget.RecyclerView;
 public class LoadMoreClass extends RecyclerView.OnScrollListener {
 
     private boolean mLoading = true;
-    private GridLayoutManager mLayoutManager;
-
-    protected LoadMoreClass(GridLayoutManager linearLayout) {
-        this.mLayoutManager = linearLayout;
-    }
 
     public void onLoadMore() {
     }
@@ -19,15 +14,14 @@ public class LoadMoreClass extends RecyclerView.OnScrollListener {
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         if (dy > 0) //check for scroll down
         {
-            int visibleItemsCount = mLayoutManager.getChildCount();
-            int totalItemsCount = mLayoutManager.getItemCount();
-            int pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
+            GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
+            int visibleItemsCount = layoutManager.getChildCount();
+            int totalItemsCount = layoutManager.getItemCount();
+            int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
 
-            if (mLoading) {
-                if ((visibleItemsCount + pastVisibleItems) >= totalItemsCount) {
-                    mLoading = false;
-                    onLoadMore();
-                }
+            if (mLoading && (visibleItemsCount + pastVisibleItems) >= totalItemsCount) {
+                mLoading = false;
+                onLoadMore();
             }
         }
     }

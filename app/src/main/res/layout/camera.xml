@@ -3,5 +3,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/common_tool_bar" />
+    <include layout="@layout/layout_common_top_bar" />
 </LinearLayout>

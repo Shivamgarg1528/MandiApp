@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/common_tool_bar" />
+    <include layout="@layout/layout_common_top_bar" />
 
-    <include layout="@layout/layout_common_recycler_view" />
+    <include layout="@layout/layout_common_list" />
 
 </LinearLayout>

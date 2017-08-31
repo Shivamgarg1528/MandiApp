@@ -5,6 +5,6 @@
     android:background="#F1F1F1"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_common_recycler_view" />
+    <include layout="@layout/layout_common_list" />
 
 </FrameLayout>

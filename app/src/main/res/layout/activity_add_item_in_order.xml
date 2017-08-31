@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/common_tool_bar" />
+    <include layout="@layout/layout_common_top_bar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -39,15 +39,15 @@
             <FrameLayout
                 android:id="@+id/mFrameLayoutParent"
                 android:layout_width="match_parent"
-                android:background="#F1F1F1"
-                android:layout_height="100dp">
+                android:layout_height="100dp"
+                android:background="#F1F1F1">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerViewItems"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                    android:layout_height="match_parent">
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager">
                 </android.support.v7.widget.RecyclerView>
 
                 <android.support.v7.widget.AppCompatTextView
@@ -56,9 +56,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:visibility="invisible"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="invisible" />
 
             </FrameLayout>
 
@@ -78,7 +78,7 @@
                 android:background="@color/colorPrimary" />
 
             <include
-                layout="@layout/layout_common_recycler_view"
+                layout="@layout/layout_common_list"
                 android:layout_width="match_parent"
                 android:layout_height="230dp" />
 
@@ -128,10 +128,10 @@
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/mSpinnerExpenses"
                     android:layout_width="match_parent"
-                    app:backgroundTint="@color/colorWhite"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"></android.support.v7.widget.AppCompatSpinner>
+                    android:layout_marginTop="8dp"
+                    app:backgroundTint="@color/colorWhite"></android.support.v7.widget.AppCompatSpinner>
 
                 <android.support.v7.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -143,10 +143,10 @@
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/mSpinnerBardana"
                     android:layout_width="match_parent"
-                    app:backgroundTint="@color/colorWhite"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"></android.support.v7.widget.AppCompatSpinner>
+                    android:layout_marginTop="8dp"
+                    app:backgroundTint="@color/colorWhite"></android.support.v7.widget.AppCompatSpinner>
 
                 <android.support.v7.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -160,9 +160,9 @@
                     android:id="@+id/mSpinnerLabour"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:backgroundTint="@color/colorWhite"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"></android.support.v7.widget.AppCompatSpinner>
+                    android:layout_marginTop="8dp"
+                    app:backgroundTint="@color/colorWhite"></android.support.v7.widget.AppCompatSpinner>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -175,8 +175,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Quintal Cost"
-                        android:maxLength="@integer/priceValueLimit"
                         android:inputType="numberDecimal"
+                        android:maxLength="@integer/priceValueLimit"
                         android:maxLines="1"
                         android:textColor="@color/colorWhite"
                         android:textSize="18sp" />
@@ -195,8 +195,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Driver Name"
-                        android:maxLength="20"
                         android:inputType="textPersonName"
+                        android:maxLength="20"
                         android:textColor="@color/colorWhite"
                         android:textSize="18sp" />
                 </android.support.design.widget.TextInputLayout>
@@ -212,8 +212,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Driver Phone No"
-                        android:maxLength="10"
                         android:inputType="phone"
+                        android:maxLength="10"
                         android:textColor="@color/colorWhite"
                         android:textSize="18sp" />
                 </android.support.design.widget.TextInputLayout>
@@ -230,8 +230,8 @@
                         android:layout_height="wrap_content"
                         android:hint="Vehicle No"
                         android:imeOptions="actionDone"
-                        android:maxLength="15"
                         android:inputType="textCapCharacters"
+                        android:maxLength="15"
                         android:maxLines="1"
                         android:textColor="@color/colorWhite"
                         android:textSize="18sp" />
@@ -248,9 +248,9 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:weightSum="1"
                         android:layout_marginTop="02dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -274,9 +274,9 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:weightSum="1"
                         android:layout_marginTop="02dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -300,9 +300,9 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:weightSum="1"
                         android:layout_marginTop="02dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -326,9 +326,9 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:weightSum="1"
                         android:layout_marginTop="02dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -352,9 +352,9 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:weightSum="1"
                         android:layout_marginTop="02dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -378,9 +378,9 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:weightSum="1"
                         android:layout_marginTop="02dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -404,9 +404,9 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:weightSum="1"
                         android:layout_marginTop="02dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="0dp"
@@ -430,9 +430,9 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:weightSum="1"
                         android:layout_marginTop="02dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="0dp"

@@ -40,7 +40,7 @@ import ig.com.digitalmandi.utils.Utils;
 import okhttp3.ResponseBody;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class SupplierCustomerOrderActivity extends BaseActivity<SupplierOrderListResponse.Order> implements SearchView.OnQueryTextListener, DatePickerClass.OnDateSelected, EasyPermissions.PermissionCallbacks, View.OnClickListener, EventListener {
+public class CustomerOrdersActivity extends BaseActivity<SupplierOrderListResponse.Order> implements SearchView.OnQueryTextListener, DatePickerClass.OnDateSelected, EasyPermissions.PermissionCallbacks, View.OnClickListener, EventListener {
 
     private int mPageCount = 1;
     private boolean mLoadMore = false;
@@ -57,6 +57,17 @@ public class SupplierCustomerOrderActivity extends BaseActivity<SupplierOrderLis
     private AppCompatButton mBtnEndDate;
     private RecyclerView mRecyclerView;
     private AppCompatTextView mTextViewEmpty;
+    private LoadMoreClass mLoadMoreClass = new LoadMoreClass() {
+
+        @Override
+        public void onLoadMore() {
+            if (mLoadMore) {
+                return;
+            }
+            ++mPageCount;
+            fetchDataFromServer(false);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +76,7 @@ public class SupplierCustomerOrderActivity extends BaseActivity<SupplierOrderLis
         setToolbar(true);
 
         mCustomerObj = (SellerCustomerList.Customer) getIntent().getSerializableExtra(AppConstant.KEY_OBJECT);
-        if (mCustomerObj == null) {
-            mBaseActivity.showToast(getString(R.string.string_no_customer_info_found));
-            return;
-        }
-        setTitle(mCustomerObj.getUserName() + getString(R.string.string_customer_orders));
+        setTitle(mCustomerObj.getUserName().toUpperCase() + getString(R.string.string_customer_orders));
 
         mBtnStartDate = (AppCompatButton) findViewById(R.id.activity_supplier_customer_more_info_btn_start_date);
         mBtnStartDate.setOnClickListener(this);
@@ -79,27 +86,17 @@ public class SupplierCustomerOrderActivity extends BaseActivity<SupplierOrderLis
 
         findViewById(R.id.activity_supplier_customer_more_info_btn_reset_date).setOnClickListener(this);
 
-        mTextViewEmpty = (AppCompatTextView) findViewById(R.id.emptyTextView);
+        mTextViewEmpty = (AppCompatTextView) findViewById(R.id.layout_common_list_tv_empty_text_view);
         mTextViewEmpty.setText(R.string.string_no_order_found_please_add_new_order);
 
         mAdapter = new SupplierOrderAdapter(mDataList, this, this);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.layout_common_list_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-
-        LoadMoreClass mLoadMoreClass = new LoadMoreClass((GridLayoutManager) mRecyclerView.getLayoutManager()) {
-            @Override
-            public void onLoadMore() {
-                super.onLoadMore();
-                if (mLoadMore)
-                    return;
-                ++mPageCount;
-                fetchDataFromServer(false);
-            }
-        };
         mRecyclerView.addOnScrollListener(mLoadMoreClass);
+
         fetchDataFromServer(true);
     }
 
@@ -232,7 +229,7 @@ public class SupplierCustomerOrderActivity extends BaseActivity<SupplierOrderLis
                         if (which == DialogInterface.BUTTON_POSITIVE) {
 
                             SupplierItemDeleteRequest supplierItemDeleteRequest = new SupplierItemDeleteRequest();
-                            supplierItemDeleteRequest.setFlag(AppConstant.DELETE_ORDER);
+                            supplierItemDeleteRequest.setFlag(AppConstant.DELETE_OR_PAYMENT_ORDER);
                             supplierItemDeleteRequest.setId(mOrderObj.getOrderId());
 
                             mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().deleteOrder(supplierItemDeleteRequest);
@@ -257,19 +254,19 @@ public class SupplierCustomerOrderActivity extends BaseActivity<SupplierOrderLis
                 });
                 break;
             }
-            case AppConstant.OPERATION_DETAILS: {
-                Intent intent = new Intent(mBaseActivity, SupplierCustomerOrderDetailActivity.class);
+            case AppConstant.OPERATION_ORDER_DETAILS: {
+                Intent intent = new Intent(mBaseActivity, CustomerOrderDetailsActivity.class);
                 intent.putExtra(AppConstant.KEY_OBJECT, mOrderObj);
                 Utils.onActivityStart(mBaseActivity, false, null, intent, null);
                 break;
             }
-            case AppConstant.OPERATION_PAYMENT_HISTORY: {
-                Intent intent = new Intent(mBaseActivity, SupplierSoldPaymentActivity.class);
+            case AppConstant.OPERATION_ORDER_PAYMENT_DETAILS: {
+                Intent intent = new Intent(mBaseActivity, CustomerOrderPaymentsActivity.class);
                 intent.putExtra(AppConstant.KEY_OBJECT, mOrderObj);
                 Utils.onActivityStart(mBaseActivity, false, null, intent, null);
                 break;
             }
-            case AppConstant.OPERATION_BILL_PRINT: {
+            case AppConstant.OPERATION_ORDER_BILL_PRINT: {
                 if (EasyPermissions.hasPermissions(mBaseActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     showPDFActivity();
                 } else {

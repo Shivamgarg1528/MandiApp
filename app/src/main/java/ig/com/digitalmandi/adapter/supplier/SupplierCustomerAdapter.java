@@ -48,7 +48,7 @@ public class SupplierCustomerAdapter extends RecyclerView.Adapter<SupplierCustom
             @Override
             public void onClick(View view) {
                 SellerCustomerList.Customer data = mDataList.get(holder.getAdapterPosition());
-                mEventListener.onEvent(AppConstant.OPERATION_OPEN_CUSTOMER_POPUP, data);
+                mEventListener.onEvent(AppConstant.OPERATION_CUSTOMER_OPEN, data);
             }
         });
 
@@ -56,7 +56,7 @@ public class SupplierCustomerAdapter extends RecyclerView.Adapter<SupplierCustom
             @Override
             public void onClick(View view) {
                 SellerCustomerList.Customer data = mDataList.get(holder.getAdapterPosition());
-                mEventListener.onEvent(AppConstant.OPERATION_EDIT, data);
+                mEventListener.onEvent(AppConstant.OPERATION_CUSTOMER_ORDERS, data);
             }
         });
     }

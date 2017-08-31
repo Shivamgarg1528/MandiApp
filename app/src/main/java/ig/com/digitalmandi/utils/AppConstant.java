@@ -27,8 +27,8 @@ public class AppConstant {
     public static final String DELETE_PRODUCT = "0";
     public static final String DELETE_UNIT = "1";
 
-    public static final String DELETE_ORDER = "0";
-    public static final String DELETE_PURCHASE = "1";
+    public static final String DELETE_OR_PAYMENT_ORDER = "0";
+    public static final String DELETE_OR_PAYMENT_PURCHASE = "1";
 
     public static final String IN_STOCK = "1";
     public static final String OUT_STOCK = "0";
@@ -57,11 +57,14 @@ public class AppConstant {
     public static final int OPERATION_EDIT = 1;
     public static final int OPERATION_DELETE = 2;
     public static final int OPERATION_STATUS_MODIFY = 3;
-    public static final int OPERATION_OPEN_CUSTOMER_POPUP = 4;
-    public static final int OPERATION_CALL = 5;
-    public static final int OPERATION_PAYMENT_HISTORY = 6;
-    public static final int OPERATION_DETAILS = 7;
-    public static final int OPERATION_BILL_PRINT = 8;
+
+    public static final int OPERATION_CUSTOMER_OPEN = 4;
+    public static final int OPERATION_CUSTOMER_CALL = 5;
+    public static final int OPERATION_CUSTOMER_ORDERS = 6;
+
+    public static final int OPERATION_ORDER_PAYMENT_DETAILS = 7;
+    public static final int OPERATION_ORDER_DETAILS = 8;
+    public static final int OPERATION_ORDER_BILL_PRINT = 9;
 
     /* Operation On Items*/
     public static final String ADD = "add";
@@ -69,6 +72,7 @@ public class AppConstant {
     public static final String UPDATE = "update";
 
 
+    public static final String INTEREST_PAID = "1";
 }
 
 

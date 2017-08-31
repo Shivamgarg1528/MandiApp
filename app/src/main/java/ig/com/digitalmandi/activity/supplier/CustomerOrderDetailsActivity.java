@@ -1,12 +1,10 @@
 package ig.com.digitalmandi.activity.supplier;
 
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
+import ig.com.digitalmandi.activity.ListBaseActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierOrderDetailAdapter;
 import ig.com.digitalmandi.base_package.BaseActivity;
 import ig.com.digitalmandi.beans.request.supplier.SupplierOrderDetailListRequest;
@@ -17,32 +15,29 @@ import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.utils.AppConstant;
 
-public class SupplierCustomerOrderDetailActivity extends BaseActivity<SupplierOrderDetailListResponse.OrderDetail> {
+public class CustomerOrderDetailsActivity extends ListBaseActivity<SupplierOrderDetailListResponse.OrderDetail> {
 
-    private SupplierOrderDetailAdapter mAdapter;
+    private SupplierOrderListResponse.Order mOrderObj;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_supplier_customer_order_detail);
-        ButterKnife.bind(this);
-        setToolbar(true);
+    protected RecyclerView.Adapter getAdapter() {
+        return new SupplierOrderDetailAdapter(mDataList);
+    }
 
-        SupplierOrderListResponse.Order mOrderObj = (SupplierOrderListResponse.Order) getIntent().getSerializableExtra(AppConstant.KEY_OBJECT);
-        setTitle(String.format(getString(R.string.string_order_id_details), mOrderObj.getOrderId()));
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_customer_order_details;
+    }
 
-        mAdapter = new SupplierOrderDetailAdapter(mDataList);
+    @Override
+    protected int getEmptyTextStringId() {
+        return R.string.string_no_customer_order_details_found_please_try_again_later;
+    }
 
-        final AppCompatTextView textViewEmpty = (AppCompatTextView) findViewById(R.id.emptyTextView);
-        textViewEmpty.setText(R.string.string_no_order_details_found_please_try_again_later);
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+    @Override
+    protected void fetchData() {
 
         showOrHideProgressBar(true);
-
         SupplierOrderDetailListRequest supplierOrderDetailListRequest = new SupplierOrderDetailListRequest();
         supplierOrderDetailListRequest.setFlag(AppConstant.COLUMN_ORDER_ID);
         supplierOrderDetailListRequest.setId(mOrderObj.getOrderId());
@@ -55,15 +50,25 @@ public class SupplierCustomerOrderDetailActivity extends BaseActivity<SupplierOr
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     mDataList.addAll(pResponse.getResult());
                 }
-                mAdapter.notifyData(textViewEmpty);
+                notifyAdapterAndView();
             }
 
             @Override
             public void onFailure(String pErrorMsg) {
-                mAdapter.notifyData(textViewEmpty);
             }
+
         });
     }
 
+    @Override
+    protected void getIntentData() {
+        mOrderObj = (SupplierOrderListResponse.Order) getIntent().getSerializableExtra(AppConstant.KEY_OBJECT);
+    }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setToolbar(true);
+        setTitle(String.format(getString(R.string.string_order_id_details), mOrderObj.getOrderId()));
+    }
 }

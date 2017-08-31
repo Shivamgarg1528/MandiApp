@@ -9,8 +9,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import ig.com.digitalmandi.R;
+import ig.com.digitalmandi.activity.supplier.CustomerOrdersActivity;
 import ig.com.digitalmandi.activity.supplier.SupplierCustomerAddActivity;
-import ig.com.digitalmandi.activity.supplier.SupplierCustomerOrderActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierCustomerAdapter;
 import ig.com.digitalmandi.beans.request.supplier.SellerCustomerList;
 import ig.com.digitalmandi.database.ModifyPreference;
@@ -88,20 +88,20 @@ public class CustomerFragment extends ListBaseFragment<SellerCustomerList.Custom
     public void onEvent(int pOperationType, SellerCustomerList.Customer pCustomer) {
         switch (pOperationType) {
 
-            case AppConstant.OPERATION_OPEN_CUSTOMER_POPUP: {
+            case AppConstant.OPERATION_CUSTOMER_OPEN: {
                 mCustomerDialog = new CustomerDialog(mBaseActivity, this);
                 mCustomerDialog.show(pCustomer);
                 break;
             }
 
-            case AppConstant.OPERATION_EDIT: {
-                Intent intent = new Intent(mBaseActivity, SupplierCustomerOrderActivity.class);
+            case AppConstant.OPERATION_CUSTOMER_ORDERS: {
+                Intent intent = new Intent(mBaseActivity, CustomerOrdersActivity.class);
                 intent.putExtra(AppConstant.KEY_OBJECT, pCustomer);
                 Utils.onActivityStart(mBaseActivity, false, null, intent, null);
                 break;
             }
 
-            case AppConstant.OPERATION_CALL: {
+            case AppConstant.OPERATION_CUSTOMER_CALL: {
                 if (EasyPermissions.hasPermissions(mBaseActivity, Manifest.permission.CALL_PHONE)) {
                     mCustomerDialog.makeCall();
                 } else {

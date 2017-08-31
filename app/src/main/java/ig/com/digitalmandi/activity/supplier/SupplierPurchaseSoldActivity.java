@@ -22,16 +22,16 @@ import ig.com.digitalmandi.utils.AppConstant;
 public class SupplierPurchaseSoldActivity extends BaseActivity {
 
     public static String PURCHASE_OBJECT_KEY = "purchaseObject";
-    @BindView(R.id.recyclerView)
+    @BindView(R.id.layout_common_list_recycler_view)
     RecyclerView recyclerView;
-    @BindView(R.id.emptyTextView)
+    @BindView(R.id.layout_common_list_tv_empty_text_view)
     AppCompatTextView emptyTextView;
     private SupplierPurchaseListRes.ResultBean purchaseInfo;
     private SupplierOrderDetailAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, R.layout.activity_supplier_customer_order_detail);
+        super.onCreate(savedInstanceState, R.layout.activity_customer_order_details);
 
         if (mToolBar != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -66,12 +66,12 @@ public class SupplierPurchaseSoldActivity extends BaseActivity {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     mDataList.addAll(pResponse.getResult());
                 }
-                mAdapter.notifyData(emptyTextView);
+                // mAdapter.notifyData(emptyTextView);
             }
 
             @Override
             public void onFailure(String pErrorMsg) {
-                mAdapter.notifyData(emptyTextView);
+                //mAdapter.notifyData(emptyTextView);
             }
         });
     }

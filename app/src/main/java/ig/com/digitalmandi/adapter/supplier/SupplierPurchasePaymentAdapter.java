@@ -1,6 +1,5 @@
 package ig.com.digitalmandi.adapter.supplier;
 
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
@@ -14,21 +13,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.beans.response.supplier.SupplierPaymentListRes;
+import ig.com.digitalmandi.beans.response.supplier.SupplierPaymentListResponse;
+import ig.com.digitalmandi.utils.AppConstant;
 import ig.com.digitalmandi.utils.Utils;
-
-/**
- * Created by shivam.garg on 25-10-2016.
- */
 
 public class SupplierPurchasePaymentAdapter extends RecyclerView.Adapter<SupplierPurchasePaymentAdapter.ViewHolder> {
 
-    private List<SupplierPaymentListRes.ResultBean> paymentList;
-    private AppCompatActivity mHostActivity;
+    private List<SupplierPaymentListResponse.Payment> mDataList;
 
-    public SupplierPurchasePaymentAdapter(List<SupplierPaymentListRes.ResultBean> purchaseList, AppCompatActivity mHostActivity) {
-        this.paymentList  = purchaseList;
-        this.mHostActivity = mHostActivity;
+    public SupplierPurchasePaymentAdapter(List<SupplierPaymentListResponse.Payment> pDataList) {
+        this.mDataList = pDataList;
     }
 
     @Override
@@ -37,35 +31,31 @@ public class SupplierPurchasePaymentAdapter extends RecyclerView.Adapter<Supplie
         return new ViewHolder(holderView);
     }
 
-    public void notifyData(TextView emptyView) {
-        if (paymentList.isEmpty())
-            emptyView.setVisibility(View.VISIBLE);
-        else
-            emptyView.setVisibility(View.GONE);
+    public void notifyData(TextView pEmptyView) {
+        pEmptyView.setVisibility(mDataList.isEmpty() ? View.VISIBLE : View.INVISIBLE);
         notifyDataSetChanged();
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        SupplierPaymentListRes.ResultBean purchaseObject = paymentList.get(position);
+        SupplierPaymentListResponse.Payment purchaseObject = mDataList.get(position);
         holder.rowPurchasePaymentListAmountPaid.setText(Utils.formatStringUpTo2Precision(purchaseObject.getAmount()));
         holder.rowPurchaseInterestAmt.setText(Utils.formatStringUpTo2Precision(purchaseObject.getInterestAmt()));
-        holder.rowPurchasePaymentdate          .setText(purchaseObject.getDate());
-        holder.rowPurchasePaymentType          .setText(purchaseObject.getPaymentType());
-        holder.mTextViewInterestRate.setText("@" + Utils.formatStringUpTo2Precision(purchaseObject.getInterestRate()) + "% Interest");
-        holder.rowPurchaseCheckBox             .setChecked(purchaseObject.getInterestPaid().equalsIgnoreCase("1"));
-        if(purchaseObject.getInterestPaid().equalsIgnoreCase("1")) {
+        holder.rowPurchasePaymentdate.setText(purchaseObject.getDate());
+        holder.rowPurchasePaymentType.setText(purchaseObject.getPaymentType());
+        holder.mTextViewInterestRate.setText(String.format(holder.mTextViewInterestRate.getContext().getString(R.string.string_interest_text), Utils.formatStringUpTo2Precision(purchaseObject.getInterestRate())));
+        if (AppConstant.INTEREST_PAID.equalsIgnoreCase(purchaseObject.getInterestPaid())) {
             holder.rowPurchaseTotalAmtPaid.setText(Utils.formatStringUpTo2Precision(String.valueOf(Float.parseFloat(purchaseObject.getAmount()) + Float.parseFloat(purchaseObject.getInterestAmt()))));
-        }
-        else {
+            holder.rowPurchaseCheckBox.setChecked(true);
+        } else {
             holder.rowPurchaseTotalAmtPaid.setText(Utils.formatStringUpTo2Precision(purchaseObject.getAmount()));
+            holder.rowPurchaseCheckBox.setChecked(false);
         }
-
     }
 
     @Override
     public int getItemCount() {
-        return paymentList.size();
+        return mDataList.size();
     }
 
 

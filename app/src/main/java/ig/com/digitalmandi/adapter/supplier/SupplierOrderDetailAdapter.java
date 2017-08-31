@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -27,14 +26,6 @@ public class SupplierOrderDetailAdapter extends RecyclerView.Adapter<SupplierOrd
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View holderView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout_order_details_cardview, parent, false);
         return new ViewHolder(holderView);
-    }
-
-    public void notifyData(TextView emptyView) {
-        if (mDataList.isEmpty())
-            emptyView.setVisibility(View.VISIBLE);
-        else
-            emptyView.setVisibility(View.GONE);
-        notifyDataSetChanged();
     }
 
     @Override

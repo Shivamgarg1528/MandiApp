@@ -61,7 +61,7 @@ public class CustomerDialog extends BaseDialog implements View.OnClickListener {
                 break;
 
             case R.id.dialog_layout_customer_info_iv_call:
-                mEventListener.onEvent(AppConstant.OPERATION_CALL, mCustomer);
+                mEventListener.onEvent(AppConstant.OPERATION_CUSTOMER_CALL, mCustomer);
                 break;
         }
     }
