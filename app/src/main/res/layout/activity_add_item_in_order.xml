@@ -99,7 +99,7 @@
 
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/mButtonDatePicker"
+                android:id="@+id/dialog_purchase_payment_tv_payment_date"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="07dp"
@@ -466,7 +466,7 @@
 
 
                     <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/mButtonPayment"
+                        android:id="@+id/dialog_purchase_payment_tv_payment"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight=".6"

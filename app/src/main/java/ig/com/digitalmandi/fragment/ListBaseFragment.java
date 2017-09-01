@@ -31,6 +31,7 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
 
     protected List<T> mDataList = new ArrayList<>(0);
     protected List<T> mBackUpList = new ArrayList<>(0);
+    protected RecyclerView mRecyclerView;
     private TextView mTextViewEmpty;
     private RecyclerView.Adapter mAdapter;
 
@@ -40,7 +41,7 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
 
     protected abstract int getEmptyTextStringId();
 
-    protected abstract void fetchData();
+    protected abstract void fetchData(boolean pRefresh);
 
     protected abstract Intent getRequestedIntent();
 
@@ -62,9 +63,9 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
         mTextViewEmpty.setText(getEmptyTextStringId());
 
         // create adapter and set on recycler view
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.layout_common_list_recycler_view);
-        recyclerView.setAdapter(mAdapter = getAdapter());
-        recyclerView.setHasFixedSize(true);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.layout_common_list_recycler_view);
+        mRecyclerView.setAdapter(mAdapter = getAdapter());
+        mRecyclerView.setHasFixedSize(true);
 
         onApiResponse();
     }
@@ -73,11 +74,9 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.supplier_menu, menu);
-        final MenuItem searchItem = menu.findItem(R.id.supplier_menu_search);
+        MenuItem searchItem = menu.findItem(R.id.supplier_menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        if (searchView != null) {
-            searchView.setOnQueryTextListener(this);
-        }
+        searchView.setOnQueryTextListener(this);
     }
 
     @Override
@@ -89,7 +88,7 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
                 return true;
 
             case R.id.supplier_menu_refresh:
-                fetchData();
+                fetchData(true);
                 return true;
 
             case R.id.supplier_menu_sort: {
@@ -112,7 +111,7 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case AppConstant.REQUEST_CODE_EDIT:
-                    fetchData();
+                    fetchData(true);
                     break;
             }
         }
@@ -120,21 +119,22 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
 
     @Override
     public void onApiResponse() {
-
         AbstractResponse preferenceResponse = getResponse();
-
-        mDataList.clear();
-        mDataList.addAll(preferenceResponse.getResult());
-
-        mBackUpList.clear();
-        mBackUpList.addAll(getResponse().getResult());
-
+        if (preferenceResponse != null) {
+            mDataList.clear();
+            mDataList.addAll(preferenceResponse.getResult());
+            mBackUpList.clear();
+            mBackUpList.addAll(preferenceResponse.getResult());
+        }
         notifyAdapterAndView();
     }
 
     private void sortDataList(int pComparatorType) {
-        Collections.sort(mDataList, getComparator(pComparatorType));
-        notifyAdapterAndView();
+        Comparator comparator = getComparator(pComparatorType);
+        if (comparator != null) {
+            Collections.sort(mDataList, comparator);
+            notifyAdapterAndView();
+        }
     }
 
     protected void notifyAdapterAndView() {

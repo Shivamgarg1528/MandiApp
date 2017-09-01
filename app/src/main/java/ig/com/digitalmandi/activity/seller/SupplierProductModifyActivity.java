@@ -91,7 +91,7 @@ public class SupplierProductModifyActivity extends BaseActivity implements View.
                 mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().modifiedProduct(supplierProductModifyRequest);
                 mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(this) {
                     @Override
-                    public void onSuccess(EmptyResponse pResponse, BaseActivity pBaseActivity) {
+                    public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
                         if (ResponseVerification.isResponseOk(pResponse)) {
                             setResult(RESULT_OK);
                             finish();
@@ -100,10 +100,6 @@ public class SupplierProductModifyActivity extends BaseActivity implements View.
                         }
                     }
 
-                    @Override
-                    public void onFailure(String pErrorMsg) {
-
-                    }
                 });
                 break;
         }

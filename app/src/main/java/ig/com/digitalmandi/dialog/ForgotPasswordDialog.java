@@ -46,7 +46,7 @@ public class ForgotPasswordDialog extends BaseDialog implements View.OnClickList
         mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().forgotPassword(forgotPasswordRequest);
         mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
             @Override
-            public void onSuccess(EmptyResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse)) {
                     dismiss();
                     mBaseActivity.showToast(mBaseActivity.getString((R.string.string_password_has_been_sent)));
@@ -55,9 +55,6 @@ public class ForgotPasswordDialog extends BaseDialog implements View.OnClickList
                 }
             }
 
-            @Override
-            public void onFailure(String pErrorMsg) {
-            }
         });
     }
 }

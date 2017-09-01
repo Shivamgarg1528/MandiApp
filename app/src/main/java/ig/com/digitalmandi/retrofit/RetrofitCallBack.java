@@ -11,35 +11,34 @@ import retrofit2.Response;
 
 public abstract class RetrofitCallBack<T> implements Callback<T> {
 
-    private BaseActivity mBaseActivity;
-    private boolean mProgressDialogShown;
+    private final BaseActivity mBaseActivity;
+    private final boolean mProgressDialogShown;
 
     public RetrofitCallBack(AppCompatActivity pActivity) {
         this(pActivity, true);
     }
 
     public RetrofitCallBack(AppCompatActivity pActivity, boolean pProgressShown) {
-        mProgressDialogShown = pProgressShown;
         mBaseActivity = (BaseActivity) pActivity;
-        showOrHideDialog(true);
+        mProgressDialogShown = pProgressShown;
+        showOrHideDialogOrBar(true);
     }
 
-    public abstract void onSuccess(T pResponse, BaseActivity pBaseActivity);
-
-    public abstract void onFailure(String pErrorMsg);
+    public abstract void onResponse(T pResponse, BaseActivity pBaseActivity);
 
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
         if (mBaseActivity != null && !mBaseActivity.isFinishing()) {
-            showOrHideDialog(false);
+            showOrHideDialogOrBar(false);
             if (response == null || response.body() == null) {
                 if (response != null) {
-                    onFailure(response.errorBody() != null ? response.errorBody().toString() : mBaseActivity.getString(R.string.string_error_in_on_response));
+                    String pErrorMsg = response.errorBody() != null ? response.errorBody().toString() : mBaseActivity.getString(R.string.string_error_in_on_response);
+                    onFailure(call, new Throwable(pErrorMsg));
                 } else {
-                    onFailure(mBaseActivity.getString(R.string.string_error_in_on_response));
+                    onFailure(call, new Throwable(mBaseActivity.getString(R.string.string_error_in_on_response)));
                 }
             } else {
-                onSuccess(response.body(), mBaseActivity);
+                onResponse(response.body(), mBaseActivity);
             }
         }
     }
@@ -47,10 +46,9 @@ public abstract class RetrofitCallBack<T> implements Callback<T> {
     @Override
     public void onFailure(Call<T> call, Throwable t) {
         if (mBaseActivity != null && !mBaseActivity.isFinishing()) {
-            showOrHideDialog(false);
+            showOrHideDialogOrBar(false);
             String pErrorMsg = t.getMessage() != null ? t.getMessage() : mBaseActivity.getString(R.string.string_error_in_on_failure);
             pErrorMsg = mBaseActivity.getString(R.string.please_contact_app_admin_for_better_support, pErrorMsg);
-            onFailure(pErrorMsg);
             if (mProgressDialogShown) {
                 getErrorAlert(mBaseActivity, mBaseActivity.getString(R.string.app_name), pErrorMsg).show();
             }
@@ -66,7 +64,7 @@ public abstract class RetrofitCallBack<T> implements Callback<T> {
         return errorAlertDialog;
     }
 
-    private void showOrHideDialog(boolean pViewShowOrHide) {
+    private void showOrHideDialogOrBar(boolean pViewShowOrHide) {
         if (!mProgressDialogShown) {
             mBaseActivity.showOrHideProgressBar(pViewShowOrHide);
         } else {

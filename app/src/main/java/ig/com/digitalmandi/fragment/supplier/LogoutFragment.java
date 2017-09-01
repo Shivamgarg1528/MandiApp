@@ -29,7 +29,7 @@ public class LogoutFragment extends BaseFragment {
         mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
 
             @Override
-            public void onSuccess(EmptyResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse)) {
                     AppSharedPrefs.getInstance(mBaseActivity).clear();
                     Utils.onActivityStart(mBaseActivity, true, null, null, SplashActivity.class);
@@ -39,9 +39,6 @@ public class LogoutFragment extends BaseFragment {
                 }
             }
 
-            @Override
-            public void onFailure(String pErrorMsg) {
-            }
         });
     }
 }

@@ -34,17 +34,13 @@ public class ModifyPreference {
         mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerCustomerList>(mBaseActivity, false) {
 
             @Override
-            public void onSuccess(SellerCustomerList pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(SellerCustomerList pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, true)) {
                     AppSharedPrefs.getInstance(mBaseActivity).setSellerCustomers(pResponse);
                 }
                 mListener.onApiResponse();
             }
 
-            @Override
-            public void onFailure(String pErrorMsg) {
-                mListener.onApiResponse();
-            }
         });
     }
 
@@ -58,17 +54,13 @@ public class ModifyPreference {
         mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerUnitList>(mBaseActivity, false) {
 
             @Override
-            public void onSuccess(SellerUnitList pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(SellerUnitList pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     AppSharedPrefs.getInstance(mBaseActivity).setSellerUnits(pResponse);
                 }
                 mListener.onApiResponse();
             }
 
-            @Override
-            public void onFailure(String pErrorMsg) {
-                mListener.onApiResponse();
-            }
         });
     }
 
@@ -81,17 +73,13 @@ public class ModifyPreference {
         mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerProductList>(mBaseActivity, false) {
 
             @Override
-            public void onSuccess(SellerProductList pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(SellerProductList pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, true)) {
                     AppSharedPrefs.getInstance(mBaseActivity).setSellerProducts(pResponse);
                 }
                 mListener.onApiResponse();
             }
 
-            @Override
-            public void onFailure(String pErrorMsg) {
-                mListener.onApiResponse();
-            }
         });
     }
 }

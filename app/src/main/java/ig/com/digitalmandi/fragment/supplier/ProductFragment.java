@@ -12,7 +12,7 @@ import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.activity.seller.SupplierProductModifyActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierProductAdapter;
 import ig.com.digitalmandi.bean.AbstractResponse;
-import ig.com.digitalmandi.bean.request.seller.SupplierItemDeleteRequest;
+import ig.com.digitalmandi.bean.request.seller.ItemDeleteRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierProductModifyRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerProductList;
@@ -44,7 +44,7 @@ public class ProductFragment extends ListBaseFragment<SellerProductList.Product>
     }
 
     @Override
-    protected void fetchData() {
+    protected void fetchData(boolean pRefresh) {
         ModifyPreference modifyPreference = new ModifyPreference(mBaseActivity, this);
         modifyPreference.addOrUpdateSellerProducts();
     }
@@ -93,31 +93,27 @@ public class ProductFragment extends ListBaseFragment<SellerProductList.Product>
             }
 
             case AppConstant.OPERATION_DELETE: {
-                MyAlertDialog.onShowAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_product), true, new DialogInterface.OnClickListener() {
+                MyAlertDialog.showAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_product), true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_POSITIVE) {
 
-                            SupplierItemDeleteRequest supplierItemDeleteRequest = new SupplierItemDeleteRequest();
-                            supplierItemDeleteRequest.setFlag(AppConstant.DELETE_PRODUCT);
-                            supplierItemDeleteRequest.setId(pProduct.getProductId());
+                            ItemDeleteRequest itemDeleteRequest = new ItemDeleteRequest();
+                            itemDeleteRequest.setFlag(AppConstant.DELETE_PRODUCT);
+                            itemDeleteRequest.setId(pProduct.getProductId());
 
-                            mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().deleteProductUnit(supplierItemDeleteRequest);
+                            mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().deleteProductUnit(itemDeleteRequest);
                             mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
                                 @Override
-                                public void onSuccess(EmptyResponse pResponse, BaseActivity pBaseActivity) {
+                                public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
                                     if (ResponseVerification.isResponseOk(pResponse)) {
                                         mDataList.remove(pProduct);
                                         mBackUpList.remove(pProduct);
-                                        fetchData();
+                                        fetchData(true);
                                     } else
                                         mBaseActivity.showToast(getString(R.string.string_sorry_you_cant_delete_this_product));
                                 }
 
-                                @Override
-                                public void onFailure(String pErrorMsg) {
-
-                                }
                             });
                         }
                     }
@@ -133,22 +129,15 @@ public class ProductFragment extends ListBaseFragment<SellerProductList.Product>
                 supplierProductModifyRequest.setProductOperation(AppConstant.DELETE);
 
                 mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().modifiedProduct(supplierProductModifyRequest);
-                mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity, true) {
-
+                mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
                     @Override
-                    public void onSuccess(EmptyResponse pResponse, BaseActivity pBaseActivity) {
-
+                    public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
                         if (ResponseVerification.isResponseOk(pResponse)) {
                             pProduct.setProductStatus(supplierProductModifyRequest.getProductStatus());
-                            fetchData();
+                            fetchData(true);
                         } else {
                             mBaseActivity.showToast(getString(R.string.please_try_again));
                         }
-                    }
-
-                    @Override
-                    public void onFailure(String pErrorMsg) {
-                        mBaseActivity.showToast(getString(R.string.please_try_again));
                     }
                 });
                 break;

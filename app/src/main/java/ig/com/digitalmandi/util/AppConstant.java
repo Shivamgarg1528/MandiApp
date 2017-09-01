@@ -66,12 +66,15 @@ public class AppConstant {
     public static final int OPERATION_ORDER_DETAILS = 8;
     public static final int OPERATION_ORDER_BILL_PRINT = 9;
 
+    public static final int OPERATION_ORDER_SOLD_DETAILS = 10;
+
     /* Operation On Items*/
     public static final String ADD = "add";
     public static final String DELETE = "delete";
     public static final String UPDATE = "update";
 
 
+    public static final String INTEREST_UNPAID = "0";
     public static final String INTEREST_PAID = "1";
 }
 

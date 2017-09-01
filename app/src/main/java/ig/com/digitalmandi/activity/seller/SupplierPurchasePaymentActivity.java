@@ -18,9 +18,8 @@ import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierPurchasePaymentAdapter;
 import ig.com.digitalmandi.bean.request.seller.SupplierPurchasePaymentListRequest;
+import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 import ig.com.digitalmandi.bean.response.seller.SupplierPaymentListResponse;
-import ig.com.digitalmandi.bean.response.seller.SupplierPurchaseListRes;
-import ig.com.digitalmandi.dialog.PurchasePaymentDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
@@ -52,7 +51,7 @@ public class SupplierPurchasePaymentActivity extends BaseActivity {
     AppCompatTextView mTextViewTotalPaidAmt;
     @BindView(R.id.activity_purchase_payment)
     LinearLayout activityPurchasePayment;
-    private SupplierPurchaseListRes.ResultBean purchaseObject;
+    private SellerOrderResponse.Order purchaseObject;
     private SupplierPurchasePaymentAdapter mAdapter;
     private List<SupplierPaymentListResponse.Payment> dataList = new ArrayList<>();
     private float purchaseAmt = 0.0f;
@@ -71,7 +70,7 @@ public class SupplierPurchasePaymentActivity extends BaseActivity {
             finish();
             return;
         }
-        purchaseObject = getIntent().getParcelableExtra(PURCHASE_OBJECT_KEY);
+        purchaseObject = (SellerOrderResponse.Order) getIntent().getSerializableExtra(AppConstant.KEY_OBJECT);
 
         if (purchaseObject == null) {
             Toast.makeText(mBaseActivity, R.string.please_provide_purchased_item, Toast.LENGTH_SHORT).show();
@@ -90,14 +89,14 @@ public class SupplierPurchasePaymentActivity extends BaseActivity {
 
     @OnClick(R.id.activity_purchase_payment_tv_payment)
     public void onClick() {
-        PurchasePaymentDialog dialog = new PurchasePaymentDialog(mBaseActivity, true, true, R.layout.dilaog_purchase_payment);
-        dialog.show(purchaseObject, new PurchasePaymentDialog.OnPaymentDone() {
+        /*PaymentDialog dialog = new PaymentDialog(mBaseActivity);
+        dialog.show(purchaseObject, new PaymentDialog.OnPaymentDone() {
 
             @Override
             public void onPaymentDoneSuccess() {
                 onFetchDataFromServer(false);
             }
-        });
+        });*/
     }
 
     private void onCalculateAllPaidAmt() {
@@ -134,7 +133,6 @@ public class SupplierPurchasePaymentActivity extends BaseActivity {
 
     private void onFetchDataFromServer(boolean showDialog) {
 
-        showOrHideProgressBar(true);
         SupplierPurchasePaymentListRequest supplierPurchasePaymentListRequest = new SupplierPurchasePaymentListRequest();
         supplierPurchasePaymentListRequest.setId(purchaseObject.getPurchaseId());
         supplierPurchasePaymentListRequest.setFlag(AppConstant.DELETE_OR_PAYMENT_PURCHASE);
@@ -143,7 +141,7 @@ public class SupplierPurchasePaymentActivity extends BaseActivity {
         mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPaymentListResponse>(mBaseActivity, showDialog) {
 
             @Override
-            public void onSuccess(SupplierPaymentListResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(SupplierPaymentListResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     dataList.clear();
                     dataList.addAll(pResponse.getResult());
@@ -151,10 +149,6 @@ public class SupplierPurchasePaymentActivity extends BaseActivity {
                 onCalculateAllPaidAmt();
             }
 
-            @Override
-            public void onFailure(String pErrorMsg) {
-                onCalculateAllPaidAmt();
-            }
         });
     }
 }

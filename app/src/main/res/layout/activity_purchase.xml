@@ -240,7 +240,7 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/mButtonDatePicker"
+                        android:id="@+id/dialog_purchase_payment_tv_payment_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"

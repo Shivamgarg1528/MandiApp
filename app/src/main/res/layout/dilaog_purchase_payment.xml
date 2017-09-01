@@ -1,144 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="320dp"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
     android:background="@color/colorWhite"
-    android:padding="03dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="3dp">
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/mButtonDatePicker"
+        android:id="@+id/dialog_purchase_payment_tv_payment_date"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/selector_blue_button"
         android:gravity="center"
-        android:text="Payment Date"
+        android:text="@string/string_payment_date"
         android:textColor="@drawable/selector_blue_button_text"
         android:textSize="20sp" />
 
     <LinearLayout
-        android:id="@+id/container"
-        android:visibility="gone"
-        android:layout_margin="04dp"
+        android:id="@+id/dialog_purchase_payment_ll_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_margin="4dp"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/mTextViewNoOfDays"
+            android:id="@+id/dialog_purchase_payment_tv_interest_days"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:gravity="center_horizontal"
             android:layout_marginTop="02dp"
-            android:textColor="@color/colorAccent" />
+            android:gravity="center_horizontal"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp" />
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:gravity="center_vertical"
+            android:text="@string/string_payment_type"
             android:textColor="@color/colorPrimary"
-            android:textSize="15sp"
-            android:text="Payment Type:"/>
+            android:textSize="15sp" />
 
         <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/mSpinnerPaymentType"
+            android:id="@+id/dialog_purchase_payment_spinner_payment_type"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="3dp"
-            android:entries="@array/paymentType"
-            android:layout_height="wrap_content">
-        </android.support.v7.widget.AppCompatSpinner>
+            android:entries="@array/string_array_payment_type" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="05dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:theme="@style/TextAppearance.App.TextInputLayout.Login"
-            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:layout_height="wrap_content">
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
             <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/mEditTextPaymentAmt"
+                android:id="@+id/dialog_purchase_payment_edt_payment_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_payment_amount"
-                android:textSize="18sp"
+                android:inputType="numberDecimal"
                 android:maxLength="@integer/priceValueLimit"
                 android:textColor="@color/colorAccent"
-                android:inputType="numberDecimal" />
+                android:textSize="18sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:theme="@style/TextAppearance.App.TextInputLayout.Login"
-            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:layout_height="wrap_content">
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
             <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/mEditTextInterestRate"
+                android:id="@+id/dialog_purchase_payment_edt_rate_of_interest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Interest Rate"
-                android:text="1.0"
-                android:textSize="18sp"
+                android:hint="@string/string_interest_rate"
+                android:inputType="numberDecimal"
+                android:text="1.00"
                 android:textColor="@color/colorAccent"
-                android:inputType="numberDecimal" />
+                android:textSize="18sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:theme="@style/TextAppearance.App.TextInputLayout.Login"
-            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:layout_height="wrap_content">
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
             <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/mEditTextInterestAmt"
+                android:id="@+id/dialog_purchase_payment_edt_interest_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/interest_amt"
-                android:textSize="18sp"
-                android:text="0.00"
-                android:maxLength="@integer/priceValueLimit"
                 android:imeOptions="actionDone"
+                android:inputType="numberDecimal"
+                android:maxLength="@integer/priceValueLimit"
                 android:maxLines="1"
+                android:text="0.00"
                 android:textColor="@color/colorAccent"
-                android:inputType="numberDecimal" />
+                android:textSize="18sp" />
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:padding="03dp"
-            android:weightSum="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="03dp">
 
-        <CheckBox
-            android:id="@+id/mCheckBoxIsInterstPaid"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".5"
-            android:textColor="@color/colorPrimary"
-            android:checked="true"
-            android:text="@string/is_interest_also_paid"/>
+            <CheckBox
+                android:id="@+id/dialog_purchase_payment_cb_interest_paid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5"
+                android:checked="true"
+                android:gravity="center_vertical"
+                android:text="@string/is_interest_also_paid"
+                android:textColor="@color/colorPrimary" />
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/mButtonPayment"
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_height="match_parent"
-            android:background="@drawable/selector_blue_button"
-            android:gravity="center"
-            android:text="Payment"
-            android:textColor="@drawable/selector_blue_button_text"
-            android:textSize="24sp" />
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/dialog_purchase_payment_tv_payment"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_blue_button"
+                android:gravity="center"
+                android:text="@string/string_payment"
+                android:textColor="@drawable/selector_blue_button_text"
+                android:textSize="24sp" />
 
         </LinearLayout>
 
     </LinearLayout>
-
 
 
 </LinearLayout>

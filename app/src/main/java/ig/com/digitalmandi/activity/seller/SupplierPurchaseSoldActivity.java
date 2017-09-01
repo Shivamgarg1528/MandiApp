@@ -12,8 +12,8 @@ import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierOrderDetailAdapter;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderDetailListRequest;
+import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 import ig.com.digitalmandi.bean.response.seller.SupplierOrderDetailListResponse;
-import ig.com.digitalmandi.bean.response.seller.SupplierPurchaseListRes;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
@@ -26,7 +26,7 @@ public class SupplierPurchaseSoldActivity extends BaseActivity {
     RecyclerView recyclerView;
     @BindView(R.id.layout_common_list_tv_empty_text_view)
     AppCompatTextView emptyTextView;
-    private SupplierPurchaseListRes.ResultBean purchaseInfo;
+    private SellerOrderResponse.Order mOrderObj;
     private SupplierOrderDetailAdapter mAdapter;
 
     @Override
@@ -39,8 +39,8 @@ public class SupplierPurchaseSoldActivity extends BaseActivity {
         }
 
         Intent intent = getIntent();
-        purchaseInfo = intent.getParcelableExtra(PURCHASE_OBJECT_KEY);
-        setTitle("Sold Details Of " + purchaseInfo.getNameOfPerson().trim() +"'s Item" );
+        mOrderObj = (SellerOrderResponse.Order) intent.getSerializableExtra(AppConstant.KEY_OBJECT);
+        setTitle("Sold Details Of " + mOrderObj.getNameOfPerson().trim() + "'s Item");
         ButterKnife.bind(this);
 
         mAdapter = new SupplierOrderDetailAdapter(mDataList);
@@ -53,26 +53,21 @@ public class SupplierPurchaseSoldActivity extends BaseActivity {
 
 
     private void fetchDataFromServer() {
-        showOrHideProgressBar(true);
         SupplierOrderDetailListRequest supplierOrderDetailListRequest = new SupplierOrderDetailListRequest();
         supplierOrderDetailListRequest.setFlag(AppConstant.COLUMN_PURCHASE_ID);
-        supplierOrderDetailListRequest.setId(purchaseInfo.getPurchaseId());
+        supplierOrderDetailListRequest.setId(mOrderObj.getPurchaseId());
 
         mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().orderDetailsOfGivenCustomer(supplierOrderDetailListRequest);
         mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierOrderDetailListResponse>(mBaseActivity, false) {
 
             @Override
-            public void onSuccess(SupplierOrderDetailListResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(SupplierOrderDetailListResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     mDataList.addAll(pResponse.getResult());
                 }
                 // mAdapter.notifyData(emptyTextView);
             }
 
-            @Override
-            public void onFailure(String pErrorMsg) {
-                //mAdapter.notifyData(emptyTextView);
-            }
         });
     }
 }

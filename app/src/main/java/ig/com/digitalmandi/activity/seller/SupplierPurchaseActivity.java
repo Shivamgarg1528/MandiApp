@@ -29,9 +29,9 @@ import butterknife.Unbinder;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.request.seller.SupplierPurchaseAddReq;
+import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerProductList;
 import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
-import ig.com.digitalmandi.bean.response.seller.SupplierPurchaseListRes;
 import ig.com.digitalmandi.database.ProductContract;
 import ig.com.digitalmandi.database.UnitContract;
 import ig.com.digitalmandi.dialog.QtyPickerDialog;
@@ -62,7 +62,7 @@ public class SupplierPurchaseActivity extends BaseActivity implements LoaderMana
     AppCompatImageView increaseQtyBtn;
     @BindView(R.id.mEditPersonNamePurchase)
     AppCompatEditText mEditPersonNamePurchase;
-    @BindView(R.id.mButtonDatePicker)
+    @BindView(R.id.dialog_purchase_payment_tv_payment_date)
     AppCompatButton mButtonDatePicker;
     @BindView(R.id.saveBtnPurchase)
     AppCompatButton saveBtnPurchase;
@@ -151,10 +151,10 @@ public class SupplierPurchaseActivity extends BaseActivity implements LoaderMana
         purchaseAddReqModel.setSellerId(MyPrefrences.getStringPrefrences(AppConstant.USER_SELLER_ID, mBaseActivity));
 
         mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().purchaseModification(purchaseAddReqModel);
-        mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPurchaseListRes>(mBaseActivity, true) {
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerOrderResponse>(mBaseActivity, true) {
 
             @Override
-            public void onSuccess(SupplierPurchaseListRes pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(SellerOrderResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     setResult(RESULT_OK, null);
                     finish();
@@ -163,10 +163,6 @@ public class SupplierPurchaseActivity extends BaseActivity implements LoaderMana
 
             }
 
-            @Override
-            public void onFailure(String pErrorMsg) {
-
-            }
         });
     }
 
@@ -232,7 +228,7 @@ public class SupplierPurchaseActivity extends BaseActivity implements LoaderMana
         mUnbind.unbind();
     }
 
-    @OnClick({R.id.decreaseQtyBtn, R.id.increaseQtyBtn, R.id.mButtonDatePicker, R.id.saveBtnPurchase, R.id.qtyTextView})
+    @OnClick({R.id.decreaseQtyBtn, R.id.increaseQtyBtn, R.id.dialog_purchase_payment_tv_payment_date, R.id.saveBtnPurchase, R.id.qtyTextView})
     public void onClick(View view) {
         switch (view.getId()) {
 
@@ -244,7 +240,7 @@ public class SupplierPurchaseActivity extends BaseActivity implements LoaderMana
                 increaseQtyByOne();
                 break;
 
-            case R.id.mButtonDatePicker:
+            case R.id.dialog_purchase_payment_tv_payment_date:
                 showDatePicker();
                 break;
 

@@ -18,8 +18,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderAddReq;
+import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
-import ig.com.digitalmandi.bean.response.seller.SupplierPurchaseListRes;
 import ig.com.digitalmandi.callback.OnItemAddedCallBack;
 import ig.com.digitalmandi.util.ChangeSpinnerItemBg;
 import ig.com.digitalmandi.util.CheckForFloat;
@@ -52,7 +52,7 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
     @BindView(R.id.mTextViewMaxQtyInKg)
     AppCompatTextView mTextViewMaxQtyInKg;
     List<SellerUnitList.Unit> unitList;
-    private SupplierPurchaseListRes.ResultBean selectedObj;
+    private SellerOrderResponse.Order selectedObj;
     private SellerUnitList.Unit unit;
     private String[] unitArray;
     private int productQty = 1;
@@ -119,7 +119,7 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
         }
     }
 
-    public void show(SupplierPurchaseListRes.ResultBean selectedObject, String[] unitArray, List<SellerUnitList.Unit> unitList, OnItemAddedCallBack<SupplierOrderAddReq.OrderDetailsBean> onItemAddedCallBack) {
+    public void show(SellerOrderResponse.Order selectedObject, String[] unitArray, List<SellerUnitList.Unit> unitList, OnItemAddedCallBack<SupplierOrderAddReq.OrderDetailsBean> onItemAddedCallBack) {
         this.selectedObj = selectedObject;
         this.unitArray = unitArray;
         this.unitList = unitList;

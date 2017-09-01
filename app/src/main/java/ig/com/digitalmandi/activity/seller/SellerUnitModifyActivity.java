@@ -87,7 +87,7 @@ public class SellerUnitModifyActivity extends BaseActivity implements View.OnCli
                 mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().modifiedUnit(supplierUnitModifyRequest);
                 mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
                     @Override
-                    public void onSuccess(EmptyResponse pResponse, BaseActivity pBaseActivity) {
+                    public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
                         if (ResponseVerification.isResponseOk(pResponse)) {
                             setResult(RESULT_OK);
                             finish();
@@ -96,9 +96,6 @@ public class SellerUnitModifyActivity extends BaseActivity implements View.OnCli
                         }
                     }
 
-                    @Override
-                    public void onFailure(String pErrorMsg) {
-                    }
                 });
         }
     }

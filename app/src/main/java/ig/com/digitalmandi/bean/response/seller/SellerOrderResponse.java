@@ -9,18 +9,18 @@ import ig.com.digitalmandi.bean.AbstractResponse;
  * Created by shiva on 10/23/2016.
  */
 
-public class SupplierPurchaseListRes extends AbstractResponse <SupplierPurchaseListRes.ResultBean> {
+public class SellerOrderResponse extends AbstractResponse<SellerOrderResponse.Order> {
 
-    public static class ResultBean implements Parcelable {
-        public static final Creator<ResultBean> CREATOR = new Creator<ResultBean>() {
+    public static class Order implements Parcelable {
+        public static final Creator<Order> CREATOR = new Creator<Order>() {
             @Override
-            public ResultBean createFromParcel(Parcel source) {
-                return new ResultBean(source);
+            public Order createFromParcel(Parcel source) {
+                return new Order(source);
             }
 
             @Override
-            public ResultBean[] newArray(int size) {
-                return new ResultBean[size];
+            public Order[] newArray(int size) {
+                return new Order[size];
             }
         };
         private String purchaseId;
@@ -48,10 +48,10 @@ public class SupplierPurchaseListRes extends AbstractResponse <SupplierPurchaseL
         private String localSoldQty     = "0";
         private String sumOfProductInKg = "0";
 
-        public ResultBean() {
+        public Order() {
         }
 
-        protected ResultBean(Parcel in) {
+        protected Order(Parcel in) {
             this.purchaseId = in.readString();
             this.daamiCost = in.readString();
             this.daamiValue = in.readString();

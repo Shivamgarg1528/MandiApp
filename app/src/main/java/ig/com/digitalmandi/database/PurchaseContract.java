@@ -9,7 +9,7 @@ import android.net.Uri;
 import java.util.ArrayList;
 import java.util.List;
 
-import ig.com.digitalmandi.bean.response.seller.SupplierPurchaseListRes;
+import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 
 /**
  * Created by shiva on 10/23/2016.
@@ -33,10 +33,10 @@ public class PurchaseContract <T> extends BaseContract<T> {
             protected void onDeleteComplete(int token, Object cookie, int result) {
                 super.onDeleteComplete(token, cookie, result);
 
-                List<SupplierPurchaseListRes.ResultBean> purchaseList     = (List<SupplierPurchaseListRes.ResultBean>) dataList;
+                List<SellerOrderResponse.Order> purchaseList = (List<SellerOrderResponse.Order>) dataList;
                 ArrayList<ContentProviderOperation> batch             = new ArrayList<ContentProviderOperation>(purchaseList.size());
                 for(int index = 0 ;index < purchaseList.size() ; index++){
-                    SupplierPurchaseListRes.ResultBean purchase         = purchaseList.get(index);
+                    SellerOrderResponse.Order purchase = purchaseList.get(index);
                     ContentProviderOperation.Builder builder        = ContentProviderOperation.newInsert(mUri);
 
                     builder.withValue(Purchase.PRODUCT_ID            ,purchase.getProductId());
@@ -70,7 +70,7 @@ public class PurchaseContract <T> extends BaseContract<T> {
     public T getSingleObject(Cursor cursor) {
         if(cursor != null && cursor.getCount() > 0){
             for (Cursor iterableCursor : new IterableCursor(cursor)) {
-                SupplierPurchaseListRes.ResultBean product = new SupplierPurchaseListRes.ResultBean();
+                SellerOrderResponse.Order product = new SellerOrderResponse.Order();
                 product.setPurchaseId           (iterableCursor.getString(iterableCursor.getColumnIndex(Purchase._ID)));
                 product.setProductId            (iterableCursor.getString(iterableCursor.getColumnIndex(Purchase.PRODUCT_ID)));
                 product.setProductName          (iterableCursor.getString(iterableCursor.getColumnIndex(Purchase.PRODUCT_NAME)));
@@ -99,10 +99,10 @@ public class PurchaseContract <T> extends BaseContract<T> {
 
     @Override
     public List<T> getListOfObject(Cursor cursor) {
-        List<SupplierPurchaseListRes.ResultBean> purchaseList = new ArrayList<>();
+        List<SellerOrderResponse.Order> purchaseList = new ArrayList<>();
         if(cursor != null && cursor.getCount() > 0){
             for (Cursor iterableCursor : new IterableCursor(cursor)) {
-                SupplierPurchaseListRes.ResultBean product = new SupplierPurchaseListRes.ResultBean();
+                SellerOrderResponse.Order product = new SellerOrderResponse.Order();
                 product.setPurchaseId(iterableCursor.getString(iterableCursor.getColumnIndex(Purchase._ID)));
                 product.setProductId            (iterableCursor.getString(iterableCursor.getColumnIndex(Purchase.PRODUCT_ID)));
                 product.setProductName          (iterableCursor.getString(iterableCursor.getColumnIndex(Purchase.PRODUCT_NAME)));

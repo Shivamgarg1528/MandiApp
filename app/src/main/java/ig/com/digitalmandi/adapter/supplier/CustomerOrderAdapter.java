@@ -18,13 +18,13 @@ import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Utils;
 
-public class SupplierOrderAdapter extends RecyclerView.Adapter<SupplierOrderAdapter.ViewHolder> {
+public class CustomerOrderAdapter extends RecyclerView.Adapter<CustomerOrderAdapter.ViewHolder> {
 
     private List<SupplierOrderListResponse.Order> mDataList;
     private BaseActivity mBaseActivity;
     private EventCallback mEventCallback;
 
-    public SupplierOrderAdapter(List<SupplierOrderListResponse.Order> pDataList, BaseActivity pBaseActivity, EventCallback pEventCallback) {
+    public CustomerOrderAdapter(List<SupplierOrderListResponse.Order> pDataList, BaseActivity pBaseActivity, EventCallback pEventCallback) {
         this.mDataList = pDataList;
         this.mBaseActivity = pBaseActivity;
         this.mEventCallback = pEventCallback;

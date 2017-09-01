@@ -3,12 +3,14 @@ package ig.com.digitalmandi.retrofit;
 import ig.com.digitalmandi.bean.request.ForgotPasswordRequest;
 import ig.com.digitalmandi.bean.request.LoginRequest;
 import ig.com.digitalmandi.bean.request.LogoutRequest;
+import ig.com.digitalmandi.bean.request.seller.ItemDeleteRequest;
+import ig.com.digitalmandi.bean.request.seller.PaymentRequest;
 import ig.com.digitalmandi.bean.request.seller.RegistrationRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
 import ig.com.digitalmandi.bean.request.seller.SellerCustomerListRequest;
+import ig.com.digitalmandi.bean.request.seller.SellerOrdersRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerProductListRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerUnitListRequest;
-import ig.com.digitalmandi.bean.request.seller.SupplierItemDeleteRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierListRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderAddReq;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderBillPrintRequest;
@@ -16,12 +18,11 @@ import ig.com.digitalmandi.bean.request.seller.SupplierOrderDetailListRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderListRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierProductModifyRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierPurchaseAddReq;
-import ig.com.digitalmandi.bean.request.seller.SupplierPurchaseListReq;
 import ig.com.digitalmandi.bean.request.seller.SupplierPurchasePaymentListRequest;
-import ig.com.digitalmandi.bean.request.seller.SupplierPurchasePaymentReq;
 import ig.com.digitalmandi.bean.request.seller.SupplierUnitModifyRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.bean.response.LoginResponse;
+import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerProductList;
 import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
 import ig.com.digitalmandi.bean.response.seller.SupplierBillPrintRes;
@@ -29,7 +30,6 @@ import ig.com.digitalmandi.bean.response.seller.SupplierListResponse;
 import ig.com.digitalmandi.bean.response.seller.SupplierOrderDetailListResponse;
 import ig.com.digitalmandi.bean.response.seller.SupplierOrderListResponse;
 import ig.com.digitalmandi.bean.response.seller.SupplierPaymentListResponse;
-import ig.com.digitalmandi.bean.response.seller.SupplierPurchaseListRes;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -49,7 +49,7 @@ public interface RetrofitInterface {
     String UNIT_API = "unitList";
     String PRODUCT_MODIFIED_API = "productModification";
     String UNIT_MODIFIED_API = "unitModification";
-    String PURCHASE_LIST = "purchaseList";
+    String PURCHASE_LIST = "getSellerOrders";
     String PURCHASE_MODIFICATION_API = "purchaseModification";
     String PURCHASE_PAYMENT = "doPayment";
     String PURCHASE_PAYMENT_LIST = "paymentList";
@@ -92,13 +92,13 @@ public interface RetrofitInterface {
     Call<EmptyResponse> modifiedUnit(@Body SupplierUnitModifyRequest supplierUnitModifyReqModel);
 
     @POST(PURCHASE_LIST)
-    Call<SupplierPurchaseListRes> purchaseList(@Body SupplierPurchaseListReq purchaseListReqModel);
+    Call<SellerOrderResponse> getSellerOrders(@Body SellerOrdersRequest purchaseListReqModel);
 
     @POST(PURCHASE_MODIFICATION_API)
-    Call<SupplierPurchaseListRes> purchaseModification(@Body SupplierPurchaseAddReq purchaseListReqModel);
+    Call<SellerOrderResponse> purchaseModification(@Body SupplierPurchaseAddReq purchaseListReqModel);
 
     @POST(PURCHASE_PAYMENT)
-    Call<EmptyResponse> doPurchase(@Body SupplierPurchasePaymentReq purchasePaymentReqModel);
+    Call<EmptyResponse> doPurchase(@Body PaymentRequest purchasePaymentReqModel);
 
     @POST(PURCHASE_PAYMENT_LIST)
     Call<SupplierPaymentListResponse> supplierPurchasePaymentList(@Body SupplierPurchasePaymentListRequest paymentListReqModel);
@@ -113,13 +113,13 @@ public interface RetrofitInterface {
     Call<EmptyResponse> insertNewOrder(@Body SupplierOrderAddReq supplierOrderAddReq);
 
     @POST(DELETE_ORDER)
-    Call<EmptyResponse> deleteOrder(@Body SupplierItemDeleteRequest supplierItemDeleteRequest);
+    Call<EmptyResponse> deleteOrder(@Body ItemDeleteRequest itemDeleteRequest);
 
     @POST(DELETE_PURCHASE)
-    Call<EmptyResponse> deletePurchase(@Body SupplierItemDeleteRequest supplierItemDeleteRequest);
+    Call<EmptyResponse> deletePurchase(@Body ItemDeleteRequest itemDeleteRequest);
 
     @POST(DELETE_PRODUCT_UNIT)
-    Call<EmptyResponse> deleteProductUnit(@Body SupplierItemDeleteRequest supplierItemDeleteRequest);
+    Call<EmptyResponse> deleteProductUnit(@Body ItemDeleteRequest itemDeleteRequest);
 
     @POST(ORDER_BILL_PRINT)
     Call<SupplierBillPrintRes> orderBillPrint(@Body SupplierOrderBillPrintRequest supplierOrderBillPrintReq);

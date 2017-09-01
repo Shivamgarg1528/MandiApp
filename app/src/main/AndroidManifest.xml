@@ -36,7 +36,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.SyncActivity" />
         <activity android:name=".activity.seller.SupplierHomeActivity" />
-        <activity android:name=".activity.seller.CustomerOrdersActivity" />
+        <activity android:name=".activity.seller.SellerOrdersActivity" />
         <activity
             android:name=".activity.seller.SupplierCustomerAddActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -49,6 +49,7 @@
         <activity android:name=".activity.seller.CustomerOrderDetailsActivity" />
         <activity android:name=".activity.seller.CustomerOrderPaymentsActivity" />
         <activity android:name=".activity.seller.SupplierPurchaseSoldActivity" />
+        <activity android:name=".activity.seller.CustomerOrdersActivity" />
 
         <activity android:name=".activity.customer.CustomerActivity" />
 

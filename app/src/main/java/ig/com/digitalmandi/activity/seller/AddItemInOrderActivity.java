@@ -29,10 +29,10 @@ import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.adapter.supplier.AddItemListAdapter;
 import ig.com.digitalmandi.adapter.supplier.ItemsAdapter;
+import ig.com.digitalmandi.bean.request.seller.SellerOrdersRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderAddReq;
-import ig.com.digitalmandi.bean.request.seller.SupplierPurchaseListReq;
+import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
-import ig.com.digitalmandi.bean.response.seller.SupplierPurchaseListRes;
 import ig.com.digitalmandi.callback.AdapterCallback;
 import ig.com.digitalmandi.callback.OnItemAddedCallBack;
 import ig.com.digitalmandi.callback.OrderCallback;
@@ -59,7 +59,7 @@ public class AddItemInOrderActivity extends BaseActivity implements AdapterCallb
     AppCompatTextView emptyTextView;
     @BindView(R.id.layout_common_list_progress_bar)
     ProgressBar idFragmentProgressbar;
-    @BindView(R.id.mButtonDatePicker)
+    @BindView(R.id.dialog_purchase_payment_tv_payment_date)
     AppCompatButton mButtonDatePicker;
     @BindView(R.id.mSpinnerExpenses)
     AppCompatSpinner mSpinnerExpenses;
@@ -87,7 +87,7 @@ public class AddItemInOrderActivity extends BaseActivity implements AdapterCallb
     AppCompatTextView mTextViewVechileAmt;
     @BindView(R.id.mTextViewTotalLoadInQuintal)
     AppCompatTextView mTextViewTotalLoadInQuintal;
-    @BindView(R.id.mButtonPayment)
+    @BindView(R.id.dialog_purchase_payment_tv_payment)
     AppCompatButton mButtonOrder;
     @BindView(R.id.mEditTextDriverVehicleNo)
     AppCompatEditText mEditTextDriverVehicleNo;
@@ -193,18 +193,18 @@ public class AddItemInOrderActivity extends BaseActivity implements AdapterCallb
 
     private void onGetDataStockFromServer() {
 
-        SupplierPurchaseListReq purchaseListReqModel = new SupplierPurchaseListReq();
+        SellerOrdersRequest purchaseListReqModel = new SellerOrdersRequest();
         purchaseListReqModel.setEndDate("");
         purchaseListReqModel.setStartDate("");
         purchaseListReqModel.setSellerId(MyPrefrences.getStringPrefrences(AppConstant.USER_SELLER_ID, mBaseActivity));
         purchaseListReqModel.setPage(String.valueOf(1));
         purchaseListReqModel.setFlag(AppConstant.PURCHASE_LIST_ALL);
 
-        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().purchaseList(purchaseListReqModel);
-        mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPurchaseListRes>(mBaseActivity, false) {
+        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().getSellerOrders(purchaseListReqModel);
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerOrderResponse>(mBaseActivity, false) {
 
             @Override
-            public void onSuccess(SupplierPurchaseListRes pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(SellerOrderResponse pResponse, BaseActivity pBaseActivity) {
 
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     mDataList.addAll(pResponse.getResult());
@@ -215,15 +215,12 @@ public class AddItemInOrderActivity extends BaseActivity implements AdapterCallb
                 mItemsAdapter.notifyData(emptyTextViewItems);
             }
 
-            @Override
-            public void onFailure(String pErrorMsg) {
-            }
         });
     }
 
     @Override
     public void onItemClick(Object object) {
-        SupplierPurchaseListRes.ResultBean selectedObject = (SupplierPurchaseListRes.ResultBean) object;
+        SellerOrderResponse.Order selectedObject = (SellerOrderResponse.Order) object;
         if (unitList.isEmpty()) {
             Toast.makeText(mBaseActivity, "No Unit Added Yet Please Add Any Unit", Toast.LENGTH_SHORT).show();
             return;
@@ -285,7 +282,7 @@ public class AddItemInOrderActivity extends BaseActivity implements AdapterCallb
     public void onDelete(Object object, View view) {
         SupplierOrderAddReq.OrderDetailsBean removedObject = (SupplierOrderAddReq.OrderDetailsBean) object;
         for (int index = mDataList.size() - 1; index >= 0; index--) {
-            SupplierPurchaseListRes.ResultBean traversedObject = (SupplierPurchaseListRes.ResultBean) mDataList.get(index);
+            SellerOrderResponse.Order traversedObject = (SellerOrderResponse.Order) mDataList.get(index);
             if (traversedObject.getPurchaseId().equalsIgnoreCase(removedObject.getPurchaseId())) {
                 traversedObject.setLocalSoldQty(String.valueOf(Float.parseFloat(traversedObject.getLocalSoldQty()) - (Float.parseFloat(removedObject.getQtyInKg()))));
                 break;
@@ -359,11 +356,11 @@ public class AddItemInOrderActivity extends BaseActivity implements AdapterCallb
 
     }
 
-    @OnClick({R.id.mButtonDatePicker, R.id.mButtonPayment})
+    @OnClick({R.id.dialog_purchase_payment_tv_payment_date, R.id.dialog_purchase_payment_tv_payment})
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.mButtonDatePicker:
+            case R.id.dialog_purchase_payment_tv_payment_date:
                 DatePickerClass.showDatePicker(mBaseActivity, DatePickerClass.END_DATE, new DatePickerClass.OnDateSelected() {
                     @Override
                     public void onDateSelectedCallBack(int id, Date newCalendar1, String stringResOfDate, long milliSeconds, int numberOfDays) {
@@ -373,7 +370,7 @@ public class AddItemInOrderActivity extends BaseActivity implements AdapterCallb
                 }, AppConstant.API_DATE_FORMAT);
                 break;
 
-            case R.id.mButtonPayment:
+            case R.id.dialog_purchase_payment_tv_payment:
                 doOrder();
                 break;
         }
@@ -433,7 +430,7 @@ public class AddItemInOrderActivity extends BaseActivity implements AdapterCallb
         orderAddReqModel.setOrderTotalNag(String.valueOf(totalQty));
         orderAddReqModel.setOrderTotalQuintal(String.valueOf(totalQtyInKg * .01f));
 
-        /*MyAlertDialog.onShowAlertDialog(this, "Continue, To Place Order!", "Continue", "Leave", new OnAlertDialogCallBack() {
+        /*MyAlertDialog.showAlertDialog(this, "Continue, To Place Order!", "Continue", "Leave", new OnAlertDialogCallBack() {
             @Override
             public void onNegative(DialogInterface dialogInterface, int i) {
 
@@ -445,7 +442,7 @@ public class AddItemInOrderActivity extends BaseActivity implements AdapterCallb
                 mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity, true) {
 
                     @Override
-                    public void onSuccess(EmptyResponse pResponse, BaseActivity pBaseActivity) {
+                    public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
                         if (ResponseVerification.isResponseOk(pResponse)) {
                             Toast.makeText(pBaseActivity, "Order Placed SuccessFully", Toast.LENGTH_SHORT).show();
                             setResult(RESULT_OK);

@@ -13,7 +13,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.bean.response.seller.SupplierPurchaseListRes;
+import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 import ig.com.digitalmandi.callback.AdapterCallback;
 import ig.com.digitalmandi.util.Utils;
 
@@ -24,10 +24,10 @@ import ig.com.digitalmandi.util.Utils;
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> {
 
     private AppCompatActivity mHostActivity;
-    private List<SupplierPurchaseListRes.ResultBean> originalList;
+    private List<SellerOrderResponse.Order> originalList;
     private AdapterCallback callBack;
 
-    public ItemsAdapter(AppCompatActivity mHostActivity, List<SupplierPurchaseListRes.ResultBean> originalList, AdapterCallback callBack) {
+    public ItemsAdapter(AppCompatActivity mHostActivity, List<SellerOrderResponse.Order> originalList, AdapterCallback callBack) {
         this.mHostActivity = mHostActivity;
         this.originalList = originalList;
         this.callBack = callBack;
@@ -51,7 +51,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ItemsAdapter.ViewHolder holder, final int position) {
 
-        SupplierPurchaseListRes.ResultBean object = originalList.get(position);
+        SellerOrderResponse.Order object = originalList.get(position);
         holder.rowAutoCompletePersonName.setText(object.getNameOfPerson());
         holder.rowAutoCompleteDate.setText(object.getPurchaseDate());
         holder.rowAutoCompleteProductName.setText(object.getProductName());
@@ -61,7 +61,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
             @Override
             public void onClick(View view) {
-                SupplierPurchaseListRes.ResultBean object = originalList.get(position);
+                SellerOrderResponse.Order object = originalList.get(position);
                 callBack.onItemClick(object);
             }
         });

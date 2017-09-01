@@ -1,36 +1,31 @@
-package ig.com.digitalmandi.fragment.supplier;
+package ig.com.digitalmandi.activity.seller;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.util.Comparator;
 import java.util.Date;
 
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
-import ig.com.digitalmandi.activity.seller.SupplierPurchaseActivity;
-import ig.com.digitalmandi.activity.seller.SupplierPurchasePaymentActivity;
-import ig.com.digitalmandi.activity.seller.SupplierPurchaseSoldActivity;
+import ig.com.digitalmandi.activity.ListBaseActivity;
 import ig.com.digitalmandi.adapter.supplier.SellerOrderAdapter;
-import ig.com.digitalmandi.bean.AbstractResponse;
 import ig.com.digitalmandi.bean.request.seller.ItemDeleteRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerOrdersRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
+import ig.com.digitalmandi.bean.response.seller.SupplierOrderListResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.dialog.DatePickerClass;
 import ig.com.digitalmandi.dialog.MyAlertDialog;
-import ig.com.digitalmandi.fragment.ListBaseFragment;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
@@ -38,13 +33,18 @@ import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.LoadMoreClass;
 import ig.com.digitalmandi.util.Utils;
 
-public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order> implements SearchView.OnQueryTextListener, DatePickerClass.OnDateSelected, View.OnClickListener, EventCallback<SellerOrderResponse.Order> {
+public class SellerOrdersActivity extends ListBaseActivity<SellerOrderResponse.Order> implements SearchView.OnQueryTextListener, DatePickerClass.OnDateSelected, View.OnClickListener, EventCallback, SellerOrderAdapter.PurchaseCallBack {
 
     private int mPageCount = 1;
     private boolean mLoadMore = false;
 
     private Date mDateStart;
     private Date mDateEnd;
+
+    // TODO changes
+    private SupplierOrderListResponse.Order mOrderObj;
+
+    private SearchView mSearchView;
     private AppCompatButton mBtnStartDate;
     private AppCompatButton mBtnEndDate;
 
@@ -60,32 +60,14 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
         }
     };
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.layout_fragment_seller_orders, container, false);
-        return mRootView;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        view.findViewById(R.id.layout_fragment_seller_orders_btn_reset_date).setOnClickListener(this);
-        mBtnStartDate = (AppCompatButton) view.findViewById(R.id.layout_fragment_seller_orders_btn_start_date);
-        mBtnStartDate.setOnClickListener(this);
-        mBtnEndDate = (AppCompatButton) view.findViewById(R.id.layout_fragment_seller_orders_btn_end_date);
-        mBtnEndDate.setOnClickListener(this);
-        mRecyclerView.addOnScrollListener(mLoadMoreClass);
-    }
-
-    @Override
-    protected AbstractResponse getResponse() {
-        return null;
-    }
-
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        return new SellerOrderAdapter(mDataList, mBaseActivity, this);
+        return new SellerOrderAdapter(mDataList, this, this);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_orders;
     }
 
     @Override
@@ -137,28 +119,54 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
     }
 
     @Override
-    protected Intent getRequestedIntent() {
-        return new Intent(mBaseActivity, SupplierPurchaseActivity.class);
+    protected void getIntentData() {
     }
 
     @Override
-    protected Comparator getComparator(int pComparatorType) {
-        switch (pComparatorType) {
-            case AppConstant.COMPARATOR_ALPHA: {
-                return new Comparator<SellerOrderResponse.Order>() {
-                    public int compare(SellerOrderResponse.Order left, SellerOrderResponse.Order right) {
-                        return String.CASE_INSENSITIVE_ORDER.compare(left.getNameOfPerson(), right.getNameOfPerson());
-                    }
-                };
-            }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setToolbar(true);
+        setTitle(getString(R.string.string_purchase));
+
+        mBtnStartDate = (AppCompatButton) findViewById(R.id.activity_orders_btn_start_date);
+        mBtnStartDate.setOnClickListener(this);
+
+        mBtnEndDate = (AppCompatButton) findViewById(R.id.activity_orders_btn_end_date);
+        mBtnEndDate.setOnClickListener(this);
+
+        findViewById(R.id.activity_orders_btn_reset_date).setOnClickListener(this);
+
+        mRecyclerView.addOnScrollListener(mLoadMoreClass);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.orders_menu, menu);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.orders_menu_search));
+        mSearchView.setOnQueryTextListener(this);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.orders_menu_add:
+                Intent intent = new Intent(mBaseActivity, AddItemInOrderActivity.class);
+                /*Utils.onActivityStartForResult(this, false, null, intent, null, AppConstant.REQUEST_CODE_PLACE_NEW_ORDER);
+                */
+                return true;
+
+            case R.id.orders_menu_refresh:
+                resetParamsAndCallApi();
+                return true;
         }
-        return null;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case AppConstant.REQUEST_CODE_PLACE_NEW_ORDER:
                     fetchData(true);
@@ -188,18 +196,18 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.layout_fragment_seller_orders_btn_start_date: {
-                DatePickerClass.showDatePicker(mBaseActivity, DatePickerClass.START_DATE, this, AppConstant.API_DATE_FORMAT);
+            case R.id.activity_orders_btn_start_date: {
+                DatePickerClass.showDatePicker(this, DatePickerClass.START_DATE, this, AppConstant.API_DATE_FORMAT);
                 break;
             }
 
-            case R.id.layout_fragment_seller_orders_btn_end_date: {
-                DatePickerClass.showDatePicker(mBaseActivity, DatePickerClass.END_DATE, this, AppConstant.API_DATE_FORMAT);
+            case R.id.activity_orders_btn_end_date: {
+                DatePickerClass.showDatePicker(this, DatePickerClass.END_DATE, this, AppConstant.API_DATE_FORMAT);
                 break;
             }
 
-            case R.id.layout_fragment_seller_orders_btn_reset_date: {
-                MyAlertDialog.showAlertDialog(mBaseActivity, getString(R.string.string_reset_applied_filters), true, new DialogInterface.OnClickListener() {
+            case R.id.activity_orders_btn_reset_date: {
+                MyAlertDialog.showAlertDialog(this, getString(R.string.string_reset_applied_filters), true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_POSITIVE) {
@@ -228,6 +236,56 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
         fetchDataWhenFilterSet();
     }
 
+    @Override
+    public void onEvent(int pOperationType, Object pObject) {
+        mOrderObj = (SupplierOrderListResponse.Order) pObject;
+
+        switch (pOperationType) {
+            case AppConstant.OPERATION_DELETE: {
+
+                MyAlertDialog.showAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_order), true, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
+
+                            ItemDeleteRequest itemDeleteRequest = new ItemDeleteRequest();
+                            itemDeleteRequest.setFlag(AppConstant.DELETE_OR_PAYMENT_ORDER);
+                            itemDeleteRequest.setId(mOrderObj.getOrderId());
+
+                            mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().deleteOrder(itemDeleteRequest);
+                            mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
+
+                                @Override
+                                public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
+                                    if (ResponseVerification.isResponseOk(pResponse)) {
+                                        fetchData(true);
+                                        pBaseActivity.showToast(getString(R.string.string_order_deleted_successfully));
+                                    } else {
+                                        pBaseActivity.showToast(getString(R.string.string_order_deleted_unsuccessfully));
+                                    }
+                                }
+
+                            });
+                        }
+                    }
+                });
+                break;
+            }
+            case AppConstant.OPERATION_ORDER_DETAILS: {
+                Intent intent = new Intent(mBaseActivity, CustomerOrderDetailsActivity.class);
+                intent.putExtra(AppConstant.KEY_OBJECT, mOrderObj);
+                Utils.onActivityStart(mBaseActivity, false, null, intent, null);
+                break;
+            }
+            case AppConstant.OPERATION_ORDER_PAYMENT_DETAILS: {
+                Intent intent = new Intent(mBaseActivity, SupplierPurchasePaymentActivity.class);
+                //intent.putExtra(SupplierPurchasePaymentActivity.PURCHASE_OBJECT_KEY, pObject);
+                break;
+            }
+        }
+    }
+
     private void fetchDataWhenFilterSet() {
         if (mDateStart == null) {
             mBaseActivity.showToast(getString(R.string.string_please_select_start_date));
@@ -243,6 +301,7 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
     }
 
     private void resetParamsAndCallApi() {
+        mSearchView.setIconified(true);
         mBtnEndDate.setText(getString(R.string.string_end_date));
         mBtnStartDate.setText(getString(R.string.string_start_date));
         mDateStart = null;
@@ -251,51 +310,19 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
     }
 
     @Override
-    public void onEvent(int pOperationType, final SellerOrderResponse.Order pOrderObj) {
+    public void onPayment(SellerOrderResponse.Order object, View view) {
 
-        switch (pOperationType) {
-            case AppConstant.OPERATION_DELETE: {
-
-                MyAlertDialog.showAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_order), true, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == DialogInterface.BUTTON_POSITIVE) {
-
-                            ItemDeleteRequest itemDeleteRequest = new ItemDeleteRequest();
-                            itemDeleteRequest.setFlag(AppConstant.DELETE_OR_PAYMENT_PURCHASE);
-                            itemDeleteRequest.setId(pOrderObj.getPurchaseId());
-
-                            mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().deleteOrder(itemDeleteRequest);
-                            mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
-
-                                @Override
-                                public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
-                                    if (ResponseVerification.isResponseOk(pResponse)) {
-                                        fetchData(true);
-                                        pBaseActivity.showToast(getString(R.string.string_order_deleted_successfully));
-                                    } else {
-                                        pBaseActivity.showToast(getString(R.string.string_order_deleted_unsuccessfully));
-                                    }
-                                }
-                            });
-                        }
-                    }
-                });
-                break;
-            }
-            case AppConstant.OPERATION_ORDER_SOLD_DETAILS: {
-                Intent intent = new Intent(mBaseActivity, SupplierPurchaseSoldActivity.class);
-                intent.putExtra(AppConstant.KEY_OBJECT, pOrderObj);
-                Utils.onActivityStart(mBaseActivity, false, null, intent, null);
-                break;
-            }
-            case AppConstant.OPERATION_ORDER_PAYMENT_DETAILS: {
-                Intent intent = new Intent(mBaseActivity, SupplierPurchasePaymentActivity.class);
-                intent.putExtra(SupplierPurchasePaymentActivity.PURCHASE_OBJECT_KEY, pOrderObj);
-                Utils.onActivityStart(mBaseActivity, false, null, intent, null);
-                break;
-            }
-        }
     }
+
+    @Override
+    public void onDelete(SellerOrderResponse.Order object, View view) {
+
+    }
+
+    @Override
+    public void onSales(SellerOrderResponse.Order object, View view) {
+
+    }
+
+
 }

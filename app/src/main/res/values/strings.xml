@@ -1,12 +1,9 @@
 <resources>
 
-
-    <string-array name="paymentType">
-
-        <item>Cash</item>
+    <string-array name="string_array_payment_type">
+        <item>CASH</item>
         <item>RTGS</item>
-        <item>Cheque</item>
-
+        <item>CHEQUE</item>
     </string-array>
 
     <string-array name="kgPrice">
@@ -250,7 +247,7 @@
     <string name="string_no_customer_order_details_found_please_try_again_later">No Order Details Found\nPlease Try Again Later</string>
     <string name="string_no_customer_payment_found_please_pay_due_amount">No Payment Found\nPlease Pay Due Amount</string>
 
-    <!--Payment -->
+    <!--Payment Details Activity -->
     <string name="string_new_payment">New Payment</string>
     <string name="string_order_amount">Order Amount</string>
     <string name="string_paid_amount">Paid Amount</string>
@@ -261,5 +258,32 @@
     <string name="string_total_paid_amount">Total Paid Amount</string>
     <string name="string_interest_paid">Interest Paid ?</string>
     <string name="string_interest_text">\@%s%% Interest</string>
+
+    <!-- Payment Popup-->
+    <string name="string_payment_date">Payment Date</string>
+    <string name="string_payment_type">Payment Type:</string>
+    <string name="string_interest_rate">Interest Rate</string>
+    <string name="string_payment">Payment</string>
+    <string name="string_please_enter_payment_amount">Please Enter Payment Amount</string>
+    <string name="string_interest_rate_can_not_be_empty">Rate Of Interest Can\'t Be Empty</string>
+    <string name="string_interest_amount_can_not_be_empty">Interest Amt Can\'t Be Empty</string>
+    <string name="string_no_interest_days">No Interest Days</string>
+    <string name="string_interest_day_is">Interest Day is </string>
+    <string name="string_interest_days_are">Interest Days are </string>
+    <string name="string_invalid_payment_date">Invalid Payment Date</string>
+    <string name="string_payment_done_successfully">Payment Done SuccessFully</string>
+    <string name="string_continue_for_payment">Continue To Pay Rs %s</string>
+
+    <!-- Order Details-->
+    <string name="string_name">Name</string>
+    <string name="string_unit">Unit</string>
+    <string name="string_qty">Qty</string>
+    <string name="string_price">Price</string>
+    <string name="string_total_amount">Total Amount</string>
+
+    <!--Purchase Fragment-->
+    <string name="string_no_purchase_added_yet_please_add_new_purchase">No Purchase Added\nPlease Add Purchased Items</string>
+    <string name="string_purchase">Purchase</string>
+    <string name="string_sold_order_details">Sold Details</string>
 
 </resources>

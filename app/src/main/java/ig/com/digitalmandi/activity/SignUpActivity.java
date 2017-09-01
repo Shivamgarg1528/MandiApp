@@ -194,7 +194,7 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
         mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().registerUser(registrationRequest);
         mApiEnqueueObject.enqueue(new RetrofitCallBack<LoginResponse>(this) {
             @Override
-            public void onSuccess(LoginResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(LoginResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, true)) {
                     AppSharedPrefs.getInstance(mBaseActivity).setLoginUserModel(pResponse.getResult().get(0));
                     showToast(getString(R.string.successfully_registered));
@@ -205,9 +205,6 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
                 }
             }
 
-            @Override
-            public void onFailure(String pErrorMsg) {
-            }
         });
     }
 
@@ -257,7 +254,7 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
         mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierListResponse>(this) {
 
             @Override
-            public void onSuccess(SupplierListResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(SupplierListResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, true)) {
 
                     SupplierListResponse.ResultBean tempItem = new SupplierListResponse.ResultBean();
@@ -277,9 +274,6 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
                     mSpinnerSeller.setVisibility(View.GONE);
             }
 
-            @Override
-            public void onFailure(String pErrorMsg) {
-            }
         });
     }
 }

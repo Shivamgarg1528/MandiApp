@@ -95,7 +95,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().loginUser(loginRequest);
         mApiEnqueueObject.enqueue(new RetrofitCallBack<LoginResponse>(this) {
             @Override
-            public void onSuccess(LoginResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(LoginResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, true)) {
                     AppSharedPrefs.getInstance(mBaseActivity).setLoginUserModel(pResponse.getResult().get(0));
                     onActivityResult(REQUEST_CODE_SIGN_UP, RESULT_OK, null);
@@ -103,9 +103,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     showToast(getString(R.string.string_login_failed));
             }
 
-            @Override
-            public void onFailure(String pErrorMsg) {
-            }
         });
     }
 }

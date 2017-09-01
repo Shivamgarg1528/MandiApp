@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.bean.response.seller.SupplierOrderDetailListResponse;
 import ig.com.digitalmandi.util.Utils;
@@ -31,13 +29,13 @@ public class SupplierOrderDetailAdapter extends RecyclerView.Adapter<SupplierOrd
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         SupplierOrderDetailListResponse.OrderDetail data = mDataList.get(position);
-        holder.rowOrderDetailProductName.setText(data.getProductName());
-        holder.rowOrderDetailProductUnit.setText(Utils.formatStringUpTo2Precision(data.getUnitValue()));
-        holder.rowOrderDetailProductQty.setText(data.getQty());
-        holder.rowOrderDetailProductPrice.setText(Utils.formatStringUpTo2Precision(data.getPrice()));
-        holder.rowOrderDetailTotalAmount.setText(Utils.formatStringUpTo2Precision(data.getTotalPrice()));
-        holder.rowOrderDetailQtyInKg.setText(Utils.formatStringUpTo2Precision(data.getQtyInKg()) + "(KG)");
-        holder.rowOrderDetailQtyInQuintal.setText(Utils.formatStringUpTo2Precision(String.valueOf(Float.parseFloat(data.getQtyInKg()) * .01f)) + "(Q)");
+        holder.mTextViewName.setText(data.getProductName());
+        holder.mTextViewUnit.setText(Utils.formatStringUpTo2Precision(data.getUnitValue()));
+        holder.mTextViewQty.setText(data.getQty());
+        holder.mTextViewPrice.setText(Utils.formatStringUpTo2Precision(data.getPrice()));
+        holder.mTextViewTotalAmount.setText(Utils.formatStringUpTo2Precision(data.getTotalPrice()));
+        holder.mTextViewQtyInKg.setText(Utils.formatStringUpTo2Precision(data.getQtyInKg()) + "(KG)");
+        holder.mTextViewQtyInQuintal.setText(Utils.formatStringUpTo2Precision(String.valueOf(Float.parseFloat(data.getQtyInKg()) * .01f)) + "(Q)");
     }
 
     @Override
@@ -46,24 +44,25 @@ public class SupplierOrderDetailAdapter extends RecyclerView.Adapter<SupplierOrd
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.rowOrderDetailProductName)
-        AppCompatTextView rowOrderDetailProductName;
-        @BindView(R.id.rowOrderDetailProductUnit)
-        AppCompatTextView rowOrderDetailProductUnit;
-        @BindView(R.id.rowOrderDetailProductQty)
-        AppCompatTextView rowOrderDetailProductQty;
-        @BindView(R.id.rowOrderDetailProductPrice)
-        AppCompatTextView rowOrderDetailProductPrice;
-        @BindView(R.id.rowOrderDetailTotalAmount)
-        AppCompatTextView rowOrderDetailTotalAmount;
-        @BindView(R.id.rowOrderDetailQtyInKg)
-        AppCompatTextView rowOrderDetailQtyInKg;
-        @BindView(R.id.rowOrderDetailQtyInQuintal)
-        AppCompatTextView rowOrderDetailQtyInQuintal;
+
+        private AppCompatTextView mTextViewName;
+        private AppCompatTextView mTextViewUnit;
+        private AppCompatTextView mTextViewQty;
+        private AppCompatTextView mTextViewPrice;
+        private AppCompatTextView mTextViewTotalAmount;
+        private AppCompatTextView mTextViewQtyInKg;
+        private AppCompatTextView mTextViewQtyInQuintal;
 
         ViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this, view);
+            mTextViewName = (AppCompatTextView) view.findViewById(R.id.row_layout_order_details_tv_product_name);
+            mTextViewUnit = (AppCompatTextView) view.findViewById(R.id.row_layout_order_details_tv_unit);
+            mTextViewQty = (AppCompatTextView) view.findViewById(R.id.row_layout_order_details_tv_qty);
+            mTextViewPrice = (AppCompatTextView) view.findViewById(R.id.row_layout_order_details_tv_price);
+            mTextViewTotalAmount = (AppCompatTextView) view.findViewById(R.id.row_layout_order_details_tv_total_amount);
+            mTextViewQtyInKg = (AppCompatTextView) view.findViewById(R.id.row_layout_order_details_tv_qty_in_kg);
+            mTextViewQtyInQuintal = (AppCompatTextView) view.findViewById(R.id.row_layout_order_details_tv_qty_in_quintal);
+
         }
     }
 }

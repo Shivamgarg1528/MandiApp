@@ -4,7 +4,7 @@ package ig.com.digitalmandi.bean.request.seller;
  * Created by shiva on 11/6/2016.
  */
 
-public class SupplierItemDeleteRequest {
+public class ItemDeleteRequest {
 
     /**
      * flag : 0

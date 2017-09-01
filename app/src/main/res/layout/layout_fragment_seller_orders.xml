@@ -5,8 +5,6 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_common_top_bar" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -14,7 +12,7 @@
         android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/activity_supplier_customer_more_info_btn_start_date"
+            android:id="@+id/layout_fragment_seller_orders_btn_start_date"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
@@ -25,7 +23,7 @@
             android:textSize="14sp" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/activity_supplier_customer_more_info_btn_end_date"
+            android:id="@+id/layout_fragment_seller_orders_btn_end_date"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
@@ -36,7 +34,7 @@
             android:textSize="14sp" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/activity_supplier_customer_more_info_btn_reset_date"
+            android:id="@+id/layout_fragment_seller_orders_btn_reset_date"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"

@@ -37,7 +37,6 @@ public class CustomerOrderDetailsActivity extends ListBaseActivity<SupplierOrder
     @Override
     protected void fetchData(boolean pRefresh) {
 
-        showOrHideProgressBar(true);
         SupplierOrderDetailListRequest supplierOrderDetailListRequest = new SupplierOrderDetailListRequest();
         supplierOrderDetailListRequest.setFlag(AppConstant.COLUMN_ORDER_ID);
         supplierOrderDetailListRequest.setId(mOrderObj.getOrderId());
@@ -46,15 +45,11 @@ public class CustomerOrderDetailsActivity extends ListBaseActivity<SupplierOrder
         mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierOrderDetailListResponse>(mBaseActivity, false) {
 
             @Override
-            public void onSuccess(SupplierOrderDetailListResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(SupplierOrderDetailListResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     mDataList.addAll(pResponse.getResult());
                 }
                 notifyAdapterAndView();
-            }
-
-            @Override
-            public void onFailure(String pErrorMsg) {
             }
 
         });

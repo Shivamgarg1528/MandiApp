@@ -41,7 +41,7 @@ public class CustomerFragment extends ListBaseFragment<SellerCustomerList.Custom
     }
 
     @Override
-    protected void fetchData() {
+    protected void fetchData(boolean pRefresh) {
         ModifyPreference modifyPreference = new ModifyPreference(mBaseActivity, this);
         modifyPreference.addOrUpdateSellerCustomers();
     }

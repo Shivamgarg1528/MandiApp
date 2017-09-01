@@ -10,7 +10,7 @@ import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.activity.seller.SellerUnitModifyActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierUnitAdapter;
-import ig.com.digitalmandi.bean.request.seller.SupplierItemDeleteRequest;
+import ig.com.digitalmandi.bean.request.seller.ItemDeleteRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierUnitModifyRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
@@ -42,7 +42,7 @@ public class UnitFragment extends ListBaseFragment<SellerUnitList.Unit> {
     }
 
     @Override
-    protected void fetchData() {
+    protected void fetchData(boolean pRefresh) {
         ModifyPreference modifyPreference = new ModifyPreference(mBaseActivity, this);
         modifyPreference.addOrUpdateSellerUnits();
     }
@@ -90,31 +90,27 @@ public class UnitFragment extends ListBaseFragment<SellerUnitList.Unit> {
             }
 
             case AppConstant.OPERATION_DELETE: {
-                MyAlertDialog.onShowAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_unit), true, new DialogInterface.OnClickListener() {
+                MyAlertDialog.showAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_unit), true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_POSITIVE) {
 
-                            SupplierItemDeleteRequest supplierItemDeleteRequest = new SupplierItemDeleteRequest();
-                            supplierItemDeleteRequest.setFlag(AppConstant.DELETE_UNIT);
-                            supplierItemDeleteRequest.setId(pUnit.getUnitId());
+                            ItemDeleteRequest itemDeleteRequest = new ItemDeleteRequest();
+                            itemDeleteRequest.setFlag(AppConstant.DELETE_UNIT);
+                            itemDeleteRequest.setId(pUnit.getUnitId());
 
-                            mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().deleteProductUnit(supplierItemDeleteRequest);
+                            mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().deleteProductUnit(itemDeleteRequest);
                             mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
                                 @Override
-                                public void onSuccess(EmptyResponse pResponse, BaseActivity pBaseActivity) {
+                                public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
                                     if (ResponseVerification.isResponseOk(pResponse)) {
                                         mDataList.remove(pUnit);
                                         mBackUpList.remove(pUnit);
-                                        fetchData();
+                                        fetchData(true);
                                     } else
                                         mBaseActivity.showToast(getString(R.string.string_sorry_you_cant_delete_this_unit));
                                 }
 
-                                @Override
-                                public void onFailure(String pErrorMsg) {
-
-                                }
                             });
                         }
                     }
@@ -130,22 +126,16 @@ public class UnitFragment extends ListBaseFragment<SellerUnitList.Unit> {
                 supplierUnitModifyRequest.setOperation(AppConstant.DELETE);
 
                 mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().modifiedUnit(supplierUnitModifyRequest);
-                mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity, true) {
+                mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
 
                     @Override
-                    public void onSuccess(EmptyResponse pResponse, BaseActivity pBaseActivity) {
-
+                    public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
                         if (ResponseVerification.isResponseOk(pResponse)) {
                             pUnit.setUnitStatus(supplierUnitModifyRequest.getUnitStatus());
-                            fetchData();
+                            fetchData(true);
                         } else {
                             mBaseActivity.showToast(getString(R.string.please_try_again));
                         }
-                    }
-
-                    @Override
-                    public void onFailure(String pErrorMsg) {
-                        mBaseActivity.showToast(getString(R.string.please_try_again));
                     }
                 });
                 break;

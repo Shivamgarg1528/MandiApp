@@ -19,9 +19,9 @@ import java.util.List;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.activity.ListBaseActivity;
-import ig.com.digitalmandi.adapter.supplier.SupplierOrderAdapter;
+import ig.com.digitalmandi.adapter.supplier.CustomerOrderAdapter;
+import ig.com.digitalmandi.bean.request.seller.ItemDeleteRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
-import ig.com.digitalmandi.bean.request.seller.SupplierItemDeleteRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderBillPrintRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderListRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
@@ -68,12 +68,12 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        return new SupplierOrderAdapter(mDataList, this, this);
+        return new CustomerOrderAdapter(mDataList, this, this);
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_customer_orders;
+        return R.layout.activity_orders;
     }
 
     @Override
@@ -87,7 +87,6 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
             mPageCount = 1;
             mLoadMore = false;
         }
-        showOrHideProgressBar(true);
         SupplierOrderListRequest supplierOrderListRequest = new SupplierOrderListRequest();
 
         if (mDateEnd != null)
@@ -108,7 +107,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
         mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierOrderListResponse>(mBaseActivity, false) {
 
             @Override
-            public void onSuccess(SupplierOrderListResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(SupplierOrderListResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     if (pResponse.getResult().size() == 0) {
                         pBaseActivity.showToast(getString(R.string.string_no_orders_found));
@@ -124,10 +123,6 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
                 notifyAdapterAndView();
             }
 
-            @Override
-            public void onFailure(String pErrorMsg) {
-
-            }
         });
     }
 
@@ -143,21 +138,21 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
         setToolbar(true);
         setTitle(mCustomerObj.getUserName().toUpperCase() + getString(R.string.string_customer_orders));
 
-        mBtnStartDate = (AppCompatButton) findViewById(R.id.activity_supplier_customer_more_info_btn_start_date);
+        mBtnStartDate = (AppCompatButton) findViewById(R.id.activity_orders_btn_start_date);
         mBtnStartDate.setOnClickListener(this);
 
-        mBtnEndDate = (AppCompatButton) findViewById(R.id.activity_supplier_customer_more_info_btn_end_date);
+        mBtnEndDate = (AppCompatButton) findViewById(R.id.activity_orders_btn_end_date);
         mBtnEndDate.setOnClickListener(this);
 
-        findViewById(R.id.activity_supplier_customer_more_info_btn_reset_date).setOnClickListener(this);
+        findViewById(R.id.activity_orders_btn_reset_date).setOnClickListener(this);
 
         mRecyclerView.addOnScrollListener(mLoadMoreClass);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.suppiler_customer_order_menu, menu);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.supplier_customer_order_menu_search));
+        getMenuInflater().inflate(R.menu.orders_menu, menu);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.orders_menu_search));
         mSearchView.setOnQueryTextListener(this);
         return super.onCreateOptionsMenu(menu);
     }
@@ -165,13 +160,13 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.supplier_customer_order_menu_add:
+            case R.id.orders_menu_add:
                 Intent intent = new Intent(mBaseActivity, AddItemInOrderActivity.class);
                 intent.putExtra(AppConstant.KEY_OBJECT, mCustomerObj);
                 Utils.onActivityStartForResult(this, false, null, intent, null, AppConstant.REQUEST_CODE_PLACE_NEW_ORDER);
                 return true;
 
-            case R.id.supplier_customer_order_menu_refresh:
+            case R.id.orders_menu_refresh:
                 resetParamsAndCallApi();
                 return true;
         }
@@ -211,18 +206,18 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.activity_supplier_customer_more_info_btn_start_date: {
+            case R.id.activity_orders_btn_start_date: {
                 DatePickerClass.showDatePicker(this, DatePickerClass.START_DATE, this, AppConstant.API_DATE_FORMAT);
                 break;
             }
 
-            case R.id.activity_supplier_customer_more_info_btn_end_date: {
+            case R.id.activity_orders_btn_end_date: {
                 DatePickerClass.showDatePicker(this, DatePickerClass.END_DATE, this, AppConstant.API_DATE_FORMAT);
                 break;
             }
 
-            case R.id.activity_supplier_customer_more_info_btn_reset_date: {
-                MyAlertDialog.onShowAlertDialog(this, getString(R.string.string_reset_applied_filters), getString(R.string.string_continue), getString(R.string.string_leave), new DialogInterface.OnClickListener() {
+            case R.id.activity_orders_btn_reset_date: {
+                MyAlertDialog.showAlertDialog(this, getString(R.string.string_reset_applied_filters), true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_POSITIVE) {
@@ -276,21 +271,21 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
         switch (pOperationType) {
             case AppConstant.OPERATION_DELETE: {
 
-                MyAlertDialog.onShowAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_order), getString(R.string.string_continue), getString(R.string.string_leave), new DialogInterface.OnClickListener() {
+                MyAlertDialog.showAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_order), true, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_POSITIVE) {
 
-                            SupplierItemDeleteRequest supplierItemDeleteRequest = new SupplierItemDeleteRequest();
-                            supplierItemDeleteRequest.setFlag(AppConstant.DELETE_OR_PAYMENT_ORDER);
-                            supplierItemDeleteRequest.setId(mOrderObj.getOrderId());
+                            ItemDeleteRequest itemDeleteRequest = new ItemDeleteRequest();
+                            itemDeleteRequest.setFlag(AppConstant.DELETE_OR_PAYMENT_ORDER);
+                            itemDeleteRequest.setId(mOrderObj.getOrderId());
 
-                            mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().deleteOrder(supplierItemDeleteRequest);
+                            mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().deleteOrder(itemDeleteRequest);
                             mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
 
                                 @Override
-                                public void onSuccess(EmptyResponse pResponse, BaseActivity pBaseActivity) {
+                                public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
                                     if (ResponseVerification.isResponseOk(pResponse)) {
                                         fetchData(true);
                                         pBaseActivity.showToast(getString(R.string.string_order_deleted_successfully));
@@ -299,9 +294,6 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
                                     }
                                 }
 
-                                @Override
-                                public void onFailure(String pErrorMsg) {
-                                }
                             });
                         }
                     }
@@ -341,14 +333,14 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
         mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierBillPrintRes>(mBaseActivity) {
 
             @Override
-            public void onSuccess(SupplierBillPrintRes pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(SupplierBillPrintRes pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, true)) {
 
                     mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().downloadFileWithDynamicUrlSync(pResponse.getResult().get(0).getURL());
                     mApiEnqueueObject.enqueue(new RetrofitCallBack<ResponseBody>(mBaseActivity) {
 
                         @Override
-                        public void onSuccess(ResponseBody pResponse, BaseActivity pBaseActivity) {
+                        public void onResponse(ResponseBody pResponse, BaseActivity pBaseActivity) {
                             boolean writeSuccessfully = Utils.writePdf(pResponse, mOrderObj.getOrderId(), true);
                             if (writeSuccessfully) {
                                 Utils.readPdf(mBaseActivity, mOrderObj.getOrderId(), true);
@@ -357,19 +349,12 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
                             }
                         }
 
-                        @Override
-                        public void onFailure(String pErrorMsg) {
-                        }
                     });
                 } else {
                     mBaseActivity.showToast(getString(R.string.string_failed_to_get_pdf_from_server));
                 }
             }
 
-            @Override
-            public void onFailure(String pErrorMsg) {
-
-            }
         });
     }
 

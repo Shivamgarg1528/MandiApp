@@ -95,19 +95,19 @@ public class AddItemListAdapter extends RecyclerView.Adapter<AddItemListAdapter.
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.rowOrderDetailProductName)
+        @BindView(R.id.row_layout_order_details_tv_product_name)
         AppCompatTextView rowOrderDetailProductName;
-        @BindView(R.id.rowOrderDetailProductUnit)
+        @BindView(R.id.row_layout_order_details_tv_unit)
         AppCompatTextView rowOrderDetailProductUnit;
-        @BindView(R.id.rowOrderDetailProductQty)
+        @BindView(R.id.row_layout_order_details_tv_qty)
         AppCompatTextView rowOrderDetailProductQty;
-        @BindView(R.id.rowOrderDetailProductPrice)
+        @BindView(R.id.row_layout_order_details_tv_price)
         AppCompatTextView rowOrderDetailProductPrice;
-        @BindView(R.id.rowOrderDetailTotalAmount)
+        @BindView(R.id.row_layout_order_details_tv_total_amount)
         AppCompatTextView rowOrderDetailTotalAmount;
-        @BindView(R.id.rowOrderDetailQtyInKg)
+        @BindView(R.id.row_layout_order_details_tv_qty_in_kg)
         AppCompatTextView rowOrderDetailQtyInKg;
-        @BindView(R.id.rowOrderDetailQtyInQuintal)
+        @BindView(R.id.row_layout_order_details_tv_qty_in_quintal)
         AppCompatTextView rowOrderDetailQtyInQuintal;
         View mView;
 

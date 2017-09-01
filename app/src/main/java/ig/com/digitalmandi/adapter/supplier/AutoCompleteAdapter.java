@@ -15,7 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.bean.response.seller.SupplierPurchaseListRes;
+import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 import ig.com.digitalmandi.callback.AdapterCallback;
 import ig.com.digitalmandi.util.Utils;
 
@@ -26,8 +26,8 @@ import ig.com.digitalmandi.util.Utils;
 public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
 
     private Context context;
-    private List<SupplierPurchaseListRes.ResultBean> originalList;
-    private List<SupplierPurchaseListRes.ResultBean> suggestions = new ArrayList<>();
+    private List<SellerOrderResponse.Order> originalList;
+    private List<SellerOrderResponse.Order> suggestions = new ArrayList<>();
     private Filter filter = new CustomFilter();
     private AdapterCallback callBack;
 
@@ -35,7 +35,7 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
      * @param context      Context
      * @param originalList Original list used to compare in constraints.
      */
-    public AutoCompleteAdapter(Context context, List<SupplierPurchaseListRes.ResultBean> originalList, AdapterCallback callBack) {
+    public AutoCompleteAdapter(Context context, List<SellerOrderResponse.Order> originalList, AdapterCallback callBack) {
         this.context      = context;
         this.originalList = originalList;
         this.callBack     = callBack;
@@ -47,7 +47,7 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
     }
 
     @Override
-    public SupplierPurchaseListRes.ResultBean getItem(int position) {
+    public SellerOrderResponse.Order getItem(int position) {
         return suggestions.get(position);
     }
 
@@ -72,7 +72,7 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        SupplierPurchaseListRes.ResultBean object = suggestions.get(position);
+        SellerOrderResponse.Order object = suggestions.get(position);
         holder.rowAutoCompletePersonName.setText(object.getNameOfPerson());
         holder.rowAutoCompleteDate.setText(object.getPurchaseDate());
         holder.rowAutoCompleteProductName.setText(object.getProductName());
@@ -82,7 +82,7 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
 
             @Override
             public void onClick(View view) {
-                SupplierPurchaseListRes.ResultBean object = suggestions.get(position);
+                SellerOrderResponse.Order object = suggestions.get(position);
                 callBack.onItemClick(object);
             }
         });
@@ -124,7 +124,7 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
 
             if (originalList != null && constraint != null) { // Check if the Original List and Constraint aren't null.
                 for (int i = 0; i < originalList.size(); i++) {
-                    SupplierPurchaseListRes.ResultBean preModel = originalList.get(i);
+                    SellerOrderResponse.Order preModel = originalList.get(i);
                     if (preModel.getProductInKg().contains(constraint) || preModel.getPurchaseDate().contains(constraint) || preModel.getProductName().toLowerCase().contains(constraint.toString().toLowerCase()) || preModel.getNameOfPerson().toLowerCase().contains(constraint.toString().toLowerCase())) { // Compare item in original list if it contains constraints.
 
                         if(Float.parseFloat(preModel.onGetLeftQty()) > 0)

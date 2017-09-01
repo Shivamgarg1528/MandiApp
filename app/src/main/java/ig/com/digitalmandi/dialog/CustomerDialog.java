@@ -56,7 +56,7 @@ public class CustomerDialog extends BaseDialog implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.dialog_layout_customer_info_iv_info:
                 dismiss();
-                mEventCallback.onEvent(AppConstant.OPERATION_EDIT, mCustomer);
+                mEventCallback.onEvent(AppConstant.OPERATION_CUSTOMER_ORDERS, mCustomer);
                 break;
 
             case R.id.dialog_layout_customer_info_iv_call:

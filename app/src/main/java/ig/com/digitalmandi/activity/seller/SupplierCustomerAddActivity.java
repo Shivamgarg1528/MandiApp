@@ -123,7 +123,7 @@ public class SupplierCustomerAddActivity extends BaseActivity implements ImageDi
         mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().registerUser(registrationRequest);
         mApiEnqueueObject.enqueue(new RetrofitCallBack<LoginResponse>(this, true) {
             @Override
-            public void onSuccess(LoginResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(LoginResponse pResponse, BaseActivity pBaseActivity) {
                 if (pResponse.isSuccess() && pResponse.getResponseCode() == 200 && pResponse.getResult().size() > 0 && pBaseActivity != null) {
                     //AppSharedPrefs.getInstance(mBaseActivity).s pResponse.getResult().get(0));
                     Toast.makeText(pBaseActivity, R.string.successfully_registered, Toast.LENGTH_SHORT).show();
@@ -132,11 +132,6 @@ public class SupplierCustomerAddActivity extends BaseActivity implements ImageDi
                 } else
                     Toast.makeText(pBaseActivity, pResponse.getResponseCode() + pResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
-            }
-
-            @Override
-            public void onFailure(String pErrorMsg) {
-                onSubmitEnable();
             }
 
         });
