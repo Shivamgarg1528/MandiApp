@@ -64,7 +64,7 @@ public class SellerOrderAdapter extends RecyclerView.Adapter<SellerOrderAdapter.
                 final SellerOrderResponse.Order data = mDataList.get(holder.getAdapterPosition());
                 CharSequence array[] = {
                         mBaseActivity.getString(R.string.string_delete),
-                        mBaseActivity.getString(R.string.string_payment_history),
+                        mBaseActivity.getString(R.string.string_payment_details),
                         mBaseActivity.getString(R.string.string_sold_order_details),
                 };
                 AlertDialog.Builder builder = new AlertDialog.Builder(mBaseActivity);
@@ -85,7 +85,7 @@ public class SellerOrderAdapter extends RecyclerView.Adapter<SellerOrderAdapter.
                             }
 
                             case 2: {
-                                mEventCallback.onEvent(AppConstant.OPERATION_ORDER_SOLD_DETAILS, data);
+                                mEventCallback.onEvent(AppConstant.OPERATION_ORDER_DETAILS, data);
                                 break;
                             }
                         }
@@ -100,14 +100,6 @@ public class SellerOrderAdapter extends RecyclerView.Adapter<SellerOrderAdapter.
     @Override
     public int getItemCount() {
         return mDataList.size();
-    }
-
-    public interface PurchaseCallBack {
-        void onPayment(SellerOrderResponse.Order object, View view);
-
-        void onDelete(SellerOrderResponse.Order object, View view);
-
-        void onSales(SellerOrderResponse.Order object, View view);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

@@ -60,7 +60,6 @@ public class ModifyPreference {
                 }
                 mListener.onApiResponse();
             }
-
         });
     }
 

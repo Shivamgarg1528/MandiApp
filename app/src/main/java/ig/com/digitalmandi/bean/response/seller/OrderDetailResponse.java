@@ -2,7 +2,7 @@ package ig.com.digitalmandi.bean.response.seller;
 
 import ig.com.digitalmandi.bean.AbstractResponse;
 
-public class SupplierOrderDetailListResponse extends AbstractResponse<SupplierOrderDetailListResponse.OrderDetail> {
+public class OrderDetailResponse extends AbstractResponse<OrderDetailResponse.OrderDetail> {
 
     public static class OrderDetail {
 
@@ -19,28 +19,12 @@ public class SupplierOrderDetailListResponse extends AbstractResponse<SupplierOr
         private String price;
         private String totalPrice;
 
-        public String getOrderDetailsId() {
-            return orderDetailsId;
-        }
-
-        public String getOrderId() {
-            return orderId;
-        }
-
-        public String getPurchaseId() {
-            return purchaseId;
-        }
-
         public String getProductId() {
             return productId;
         }
 
         public String getProductName() {
             return productName;
-        }
-
-        public String getOrderDate() {
-            return orderDate;
         }
 
         public String getUnitId() {

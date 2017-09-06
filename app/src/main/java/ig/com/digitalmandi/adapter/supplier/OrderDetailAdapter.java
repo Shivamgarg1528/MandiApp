@@ -9,14 +9,14 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.bean.response.seller.SupplierOrderDetailListResponse;
+import ig.com.digitalmandi.bean.response.seller.OrderDetailResponse;
 import ig.com.digitalmandi.util.Utils;
 
-public class SupplierOrderDetailAdapter extends RecyclerView.Adapter<SupplierOrderDetailAdapter.ViewHolder> {
+public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.ViewHolder> {
 
-    private List<SupplierOrderDetailListResponse.OrderDetail> mDataList;
+    private List<OrderDetailResponse.OrderDetail> mDataList;
 
-    public SupplierOrderDetailAdapter(List<SupplierOrderDetailListResponse.OrderDetail> pDataList) {
+    public OrderDetailAdapter(List<OrderDetailResponse.OrderDetail> pDataList) {
         this.mDataList = pDataList;
     }
 
@@ -28,7 +28,7 @@ public class SupplierOrderDetailAdapter extends RecyclerView.Adapter<SupplierOrd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        SupplierOrderDetailListResponse.OrderDetail data = mDataList.get(position);
+        OrderDetailResponse.OrderDetail data = mDataList.get(position);
         holder.mTextViewName.setText(data.getProductName());
         holder.mTextViewUnit.setText(Utils.formatStringUpTo2Precision(data.getUnitValue()));
         holder.mTextViewQty.setText(data.getQty());
@@ -62,7 +62,6 @@ public class SupplierOrderDetailAdapter extends RecyclerView.Adapter<SupplierOrd
             mTextViewTotalAmount = (AppCompatTextView) view.findViewById(R.id.row_layout_order_details_tv_total_amount);
             mTextViewQtyInKg = (AppCompatTextView) view.findViewById(R.id.row_layout_order_details_tv_qty_in_kg);
             mTextViewQtyInQuintal = (AppCompatTextView) view.findViewById(R.id.row_layout_order_details_tv_qty_in_quintal);
-
         }
     }
 }

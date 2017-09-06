@@ -15,7 +15,25 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_margin="30dp"
+            android:background="@drawable/xml_corner_app_bg" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/xml_corner_app_bg" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/xml_corner_sign_up_bg">
 
             <RelativeLayout
@@ -51,15 +69,14 @@
                     android:layout_marginTop="05dp"
                     android:src="@drawable/ic_user_default"
                     app:civ_border_color="@android:color/white"
-                    app:civ_border_width="2dp"
-                    />
+                    app:civ_border_width="2dp" />
 
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/leftLine"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:scrollbars="none">
 
                     <LinearLayout
@@ -70,8 +87,7 @@
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp">
 
                             <android.support.v7.widget.AppCompatEditText
                                 android:id="@+id/layout_activity_sign_up_edt_name"
@@ -86,8 +102,7 @@
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp">
 
                             <android.support.v7.widget.AppCompatEditText
                                 android:id="@+id/layout_activity_sign_up_edt_phone"
@@ -102,11 +117,10 @@
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp">
 
                             <android.support.v7.widget.AppCompatEditText
-                                android:id="@+id/activity_login_edt_email_address"
+                                android:id="@+id/layout_activity_sign_up_edt_email_address"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/email_address"
@@ -117,11 +131,10 @@
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp">
 
                             <android.support.v7.widget.AppCompatEditText
-                                android:id="@+id/activity_login_edt_password"
+                                android:id="@+id/layout_activity_sign_up_edt_password"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/reg_password"
@@ -133,8 +146,7 @@
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp">
 
                             <android.support.v7.widget.AppCompatEditText
                                 android:id="@+id/layout_activity_sign_up_edt_confirm_password"
@@ -148,8 +160,7 @@
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp">
 
                             <android.support.v7.widget.AppCompatEditText
                                 android:id="@+id/layout_activity_sign_up_edt_firm_name"
@@ -163,8 +174,7 @@
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp">
 
                             <android.support.v7.widget.AppCompatEditText
                                 android:id="@+id/layout_activity_sign_up_edt_tin_number"
@@ -179,8 +189,7 @@
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp">
 
                             <android.support.v7.widget.AppCompatEditText
                                 android:id="@+id/layout_activity_sign_up_edt_land_mark"
@@ -194,8 +203,7 @@
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp"
-                            app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
+                            android:theme="@style/TextAppearance.App.TextInputLayout.SignUp">
 
                             <android.support.v7.widget.AppCompatEditText
                                 android:id="@+id/layout_activity_sign_up_edt_address"
@@ -211,9 +219,9 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
-                            android:background="@android:color/white"
-                            android:text="@string/add_customer"
-                            android:textColor="@color/colorPrimary"
+                            android:background="@drawable/selector_white_button"
+                            android:text="@string/submit"
+                            android:textColor="@drawable/selector_white_button_text"
                             android:textSize="20sp" />
 
                     </LinearLayout>

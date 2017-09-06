@@ -4,7 +4,9 @@ import ig.com.digitalmandi.bean.request.ForgotPasswordRequest;
 import ig.com.digitalmandi.bean.request.LoginRequest;
 import ig.com.digitalmandi.bean.request.LogoutRequest;
 import ig.com.digitalmandi.bean.request.seller.ItemDeleteRequest;
+import ig.com.digitalmandi.bean.request.seller.OrderDetailsRequest;
 import ig.com.digitalmandi.bean.request.seller.PaymentRequest;
+import ig.com.digitalmandi.bean.request.seller.PaymentsRequest;
 import ig.com.digitalmandi.bean.request.seller.RegistrationRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
 import ig.com.digitalmandi.bean.request.seller.SellerCustomerListRequest;
@@ -14,22 +16,20 @@ import ig.com.digitalmandi.bean.request.seller.SellerUnitListRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierListRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderAddReq;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderBillPrintRequest;
-import ig.com.digitalmandi.bean.request.seller.SupplierOrderDetailListRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderListRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierProductModifyRequest;
-import ig.com.digitalmandi.bean.request.seller.SupplierPurchaseAddReq;
-import ig.com.digitalmandi.bean.request.seller.SupplierPurchasePaymentListRequest;
+import ig.com.digitalmandi.bean.request.seller.SupplierPurchaseAddRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierUnitModifyRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.bean.response.LoginResponse;
+import ig.com.digitalmandi.bean.response.seller.OrderDetailResponse;
+import ig.com.digitalmandi.bean.response.seller.OrderResponse;
+import ig.com.digitalmandi.bean.response.seller.PaymentsResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerProductList;
 import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
 import ig.com.digitalmandi.bean.response.seller.SupplierBillPrintRes;
 import ig.com.digitalmandi.bean.response.seller.SupplierListResponse;
-import ig.com.digitalmandi.bean.response.seller.SupplierOrderDetailListResponse;
-import ig.com.digitalmandi.bean.response.seller.SupplierOrderListResponse;
-import ig.com.digitalmandi.bean.response.seller.SupplierPaymentListResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -49,7 +49,7 @@ public interface RetrofitInterface {
     String UNIT_API = "unitList";
     String PRODUCT_MODIFIED_API = "productModification";
     String UNIT_MODIFIED_API = "unitModification";
-    String PURCHASE_LIST = "getSellerOrders";
+    String PURCHASE_LIST = "purchaseList";
     String PURCHASE_MODIFICATION_API = "purchaseModification";
     String PURCHASE_PAYMENT = "doPayment";
     String PURCHASE_PAYMENT_LIST = "paymentList";
@@ -92,22 +92,22 @@ public interface RetrofitInterface {
     Call<EmptyResponse> modifiedUnit(@Body SupplierUnitModifyRequest supplierUnitModifyReqModel);
 
     @POST(PURCHASE_LIST)
-    Call<SellerOrderResponse> getSellerOrders(@Body SellerOrdersRequest purchaseListReqModel);
+    Call<SellerOrderResponse> purchaseList(@Body SellerOrdersRequest purchaseListReqModel);
 
     @POST(PURCHASE_MODIFICATION_API)
-    Call<SellerOrderResponse> purchaseModification(@Body SupplierPurchaseAddReq purchaseListReqModel);
+    Call<SellerOrderResponse> purchaseModification(@Body SupplierPurchaseAddRequest purchaseListReqModel);
 
     @POST(PURCHASE_PAYMENT)
     Call<EmptyResponse> doPurchase(@Body PaymentRequest purchasePaymentReqModel);
 
     @POST(PURCHASE_PAYMENT_LIST)
-    Call<SupplierPaymentListResponse> supplierPurchasePaymentList(@Body SupplierPurchasePaymentListRequest paymentListReqModel);
+    Call<PaymentsResponse> supplierPurchasePaymentList(@Body PaymentsRequest paymentListReqModel);
 
     @POST(CUSTOMER_ORDER_LIST)
-    Call<SupplierOrderListResponse> getOrdersOfGivenCustomer(@Body SupplierOrderListRequest supplierOrderListRequest);
+    Call<OrderResponse> getOrdersOfGivenCustomer(@Body SupplierOrderListRequest supplierOrderListRequest);
 
     @POST(CUSTOMER_ORDER_DETAIL_LIST)
-    Call<SupplierOrderDetailListResponse> orderDetailsOfGivenCustomer(@Body SupplierOrderDetailListRequest supplierOrderDetailListRequest);
+    Call<OrderDetailResponse> orderDetailsOfGivenCustomer(@Body OrderDetailsRequest orderDetailsRequest);
 
     @POST(INSERT_NEW_ORDER)
     Call<EmptyResponse> insertNewOrder(@Body SupplierOrderAddReq supplierOrderAddReq);

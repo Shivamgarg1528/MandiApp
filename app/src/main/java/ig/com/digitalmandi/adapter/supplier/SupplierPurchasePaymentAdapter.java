@@ -13,15 +13,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
-import ig.com.digitalmandi.bean.response.seller.SupplierPaymentListResponse;
+import ig.com.digitalmandi.bean.response.seller.PaymentsResponse;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Utils;
 
 public class SupplierPurchasePaymentAdapter extends RecyclerView.Adapter<SupplierPurchasePaymentAdapter.ViewHolder> {
 
-    private List<SupplierPaymentListResponse.Payment> mDataList;
+    private List<PaymentsResponse.Payment> mDataList;
 
-    public SupplierPurchasePaymentAdapter(List<SupplierPaymentListResponse.Payment> pDataList) {
+    public SupplierPurchasePaymentAdapter(List<PaymentsResponse.Payment> pDataList) {
         this.mDataList = pDataList;
     }
 
@@ -38,7 +38,7 @@ public class SupplierPurchasePaymentAdapter extends RecyclerView.Adapter<Supplie
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        SupplierPaymentListResponse.Payment purchaseObject = mDataList.get(position);
+        PaymentsResponse.Payment purchaseObject = mDataList.get(position);
         holder.rowPurchasePaymentListAmountPaid.setText(Utils.formatStringUpTo2Precision(purchaseObject.getAmount()));
         holder.rowPurchaseInterestAmt.setText(Utils.formatStringUpTo2Precision(purchaseObject.getInterestAmt()));
         holder.rowPurchasePaymentdate.setText(purchaseObject.getDate());

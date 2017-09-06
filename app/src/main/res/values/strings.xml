@@ -6,15 +6,12 @@
         <item>CHEQUE</item>
     </string-array>
 
-    <string-array name="kgPrice">
-
+    <string-array name="string_array_kg_price">
         <item>100</item>
         <item>40</item>
-
     </string-array>
 
-    <string-array name="labourCost">
-
+    <string-array name="string_array_labour_cost">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -41,11 +38,15 @@
         <item>23</item>
         <item>24</item>
         <item>25</item>
-
     </string-array>
 
-    <string-array name="qtyMultiplier">
+    <string-array name="string_array_dami_amount">
+        <item>0</item>
+        <item>2.5</item>
+        <item>4</item>
+    </string-array>
 
+    <string-array name="string_array_qty_multiplier">
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -56,14 +57,6 @@
         <item>8</item>
         <item>9</item>
         <item>10</item>
-
-    </string-array>
-
-    <string-array name="daamiArray">
-        <item>0</item>
-        <item>2.5</item>
-        <item>4</item>
-
     </string-array>
 
     <string name="NanumGothicBold">NanumGothic-Bold.ttf</string>
@@ -183,7 +176,6 @@
     <string name="string_sort_alphabetically">Sort Alphabetically</string>
     <string name="string_report">Report</string>
     <string name="string_add">Add</string>
-    <string name="string_refresh">Refresh</string>
     <string name="string_disable">Disable</string>
     <string name="string_enable">Enable</string>
     <string name="string_delete">Delete</string>
@@ -221,7 +213,6 @@
     <string name="string_end_date">End Date</string>
     <string name="string_reset_filter">Reset Filter</string>
     <string name="string_driver_mobile">(M)</string>
-    <string name="string_payment_history">Payment History</string>
     <string name="string_order_details">Order Details</string>
     <string name="string_bill_print">Bill Print</string>
     <string name="string_sub_total">Sub Total</string>
@@ -285,5 +276,12 @@
     <string name="string_no_purchase_added_yet_please_add_new_purchase">No Purchase Added\nPlease Add Purchased Items</string>
     <string name="string_purchase">Purchase</string>
     <string name="string_sold_order_details">Sold Details</string>
+    <string name="string_payment_details">Payment Details</string>
+
+    <!-- Seller Purchase Activity-->
+    <string name="string_add_purchased_product">Add Purchased Product</string>
+    <string name="string_set">SET</string>
+    <string name="string_no_sale_found_please_sale_item_first">No Details Found Please Sale Item First</string>
+    <string name="string_sold_details_of_items">Sold Details Of %s\'s Item</string>
 
 </resources>

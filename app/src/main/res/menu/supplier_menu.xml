@@ -6,14 +6,14 @@
         android:icon="@drawable/ic_search"
         android:title="@string/string_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/supplier_menu_sort"
         android:icon="@drawable/ic_sort_alpha"
         android:title="@string/string_sort_alphabetically"
         android:visible="true"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/supplier_menu_add"
@@ -22,10 +22,4 @@
         android:visible="true"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/supplier_menu_refresh"
-        android:icon="@drawable/ic_refresh"
-        android:title="@string/string_refresh"
-        android:visible="true"
-        app:showAsAction="never" />
 </menu>

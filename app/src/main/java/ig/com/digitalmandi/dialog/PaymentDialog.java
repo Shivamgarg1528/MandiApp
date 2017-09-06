@@ -86,7 +86,7 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
         switch (view.getId()) {
 
             case R.id.dialog_purchase_payment_tv_payment_date:
-                DatePickerClass.showDatePicker(mBaseActivity, DatePickerClass.PAYMENT_DATE, this, AppConstant.API_DATE_FORMAT);
+                DatePickerClass.showDatePicker(mBaseActivity, DatePickerClass.PAYMENT_DATE, this);
                 break;
 
             case R.id.dialog_purchase_payment_tv_payment:
@@ -96,15 +96,15 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
     }
 
     @Override
-    public void onDateSelectedCallBack(int id, Date pDate, String pDateStr, long milliSeconds, int pDays) {
+    public void onDateSelectedCallBack(int id, Date pDate, String pDateAppShownFormat, long pDateMilliSeconds, int pMaxDaysInSelectedMonth) {
         mDatePayment = null;
         if (pDate.before(mDatePurchase)) {
             mBaseActivity.showToast(mBaseActivity.getString(R.string.string_invalid_payment_date));
             return;
         }
         mDatePayment = pDate;
-        mDaysInMonth = pDays;
-        mButtonPaymentDate.setText(pDateStr);
+        mDaysInMonth = pMaxDaysInSelectedMonth;
+        mButtonPaymentDate.setText(pDateAppShownFormat);
         mLinearLayoutParent.setVisibility(View.VISIBLE);
         findInterestDays();
         findInterestAmount();

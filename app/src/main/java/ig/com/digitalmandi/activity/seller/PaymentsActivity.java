@@ -9,9 +9,8 @@ import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.activity.ListBaseActivity;
 import ig.com.digitalmandi.adapter.supplier.SupplierPurchasePaymentAdapter;
-import ig.com.digitalmandi.bean.request.seller.SupplierPurchasePaymentListRequest;
-import ig.com.digitalmandi.bean.response.seller.SupplierOrderListResponse;
-import ig.com.digitalmandi.bean.response.seller.SupplierPaymentListResponse;
+import ig.com.digitalmandi.bean.request.seller.PaymentsRequest;
+import ig.com.digitalmandi.bean.response.seller.PaymentsResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.dialog.PaymentDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
@@ -20,9 +19,9 @@ import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Utils;
 
-public class CustomerOrderPaymentsActivity extends ListBaseActivity<SupplierPaymentListResponse.Payment> implements View.OnClickListener, EventCallback {
+public class PaymentsActivity extends ListBaseActivity<PaymentsResponse.Payment> implements View.OnClickListener, EventCallback {
 
-    private SupplierOrderListResponse.Order mOrderObj;
+    private PaymentsRequest mPaymentsRequest;
     private float mOrderAmt = 0.0f;
 
     @Override
@@ -32,7 +31,7 @@ public class CustomerOrderPaymentsActivity extends ListBaseActivity<SupplierPaym
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_purchase_payment;
+        return R.layout.activity_payment;
     }
 
     @Override
@@ -41,43 +40,41 @@ public class CustomerOrderPaymentsActivity extends ListBaseActivity<SupplierPaym
     }
 
     @Override
-    protected void fetchData(boolean pRefresh) {
-        SupplierPurchasePaymentListRequest supplierPurchasePaymentListRequest = new SupplierPurchasePaymentListRequest();
-        supplierPurchasePaymentListRequest.setId(mOrderObj.getOrderId());
-        supplierPurchasePaymentListRequest.setFlag(AppConstant.DELETE_OR_PAYMENT_ORDER);
+    protected void fetchData(final boolean pRefresh) {
 
-        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().supplierPurchasePaymentList(supplierPurchasePaymentListRequest);
-        mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierPaymentListResponse>(mBaseActivity, false) {
+        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().supplierPurchasePaymentList(mPaymentsRequest);
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<PaymentsResponse>(mBaseActivity, false) {
 
             @Override
-            public void onResponse(SupplierPaymentListResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(PaymentsResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
-                    mDataList.clear();
+                    if (pRefresh) {
+                        mDataList.clear();
+                    }
                     mDataList.addAll(pResponse.getResult());
                 }
                 setTextAfterEvaluation();
             }
-
         });
     }
 
     @Override
     protected void getIntentData() {
-        mOrderObj = (SupplierOrderListResponse.Order) getIntent().getSerializableExtra(AppConstant.KEY_OBJECT);
+        mPaymentsRequest = (PaymentsRequest) getIntent().getSerializableExtra(AppConstant.KEY_OBJECT);
+        mOrderAmt = Float.parseFloat(Utils.formatStringUpTo2Precision(mPaymentsRequest.getOrderAmount()));
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setToolbar(true);
-        setTitle(getString(R.string.payment_history_title, mOrderObj.getOrderId()));
-        mOrderAmt = Float.parseFloat(Utils.formatStringUpTo2Precision(mOrderObj.getOrderTotalAmt()));
+        setTitle(getString(R.string.payment_history_title, mPaymentsRequest.getId()));
         findViewById(R.id.activity_purchase_payment_tv_payment).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        PaymentDialog paymentDialog = new PaymentDialog(mBaseActivity, this, mOrderObj.getOrderId(), mOrderObj.getOrderDate(), AppConstant.DELETE_OR_PAYMENT_ORDER);
+        PaymentDialog paymentDialog = new PaymentDialog(mBaseActivity, this, mPaymentsRequest.getId(), mPaymentsRequest.getOrderDate(), mPaymentsRequest.getFlag());
         paymentDialog.show();
     }
 
@@ -90,7 +87,7 @@ public class CustomerOrderPaymentsActivity extends ListBaseActivity<SupplierPaym
         float interestDueAmt;
         float totalPaid;
 
-        for (SupplierPaymentListResponse.Payment payment : mDataList) {
+        for (PaymentsResponse.Payment payment : mDataList) {
             paidAmt += Float.parseFloat(payment.getAmount());
             interestAmt += Float.parseFloat(payment.getInterestAmt());
             interestPaidAmt += AppConstant.INTEREST_PAID.equalsIgnoreCase(payment.getInterestPaid()) ? Float.parseFloat(payment.getInterestAmt()) : 0.0f;

@@ -34,9 +34,8 @@ public class AppConstant {
     public static final String OUT_STOCK = "0";
 
     public static final String API_DATE_FORMAT = "yyyy-MM-dd";
-    //String APP_SHOW_FORMAT  = "dd-MMM-yyyy";
+    public static final String APP_DATE_FORMAT = "dd-MMM-yyyy";
 
-    public static final String IS_SETUP = "isSetup";
     public static final String CUSTOMER_ID_ORDER = "customerId";
     public static final String USER_SELLER_ID = "";
 
@@ -66,8 +65,6 @@ public class AppConstant {
     public static final int OPERATION_ORDER_DETAILS = 8;
     public static final int OPERATION_ORDER_BILL_PRINT = 9;
 
-    public static final int OPERATION_ORDER_SOLD_DETAILS = 10;
-
     /* Operation On Items*/
     public static final String ADD = "add";
     public static final String DELETE = "delete";
@@ -76,6 +73,10 @@ public class AppConstant {
 
     public static final String INTEREST_UNPAID = "0";
     public static final String INTEREST_PAID = "1";
+
+    /* Qty*/
+    public static final int QTY_MIN = 1;
+    public static final int QTY_MAX = 1000;
 }
 
 

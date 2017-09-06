@@ -2,6 +2,7 @@ package ig.com.digitalmandi.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,13 +13,14 @@ import java.util.List;
 
 import ig.com.digitalmandi.R;
 
-public abstract class ListBaseActivity<T> extends BaseActivity {
+public abstract class ListBaseActivity<T> extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     protected List<T> mDataList = new ArrayList<>(0);
     protected List<T> mBackUpList = new ArrayList<>(0);
     protected RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private TextView mTextViewEmpty;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     protected abstract RecyclerView.Adapter getAdapter();
 
@@ -36,6 +38,9 @@ public abstract class ListBaseActivity<T> extends BaseActivity {
         setContentView(getLayoutId());
         getIntentData();
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_common_list_swipe);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
         mTextViewEmpty = (AppCompatTextView) findViewById(R.id.layout_common_list_tv_empty_text_view);
         mTextViewEmpty.setText(getEmptyTextStringId());
 
@@ -48,5 +53,11 @@ public abstract class ListBaseActivity<T> extends BaseActivity {
     protected void notifyAdapterAndView() {
         mTextViewEmpty.setVisibility(mDataList.isEmpty() ? View.VISIBLE : View.INVISIBLE);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRefresh() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        fetchData(true);
     }
 }

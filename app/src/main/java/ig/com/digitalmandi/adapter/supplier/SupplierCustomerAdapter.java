@@ -25,7 +25,7 @@ public class SupplierCustomerAdapter extends RecyclerView.Adapter<SupplierCustom
     public SupplierCustomerAdapter(List<SellerCustomerList.Customer> pDataList, BaseActivity pBaseActivity, EventCallback pEventCallback) {
         this.mDataList = pDataList;
         this.mBaseActivity = pBaseActivity;
-        mEventCallback = pEventCallback;
+        this.mEventCallback = pEventCallback;
     }
 
     @Override

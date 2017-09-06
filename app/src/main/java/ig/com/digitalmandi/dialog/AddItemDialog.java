@@ -21,8 +21,7 @@ import ig.com.digitalmandi.bean.request.seller.SupplierOrderAddReq;
 import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
 import ig.com.digitalmandi.callback.OnItemAddedCallBack;
-import ig.com.digitalmandi.util.ChangeSpinnerItemBg;
-import ig.com.digitalmandi.util.CheckForFloat;
+import ig.com.digitalmandi.util.SpinnerHelper;
 import ig.com.digitalmandi.util.Utils;
 
 /**
@@ -71,8 +70,8 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
         setContentView(R.layout.dialog_add_item_into_cart);
         ButterKnife.bind(this);
 
-        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mBaseActivity, unitArray, mSpinnerUnitListPurchase);
-        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mBaseActivity, mBaseActivity.mResources.getStringArray(R.array.kgPrice), mSpinnerKgPrice);
+        SpinnerHelper.setAdapterAndChangeBg(mBaseActivity, mSpinnerUnitListPurchase, unitArray);
+        SpinnerHelper.setAdapterAndChangeBg(mBaseActivity, mSpinnerKgPrice, mBaseActivity.mResources.getStringArray(R.array.string_array_kg_price));
 
         mSpinnerUnitListPurchase.setOnItemSelectedListener(this);
         mSpinnerKgPrice         .setOnItemSelectedListener(this);
@@ -97,16 +96,16 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
             case R.id.qtyTextView:
 
                 Utils.onHideSoftKeyBoard(mBaseActivity, mEditProductPrice);
-                QtyPickerDialog qtyPickerDialog = new QtyPickerDialog(mBaseActivity, true, true, R.layout.dialog_qty_selected_layout, new QtyPickerDialog.OnQtySelected() {
+                /*QtyPickerDialog qtyPickerDialog = new QtyPickerDialog(this, new QtyPickerDialog.OnQtySelected() {
 
                     @Override
-                    public void onQtySelectedCallBack(int qty) {
-                        productQty = qty;
+                    public void onQtySelectedCallBack(int pSelectedQty) {
+                        productQty = pSelectedQty;
                         updateQtyTextView();
                     }
                 });
                 qtyPickerDialog.show();
-
+*/
                 break;
 
             case R.id.increaseQtyBtn:
@@ -135,7 +134,7 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
     private void onSavePurchasedItem() {
 
 
-        if (!CheckForFloat.onCheckFloat(mEditProductPrice.getText().toString())) {
+        if (!Utils.isFloat(mEditProductPrice.getText().toString())) {
             Toast.makeText(mBaseActivity, "Please Enter Product Price", Toast.LENGTH_SHORT).show();
             return;
         }

@@ -494,6 +494,7 @@ public class Utils {
 
     public static Date onConvertStringToDate(String dateString, String format) {
         Date date = null;
+
         if (TextUtils.isEmpty(format))
             format = "yyyy-MM-dd HH:mm:ss";
 

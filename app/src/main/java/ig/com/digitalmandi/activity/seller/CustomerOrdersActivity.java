@@ -21,12 +21,14 @@ import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.activity.ListBaseActivity;
 import ig.com.digitalmandi.adapter.supplier.CustomerOrderAdapter;
 import ig.com.digitalmandi.bean.request.seller.ItemDeleteRequest;
+import ig.com.digitalmandi.bean.request.seller.OrderDetailsRequest;
+import ig.com.digitalmandi.bean.request.seller.PaymentsRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderBillPrintRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderListRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
+import ig.com.digitalmandi.bean.response.seller.OrderResponse;
 import ig.com.digitalmandi.bean.response.seller.SupplierBillPrintRes;
-import ig.com.digitalmandi.bean.response.seller.SupplierOrderListResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.dialog.DatePickerClass;
 import ig.com.digitalmandi.dialog.MyAlertDialog;
@@ -39,7 +41,7 @@ import ig.com.digitalmandi.util.Utils;
 import okhttp3.ResponseBody;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListResponse.Order> implements SearchView.OnQueryTextListener, DatePickerClass.OnDateSelected, EasyPermissions.PermissionCallbacks, View.OnClickListener, EventCallback {
+public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order> implements SearchView.OnQueryTextListener, DatePickerClass.OnDateSelected, EasyPermissions.PermissionCallbacks, View.OnClickListener, EventCallback {
 
     private int mPageCount = 1;
     private boolean mLoadMore = false;
@@ -48,7 +50,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
     private Date mDateEnd;
 
     private SellerCustomerList.Customer mCustomerObj;
-    private SupplierOrderListResponse.Order mOrderObj;
+    private OrderResponse.Order mOrderObj;
 
     private SearchView mSearchView;
     private AppCompatButton mBtnStartDate;
@@ -104,10 +106,10 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
         supplierOrderListRequest.setPage(String.valueOf(mPageCount));
 
         mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().getOrdersOfGivenCustomer(supplierOrderListRequest);
-        mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierOrderListResponse>(mBaseActivity, false) {
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<OrderResponse>(mBaseActivity, false) {
 
             @Override
-            public void onResponse(SupplierOrderListResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(OrderResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     if (pResponse.getResult().size() == 0) {
                         pBaseActivity.showToast(getString(R.string.string_no_orders_found));
@@ -122,7 +124,6 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
                 }
                 notifyAdapterAndView();
             }
-
         });
     }
 
@@ -165,10 +166,6 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
                 intent.putExtra(AppConstant.KEY_OBJECT, mCustomerObj);
                 Utils.onActivityStartForResult(this, false, null, intent, null, AppConstant.REQUEST_CODE_PLACE_NEW_ORDER);
                 return true;
-
-            case R.id.orders_menu_refresh:
-                resetParamsAndCallApi();
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -193,7 +190,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
     @Override
     public boolean onQueryTextChange(String newText) {
         mDataList.clear();
-        for (SupplierOrderListResponse.Order order : mBackUpList) {
+        for (OrderResponse.Order order : mBackUpList) {
             if (order.getOrderDate().contains(newText) || order.getDriverNumber().contains(newText) || order.getOrderId().contains(newText)) {
                 mDataList.add(order);
             }
@@ -207,12 +204,12 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
         switch (view.getId()) {
 
             case R.id.activity_orders_btn_start_date: {
-                DatePickerClass.showDatePicker(this, DatePickerClass.START_DATE, this, AppConstant.API_DATE_FORMAT);
+                DatePickerClass.showDatePicker(this, DatePickerClass.START_DATE, this);
                 break;
             }
 
             case R.id.activity_orders_btn_end_date: {
-                DatePickerClass.showDatePicker(this, DatePickerClass.END_DATE, this, AppConstant.API_DATE_FORMAT);
+                DatePickerClass.showDatePicker(this, DatePickerClass.END_DATE, this);
                 break;
             }
 
@@ -231,16 +228,16 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
     }
 
     @Override
-    public void onDateSelectedCallBack(int id, Date date, String stringResOfDate, long milliSeconds, int numberOfDays) {
+    public void onDateSelectedCallBack(int id, Date pDate, String pDateAppShownFormat, long pDateMilliSeconds, int pMaxDaysInSelectedMonth) {
         switch (id) {
             case DatePickerClass.START_DATE:
-                mDateStart = date;
-                mBtnStartDate.setText(stringResOfDate);
+                mDateStart = pDate;
+                mBtnStartDate.setText(pDateAppShownFormat);
                 break;
 
             case DatePickerClass.END_DATE:
-                mDateEnd = date;
-                mBtnEndDate.setText(stringResOfDate);
+                mDateEnd = pDate;
+                mBtnEndDate.setText(pDateAppShownFormat);
                 break;
         }
         fetchDataWhenFilterSet();
@@ -266,7 +263,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
 
     @Override
     public void onEvent(int pOperationType, Object pObject) {
-        mOrderObj = (SupplierOrderListResponse.Order) pObject;
+        mOrderObj = (OrderResponse.Order) pObject;
 
         switch (pOperationType) {
             case AppConstant.OPERATION_DELETE: {
@@ -301,14 +298,25 @@ public class CustomerOrdersActivity extends ListBaseActivity<SupplierOrderListRe
                 break;
             }
             case AppConstant.OPERATION_ORDER_DETAILS: {
-                Intent intent = new Intent(mBaseActivity, CustomerOrderDetailsActivity.class);
-                intent.putExtra(AppConstant.KEY_OBJECT, mOrderObj);
+                OrderDetailsRequest orderDetailsRequest = new OrderDetailsRequest();
+                orderDetailsRequest.setFlag(AppConstant.COLUMN_ORDER_ID);
+                orderDetailsRequest.setId(mOrderObj.getOrderId());
+                orderDetailsRequest.setMessage(getString(R.string.string_order_id_details, mOrderObj.getOrderId()));
+                Intent intent = new Intent(mBaseActivity, OrderDetailsActivity.class);
+                intent.putExtra(AppConstant.KEY_OBJECT, orderDetailsRequest);
                 Utils.onActivityStart(mBaseActivity, false, null, intent, null);
                 break;
             }
             case AppConstant.OPERATION_ORDER_PAYMENT_DETAILS: {
-                Intent intent = new Intent(mBaseActivity, CustomerOrderPaymentsActivity.class);
-                intent.putExtra(AppConstant.KEY_OBJECT, mOrderObj);
+
+                PaymentsRequest paymentsRequest = new PaymentsRequest();
+                paymentsRequest.setFlag(AppConstant.DELETE_OR_PAYMENT_ORDER);
+                paymentsRequest.setId(mOrderObj.getOrderId());
+                paymentsRequest.setOrderDate(mOrderObj.getOrderDate());
+                paymentsRequest.setOrderAmount(mOrderObj.getOrderTotalAmt());
+
+                Intent intent = new Intent(mBaseActivity, PaymentsActivity.class);
+                intent.putExtra(AppConstant.KEY_OBJECT, paymentsRequest);
                 Utils.onActivityStart(mBaseActivity, false, null, intent, null);
                 break;
             }

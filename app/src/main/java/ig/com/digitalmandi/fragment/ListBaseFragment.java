@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
@@ -27,13 +28,14 @@ import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Utils;
 
-public abstract class ListBaseFragment<T> extends BaseFragment implements EventCallback<T>, SearchView.OnQueryTextListener, ApiCallback {
+public abstract class ListBaseFragment<T> extends BaseFragment implements EventCallback<T>, SearchView.OnQueryTextListener, ApiCallback, SwipeRefreshLayout.OnRefreshListener {
 
     protected List<T> mDataList = new ArrayList<>(0);
     protected List<T> mBackUpList = new ArrayList<>(0);
     protected RecyclerView mRecyclerView;
     private TextView mTextViewEmpty;
     private RecyclerView.Adapter mAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     protected abstract AbstractResponse getResponse();
 
@@ -58,6 +60,10 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_common_list_swipe);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
 
         mTextViewEmpty = (TextView) view.findViewById(R.id.layout_common_list_tv_empty_text_view);
         mTextViewEmpty.setText(getEmptyTextStringId());
@@ -87,10 +93,6 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
                 Utils.onActivityStartForResultInFragment(this, false, null, intent, null, AppConstant.REQUEST_CODE_EDIT);
                 return true;
 
-            case R.id.supplier_menu_refresh:
-                fetchData(true);
-                return true;
-
             case R.id.supplier_menu_sort: {
                 sortDataList(AppConstant.COMPARATOR_ALPHA);
                 return true;
@@ -102,6 +104,11 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
     @Override
     public boolean onQueryTextSubmit(String query) {
         return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 
 
@@ -125,8 +132,8 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
             mDataList.addAll(preferenceResponse.getResult());
             mBackUpList.clear();
             mBackUpList.addAll(preferenceResponse.getResult());
+            notifyAdapterAndView();
         }
-        notifyAdapterAndView();
     }
 
     private void sortDataList(int pComparatorType) {
@@ -140,5 +147,16 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
     protected void notifyAdapterAndView() {
         mTextViewEmpty.setVisibility(mDataList.isEmpty() ? View.VISIBLE : View.INVISIBLE);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRefresh() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        fetchData(true);
+    }
+
+    @Override
+    public void onEvent(int pOperationType, T pObject) {
+
     }
 }

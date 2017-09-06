@@ -4,7 +4,7 @@ package ig.com.digitalmandi.bean.request.seller;
  * Created by shiva on 10/22/2016.
  */
 
-public class SupplierPurchaseAddReq {
+public class SupplierPurchaseAddRequest {
 
     private String productId,productName,purchaseDate,unitId,unitValue,nameOfPerson,productInKg,stockStatus, purchaseOperation;
     private int productQty;
@@ -13,7 +13,7 @@ public class SupplierPurchaseAddReq {
 
     @Override
     public String toString() {
-        return "SupplierPurchaseAddReq{" +
+        return "SupplierPurchaseAddRequest{" +
                 "productId='" + productId + '\'' +
                 ", productName='" + productName + '\'' +
                 ", purchaseDate='" + purchaseDate + '\'' +

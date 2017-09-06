@@ -44,10 +44,9 @@ import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.ChangePurchaseModel;
-import ig.com.digitalmandi.util.ChangeSpinnerItemBg;
-import ig.com.digitalmandi.util.CheckForFloat;
 import ig.com.digitalmandi.util.EditTextVerification;
 import ig.com.digitalmandi.util.MyPrefrences;
+import ig.com.digitalmandi.util.SpinnerHelper;
 import ig.com.digitalmandi.util.Utils;
 
 public class AddItemInOrderActivity extends BaseActivity implements AdapterCallback, LoaderManager.LoaderCallbacks<Cursor>, OrderCallback, AdapterView.OnItemSelectedListener {
@@ -148,9 +147,9 @@ public class AddItemInOrderActivity extends BaseActivity implements AdapterCallb
         onGetDataStockFromServer();
         mAdapter.notifyData(emptyTextView);
 
-        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mBaseActivity, mResources.getStringArray(R.array.labourCost), mSpinnerBardana);
-        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mBaseActivity, mResources.getStringArray(R.array.labourCost), mSpinnerExpenses);
-        ChangeSpinnerItemBg.onChangeSpinnerBgWhite(mBaseActivity, mResources.getStringArray(R.array.labourCost), mSpinnerLabour);
+        SpinnerHelper.setAdapterAndChangeBg(mBaseActivity, mSpinnerBardana, mResources.getStringArray(R.array.string_array_labour_cost));
+        SpinnerHelper.setAdapterAndChangeBg(mBaseActivity, mSpinnerExpenses, mResources.getStringArray(R.array.string_array_labour_cost));
+        SpinnerHelper.setAdapterAndChangeBg(mBaseActivity, mSpinnerLabour, mResources.getStringArray(R.array.string_array_labour_cost));
 
         mSpinnerBardana  .setOnItemSelectedListener(this);
         mSpinnerExpenses .setOnItemSelectedListener(this);
@@ -200,7 +199,7 @@ public class AddItemInOrderActivity extends BaseActivity implements AdapterCallb
         purchaseListReqModel.setPage(String.valueOf(1));
         purchaseListReqModel.setFlag(AppConstant.PURCHASE_LIST_ALL);
 
-        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().getSellerOrders(purchaseListReqModel);
+        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().purchaseList(purchaseListReqModel);
         mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerOrderResponse>(mBaseActivity, false) {
 
             @Override
@@ -363,11 +362,11 @@ public class AddItemInOrderActivity extends BaseActivity implements AdapterCallb
             case R.id.dialog_purchase_payment_tv_payment_date:
                 DatePickerClass.showDatePicker(mBaseActivity, DatePickerClass.END_DATE, new DatePickerClass.OnDateSelected() {
                     @Override
-                    public void onDateSelectedCallBack(int id, Date newCalendar1, String stringResOfDate, long milliSeconds, int numberOfDays) {
-                        mButtonDatePicker.setText(stringResOfDate);
-                        orderDate = newCalendar1;
+                    public void onDateSelectedCallBack(int id, Date pDate, String pDateAppShownFormat, long pDateMilliSeconds, int pMaxDaysInSelectedMonth) {
+                        mButtonDatePicker.setText(pDateAppShownFormat);
+                        orderDate = pDate;
                     }
-                }, AppConstant.API_DATE_FORMAT);
+                });
                 break;
 
             case R.id.dialog_purchase_payment_tv_payment:
@@ -395,7 +394,7 @@ public class AddItemInOrderActivity extends BaseActivity implements AdapterCallb
             return;
         }
 
-        if(!CheckForFloat.onCheckFloat(mEditTextVechileRent100Kg.getText().toString())){
+        if (!Utils.isFloat(mEditTextVechileRent100Kg.getText().toString())) {
             Toast.makeText(mBaseActivity, "Please Enter Valid Vehicle Rent", Toast.LENGTH_SHORT).show();
             return;
         }

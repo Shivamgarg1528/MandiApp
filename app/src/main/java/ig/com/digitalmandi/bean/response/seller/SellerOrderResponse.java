@@ -1,28 +1,13 @@
 package ig.com.digitalmandi.bean.response.seller;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.io.Serializable;
 
 import ig.com.digitalmandi.bean.AbstractResponse;
 
-/**
- * Created by shiva on 10/23/2016.
- */
-
 public class SellerOrderResponse extends AbstractResponse<SellerOrderResponse.Order> {
 
-    public static class Order implements Parcelable {
-        public static final Creator<Order> CREATOR = new Creator<Order>() {
-            @Override
-            public Order createFromParcel(Parcel source) {
-                return new Order(source);
-            }
+    public static class Order implements Serializable {
 
-            @Override
-            public Order[] newArray(int size) {
-                return new Order[size];
-            }
-        };
         private String purchaseId;
         private String daamiCost;
         private String daamiValue;
@@ -48,41 +33,9 @@ public class SellerOrderResponse extends AbstractResponse<SellerOrderResponse.Or
         private String localSoldQty     = "0";
         private String sumOfProductInKg = "0";
 
-        public Order() {
-        }
-
-        protected Order(Parcel in) {
-            this.purchaseId = in.readString();
-            this.daamiCost = in.readString();
-            this.daamiValue = in.readString();
-            this.labourCost = in.readString();
-            this.labourValue = in.readString();
-            this.productId = in.readString();
-            this.productInKg = in.readString();
-            this.productName = in.readString();
-            this.productQty = in.readString();
-            this.unitId = in.readString();
-            this.unitValue = in.readString();
-            this.nameOfPerson = in.readString();
-            this.purchaseAmtAcc40Kg = in.readString();
-            this.purchaseAmtAcc100Kg = in.readString();
-            this.stockStatus = in.readString();
-            this.subTotalAmt = in.readString();
-            this.totalAmount = in.readString();
-            this.purchaseDate = in.readString();
-            this.createdOn = in.readString();
-            this.updatedOn = in.readString();
-            this.sellerId = in.readString();
-            this.stockQty = in.readString();
-            this.localSoldQty = in.readString();
-            this.sumOfProductInKg = in.readString();
-        }
-
         public String getSumOfProductInKg() {
-
             if(sumOfProductInKg == null)
                 sumOfProductInKg = "0";
-
             return sumOfProductInKg;
         }
 
@@ -278,39 +231,6 @@ public class SellerOrderResponse extends AbstractResponse<SellerOrderResponse.Or
 
         public void setSellerId(String sellerId) {
             this.sellerId = sellerId;
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(this.purchaseId);
-            dest.writeString(this.daamiCost);
-            dest.writeString(this.daamiValue);
-            dest.writeString(this.labourCost);
-            dest.writeString(this.labourValue);
-            dest.writeString(this.productId);
-            dest.writeString(this.productInKg);
-            dest.writeString(this.productName);
-            dest.writeString(this.productQty);
-            dest.writeString(this.unitId);
-            dest.writeString(this.unitValue);
-            dest.writeString(this.nameOfPerson);
-            dest.writeString(this.purchaseAmtAcc40Kg);
-            dest.writeString(this.purchaseAmtAcc100Kg);
-            dest.writeString(this.stockStatus);
-            dest.writeString(this.subTotalAmt);
-            dest.writeString(this.totalAmount);
-            dest.writeString(this.purchaseDate);
-            dest.writeString(this.createdOn);
-            dest.writeString(this.updatedOn);
-            dest.writeString(this.sellerId);
-            dest.writeString(this.stockQty);
-            dest.writeString(this.localSoldQty);
-            dest.writeString(this.sumOfProductInKg);
         }
     }
 }

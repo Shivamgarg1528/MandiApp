@@ -1,52 +1,44 @@
 package ig.com.digitalmandi.dialog;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatSpinner;
+import android.view.View;
 import android.widget.NumberPicker;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import ig.com.digitalmandi.R;
+import ig.com.digitalmandi.activity.BaseActivity;
+import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.Utils;
 
-/**
- * Created by shiva on 10/22/2016.
- */
+public class QtyPickerDialog extends BaseDialog implements View.OnClickListener {
 
-public class QtyPickerDialog extends BaseDialog {
+    private final EventCallback mEventCallback;
+    private final int mDefaultValue;
+    private NumberPicker mNumberPickerQty;
 
-    @BindView(R.id.mNumberPickerQty)
-    NumberPicker mNumberPickerQty;
-    @BindView(R.id.mSpinnerMultiplier)
-    AppCompatSpinner mSpinnerMultiplier;
-    @BindView(R.id.mButtonSave)
-    AppCompatButton mButtonSave;
-    private OnQtySelected listener;
-
-    public QtyPickerDialog(Context context, boolean isOutSideTouch, boolean isCancelable, int layoutId, OnQtySelected nQtySelected) {
-        super(context, isOutSideTouch, isCancelable, layoutId);
-        this.listener = nQtySelected;
+    public QtyPickerDialog(int pDefaultValue, BaseActivity pBaseActivity, EventCallback pEventCallback) {
+        super(pBaseActivity);
+        mEventCallback = pEventCallback;
+        mDefaultValue = pDefaultValue;
     }
 
-    @OnClick(R.id.mButtonSave)
-    public void onClick() {
+    @Override
+    public void onClick(View view) {
         Utils.onHideSoftKeyBoard(mBaseActivity, mNumberPickerQty);
-        int qty = Integer.parseInt((String) mSpinnerMultiplier.getSelectedItem()) * mNumberPickerQty.getValue();
-        listener.onQtySelectedCallBack(qty);
+        mEventCallback.onEvent(0, mNumberPickerQty.getValue());
         dismiss();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_qty_selected_layout);
-        ButterKnife.bind(this);
+        setContentView(R.layout.layout_dialog_qty_change);
+
+        findViewById(R.id.layout_dialog_qty_change_btn_set).setOnClickListener(this);
+
+        mNumberPickerQty = (NumberPicker) findViewById(R.id.layout_dialog_qty_change_number_picker);
         mNumberPickerQty.setMinValue(1);
-        mNumberPickerQty.setMaxValue(100);
-        mNumberPickerQty.setValue(40);
+        mNumberPickerQty.setMaxValue(1000);
+        mNumberPickerQty.setValue(mDefaultValue);
         mNumberPickerQty.setWrapSelectorWheel(true);
         mNumberPickerQty.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
@@ -55,9 +47,5 @@ public class QtyPickerDialog extends BaseDialog {
                 numberPicker.setValue(i1);
             }
         });
-    }
-
-    public interface OnQtySelected {
-        void onQtySelectedCallBack(int qty);
     }
 }

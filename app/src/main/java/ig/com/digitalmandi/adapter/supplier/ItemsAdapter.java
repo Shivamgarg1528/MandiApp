@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 import ig.com.digitalmandi.callback.AdapterCallback;
@@ -57,7 +55,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         holder.rowAutoCompleteProductName.setText(object.getProductName());
         holder.rowAutoCompleteProductQty.setText(Utils.formatStringUpTo2Precision(object.onGetLeftQty()));
         holder.rowAutoCompleteProductPrice.setText(Utils.formatStringUpTo2Precision(object.getPurchaseAmtAcc100Kg()));
-        holder.parent.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -73,22 +71,19 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        View parent;
-        @BindView(R.id.rowAutoCompletePersonName)
         AppCompatTextView rowAutoCompletePersonName;
-        @BindView(R.id.rowAutoCompleteDate)
         AppCompatTextView rowAutoCompleteDate;
-        @BindView(R.id.rowAutoCompleteProductName)
         AppCompatTextView rowAutoCompleteProductName;
-        @BindView(R.id.rowAutoCompleteProductQty)
         AppCompatTextView rowAutoCompleteProductQty;
-        @BindView(R.id.rowAutoCompleteProductPrice)
         AppCompatTextView rowAutoCompleteProductPrice;
 
         ViewHolder(View view) {
             super(view);
-            parent = view;
-            ButterKnife.bind(this, view);
+            rowAutoCompletePersonName = (AppCompatTextView) itemView.findViewById(R.id.rowAutoCompletePersonName);
+            rowAutoCompleteDate = (AppCompatTextView) itemView.findViewById(R.id.rowAutoCompleteDate);
+            rowAutoCompleteProductName = (AppCompatTextView) itemView.findViewById(R.id.rowAutoCompleteProductName);
+            rowAutoCompleteProductQty = (AppCompatTextView) itemView.findViewById(R.id.rowAutoCompleteProductQty);
+            rowAutoCompleteProductPrice = (AppCompatTextView) itemView.findViewById(R.id.rowAutoCompleteProductPrice);
         }
     }
 }

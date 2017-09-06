@@ -13,18 +13,18 @@ import java.util.List;
 
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
-import ig.com.digitalmandi.bean.response.seller.SupplierOrderListResponse;
+import ig.com.digitalmandi.bean.response.seller.OrderResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Utils;
 
 public class CustomerOrderAdapter extends RecyclerView.Adapter<CustomerOrderAdapter.ViewHolder> {
 
-    private List<SupplierOrderListResponse.Order> mDataList;
+    private List<OrderResponse.Order> mDataList;
     private BaseActivity mBaseActivity;
     private EventCallback mEventCallback;
 
-    public CustomerOrderAdapter(List<SupplierOrderListResponse.Order> pDataList, BaseActivity pBaseActivity, EventCallback pEventCallback) {
+    public CustomerOrderAdapter(List<OrderResponse.Order> pDataList, BaseActivity pBaseActivity, EventCallback pEventCallback) {
         this.mDataList = pDataList;
         this.mBaseActivity = pBaseActivity;
         this.mEventCallback = pEventCallback;
@@ -46,7 +46,7 @@ public class CustomerOrderAdapter extends RecyclerView.Adapter<CustomerOrderAdap
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        SupplierOrderListResponse.Order data = mDataList.get(position);
+        OrderResponse.Order data = mDataList.get(position);
 
         holder.mTextViewOrderDate.setText(data.getOrderDate());
         holder.mTextViewSubTotal.setText(Utils.formatStringUpTo2Precision(data.getOrderSubTotalAmt()));
@@ -63,10 +63,10 @@ public class CustomerOrderAdapter extends RecyclerView.Adapter<CustomerOrderAdap
 
             @Override
             public boolean onLongClick(View v) {
-                final SupplierOrderListResponse.Order orderObject = mDataList.get(holder.getAdapterPosition());
+                final OrderResponse.Order orderObject = mDataList.get(holder.getAdapterPosition());
                 CharSequence array[] = {
                         mBaseActivity.getString(R.string.string_delete),
-                        mBaseActivity.getString(R.string.string_payment_history),
+                        mBaseActivity.getString(R.string.string_payment_details),
                         mBaseActivity.getString(R.string.string_order_details),
                         mBaseActivity.getString(R.string.string_bill_print)
                 };
