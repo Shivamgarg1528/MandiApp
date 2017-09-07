@@ -14,7 +14,7 @@ import ig.com.digitalmandi.util.Helper;
 
 public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.ViewHolder> {
 
-    private List<OrderDetailResponse.OrderDetail> mDataList;
+    private final List<OrderDetailResponse.OrderDetail> mDataList;
 
     public OrderDetailAdapter(List<OrderDetailResponse.OrderDetail> pDataList) {
         this.mDataList = pDataList;
@@ -45,13 +45,13 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private AppCompatTextView mTextViewName;
-        private AppCompatTextView mTextViewUnit;
-        private AppCompatTextView mTextViewQty;
-        private AppCompatTextView mTextViewPrice;
-        private AppCompatTextView mTextViewTotalAmount;
-        private AppCompatTextView mTextViewQtyInKg;
-        private AppCompatTextView mTextViewQtyInQuintal;
+        private final AppCompatTextView mTextViewName;
+        private final AppCompatTextView mTextViewUnit;
+        private final AppCompatTextView mTextViewQty;
+        private final AppCompatTextView mTextViewPrice;
+        private final AppCompatTextView mTextViewTotalAmount;
+        private final AppCompatTextView mTextViewQtyInKg;
+        private final AppCompatTextView mTextViewQtyInQuintal;
 
         ViewHolder(View view) {
             super(view);

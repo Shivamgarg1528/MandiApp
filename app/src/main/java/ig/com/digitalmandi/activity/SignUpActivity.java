@@ -30,6 +30,8 @@ import ig.com.digitalmandi.util.Helper;
 
 public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, ImageDialog.OnItemSelectedListener, View.OnClickListener {
 
+    private final List<String> mSellerNameList = new ArrayList<>(0);
+    private final List<SupplierListResponse.ResultBean> mSellerList = new ArrayList<>(0);
     private AppCompatEditText mEditTxtName;
     private AppCompatEditText mEditTxtPhoneNumber;
     private AppCompatEditText mEditTxtEmail;
@@ -41,13 +43,9 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
     private AppCompatEditText mEditTxtAddress;
     private AppCompatSpinner mSpinnerSeller;
     private CircleImageView mCircleImageUser;
-
     private int mIndexOfUserType = 0;
     private String mStringBase64 = "";
-
     private int mIndexOfSelectedSeller = 0;
-    private List<String> mSellerNameList = new ArrayList<>(0);
-    private List<SupplierListResponse.ResultBean> mSellerList = new ArrayList<>(0);
     private ArrayAdapter<String> mSellerAdapter;
 
     private ImageDialog mDialogImagePicker;

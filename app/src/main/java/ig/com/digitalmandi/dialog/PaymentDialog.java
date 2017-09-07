@@ -28,26 +28,20 @@ import ig.com.digitalmandi.util.Helper;
 public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateSelected, View.OnClickListener, TextWatcher {
 
     private static final int OFFERS_DAYS = 10;
-
+    private final Date mDatePurchase;
+    private final String mOrderIdStr;
+    private final String mPaymentFlag;
+    private final EventCallback mEventCallBack;
     private AppCompatEditText mEditTextPaymentAmt;
     private AppCompatEditText mEditTextInterestRate;
     private AppCompatEditText mEditTextInterestAmt;
     private AppCompatTextView mTextViewInterestDays;
-
     private AppCompatButton mButtonPaymentDate;
-
     private AppCompatSpinner mSpinnerPaymentType;
     private LinearLayout mLinearLayoutParent;
-
     private Date mDatePayment;
-    private Date mDatePurchase;
-
     private int mInterestDays = 0;
     private int mDaysInMonth = 30;
-
-    private String mOrderIdStr;
-    private String mPaymentFlag;
-    private EventCallback mEventCallBack;
 
     public PaymentDialog(BaseActivity pBaseActivity, EventCallback pEventCallBack, String pOrderIdStr, String pOrderDateStr, String pPaymentFlag) {
         super(pBaseActivity);
@@ -132,8 +126,8 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
         if (Helper.isEmpty(payAmountStr) || Helper.isEmpty(interestRateStr)) {
             mEditTextInterestAmt.setText("0.00");
         } else {
-            float payAmount = 0;
-            float rateOfInterest = 0;
+            float payAmount;
+            float rateOfInterest;
             try {
                 payAmount = Float.parseFloat(payAmountStr);
                 rateOfInterest = Float.parseFloat(interestRateStr);

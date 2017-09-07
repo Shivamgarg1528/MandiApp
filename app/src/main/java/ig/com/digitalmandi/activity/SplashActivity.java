@@ -11,7 +11,7 @@ import ig.com.digitalmandi.util.Helper;
 
 public class SplashActivity extends BaseActivity implements Runnable {
 
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

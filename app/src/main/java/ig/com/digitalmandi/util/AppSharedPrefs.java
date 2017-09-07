@@ -18,8 +18,8 @@ public class AppSharedPrefs {
     private static final String KEY_SELLER_PRODUCTS = "keySellerProducts";
 
     private static AppSharedPrefs sAppSharedPrefs;
-    private SharedPreferences mSharedPreferences;
-    private SharedPreferences.Editor mEditor;
+    private final SharedPreferences mSharedPreferences;
+    private final SharedPreferences.Editor mEditor;
 
     private AppSharedPrefs(Context pContext) {
         mSharedPreferences = pContext.getSharedPreferences("AppPreference", Context.MODE_PRIVATE);

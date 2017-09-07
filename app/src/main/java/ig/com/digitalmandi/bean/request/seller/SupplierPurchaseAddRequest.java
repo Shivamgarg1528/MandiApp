@@ -34,10 +34,6 @@ public class SupplierPurchaseAddRequest {
                 '}';
     }
 
-    public String getStockStatus() {
-        return stockStatus;
-    }
-
     public void setStockStatus(String stockStatus) {
         this.stockStatus = stockStatus;
     }

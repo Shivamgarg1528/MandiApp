@@ -17,9 +17,9 @@ import ig.com.digitalmandi.util.Helper;
 
 public class ItemsStockAdapter extends RecyclerView.Adapter<ItemsStockAdapter.ViewHolder> {
 
-    private BaseActivity mBaseActivity;
-    private List<SellerOrderResponse.Order> mDataList;
-    private EventCallback mEventCallback;
+    private final BaseActivity mBaseActivity;
+    private final List<SellerOrderResponse.Order> mDataList;
+    private final EventCallback mEventCallback;
 
     public ItemsStockAdapter(BaseActivity pBaseActivity, List<SellerOrderResponse.Order> pDataList, EventCallback pEventCallback) {
         this.mBaseActivity = pBaseActivity;
@@ -65,11 +65,11 @@ public class ItemsStockAdapter extends RecyclerView.Adapter<ItemsStockAdapter.Vi
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        AppCompatTextView rowAutoCompletePersonName;
-        AppCompatTextView rowAutoCompleteDate;
-        AppCompatTextView rowAutoCompleteProductName;
-        AppCompatTextView rowAutoCompleteProductQty;
-        AppCompatTextView rowAutoCompleteProductPrice;
+        final AppCompatTextView rowAutoCompletePersonName;
+        final AppCompatTextView rowAutoCompleteDate;
+        final AppCompatTextView rowAutoCompleteProductName;
+        final AppCompatTextView rowAutoCompleteProductQty;
+        final AppCompatTextView rowAutoCompleteProductPrice;
 
         ViewHolder(View view) {
             super(view);

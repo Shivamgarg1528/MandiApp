@@ -6,14 +6,14 @@
         android:icon="@drawable/ic_search"
         android:title="@string/string_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/supplier_menu_sort"
         android:icon="@drawable/ic_sort_alpha"
         android:title="@string/string_sort_alphabetically"
         android:visible="true"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/supplier_menu_add"

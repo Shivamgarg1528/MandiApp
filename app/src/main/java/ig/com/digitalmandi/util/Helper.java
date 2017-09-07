@@ -1,30 +1,19 @@
 package ig.com.digitalmandi.util;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Vibrator;
-import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
@@ -48,13 +37,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -71,13 +56,6 @@ import okhttp3.ResponseBody;
  */
 
 public class Helper {
-
-    public static void vibrate(Context pContext) {
-        Vibrator vb = (Vibrator) pContext.getSystemService(Context.VIBRATOR_SERVICE);
-        long[] pattern = {0, 1000, 0};
-        vb.vibrate(pattern, 0);
-        vb.cancel();
-    }
 
     public static boolean isEmpty(String pString) {
         return pString == null || pString.trim().length() == 0;
@@ -135,14 +113,9 @@ public class Helper {
     }
 
 
-    @SuppressWarnings("unchecked")
-    public static <T> T findViewByIdAndCast(int id, Activity activity) {
-        return (T) activity.findViewById(id);
-    }
-
-    public static <T> T onGetWeakReference(T anyObject) {
+    private static <T> T onGetWeakReference(T anyObject) {
         if (anyObject != null)
-            return new WeakReference<T>(anyObject).get();
+            return new WeakReference<>(anyObject).get();
         else
             return null;
     }
@@ -224,60 +197,6 @@ public class Helper {
 
 
     /**
-     * to start any android activity from outside Application context like 'Broadcast'
-     *
-     * @param mContext         specify the context from where you want to start that activity
-     * @param targetClassName  A targeted component name that you want to fire or null if you already specify the predefinedIntent Intent
-     * @param predefinedIntent A reference of intent that you want to fire otherwise null in case (if you want to specify the targetClassName)
-     */
-
-    public static <T> void onActivityStartFromOutSideContext(Context mContext, Class<T> targetClassName, Intent predefinedIntent) {
-        if (predefinedIntent == null) {
-            predefinedIntent = new Intent(mContext, targetClassName);
-            predefinedIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-        mContext.startActivity(predefinedIntent);
-    }
-
-
-    /**
-     * to show the Toast with specified Message
-     *
-     * @param mContext specify the context from where you want to show Toast
-     * @param toastMsg specify the message that you want to show on Toast
-     */
-
-    public static void onShowToast(Context mContext, String toastMsg) {
-        Toast.makeText(mContext, toastMsg, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * to show the Toast with default Message i.e 'Under Development You will see this feature soon :)'
-     *
-     * @param mContext specify the context from where you want to show Toast
-     */
-
-    public static void onShowToast(Context mContext) {
-        Toast.makeText(mContext, "Under Development You will see this feature soon :)", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * open play store from your applicaiton
-     *
-     * @param mContext specify the context from where you call this operation
-     */
-
-    public static void onOpenPlayStore(Context mContext) {
-        final String appPackageName = mContext.getPackageName(); // getPackageName() from Context or Activity object
-        try {
-            mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-        } catch (ActivityNotFoundException anfe) {
-            mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-        }
-    }
-
-
-    /**
      * format the float value in 2 precision
      *
      * @param value float value in String that you want to format
@@ -295,58 +214,6 @@ public class Helper {
         }
     }
 
-    public static String onStringFormatForZeros(String value) {
-        float conversion = Float.parseFloat(value);
-        String convertedValue = String.format(Locale.getDefault(), "%.2f", conversion);
-        return ("00000000000" + convertedValue).substring(convertedValue.length());
-    }
-
-    /**
-     * Check Internet is Available or Not.
-     *
-     * @param mContext specify the context from where you call this operation
-     * @return true if Internet is Available else return false.
-     */
-
-    public static boolean isInternetAvialable(Context mContext) {
-        ConnectivityManager connectivity = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity != null) {
-            @SuppressWarnings("deprecation")
-            NetworkInfo[] info = connectivity.getAllNetworkInfo();
-            if (info != null)
-                for (int i = 0; i < info.length; i++)
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-                        return true;
-                    }
-        }
-        return false;
-    }
-
-
-    /**
-     * @return IpAddress of Device
-     */
-    public static String onGetLocalIpAddressFromDevice() {
-        String ipAddress = "127.0.0.1";
-        try {
-            Enumeration<NetworkInterface> enumNetworkInterfaces = NetworkInterface.getNetworkInterfaces();
-            while (enumNetworkInterfaces.hasMoreElements()) {
-                NetworkInterface networkInterface = enumNetworkInterfaces
-                        .nextElement();
-                Enumeration<InetAddress> enumInetAddress = networkInterface
-                        .getInetAddresses();
-                while (enumInetAddress.hasMoreElements()) {
-                    InetAddress inetAddress = enumInetAddress.nextElement();
-                    if (inetAddress.isSiteLocalAddress()) {
-                        ipAddress = inetAddress.getHostAddress();
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            Log.e("IP Address", ex.toString());
-        }
-        return ipAddress;
-    }
 
     /**
      * Hiding the KeyBoard from screen
@@ -358,42 +225,6 @@ public class Helper {
     public static void onHideSoftKeyBoard(Context mContext, View obtainedEditText) {
         InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(obtainedEditText.getWindowToken(), 0);
-    }
-
-    /**
-     * @param mContext specify the context from where you call this operation
-     * @return true if GPS in on else return false
-     */
-
-    public static boolean isGpsOn(Context mContext) {
-        LocationManager manager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-        return manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-    }
-
-    /**
-     * to calculate the value of any view according to %
-     *
-     * @param screenValue can be width / height value of device
-     * @param newValue    value in float for any percentage like 10% = 10.00
-     * @return return calculate value in form of integer
-     */
-
-    public static int getCalculatedWidthOrHeight(int screenValue, double newValue) {
-        return (int) Math.floor(screenValue * newValue / 100.0);
-    }
-
-    /**
-     * to get any basic Auth value based on given two strings as params for rest api's
-     *
-     * @param stringOne first given string
-     * @param stringTwo second given string
-     * @return a new Converted basicauth value
-     */
-
-    public static String onGetBasicAuth(String stringOne, String stringTwo) {
-        StringBuilder str = new StringBuilder();
-        str.append("Basic ").append(getBase64String(stringOne.concat(":").concat(stringTwo)));
-        return str.toString();
     }
 
 
@@ -414,84 +245,6 @@ public class Helper {
         }
     }
 
-    /**
-     * @param mContext mContext specify the context from where you call this operation
-     * @return Application Version Code
-     */
-
-    public static String onGetAppVersionCode(Context mContext) {
-        try {
-            PackageManager manager = mContext.getPackageManager();
-            PackageInfo info = manager.getPackageInfo(mContext.getPackageName(), 0);
-            String version = info.versionName;
-            return version;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return "";
-        }
-    }
-
-    /**
-     * if you want to open camera call this method
-     *
-     * @param activity    current activity that is calling this method
-     * @param requestCode integer code
-     */
-
-    public static void onStartCamera(AppCompatActivity activity, int requestCode) {
-        Activity weakRef = onGetWeakReference(activity);
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (weakRef != null && takePictureIntent.resolveActivity(weakRef.getPackageManager()) != null) {
-            weakRef.startActivityForResult(takePictureIntent, requestCode);
-        }
-    }
-
-    /**
-     * if you want to open gallery call this method
-     *
-     * @param activity    current activity that is calling this method
-     * @param requestCode integer code
-     */
-
-    public static void onStartGallery(AppCompatActivity activity, int requestCode) {
-        Activity weakRef = onGetWeakReference(activity);
-        Intent takePictureIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        takePictureIntent.setType("image/*");
-        if (weakRef != null && takePictureIntent.resolveActivity(weakRef.getPackageManager()) != null) {
-            weakRef.startActivityForResult(takePictureIntent, requestCode);
-        }
-    }
-
-
-    /**
-     * to get the current date and time from system
-     *
-     * @return return current date and time of system in format 'yyyy/MM/dd hh:mm:ss'
-     */
-
-    public static String onGetCurrentDateWithTime() {
-        return (String) DateFormat.format("yyyy/MM/dd hh:mm:ss", new Date().getTime());
-    }
-
-    /**
-     * to get the current date from system
-     *
-     * @return return current date of system in format 'yyyy/MM/dd'
-     */
-
-    public static String onGetCurrentDate() {
-        return (String) DateFormat.format("yyyy/MM/dd", new Date().getTime());
-    }
-
-    /**
-     * to get the current time from system
-     *
-     * @return return current time of system in format 'hh:mm:ss'
-     */
-    public static String onGetCurrentTime() {
-        return (String) DateFormat.format("hh:mm:ss", new Date().getTime());
-    }
-
 
     /**
      * to get the date object of given dateString
@@ -502,7 +255,7 @@ public class Helper {
      */
 
     public static Date onConvertStringToDate(String dateString, String format) {
-        Date date = null;
+        Date date;
 
         if (TextUtils.isEmpty(format))
             format = "yyyy-MM-dd HH:mm:ss";
@@ -531,7 +284,7 @@ public class Helper {
     public static String onConvertDateStringToOtherStringFormat(String dateStr) {
         SimpleDateFormat fromFormat = new SimpleDateFormat(AppConstant.API_DATE_FORMAT);
         SimpleDateFormat toFormat = new SimpleDateFormat(AppConstant.API_DATE_FORMAT);
-        Date date = null;
+        Date date;
         try {
             date = fromFormat.parse(dateStr);
         } catch (ParseException e) {
@@ -541,38 +294,7 @@ public class Helper {
         return toFormat.format(date);
     }
 
-    /**
-     * Clear all cache memory of the Application
-     *
-     * @param context mContext specify the context from where you call this operation
-     */
-
-    public static void onClearCacheOfApp(Context context) {
-        try {
-            File dir = context.getCacheDir();
-            deleteDir(dir);
-        } catch (Exception e) {
-        }
-    }
-
-    private static boolean deleteDir(File dir) {
-        if (dir != null && dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    return false;
-                }
-            }
-            return dir.delete();
-        } else if (dir != null && dir.isFile())
-            return dir.delete();
-        else {
-            return false;
-        }
-    }
-
-	/*    public static boolean isGoogleServiceAvailable(Activity activity) {
+    /*    public static boolean isGoogleServiceAvailable(Activity activity) {
         Activity weakRef = onGetWeakReference(activity);
 
         if (weakRef != null) {
@@ -591,74 +313,6 @@ public class Helper {
         }
         return false;
     }*/
-
-    /**
-     * Check Application in Background or not.
-     *
-     * @param context mContext specify the context from where you call this operation
-     * @return true if Application is in background else return false
-     */
-
-    public static boolean isAppInBackGround(Context context) {
-
-        boolean isInBackground = true;
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
-            List<ActivityManager.RunningAppProcessInfo> runningProcesses = am.getRunningAppProcesses();
-            for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
-                if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                    for (String activeProcess : processInfo.pkgList) {
-                        if (activeProcess.equals(context.getPackageName())) {
-                            isInBackground = false;
-                        }
-                    }
-                }
-            }
-        } else {
-            @SuppressWarnings("deprecation")
-            List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
-            ComponentName componentInfo = taskInfo.get(0).topActivity;
-            if (componentInfo.getPackageName().equals(context.getPackageName())) {
-                isInBackground = false;
-            }
-        }
-        return isInBackground;
-    }
-
-    /**
-     * check if any given application is exist on device or not
-     *
-     * @param mContext    mContext specify the context from where you call this operation
-     * @param packageName package name of requested Application
-     * @return true if application exist else return false
-     */
-
-    public static boolean isAppExistInDevice(Context mContext, String packageName) {
-
-        boolean app_installed = false;
-        try {
-            mContext.getPackageManager().getApplicationInfo(packageName, 0);
-            app_installed = true;
-        } catch (PackageManager.NameNotFoundException e) {
-            app_installed = false;
-        }
-        return app_installed;
-    }
-
-    public static String getSha1(String password) {
-        try {
-            MessageDigest mDigest = MessageDigest.getInstance("SHA1");
-            byte[] result = mDigest.digest(password.getBytes());
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < result.length; i++) {
-                sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            return sb.toString();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return "";
-        }
-    }
 
     public static boolean isAutoTimeEnableInDevice(Context mContext) {
         if (Build.VERSION.SDK_INT > 17) {

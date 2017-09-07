@@ -25,10 +25,10 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
     private final BaseActivity mBaseActivity;
     private final EventCallback mEventCallback;
     private final SellerOrderResponse.Order mItemObject;
+    private final List<SellerUnitList.Unit> mUnitList = new ArrayList<>(0);
     private AppCompatTextView mTextViewQty;
     private AppCompatTextView mTextViewPurchasedQtyInKg;
     private AppCompatEditText mEditProductPrice;
-    private List<SellerUnitList.Unit> mUnitList = new ArrayList<>(0);
     private String[] mUnitArray;
     private SellerUnitList.Unit mSelectedUnit;
 
@@ -166,7 +166,6 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
             productPriceAccTo100Kg = productPriceAccTo40Kg * 2.5f;
         } else {
             productPriceAccTo100Kg = productPrice;
-            productPriceAccTo40Kg = productPriceAccTo100Kg / 2.5f;
         }
 
         float actualPurchaseAmt = totalProductKg * productPriceAccTo100Kg * .01f;

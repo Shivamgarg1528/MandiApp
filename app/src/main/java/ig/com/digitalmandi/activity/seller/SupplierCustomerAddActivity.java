@@ -166,8 +166,7 @@ public class SupplierCustomerAddActivity extends BaseActivity implements ImageDi
         } else if (!cPassword.equals(password)) {
             showToast(getString(R.string.string_password_match_failed));
             return false;
-        } else if (!Helper.isTinNoOk(tinNumber, mBaseActivity)) {
-            return false;
-        } else return Helper.isFirmOk(firmName, mBaseActivity);
+        } else
+            return Helper.isTinNoOk(tinNumber, mBaseActivity) && Helper.isFirmOk(firmName, mBaseActivity);
     }
 }

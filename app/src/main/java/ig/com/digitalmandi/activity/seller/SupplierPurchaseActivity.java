@@ -31,23 +31,20 @@ import ig.com.digitalmandi.util.Helper;
 
 public class SupplierPurchaseActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, DatePickerClass.OnDateSelected, View.OnClickListener {
 
+    private final List<SellerUnitList.Unit> mUnitList = new ArrayList<>(0);
+    private final List<SellerProductList.Product> mProductList = new ArrayList<>(0);
+    private final List<String> mUnitNameList = new ArrayList<>(0);
+    private final List<String> mProductNameList = new ArrayList<>(0);
     // Default values
     private int mProductQty = 1;
     private int mLabourCostPer100Kg = 3;
     private float mDaamiPriceInPercentage = 2.5f;
     private boolean mProductPriceAccTo40Kg = false;
-
     private AppCompatTextView mTextViewQty;
     private AppCompatEditText mEditTextPersonName;
     private AppCompatEditText mEditTextProductPrice;
     private AppCompatButton mButtonPurchaseDate;
-
     private Date mDatePurchase;
-
-    private List<SellerUnitList.Unit> mUnitList = new ArrayList<>(0);
-    private List<SellerProductList.Product> mProductList = new ArrayList<>(0);
-    private List<String> mUnitNameList = new ArrayList<>(0);
-    private List<String> mProductNameList = new ArrayList<>(0);
     private SellerProductList.Product mProduct;
     private SellerUnitList.Unit mUnit;
 

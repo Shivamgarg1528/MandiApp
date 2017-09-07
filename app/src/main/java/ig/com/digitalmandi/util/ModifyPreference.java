@@ -17,7 +17,7 @@ public class ModifyPreference {
 
     private final BaseActivity mBaseActivity;
     private final ApiCallback mListener;
-    private LoginResponse.LoginUser mLoginUser;
+    private final LoginResponse.LoginUser mLoginUser;
 
     public ModifyPreference(BaseActivity pBaseActivity, ApiCallback pApiCallback) {
         this.mBaseActivity = pBaseActivity;

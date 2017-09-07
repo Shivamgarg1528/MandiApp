@@ -40,6 +40,8 @@ import ig.com.digitalmandi.util.Helper;
 
 public class AddItemInOrderActivity extends BaseActivity<SellerOrderResponse.Order> implements AdapterView.OnItemSelectedListener, EventCallback<SellerOrderResponse.Order>, TextWatcher, View.OnClickListener {
 
+    private final SupplierOrderAddRequest mOrderAddRequest = new SupplierOrderAddRequest();
+    private final List<SupplierOrderAddRequest.OrderDetailsBean> mListCartItem = new ArrayList<>();
     private AppCompatEditText mEditTextDriverName;
     private AppCompatEditText mEditTextDriverPhoneNumber;
     private AppCompatEditText mEditTextVechileRent100Kg;
@@ -56,7 +58,6 @@ public class AddItemInOrderActivity extends BaseActivity<SellerOrderResponse.Ord
     private AppCompatTextView mTextViewTotalNag;
     private AppCompatButton mButtonOrderDate;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
     private float mBardanaPer100KgInRs;
     private float mExpensesPercentage;
     private float mLabourPer100KgInRs;
@@ -68,10 +69,7 @@ public class AddItemInOrderActivity extends BaseActivity<SellerOrderResponse.Ord
     private float mBardanaAmt;
     private float mTotalQtyInKg;
     private float mTotalVechileAmt;
-
     private SellerCustomerList.Customer mCustomerObj;
-    private SupplierOrderAddRequest mOrderAddRequest = new SupplierOrderAddRequest();
-    private List<SupplierOrderAddRequest.OrderDetailsBean> mListCartItem = new ArrayList<>();
     private ItemsCartAdapter mCartAdapter;
     private ItemsStockAdapter mStockAdapter;
 

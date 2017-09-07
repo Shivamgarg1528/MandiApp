@@ -15,8 +15,8 @@ import ig.com.digitalmandi.R;
 
 public abstract class ListBaseActivity<T> extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    protected List<T> mDataList = new ArrayList<>(0);
-    protected List<T> mBackUpList = new ArrayList<>(0);
+    protected final List<T> mDataList = new ArrayList<>(0);
+    protected final List<T> mBackUpList = new ArrayList<>(0);
     protected RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private TextView mTextViewEmpty;

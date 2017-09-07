@@ -20,7 +20,7 @@ public class SupplierCustomerAdapter extends RecyclerView.Adapter<SupplierCustom
 
     private final BaseActivity mBaseActivity;
     private final EventCallback mEventCallback;
-    private List<SellerCustomerList.Customer> mDataList;
+    private final List<SellerCustomerList.Customer> mDataList;
 
     public SupplierCustomerAdapter(List<SellerCustomerList.Customer> pDataList, BaseActivity pBaseActivity, EventCallback pEventCallback) {
         this.mDataList = pDataList;
@@ -69,9 +69,9 @@ public class SupplierCustomerAdapter extends RecyclerView.Adapter<SupplierCustom
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final View mParentView;
-        private CircleImageView mTextViewCustomerImage;
-        private AppCompatTextView mTextViewCustomerName;
-        private AppCompatTextView mTextViewCustomerFirmName;
+        private final CircleImageView mTextViewCustomerImage;
+        private final AppCompatTextView mTextViewCustomerName;
+        private final AppCompatTextView mTextViewCustomerFirmName;
 
         public ViewHolder(View view) {
             super(view);

@@ -19,9 +19,9 @@ import ig.com.digitalmandi.util.Helper;
 
 public class SellerOrderAdapter extends RecyclerView.Adapter<SellerOrderAdapter.ViewHolder> {
 
-    private List<SellerOrderResponse.Order> mDataList;
-    private BaseActivity mBaseActivity;
-    private EventCallback mEventCallback;
+    private final List<SellerOrderResponse.Order> mDataList;
+    private final BaseActivity mBaseActivity;
+    private final EventCallback mEventCallback;
 
     public SellerOrderAdapter(List<SellerOrderResponse.Order> pDataList, BaseActivity pBaseActivity, EventCallback pEventCallback) {
         this.mDataList = pDataList;
@@ -103,6 +103,7 @@ public class SellerOrderAdapter extends RecyclerView.Adapter<SellerOrderAdapter.
     static class ViewHolder extends RecyclerView.ViewHolder {
 
 
+        final View parentView;
         AppCompatTextView rowPurchasePersonName;
         AppCompatTextView rowPurchaseDate;
         AppCompatTextView rowPurchaseProductName;
@@ -115,7 +116,6 @@ public class SellerOrderAdapter extends RecyclerView.Adapter<SellerOrderAdapter.
         AppCompatTextView rowPurchaseQtySold;
         AppCompatTextView rowPurchaseProductUnit;
         AppCompatTextView rowPurchaseSubTotal;
-        View parentView;
         public ViewHolder(View itemView) {
             super(itemView);
             parentView = itemView;

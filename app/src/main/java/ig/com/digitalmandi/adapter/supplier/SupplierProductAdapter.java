@@ -20,9 +20,9 @@ import ig.com.digitalmandi.util.AppConstant;
 
 public class SupplierProductAdapter extends RecyclerView.Adapter<SupplierProductAdapter.ViewHolder> {
 
-    private List<SellerProductList.Product> mDataList;
-    private BaseActivity mBaseActivity;
-    private EventCallback mListener;
+    private final List<SellerProductList.Product> mDataList;
+    private final BaseActivity mBaseActivity;
+    private final EventCallback mListener;
 
     public SupplierProductAdapter(List<SellerProductList.Product> pProductList, BaseActivity pBaseActivity, EventCallback pListener) {
         this.mDataList = pProductList;
@@ -90,9 +90,9 @@ public class SupplierProductAdapter extends RecyclerView.Adapter<SupplierProduct
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final View mParentView;
-        private CircleImageView mImageViewProductImage;
-        private AppCompatTextView mTextViewProductName;
-        private AppCompatImageView mImageViewStatus;
+        private final CircleImageView mImageViewProductImage;
+        private final AppCompatTextView mTextViewProductName;
+        private final AppCompatImageView mImageViewStatus;
 
         ViewHolder(View view) {
             super(view);

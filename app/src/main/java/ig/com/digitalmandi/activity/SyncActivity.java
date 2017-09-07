@@ -28,7 +28,7 @@ public class SyncActivity extends BaseActivity implements ApiCallback {
         modifyPreference.addOrUpdateSellerUnits();
     }
 
-    public void startAfterSync() {
+    private void startAfterSync() {
         LoginResponse.LoginUser loginUserModel = AppSharedPrefs.getInstance(this).getLoginUserModel();
         if (loginUserModel.getUserType() == AppConstant.SELLER) {
             Helper.onActivityStart(mBaseActivity, true, null, null, SupplierHomeActivity.class);

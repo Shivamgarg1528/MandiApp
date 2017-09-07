@@ -19,9 +19,9 @@ import ig.com.digitalmandi.util.Helper;
 
 public class CustomerOrderAdapter extends RecyclerView.Adapter<CustomerOrderAdapter.ViewHolder> {
 
-    private List<OrderResponse.Order> mDataList;
-    private BaseActivity mBaseActivity;
-    private EventCallback mEventCallback;
+    private final List<OrderResponse.Order> mDataList;
+    private final BaseActivity mBaseActivity;
+    private final EventCallback mEventCallback;
 
     public CustomerOrderAdapter(List<OrderResponse.Order> pDataList, BaseActivity pBaseActivity, EventCallback pEventCallback) {
         this.mDataList = pDataList;
@@ -102,17 +102,17 @@ public class CustomerOrderAdapter extends RecyclerView.Adapter<CustomerOrderAdap
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        private AppCompatTextView mTextViewOrderId;
-        private AppCompatTextView mTextViewOrderDate;
-        private AppCompatTextView mTextViewSubTotal;
-        private AppCompatTextView mTextViewOrderExpenses;
-        private AppCompatTextView mTextViewLabourValue;
-        private AppCompatTextView mTextViewTotalValue;
-        private AppCompatTextView mTextViewDriverNo;
-        private AppCompatTextView mTextViewVehicleRent;
-        private AppCompatTextView mTextViewTotalNagAndQuintal;
-        private AppCompatTextView mTextViewBardanaValue;
-        private View mParentView;
+        private final AppCompatTextView mTextViewOrderId;
+        private final AppCompatTextView mTextViewOrderDate;
+        private final AppCompatTextView mTextViewSubTotal;
+        private final AppCompatTextView mTextViewOrderExpenses;
+        private final AppCompatTextView mTextViewLabourValue;
+        private final AppCompatTextView mTextViewTotalValue;
+        private final AppCompatTextView mTextViewDriverNo;
+        private final AppCompatTextView mTextViewVehicleRent;
+        private final AppCompatTextView mTextViewTotalNagAndQuintal;
+        private final AppCompatTextView mTextViewBardanaValue;
+        private final View mParentView;
 
         ViewHolder(View view) {
             super(view);

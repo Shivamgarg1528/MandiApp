@@ -19,9 +19,9 @@ import ig.com.digitalmandi.util.AppConstant;
 
 public class SupplierUnitAdapter extends RecyclerView.Adapter<SupplierUnitAdapter.ViewHolder> {
 
-    private BaseActivity mBaseActivity;
-    private List<SellerUnitList.Unit> mDataList;
-    private EventCallback mListener;
+    private final BaseActivity mBaseActivity;
+    private final List<SellerUnitList.Unit> mDataList;
+    private final EventCallback mListener;
 
     public SupplierUnitAdapter(List<SellerUnitList.Unit> pDataList, BaseActivity pBaseActivity, EventCallback pListener) {
         this.mDataList = pDataList;
@@ -88,10 +88,10 @@ public class SupplierUnitAdapter extends RecyclerView.Adapter<SupplierUnitAdapte
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        View mParentView;
-        AppCompatTextView mTextViewUnitName;
-        AppCompatTextView mTextViewUnitInfo;
-        AppCompatImageView mImageViewStatus;
+        final View mParentView;
+        final AppCompatTextView mTextViewUnitName;
+        final AppCompatTextView mTextViewUnitInfo;
+        final AppCompatImageView mImageViewStatus;
 
         ViewHolder(View view) {
             super(view);

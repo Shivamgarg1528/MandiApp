@@ -46,10 +46,7 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
 
     private Date mDateStart;
     private Date mDateEnd;
-    private AppCompatButton mBtnStartDate;
-    private AppCompatButton mBtnEndDate;
-
-    private LoadMoreClass mLoadMoreClass = new LoadMoreClass() {
+    private final LoadMoreClass mLoadMoreClass = new LoadMoreClass() {
 
         @Override
         public void onLoadMore() {
@@ -60,6 +57,8 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
             fetchData(false);
         }
     };
+    private AppCompatButton mBtnStartDate;
+    private AppCompatButton mBtnEndDate;
 
     @Nullable
     @Override

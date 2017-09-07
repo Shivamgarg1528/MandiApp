@@ -50,13 +50,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
     private Date mDateEnd;
 
     private SellerCustomerList.Customer mCustomerObj;
-    private OrderResponse.Order mOrderObj;
-
-    private SearchView mSearchView;
-    private AppCompatButton mBtnStartDate;
-    private AppCompatButton mBtnEndDate;
-
-    private LoadMoreClass mLoadMoreClass = new LoadMoreClass() {
+    private final LoadMoreClass mLoadMoreClass = new LoadMoreClass() {
 
         @Override
         public void onLoadMore() {
@@ -67,6 +61,10 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
             fetchData(false);
         }
     };
+    private OrderResponse.Order mOrderObj;
+    private SearchView mSearchView;
+    private AppCompatButton mBtnStartDate;
+    private AppCompatButton mBtnEndDate;
 
     @Override
     protected RecyclerView.Adapter getAdapter() {

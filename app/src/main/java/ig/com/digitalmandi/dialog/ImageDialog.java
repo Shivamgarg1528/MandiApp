@@ -17,11 +17,12 @@ import ig.com.digitalmandi.util.Helper;
 
 public class ImageDialog {
 
-    public static final int REQUEST_CODE_IMAGE = 100;
+    private static final int REQUEST_CODE_IMAGE = 100;
 
-    private AppCompatActivity mActivity;
-    private OnItemSelectedListener mListener;
-    private int mImageWidth, mImageHeight;
+    private final AppCompatActivity mActivity;
+    private final OnItemSelectedListener mListener;
+    private final int mImageWidth;
+    private final int mImageHeight;
 
     public ImageDialog(AppCompatActivity pActivity, OnItemSelectedListener pListener, int pImageWidth, int pImageHeight) {
         this.mActivity = pActivity;

@@ -22,10 +22,10 @@ import retrofit2.Call;
 
 public abstract class BaseActivity<T> extends AppCompatActivity {
 
+    protected final List<T> mDataList = new ArrayList<>();
     public Call mApiEnqueueObject;
     protected BaseActivity mBaseActivity;
     protected Toolbar mToolBar;
-    protected List<T> mDataList = new ArrayList<>();
     protected LoginResponse.LoginUser mLoginUser;
     private AlertDialog mProgressDialog;
 
@@ -66,7 +66,7 @@ public abstract class BaseActivity<T> extends AppCompatActivity {
         mLoginUser = AppSharedPrefs.getInstance(mBaseActivity).getLoginUserModel();
     }
 
-    public void setToolbar(boolean pHomeUpEnable) {
+    protected void setToolbar(boolean pHomeUpEnable) {
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolBar);
         if (pHomeUpEnable && getSupportActionBar() != null) {

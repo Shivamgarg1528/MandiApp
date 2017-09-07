@@ -20,9 +20,9 @@ import ig.com.digitalmandi.util.Helper;
 
 public class ItemsCartAdapter extends RecyclerView.Adapter<ItemsCartAdapter.ViewHolder> {
 
-    private List<SupplierOrderAddRequest.OrderDetailsBean> mDataList;
-    private BaseActivity mBaseActivity;
-    private EventCallback mEventCallback;
+    private final List<SupplierOrderAddRequest.OrderDetailsBean> mDataList;
+    private final BaseActivity mBaseActivity;
+    private final EventCallback mEventCallback;
 
     public ItemsCartAdapter(List<SupplierOrderAddRequest.OrderDetailsBean> pDataList, BaseActivity pBaseActivity, EventCallback pEventCallback) {
         this.mDataList = pDataList;
@@ -90,6 +90,7 @@ public class ItemsCartAdapter extends RecyclerView.Adapter<ItemsCartAdapter.View
     static class ViewHolder extends RecyclerView.ViewHolder {
 
 
+        final View mView;
         AppCompatTextView rowOrderDetailProductName;
         AppCompatTextView rowOrderDetailProductUnit;
         AppCompatTextView rowOrderDetailProductQty;
@@ -97,7 +98,6 @@ public class ItemsCartAdapter extends RecyclerView.Adapter<ItemsCartAdapter.View
         AppCompatTextView rowOrderDetailTotalAmount;
         AppCompatTextView rowOrderDetailQtyInKg;
         AppCompatTextView rowOrderDetailQtyInQuintal;
-        View mView;
         ViewHolder(View view) {
             super(view);
             mView = view;

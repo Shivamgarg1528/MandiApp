@@ -30,8 +30,8 @@ import ig.com.digitalmandi.util.Helper;
 
 public abstract class ListBaseFragment<T> extends BaseFragment implements EventCallback<T>, SearchView.OnQueryTextListener, ApiCallback, SwipeRefreshLayout.OnRefreshListener {
 
-    protected List<T> mDataList = new ArrayList<>(0);
-    protected List<T> mBackUpList = new ArrayList<>(0);
+    protected final List<T> mDataList = new ArrayList<>(0);
+    protected final List<T> mBackUpList = new ArrayList<>(0);
     protected RecyclerView mRecyclerView;
     private TextView mTextViewEmpty;
     private RecyclerView.Adapter mAdapter;

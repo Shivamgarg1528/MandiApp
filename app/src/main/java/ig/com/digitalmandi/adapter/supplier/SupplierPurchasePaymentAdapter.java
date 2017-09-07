@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ import ig.com.digitalmandi.util.Helper;
 
 public class SupplierPurchasePaymentAdapter extends RecyclerView.Adapter<SupplierPurchasePaymentAdapter.ViewHolder> {
 
-    private List<PaymentsResponse.Payment> mDataList;
+    private final List<PaymentsResponse.Payment> mDataList;
 
     public SupplierPurchasePaymentAdapter(List<PaymentsResponse.Payment> pDataList) {
         this.mDataList = pDataList;
@@ -27,11 +26,6 @@ public class SupplierPurchasePaymentAdapter extends RecyclerView.Adapter<Supplie
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View holderView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout_payment_details, parent, false);
         return new ViewHolder(holderView);
-    }
-
-    public void notifyData(TextView pEmptyView) {
-        pEmptyView.setVisibility(mDataList.isEmpty() ? View.VISIBLE : View.INVISIBLE);
-        notifyDataSetChanged();
     }
 
     @Override

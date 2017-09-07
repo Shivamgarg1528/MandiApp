@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="30dp"
-            android:background="@drawable/xml_corner_app_bg"></FrameLayout>
+            android:background="@drawable/xml_corner_app_bg" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="40dp"
-            android:background="@drawable/xml_corner_app_bg"></FrameLayout>
+            android:background="@drawable/xml_corner_app_bg" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -150,7 +150,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:layout_marginTop="8dp"
-                        app:backgroundTint="@color/colorWhite"></android.support.v7.widget.AppCompatSpinner>
+                        app:backgroundTint="@color/colorWhite" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="wrap_content"
@@ -166,7 +166,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:layout_marginTop="8dp"
-                        app:backgroundTint="@color/colorWhite"></android.support.v7.widget.AppCompatSpinner>
+                        app:backgroundTint="@color/colorWhite" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
