@@ -31,7 +31,7 @@ public class SellerOrderAdapter extends RecyclerView.Adapter<SellerOrderAdapter.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View holderView = LayoutInflater.from(mBaseActivity).inflate(R.layout.row_layout_supplier_purchase_cardview, parent, false);
+        View holderView = LayoutInflater.from(mBaseActivity).inflate(R.layout.row_supplier_purchase_cardview, parent, false);
         return new ViewHolder(holderView);
     }
 

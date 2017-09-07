@@ -16,10 +16,10 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:background="@drawable/selector_blue_button"
+            android:background="@drawable/xml_blue_view_selector"
             android:gravity="center"
             android:text="@string/string_start_date"
-            android:textColor="@drawable/selector_blue_button_text"
+            android:textColor="@drawable/xml_blue_view_text_selector"
             android:textSize="14sp" />
 
         <android.support.v7.widget.AppCompatButton
@@ -27,10 +27,10 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:background="@drawable/selector_blue_button"
+            android:background="@drawable/xml_blue_view_selector"
             android:gravity="center"
             android:text="@string/string_end_date"
-            android:textColor="@drawable/selector_blue_button_text"
+            android:textColor="@drawable/xml_blue_view_text_selector"
             android:textSize="14sp" />
 
         <android.support.v7.widget.AppCompatButton
@@ -38,10 +38,10 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:background="@drawable/selector_blue_button"
+            android:background="@drawable/xml_blue_view_selector"
             android:gravity="center"
             android:text="@string/string_reset_filter"
-            android:textColor="@drawable/selector_blue_button_text"
+            android:textColor="@drawable/xml_blue_view_text_selector"
             android:textSize="14sp" />
 
     </LinearLayout>

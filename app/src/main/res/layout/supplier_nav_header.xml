@@ -12,7 +12,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/ic_user_default"
+            android:src="@drawable/ic_user_unselected"
             app:civ_border_color="@android:color/white"
             app:civ_border_width="2dp" />
 

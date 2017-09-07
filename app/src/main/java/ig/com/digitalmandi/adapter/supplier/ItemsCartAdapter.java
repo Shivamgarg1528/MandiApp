@@ -32,7 +32,7 @@ public class ItemsCartAdapter extends RecyclerView.Adapter<ItemsCartAdapter.View
 
     @Override
     public ItemsCartAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View holderView = LayoutInflater.from(mBaseActivity).inflate(R.layout.row_layout_order_details_cardview, parent, false);
+        View holderView = LayoutInflater.from(mBaseActivity).inflate(R.layout.row_order_details_cardview, parent, false);
         return new ItemsCartAdapter.ViewHolder(holderView);
     }
 

@@ -14,7 +14,7 @@ import ig.com.digitalmandi.bean.request.seller.ItemDeleteRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierUnitModifyRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
-import ig.com.digitalmandi.dialog.MyAlertDialog;
+import ig.com.digitalmandi.dialog.PreConfirmDialog;
 import ig.com.digitalmandi.fragment.ListBaseFragment;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
@@ -90,7 +90,7 @@ public class UnitFragment extends ListBaseFragment<SellerUnitList.Unit> {
             }
 
             case AppConstant.OPERATION_DELETE: {
-                MyAlertDialog.showAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_unit), true, new DialogInterface.OnClickListener() {
+                PreConfirmDialog.showAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_unit), true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_POSITIVE) {

@@ -26,7 +26,7 @@ public class ForgotPasswordDialog extends BaseDialog implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_dialog_forgot_password);
+        setContentView(R.layout.dialog_forgot_password);
         findViewById(R.id.layout_forgot_password_btn_submit).setOnClickListener(this);
         mEditTxtEmail = (AppCompatEditText) findViewById(R.id.layout_forgot_password_edt_email);
     }

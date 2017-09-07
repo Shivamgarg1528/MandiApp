@@ -32,6 +32,7 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
 
     protected final List<T> mDataList = new ArrayList<>(0);
     protected final List<T> mBackUpList = new ArrayList<>(0);
+
     protected RecyclerView mRecyclerView;
     private TextView mTextViewEmpty;
     private RecyclerView.Adapter mAdapter;
@@ -52,7 +53,7 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.layout_fragment_supplier_product_unit_purchase, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_supplier_product_unit_purchase, container, false);
         return mRootView;
     }
 
@@ -63,7 +64,6 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_common_list_swipe);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-
 
         mTextViewEmpty = (TextView) view.findViewById(R.id.layout_common_list_tv_empty_text_view);
         mTextViewEmpty.setText(getEmptyTextStringId());

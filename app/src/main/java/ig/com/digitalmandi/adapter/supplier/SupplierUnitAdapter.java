@@ -31,7 +31,7 @@ public class SupplierUnitAdapter extends RecyclerView.Adapter<SupplierUnitAdapte
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout_unit_cardview, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_unit_cardview, parent, false);
         return new ViewHolder(view);
     }
 

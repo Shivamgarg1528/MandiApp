@@ -100,9 +100,9 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:background="@drawable/selector_blue_button"
+                        android:background="@drawable/xml_blue_view_selector"
                         android:text="@string/go"
-                        android:textColor="@drawable/selector_blue_button_text"
+                        android:textColor="@drawable/xml_blue_view_text_selector"
                         android:textSize="20sp" />
 
                     <android.support.v7.widget.AppCompatTextView

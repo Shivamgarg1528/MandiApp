@@ -31,7 +31,7 @@ import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.dialog.AddItemDialog;
 import ig.com.digitalmandi.dialog.DatePickerClass;
-import ig.com.digitalmandi.dialog.MyAlertDialog;
+import ig.com.digitalmandi.dialog.PreConfirmDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
@@ -345,7 +345,7 @@ public class AddItemInOrderActivity extends BaseActivity<SellerOrderResponse.Ord
                 mOrderAddRequest.setOrderTotalNag(String.valueOf(mTotalQty));
                 mOrderAddRequest.setOrderTotalQuintal(String.valueOf(mTotalQtyInKg * .01f));
 
-                MyAlertDialog.showAlertDialog(this, getString(R.string.string_continue_to_place_order), true, new DialogInterface.OnClickListener() {
+                PreConfirmDialog.showAlertDialog(this, getString(R.string.string_continue_to_place_order), true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_POSITIVE) {

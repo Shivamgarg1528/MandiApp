@@ -40,7 +40,7 @@ public class SupplierCustomerAddActivity extends BaseActivity implements ImageDi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.layout_activity_customer_add);
+        setContentView(R.layout.activity_customer_add);
         setToolbar(true);
         setTitle(getString(R.string.add_new_customer));
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -84,7 +84,7 @@ public class SupplierCustomerAddActivity extends BaseActivity implements ImageDi
 
     @Override
     public void onRemoveItemTap() {
-        mCircleImageUser.setImageResource(R.drawable.ic_user_default);
+        mCircleImageUser.setImageResource(R.drawable.ic_user_unselected);
         mStringBase64 = "";
     }
 

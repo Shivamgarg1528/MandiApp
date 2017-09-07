@@ -31,7 +31,7 @@ import ig.com.digitalmandi.bean.response.seller.OrderResponse;
 import ig.com.digitalmandi.bean.response.seller.SupplierBillPrintRes;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.dialog.DatePickerClass;
-import ig.com.digitalmandi.dialog.MyAlertDialog;
+import ig.com.digitalmandi.dialog.PreConfirmDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
@@ -212,7 +212,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
             }
 
             case R.id.activity_orders_btn_reset_date: {
-                MyAlertDialog.showAlertDialog(this, getString(R.string.string_reset_applied_filters), true, new DialogInterface.OnClickListener() {
+                PreConfirmDialog.showAlertDialog(this, getString(R.string.string_reset_applied_filters), true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_POSITIVE) {
@@ -266,7 +266,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
         switch (pOperationType) {
             case AppConstant.OPERATION_DELETE: {
 
-                MyAlertDialog.showAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_order), true, new DialogInterface.OnClickListener() {
+                PreConfirmDialog.showAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_order), true, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

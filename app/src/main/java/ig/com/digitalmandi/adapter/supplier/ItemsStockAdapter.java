@@ -28,7 +28,7 @@ public class ItemsStockAdapter extends RecyclerView.Adapter<ItemsStockAdapter.Vi
     }
 
     public ItemsStockAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View holderView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout_for_auto_complete_text_view, parent, false);
+        View holderView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_for_auto_complete_text_view, parent, false);
         return new ItemsStockAdapter.ViewHolder(holderView);
     }
 

@@ -6,7 +6,7 @@ import android.support.v7.app.AlertDialog;
 
 import ig.com.digitalmandi.R;
 
-public class MyAlertDialog {
+public class PreConfirmDialog {
 
     public static void showAlertDialog(Context pContext, String pMessage, boolean pNegativeBtn, DialogInterface.OnClickListener pListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(pContext);

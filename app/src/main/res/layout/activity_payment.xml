@@ -200,9 +200,9 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/selector_blue_button"
+            android:background="@drawable/xml_blue_view_selector"
             android:text="@string/string_new_payment"
-            android:textColor="@drawable/selector_blue_button_text"
+            android:textColor="@drawable/xml_blue_view_text_selector"
             android:textSize="23sp"
             android:visibility="gone" />
     </LinearLayout>

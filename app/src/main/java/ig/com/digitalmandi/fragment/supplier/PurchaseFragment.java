@@ -30,7 +30,7 @@ import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.dialog.DatePickerClass;
-import ig.com.digitalmandi.dialog.MyAlertDialog;
+import ig.com.digitalmandi.dialog.PreConfirmDialog;
 import ig.com.digitalmandi.fragment.ListBaseFragment;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
@@ -63,7 +63,7 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.layout_fragment_seller_orders, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_seller_orders, container, false);
         return mRootView;
     }
 
@@ -189,7 +189,7 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
             }
 
             case R.id.layout_fragment_seller_orders_btn_reset_date: {
-                MyAlertDialog.showAlertDialog(mBaseActivity, getString(R.string.string_reset_applied_filters), true, new DialogInterface.OnClickListener() {
+                PreConfirmDialog.showAlertDialog(mBaseActivity, getString(R.string.string_reset_applied_filters), true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_POSITIVE) {
@@ -246,7 +246,7 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
         switch (pOperationType) {
             case AppConstant.OPERATION_DELETE: {
 
-                MyAlertDialog.showAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_order), true, new DialogInterface.OnClickListener() {
+                PreConfirmDialog.showAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_order), true, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

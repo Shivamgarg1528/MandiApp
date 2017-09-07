@@ -112,11 +112,11 @@
                     android:id="@+id/dialog_purchase_payment_tv_payment_date"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/selector_white_button"
+                    android:background="@drawable/xml_white_view_selector"
                     android:gravity="center"
                     android:padding="6dp"
                     android:text="@string/string_order_date"
-                    android:textColor="@drawable/selector_white_button_text"
+                    android:textColor="@drawable/xml_white_view_text_selector"
                     android:textSize="22sp" />
 
                 <LinearLayout
@@ -195,7 +195,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/string_quintal_cost"
                         android:inputType="numberDecimal"
-                        android:maxLength="@integer/priceValueLimit"
+                        android:maxLength="8"
                         android:maxLines="1"
                         android:textColor="@color/colorWhite"
                         android:textSize="18sp" />
@@ -476,11 +476,11 @@
                     android:id="@+id/dialog_purchase_payment_tv_payment"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/selector_white_button"
+                    android:background="@drawable/xml_white_view_selector"
                     android:gravity="center"
                     android:padding="6dp"
                     android:text="@string/string_place_order"
-                    android:textColor="@drawable/selector_white_button_text"
+                    android:textColor="@drawable/xml_white_view_text_selector"
                     android:textSize="22sp" />
 
             </LinearLayout>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#537ea4</color>
-    <color name="colorPrimaryDark">#487396</color><!--
-    <color name="colorAccent">#61537ea4</color>-->
+    <color name="colorPrimaryDark">#487396</color>
     <color name="colorAccent">#537ea4</color>
     <color name="navigationItemTextColor">#454545</color>
     <color name="colorWhite">#ffffff</color>

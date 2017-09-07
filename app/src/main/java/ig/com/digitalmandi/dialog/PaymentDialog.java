@@ -192,7 +192,7 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
             String paidAmt = Helper.formatStringUpTo2Precision(String.valueOf(isInterestPaid ? payAmount + interestAmount : payAmount));
             String messageWithAmount = mBaseActivity.getString(R.string.string_continue_for_payment, paidAmt);
 
-            MyAlertDialog.showAlertDialog(mBaseActivity, messageWithAmount, true, new OnClickListener() {
+            PreConfirmDialog.showAlertDialog(mBaseActivity, messageWithAmount, true, new OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == DialogInterface.BUTTON_POSITIVE) {

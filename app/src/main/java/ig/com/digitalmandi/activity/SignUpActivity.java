@@ -55,7 +55,7 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.layout_activity_sign_up);
+        setContentView(R.layout.activity_sign_up);
         setToolbar(true);
         setTitle(getString(R.string.string_sign_up));
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -140,7 +140,7 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
 
     @Override
     public void onRemoveItemTap() {
-        mCircleImageUser.setImageResource(R.drawable.ic_user_default);
+        mCircleImageUser.setImageResource(R.drawable.ic_user_unselected);
         mStringBase64 = "";
     }
 

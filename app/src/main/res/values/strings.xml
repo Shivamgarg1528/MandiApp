@@ -46,6 +46,13 @@
         <item>04</item>
     </string-array>
 
+    <string-array name="string_array_users">
+        <item>Select Any User…</item>
+        <item>Supplier</item>
+        <item>Customer</item>
+    </string-array>
+
+
     <string name="app_name">DigitalMandi</string>
     <string name="string_login">LOGIN</string>
     <string name="registered_email_address">Registered Email Address</string>
@@ -120,11 +127,6 @@
     <string name="string_please_select_appropriate_customer_type">Please Select Appropriate Customer Type From Drop Down</string>
     <string name="string_please_select_any_supplier_from_drop_down">Please Select Any Supplier From Drop Down</string>
     <string name="string_please_select_any_supplier">Please Select Any Supplier…</string>
-    <string-array name="string_array_users">
-        <item>Select Any User…</item>
-        <item>Supplier</item>
-        <item>Customer</item>
-    </string-array>
 
     <!--Sync Activity-->
     <string name="sync_in_progress_please_wait">Syncing in progress\nPlease Wait…</string>

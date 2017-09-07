@@ -31,7 +31,7 @@ public class QuantityDialog extends BaseDialog implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_dialog_qty_change);
+        setContentView(R.layout.dialog_qty_change);
 
         findViewById(R.id.layout_dialog_qty_change_btn_set).setOnClickListener(this);
 

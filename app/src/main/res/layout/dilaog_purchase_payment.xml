@@ -12,10 +12,10 @@
         android:id="@+id/dialog_purchase_payment_tv_payment_date"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/selector_blue_button"
+        android:background="@drawable/xml_blue_view_selector"
         android:gravity="center"
         android:text="@string/string_payment_date"
-        android:textColor="@drawable/selector_blue_button_text"
+        android:textColor="@drawable/xml_blue_view_text_selector"
         android:textSize="20sp" />
 
     <LinearLayout
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_payment_amount"
                 android:inputType="numberDecimal"
-                android:maxLength="@integer/priceValueLimit"
+                android:maxLength="8"
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp" />
         </android.support.design.widget.TextInputLayout>
@@ -100,7 +100,7 @@
                 android:hint="@string/interest_amt"
                 android:imeOptions="actionDone"
                 android:inputType="numberDecimal"
-                android:maxLength="@integer/priceValueLimit"
+                android:maxLength="8"
                 android:maxLines="1"
                 android:text="0.00"
                 android:textColor="@color/colorAccent"
@@ -128,10 +128,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/selector_blue_button"
+                android:background="@drawable/xml_blue_view_selector"
                 android:gravity="center"
                 android:text="@string/string_payment"
-                android:textColor="@drawable/selector_blue_button_text"
+                android:textColor="@drawable/xml_blue_view_text_selector"
                 android:textSize="24sp" />
 
         </LinearLayout>

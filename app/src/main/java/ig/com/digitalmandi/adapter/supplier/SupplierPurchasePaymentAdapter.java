@@ -24,7 +24,7 @@ public class SupplierPurchasePaymentAdapter extends RecyclerView.Adapter<Supplie
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View holderView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout_payment_details, parent, false);
+        View holderView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_payment_details, parent, false);
         return new ViewHolder(holderView);
     }
 

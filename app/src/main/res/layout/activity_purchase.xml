@@ -189,7 +189,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="Product Price"
                                 android:inputType="numberDecimal"
-                                android:maxLength="@integer/priceValueLimit"
+                                android:maxLength="8"
                                 android:textSize="18sp" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -245,11 +245,11 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:layout_marginTop="6dp"
-                        android:background="@drawable/selector_white_button"
+                        android:background="@drawable/xml_white_view_selector"
                         android:gravity="center"
                         android:padding="05sp"
                         android:text="Select Purchase Date"
-                        android:textColor="@drawable/selector_white_button_text"
+                        android:textColor="@drawable/xml_white_view_text_selector"
                         android:textSize="23sp" />
 
                     <android.support.v7.widget.AppCompatButton
@@ -258,11 +258,11 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/selector_white_button"
+                        android:background="@drawable/xml_white_view_selector"
                         android:gravity="center"
                         android:padding="05sp"
                         android:text="SAVE"
-                        android:textColor="@drawable/selector_white_button_text"
+                        android:textColor="@drawable/xml_white_view_text_selector"
                         android:textSize="23sp" />
 
                 </LinearLayout>
