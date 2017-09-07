@@ -1,332 +1,212 @@
 package ig.com.digitalmandi.activity.seller;
 
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
-import ig.com.digitalmandi.adapter.supplier.AddItemListAdapter;
-import ig.com.digitalmandi.adapter.supplier.ItemsAdapter;
+import ig.com.digitalmandi.adapter.supplier.ItemsCartAdapter;
+import ig.com.digitalmandi.adapter.supplier.ItemsStockAdapter;
+import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
 import ig.com.digitalmandi.bean.request.seller.SellerOrdersRequest;
-import ig.com.digitalmandi.bean.request.seller.SupplierOrderAddReq;
+import ig.com.digitalmandi.bean.request.seller.SupplierOrderAddRequest;
+import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
-import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
-import ig.com.digitalmandi.callback.AdapterCallback;
-import ig.com.digitalmandi.callback.OnItemAddedCallBack;
-import ig.com.digitalmandi.callback.OrderCallback;
-import ig.com.digitalmandi.database.UnitContract;
+import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.dialog.AddItemDialog;
 import ig.com.digitalmandi.dialog.DatePickerClass;
+import ig.com.digitalmandi.dialog.MyAlertDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.AppConstant;
-import ig.com.digitalmandi.util.ChangePurchaseModel;
-import ig.com.digitalmandi.util.EditTextVerification;
-import ig.com.digitalmandi.util.MyPrefrences;
-import ig.com.digitalmandi.util.SpinnerHelper;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
-public class AddItemInOrderActivity extends BaseActivity implements AdapterCallback, LoaderManager.LoaderCallbacks<Cursor>, OrderCallback, AdapterView.OnItemSelectedListener {
+public class AddItemInOrderActivity extends BaseActivity<SellerOrderResponse.Order> implements AdapterView.OnItemSelectedListener, EventCallback<SellerOrderResponse.Order>, TextWatcher, View.OnClickListener {
 
-    private final int UNIT_LOADER = 1;
-    @BindView(R.id.layout_common_list_recycler_view)
-    RecyclerView recyclerView;
-    @BindView(R.id.layout_common_list_tv_empty_text_view)
-    AppCompatTextView emptyTextView;
-    @BindView(R.id.layout_common_list_progress_bar)
-    ProgressBar idFragmentProgressbar;
-    @BindView(R.id.dialog_purchase_payment_tv_payment_date)
-    AppCompatButton mButtonDatePicker;
-    @BindView(R.id.mSpinnerExpenses)
-    AppCompatSpinner mSpinnerExpenses;
-    @BindView(R.id.mSpinnerBardana)
-    AppCompatSpinner mSpinnerBardana;
-    @BindView(R.id.mSpinnerLabour)
-    AppCompatSpinner mSpinnerLabour;
-    @BindView(R.id.mEditTextDriverName)
-    AppCompatEditText mEditTextDriverName;
-    @BindView(R.id.mEditTextDriverPhoneNumber)
-    AppCompatEditText mEditTextDriverPhoneNumber;
-    @BindView(R.id.mEditTextVechileRent100Kg)
-    AppCompatEditText mEditTextVechileRent100Kg;
-    @BindView(R.id.mTextViewSubTotalAmt)
-    AppCompatTextView mTextViewSubTotalAmt;
-    @BindView(R.id.mTextViewExpensesAmt)
-    AppCompatTextView mTextViewExpensesAmt;
-    @BindView(R.id.mTextViewLaboutAmt)
-    AppCompatTextView mTextViewLaboutAmt;
-    @BindView(R.id.mTextViewBardanaAmt)
-    AppCompatTextView mTextViewBardanaAmt;
-    @BindView(R.id.mTextViewTotalAmt)
-    AppCompatTextView mTextViewTotalAmt;
-    @BindView(R.id.mTextViewVechileAmt)
-    AppCompatTextView mTextViewVechileAmt;
-    @BindView(R.id.mTextViewTotalLoadInQuintal)
-    AppCompatTextView mTextViewTotalLoadInQuintal;
-    @BindView(R.id.dialog_purchase_payment_tv_payment)
-    AppCompatButton mButtonOrder;
-    @BindView(R.id.mEditTextDriverVehicleNo)
-    AppCompatEditText mEditTextDriverVehicleNo;
-    @BindView(R.id.mTextViewTotalNag)
-    AppCompatTextView mTextViewTotalNag;
-    @BindView(R.id.recyclerViewItems)
-    RecyclerView recyclerViewItems;
-    @BindView(R.id.emptyTextViewItems)
-    AppCompatTextView emptyTextViewItems;
-    float mFloatBardanaPer100KgInRs, mFloatExpensesPercentage, mFloatLabourPer100KgInRs;
-    private List<SellerUnitList.Unit> unitList = new ArrayList<>();
-    private String[] unitArray;
-    private SupplierOrderAddReq orderAddReqModel;
-    private List<SupplierOrderAddReq.OrderDetailsBean> orderDetailList = new ArrayList<>();
-    private AddItemListAdapter mAdapter;
-    private ItemsAdapter mItemsAdapter;
-    private float totalQty, subTotalAmt, expensesAmt, totalAmt, labourAmt, bardanaAmt, totalQtyInKg, totalVechileAmt;
-    private Date orderDate;
+    private AppCompatEditText mEditTextDriverName;
+    private AppCompatEditText mEditTextDriverPhoneNumber;
+    private AppCompatEditText mEditTextVechileRent100Kg;
+    private AppCompatEditText mEditTextDriverVehicleNo;
+    private AppCompatTextView mTextViewEmptyStock;
+    private AppCompatTextView mTextViewEmptyCart;
+    private AppCompatTextView mTextViewSubTotalAmt;
+    private AppCompatTextView mTextViewExpensesAmt;
+    private AppCompatTextView mTextViewLabourAmt;
+    private AppCompatTextView mTextViewBardanaAmt;
+    private AppCompatTextView mTextViewTotalAmt;
+    private AppCompatTextView mTextViewVechileAmt;
+    private AppCompatTextView mTextViewTotalLoadInQuintal;
+    private AppCompatTextView mTextViewTotalNag;
+    private AppCompatButton mButtonOrderDate;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private void onStartBothLoaders() {
-        getLoaderManager().initLoader(UNIT_LOADER, null, this);
-    }
+    private float mBardanaPer100KgInRs;
+    private float mExpensesPercentage;
+    private float mLabourPer100KgInRs;
+    private float mTotalQty;
+    private float mSubTotalAmt;
+    private float mExpensesAmt;
+    private float mTotalAmt;
+    private float mLabourAmt;
+    private float mBardanaAmt;
+    private float mTotalQtyInKg;
+    private float mTotalVechileAmt;
 
-    private void onRestartBothLoaders() {
-        getLoaderManager().restartLoader(UNIT_LOADER, null, this);
-    }
+    private SellerCustomerList.Customer mCustomerObj;
+    private SupplierOrderAddRequest mOrderAddRequest = new SupplierOrderAddRequest();
+    private List<SupplierOrderAddRequest.OrderDetailsBean> mListCartItem = new ArrayList<>();
+    private ItemsCartAdapter mCartAdapter;
+    private ItemsStockAdapter mStockAdapter;
 
+    private Date mDateOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, R.layout.activity_add_item_in_order);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_item_in_order);
 
-        if (mToolBar != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        setToolbar(true);
+        setTitle(getString(R.string.string_add_items));
 
-        ButterKnife.bind(this);
-        setTitle("Add Items In Cart");
-        emptyTextView.setText("Please Add Item Into Cart\nFor Purchase");
-        emptyTextViewItems.setText("No Purchased Item Found\nPlease Purchase Item First");
+        mCustomerObj = (SellerCustomerList.Customer) getIntent().getSerializableExtra(AppConstant.KEY_OBJECT);
 
-        orderAddReqModel = new SupplierOrderAddReq();
-        orderAddReqModel.setOrderDetails(orderDetailList);
+        findViewById(R.id.dialog_purchase_payment_tv_payment).setOnClickListener(this);
 
-        mAdapter = new AddItemListAdapter(orderDetailList, mBaseActivity, this);
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mBaseActivity));
+        mButtonOrderDate = (AppCompatButton) findViewById(R.id.dialog_purchase_payment_tv_payment_date);
+        mButtonOrderDate.setOnClickListener(this);
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_common_list_swipe);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
-        mItemsAdapter = new ItemsAdapter(mBaseActivity, mDataList, this);
-        recyclerViewItems.setHasFixedSize(true);
-        recyclerViewItems.setLayoutManager(new LinearLayoutManager(mBaseActivity, LinearLayoutManager.HORIZONTAL, false));
-        recyclerViewItems.setAdapter(mItemsAdapter);
-
-        onStartBothLoaders();
-        onGetDataStockFromServer();
-        mAdapter.notifyData(emptyTextView);
-
-        SpinnerHelper.setAdapterAndChangeBg(mBaseActivity, mSpinnerBardana, mResources.getStringArray(R.array.string_array_labour_cost));
-        SpinnerHelper.setAdapterAndChangeBg(mBaseActivity, mSpinnerExpenses, mResources.getStringArray(R.array.string_array_labour_cost));
-        SpinnerHelper.setAdapterAndChangeBg(mBaseActivity, mSpinnerLabour, mResources.getStringArray(R.array.string_array_labour_cost));
-
-        mSpinnerBardana  .setOnItemSelectedListener(this);
-        mSpinnerExpenses .setOnItemSelectedListener(this);
-        mSpinnerLabour   .setOnItemSelectedListener(this);
-
-        mSpinnerBardana.setSelection(15, true);
-        mSpinnerExpenses.setSelection(5, true);
-        mSpinnerLabour.setSelection(5, true);
-        mEditTextVechileRent100Kg.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void onRefresh() {
+                mSwipeRefreshLayout.setRefreshing(false);
             }
+        });
+
+        mEditTextDriverName = (AppCompatEditText) findViewById(R.id.mEditTextDriverName);
+        mEditTextDriverPhoneNumber = (AppCompatEditText) findViewById(R.id.mEditTextDriverPhoneNumber);
+        mTextViewSubTotalAmt = (AppCompatTextView) findViewById(R.id.mTextViewSubTotalAmt);
+        mTextViewExpensesAmt = (AppCompatTextView) findViewById(R.id.mTextViewExpensesAmt);
+        mTextViewLabourAmt = (AppCompatTextView) findViewById(R.id.mTextViewLaboutAmt);
+        mTextViewBardanaAmt = (AppCompatTextView) findViewById(R.id.mTextViewBardanaAmt);
+        mTextViewTotalAmt = (AppCompatTextView) findViewById(R.id.mTextViewTotalAmt);
+        mTextViewVechileAmt = (AppCompatTextView) findViewById(R.id.mTextViewVechileAmt);
+        mTextViewTotalLoadInQuintal = (AppCompatTextView) findViewById(R.id.mTextViewTotalLoadInQuintal);
+
+        mEditTextDriverVehicleNo = (AppCompatEditText) findViewById(R.id.mEditTextDriverVehicleNo);
+        mTextViewTotalNag = (AppCompatTextView) findViewById(R.id.mTextViewTotalNag);
+
+
+        mTextViewEmptyCart = (AppCompatTextView) findViewById(R.id.layout_common_list_tv_empty_text_view);
+        mTextViewEmptyCart.setText(R.string.string_please_add_item_into_cart);
+
+        mTextViewEmptyStock = (AppCompatTextView) findViewById(R.id.layout_activity_add_item_tv_empty_view);
+        mTextViewEmptyStock.setText(R.string.string_no_purchased_item_found_please_add_item_first);
+
+        mOrderAddRequest.setOrderDetails(mListCartItem);
+
+        RecyclerView recyclerViewCart = (RecyclerView) findViewById(R.id.layout_common_list_recycler_view);
+        recyclerViewCart.setHasFixedSize(true);
+        recyclerViewCart.setLayoutManager(new LinearLayoutManager(mBaseActivity));
+        recyclerViewCart.setAdapter(mCartAdapter = new ItemsCartAdapter(mListCartItem, mBaseActivity, new EventCallback() {
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String text = editable.toString();
-
-                if(text.length() > 0){
-                    try {
-                        totalVechileAmt = Float.parseFloat(text) * totalQtyInKg * .01f;
-                        mTextViewVechileAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(totalVechileAmt)));
-                    } catch (Exception ex) {
-                        totalVechileAmt = 0.0f;
-                        mTextViewVechileAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(totalVechileAmt)));
+            public void onEvent(int pOperationType, Object pObject) {
+                if (pOperationType == AppConstant.OPERATION_DELETE) {
+                    SupplierOrderAddRequest.OrderDetailsBean removedObject = (SupplierOrderAddRequest.OrderDetailsBean) pObject;
+                    for (SellerOrderResponse.Order traversedObject : mDataList) {
+                        if (traversedObject.getPurchaseId().equalsIgnoreCase(removedObject.getPurchaseId())) {
+                            traversedObject.setLocalSoldQtyInKg(String.valueOf(Float.parseFloat(traversedObject.getLocalSoldQtyInKg()) - (Float.parseFloat(removedObject.getQtyInKg()))));
+                            setTextAfterCalculation();
+                            break;
+                        }
                     }
                 }
-                else{
-                    totalVechileAmt = 0.0f;
-                    mTextViewVechileAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(totalVechileAmt)));
-                }
             }
-        });
+        }));
+
+        RecyclerView recyclerViewStock = (RecyclerView) findViewById(R.id.layout_activity_add_item_rv_items);
+        recyclerViewStock.setHasFixedSize(true);
+        recyclerViewStock.setLayoutManager(new GridLayoutManager(mBaseActivity, 2));
+        recyclerViewStock.setAdapter(mStockAdapter = new ItemsStockAdapter(mBaseActivity, mDataList, this));
+        mStockAdapter.notifyData(mTextViewEmptyStock);
+
+        AppCompatSpinner spinnerBardana = (AppCompatSpinner) findViewById(R.id.mSpinnerBardana);
+        spinnerBardana.setAdapter(Helper.getAdapter(mBaseActivity, R.array.string_array_labour_cost));
+        spinnerBardana.setOnItemSelectedListener(this);
+        spinnerBardana.setSelection(15, true);
+
+        AppCompatSpinner spinnerExpenses = (AppCompatSpinner) findViewById(R.id.mSpinnerExpenses);
+        spinnerExpenses.setAdapter(Helper.getAdapter(mBaseActivity, R.array.string_array_labour_cost));
+        spinnerExpenses.setOnItemSelectedListener(this);
+        spinnerExpenses.setSelection(5, true);
+
+        AppCompatSpinner spinnerLabour = (AppCompatSpinner) findViewById(R.id.mSpinnerLabour);
+        spinnerLabour.setAdapter(Helper.getAdapter(mBaseActivity, R.array.string_array_labour_cost));
+        spinnerLabour.setOnItemSelectedListener(this);
+        spinnerLabour.setSelection(5, true);
+
+        mEditTextVechileRent100Kg = (AppCompatEditText) findViewById(R.id.mEditTextVechileRent100Kg);
+        mEditTextVechileRent100Kg.addTextChangedListener(this);
+
+        initializedStock();
     }
 
-    private void onGetDataStockFromServer() {
-
-        SellerOrdersRequest purchaseListReqModel = new SellerOrdersRequest();
-        purchaseListReqModel.setEndDate("");
-        purchaseListReqModel.setStartDate("");
-        purchaseListReqModel.setSellerId(MyPrefrences.getStringPrefrences(AppConstant.USER_SELLER_ID, mBaseActivity));
-        purchaseListReqModel.setPage(String.valueOf(1));
-        purchaseListReqModel.setFlag(AppConstant.PURCHASE_LIST_ALL);
-
-        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().purchaseList(purchaseListReqModel);
-        mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerOrderResponse>(mBaseActivity, false) {
-
+    @Override
+    public void onEvent(int pOperationType, SellerOrderResponse.Order pObject) {
+        AddItemDialog dialog = new AddItemDialog(mBaseActivity, pObject, new EventCallback<SupplierOrderAddRequest.OrderDetailsBean>() {
             @Override
-            public void onResponse(SellerOrderResponse pResponse, BaseActivity pBaseActivity) {
-
-                if (ResponseVerification.isResponseOk(pResponse, false)) {
-                    mDataList.addAll(pResponse.getResult());
-                }
-
-                if (!mDataList.isEmpty())
-                    ChangePurchaseModel.onChangePurchaseModel(mDataList);
-                mItemsAdapter.notifyData(emptyTextViewItems);
-            }
-
-        });
-    }
-
-    @Override
-    public void onItemClick(Object object) {
-        SellerOrderResponse.Order selectedObject = (SellerOrderResponse.Order) object;
-        if (unitList.isEmpty()) {
-            Toast.makeText(mBaseActivity, "No Unit Added Yet Please Add Any Unit", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        AddItemDialog addItemDialog = new AddItemDialog(mBaseActivity, true, true, R.layout.dialog_add_item_into_cart);
-        addItemDialog.show(selectedObject, unitArray, unitList, new OnItemAddedCallBack<SupplierOrderAddReq.OrderDetailsBean>() {
-            @Override
-            public void onItemAddedCallBacks(SupplierOrderAddReq.OrderDetailsBean object) {
-                orderDetailList.add(0, object);
-                mAdapter.notifyData(emptyTextView);
-                mItemsAdapter.notifyData(emptyTextViewItems);
+            public void onEvent(int pOperationType, SupplierOrderAddRequest.OrderDetailsBean pObject) {
+                mListCartItem.add(0, pObject);
+                setTextAfterCalculation();
             }
         });
+        dialog.show();
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        CursorLoader cursorLoader = null;
-        switch (i) {
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            case UNIT_LOADER:
-                cursorLoader = new CursorLoader(this, UnitContract.Unit.CONTENT_URI, null, UnitContract.Unit.UNIT_STATUS + " =? ", new String[]{"1"}, null);
-                break;
-        }
-        return cursorLoader;
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        switch (loader.getId()) {
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            case UNIT_LOADER:
-                try {
-                    UnitContract unitContract = new UnitContract(mBaseActivity);
-                    unitList.clear();
-                    unitList.addAll(unitContract.getListOfObject(cursor));
-                    unitArray = new String[unitList.size()];
-                    for (int index = 0; index < unitList.size(); index++) {
-                        unitArray[index] = unitList.get(index).getUnitName();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-        }
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        unitList.clear();
-    }
-
-    @Override
-    public void onPayment(Object object, View view) {
-    }
-
-    @Override
-    public void onDelete(Object object, View view) {
-        SupplierOrderAddReq.OrderDetailsBean removedObject = (SupplierOrderAddReq.OrderDetailsBean) object;
-        for (int index = mDataList.size() - 1; index >= 0; index--) {
-            SellerOrderResponse.Order traversedObject = (SellerOrderResponse.Order) mDataList.get(index);
-            if (traversedObject.getPurchaseId().equalsIgnoreCase(removedObject.getPurchaseId())) {
-                traversedObject.setLocalSoldQty(String.valueOf(Float.parseFloat(traversedObject.getLocalSoldQty()) - (Float.parseFloat(removedObject.getQtyInKg()))));
-                break;
+    public void afterTextChanged(Editable editable) {
+        String text = editable.toString();
+        if (!Helper.isEmpty(text)) {
+            try {
+                mTotalVechileAmt = Float.parseFloat(text) * mTotalQtyInKg * .01f;
+                mTextViewVechileAmt.setText(Helper.formatStringUpTo2Precision(String.valueOf(mTotalVechileAmt)));
+            } catch (Exception ex) {
+                mTotalVechileAmt = 0.0f;
+                mTextViewVechileAmt.setText(Helper.formatStringUpTo2Precision(String.valueOf(mTotalVechileAmt)));
             }
+        } else {
+            mTotalVechileAmt = 0.0f;
+            mTextViewVechileAmt.setText(Helper.formatStringUpTo2Precision(String.valueOf(mTotalVechileAmt)));
         }
-        mAdapter.notifyData(emptyTextView);
-        mItemsAdapter.notifyData(emptyTextViewItems);
-    }
-
-    // Calculating the values
-    @Override
-    public void onDetail(Object object, View view) {
-        totalQty     = 0;
-        subTotalAmt  = 0;
-        totalQtyInKg = 0;
-        for (int index = orderDetailList.size() - 1; index >= 0; index--) {
-            SupplierOrderAddReq.OrderDetailsBean addedObject = orderDetailList.get(index);
-            totalQty     += Float.parseFloat(addedObject.getQty());
-            subTotalAmt  += Float.parseFloat(addedObject.getTotalPrice());
-            totalQtyInKg += Float.parseFloat(addedObject.getQtyInKg());
-        }
-        calculateRestValueAndSetOnTextView();
-    }
-
-    @Override
-    public void onPrint(Object object, View view) {
-
-    }
-
-    private void calculateRestValueAndSetOnTextView() {
-
-        expensesAmt = subTotalAmt * mFloatExpensesPercentage * .01f;
-        labourAmt = totalQty * mFloatLabourPer100KgInRs;
-        bardanaAmt = totalQty * mFloatBardanaPer100KgInRs;
-        totalAmt = subTotalAmt + bardanaAmt + expensesAmt + labourAmt;
-
-        mTextViewBardanaAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(bardanaAmt)));
-        mTextViewExpensesAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(expensesAmt)));
-        mTextViewLaboutAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(labourAmt)));
-        mTextViewSubTotalAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(subTotalAmt)));
-        mTextViewTotalAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(totalAmt)));
-        mTextViewTotalLoadInQuintal.setText(Utils.formatStringUpTo2Precision(String.valueOf(totalQtyInKg * .01f)));
-        mTextViewVechileAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(0.00)));
-        mTextViewTotalNag.setText(Utils.formatStringUpTo2Precision(String.valueOf(totalQty)));
-
     }
 
     @Override
@@ -334,18 +214,18 @@ public class AddItemInOrderActivity extends BaseActivity implements AdapterCallb
         switch (adapterView.getId()) {
 
             case R.id.mSpinnerBardana:
-                mFloatBardanaPer100KgInRs = Float.parseFloat(String.valueOf(adapterView.getItemAtPosition(i)));
-                calculateRestValueAndSetOnTextView();
+                mBardanaPer100KgInRs = Float.parseFloat(String.valueOf(adapterView.getItemAtPosition(i)));
+                setTextAfterCalculation();
                 break;
 
             case R.id.mSpinnerLabour:
-                mFloatLabourPer100KgInRs = Float.parseFloat(String.valueOf(adapterView.getItemAtPosition(i)));
-                calculateRestValueAndSetOnTextView();
+                mLabourPer100KgInRs = Float.parseFloat(String.valueOf(adapterView.getItemAtPosition(i)));
+                setTextAfterCalculation();
                 break;
 
             case R.id.mSpinnerExpenses:
-                mFloatExpensesPercentage = Float.parseFloat(String.valueOf(adapterView.getItemAtPosition(i)));
-                calculateRestValueAndSetOnTextView();
+                mExpensesPercentage = Float.parseFloat(String.valueOf(adapterView.getItemAtPosition(i)));
+                setTextAfterCalculation();
                 break;
         }
     }
@@ -355,106 +235,138 @@ public class AddItemInOrderActivity extends BaseActivity implements AdapterCallb
 
     }
 
-    @OnClick({R.id.dialog_purchase_payment_tv_payment_date, R.id.dialog_purchase_payment_tv_payment})
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
 
             case R.id.dialog_purchase_payment_tv_payment_date:
-                DatePickerClass.showDatePicker(mBaseActivity, DatePickerClass.END_DATE, new DatePickerClass.OnDateSelected() {
+                DatePickerClass.showDatePicker(mBaseActivity, DatePickerClass.ORDER_DATE, new DatePickerClass.OnDateSelected() {
                     @Override
-                    public void onDateSelectedCallBack(int id, Date pDate, String pDateAppShownFormat, long pDateMilliSeconds, int pMaxDaysInSelectedMonth) {
-                        mButtonDatePicker.setText(pDateAppShownFormat);
-                        orderDate = pDate;
+                    public void onDateSelectedCallBack(int id, Date pDate, String pDateAppShownFormat, int pMaxDaysInSelectedMonth) {
+                        mButtonOrderDate.setText(pDateAppShownFormat);
+                        mDateOrder = pDate;
                     }
                 });
                 break;
 
             case R.id.dialog_purchase_payment_tv_payment:
-                doOrder();
+                placeOrder();
                 break;
         }
     }
 
-    private void doOrder() {
-        Utils.onHideSoftKeyBoard(mBaseActivity, mEditTextDriverVehicleNo);
+    private void initializedStock() {
+
+        SellerOrdersRequest sellerOrdersRequest = new SellerOrdersRequest();
+        sellerOrdersRequest.setEndDate("");
+        sellerOrdersRequest.setStartDate("");
+        sellerOrdersRequest.setSellerId(mLoginUser.getSellerId());
+        sellerOrdersRequest.setPage("1");
+        sellerOrdersRequest.setFlag(AppConstant.PURCHASE_LIST_ALL);
+
+        mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().purchaseList(sellerOrdersRequest);
+        mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerOrderResponse>(mBaseActivity, false) {
+
+            @Override
+            public void onResponse(SellerOrderResponse pResponse, BaseActivity pBaseActivity) {
+                if (ResponseVerification.isResponseOk(pResponse, false)) {
+                    mDataList.clear();
+                    mDataList.addAll(pResponse.getResult());
+                    Helper.changeSellerOrderResponse(mDataList);
+                    mStockAdapter.notifyData(mTextViewEmptyStock);
+                }
+            }
+        });
+    }
+
+    private void setTextAfterCalculation() {
+
+        mTotalQty = 0;
+        mSubTotalAmt = 0;
+        mTotalQtyInKg = 0;
+        for (SupplierOrderAddRequest.OrderDetailsBean object : mListCartItem) {
+            mTotalQty += Float.parseFloat(object.getQty());
+            mSubTotalAmt += Float.parseFloat(object.getTotalPrice());
+            mTotalQtyInKg += Float.parseFloat(object.getQtyInKg());
+        }
+
+        mExpensesAmt = mSubTotalAmt * mExpensesPercentage * .01f;
+        mLabourAmt = mTotalQty * mLabourPer100KgInRs;
+        mBardanaAmt = mTotalQty * mBardanaPer100KgInRs;
+        mTotalAmt = mSubTotalAmt + mBardanaAmt + mExpensesAmt + mLabourAmt;
+
+        mTextViewSubTotalAmt.setText(Helper.formatStringUpTo2Precision(String.valueOf(mSubTotalAmt)));
+        mTextViewExpensesAmt.setText(Helper.formatStringUpTo2Precision(String.valueOf(mExpensesAmt)));
+        mTextViewLabourAmt.setText(Helper.formatStringUpTo2Precision(String.valueOf(mLabourAmt)));
+        mTextViewBardanaAmt.setText(Helper.formatStringUpTo2Precision(String.valueOf(mBardanaAmt)));
+        mTextViewTotalAmt.setText(Helper.formatStringUpTo2Precision(String.valueOf(mTotalAmt)));
+        mTextViewTotalLoadInQuintal.setText(Helper.formatStringUpTo2Precision(String.valueOf(mTotalQtyInKg * .01f)));
+        mTextViewVechileAmt.setText(Helper.formatStringUpTo2Precision(String.valueOf(mTotalVechileAmt)));
+        mTextViewTotalNag.setText(Helper.formatStringUpTo2Precision(String.valueOf(mTotalQty)));
+
+        mCartAdapter.notifyData(mTextViewEmptyCart);
+        mStockAdapter.notifyData(mTextViewEmptyStock);
+    }
+
+    private void placeOrder() {
+        Helper.onHideSoftKeyBoard(mBaseActivity, mEditTextDriverVehicleNo);
 
         if (mDataList.isEmpty()) {
-            Toast.makeText(mBaseActivity, "Please Add Any Item IntoCart First", Toast.LENGTH_SHORT).show();
-            return;
-        }
+            mBaseActivity.showToast(getString(R.string.string_no_purchased_item_found_please_add_item_first));
+        } else if (mListCartItem.isEmpty()) {
+            mBaseActivity.showToast(getString(R.string.string_please_add_item_into_cart));
+        } else if (mDateOrder == null) {
+            mBaseActivity.showToast(getString(R.string.string_please_select_order_date_first));
+        } else if (Helper.isEmpty(mEditTextVechileRent100Kg.getText().toString()) || !Helper.isFloat(mEditTextVechileRent100Kg.getText().toString())) {
+            mBaseActivity.showToast(getString(R.string.string_please_enter_valid_rent));
+        } else {
+            String driverName = mEditTextDriverName.getText().toString();
+            String driverNumber = mEditTextDriverPhoneNumber.getText().toString();
+            String driveVechileNumber = mEditTextDriverVehicleNo.getText().toString();
+            if (!Helper.isPersonNameOk(driverName, mBaseActivity)) {
+            } else if (!Helper.isPhoneNoOk(driverNumber, mBaseActivity)) {
+            } else if (Helper.isEmpty(driveVechileNumber)) {
+                mBaseActivity.showToast(getString(R.string.please_provide_vechile_number));
+            } else {
+                mOrderAddRequest.setCustomerId(mCustomerObj.getUserId());
+                mOrderAddRequest.setDriverName(driverName);
+                mOrderAddRequest.setDriverNumber(driverNumber);
+                mOrderAddRequest.setDriverVechileNo(driveVechileNumber);
+                mOrderAddRequest.setOrderBardanaAmt(String.valueOf(mBardanaAmt));
+                mOrderAddRequest.setOrderBardanaValue(String.valueOf(mBardanaPer100KgInRs));
+                mOrderAddRequest.setOrderDaamiAmt(String.valueOf(mExpensesAmt));
+                mOrderAddRequest.setOrderDaamiValue(String.valueOf(mExpensesPercentage));
+                mOrderAddRequest.setOrderLabourAmt(String.valueOf(mLabourAmt));
+                mOrderAddRequest.setOrderLabourValue(String.valueOf(mLabourPer100KgInRs));
+                mOrderAddRequest.setOrderDate(Helper.getDateString(mDateOrder.getTime(), AppConstant.API_DATE_FORMAT));
+                mOrderAddRequest.setSellerId(mLoginUser.getSellerId());
+                mOrderAddRequest.setOrderTotalAmt(String.valueOf(mTotalAmt));
+                mOrderAddRequest.setOrderSubtotalAmt(String.valueOf(mSubTotalAmt));
+                mOrderAddRequest.setVechileRentValue(Helper.formatStringUpTo2Precision(mEditTextVechileRent100Kg.getText().toString()));
+                mOrderAddRequest.setVechileRent(Helper.formatStringUpTo2Precision(String.valueOf(mTotalVechileAmt)));
+                mOrderAddRequest.setOrderTotalNag(String.valueOf(mTotalQty));
+                mOrderAddRequest.setOrderTotalQuintal(String.valueOf(mTotalQtyInKg * .01f));
 
-        if (orderDate == null) {
-            Toast.makeText(mBaseActivity, "Please Select Order Date First", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-
-        if (mEditTextVechileRent100Kg.getText().toString().isEmpty()) {
-            Toast.makeText(mBaseActivity, "Vehicle Rent Can't Be Empty", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (!Utils.isFloat(mEditTextVechileRent100Kg.getText().toString())) {
-            Toast.makeText(mBaseActivity, "Please Enter Valid Vehicle Rent", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (!EditTextVerification.isPersonNameOk(mEditTextDriverName.getText().toString(), mBaseActivity))
-            return;
-
-        if (!EditTextVerification.isPhoneNoOk(mEditTextDriverPhoneNumber.getText().toString(), mBaseActivity))
-            return;
-
-        if (mEditTextDriverVehicleNo.getText().toString().isEmpty()) {
-            Toast.makeText(mBaseActivity, "Please Provide Vehicle Number", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        orderAddReqModel.setCustomerId(MyPrefrences.getStringPrefrences(AppConstant.CUSTOMER_ID_ORDER, mBaseActivity));
-        orderAddReqModel.setDriverName(mEditTextDriverName.getText().toString());
-        orderAddReqModel.setDriverNumber(mEditTextDriverPhoneNumber.getText().toString());
-        orderAddReqModel.setDriverVechileNo(mEditTextDriverVehicleNo.getText().toString());
-        orderAddReqModel.setOrderBardanaAmt(String.valueOf(bardanaAmt));
-        orderAddReqModel.setOrderBardanaValue(String.valueOf(mFloatBardanaPer100KgInRs));
-        orderAddReqModel.setOrderDaamiAmt(String.valueOf(expensesAmt));
-        orderAddReqModel.setOrderDaamiValue(String.valueOf(mFloatExpensesPercentage));
-        orderAddReqModel.setOrderLabourAmt(String.valueOf(labourAmt));
-        orderAddReqModel.setOrderLabourValue(String.valueOf(mFloatLabourPer100KgInRs));
-        orderAddReqModel.setOrderDate(Utils.getDateString(orderDate.getTime(), AppConstant.API_DATE_FORMAT));
-        orderAddReqModel.setSellerId(MyPrefrences.getStringPrefrences(AppConstant.USER_SELLER_ID, mBaseActivity));
-        orderAddReqModel.setOrderTotalAmt(String.valueOf(totalAmt));
-        orderAddReqModel.setOrderSubtotalAmt(String.valueOf(subTotalAmt));
-        orderAddReqModel.setVechileRentValue(Utils.formatStringUpTo2Precision(mEditTextVechileRent100Kg.getText().toString()));
-        orderAddReqModel.setVechileRent(Utils.formatStringUpTo2Precision(String.valueOf(totalVechileAmt)));
-        orderAddReqModel.setOrderTotalNag(String.valueOf(totalQty));
-        orderAddReqModel.setOrderTotalQuintal(String.valueOf(totalQtyInKg * .01f));
-
-        /*MyAlertDialog.showAlertDialog(this, "Continue, To Place Order!", "Continue", "Leave", new OnAlertDialogCallBack() {
-            @Override
-            public void onNegative(DialogInterface dialogInterface, int i) {
-
-            }
-
-            @Override
-            public void onPositive(DialogInterface dialogInterface, int i) {
-                mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().insertNewOrder(orderAddReqModel);
-                mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity, true) {
-
+                MyAlertDialog.showAlertDialog(this, getString(R.string.string_continue_to_place_order), true, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
-                        if (ResponseVerification.isResponseOk(pResponse)) {
-                            Toast.makeText(pBaseActivity, "Order Placed SuccessFully", Toast.LENGTH_SHORT).show();
-                            setResult(RESULT_OK);
-                            finish();
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
+                            mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().insertNewOrder(mOrderAddRequest);
+                            mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity, true) {
+
+                                @Override
+                                public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
+                                    if (ResponseVerification.isResponseOk(pResponse)) {
+                                        setResult(RESULT_OK);
+                                        finish();
+                                    }
+                                }
+                            });
                         }
-                    }
-
-                    @Override
-                    public void onFailure(String pErrorMsg) {
-
                     }
                 });
             }
-        });*/
+        }
     }
 }
+

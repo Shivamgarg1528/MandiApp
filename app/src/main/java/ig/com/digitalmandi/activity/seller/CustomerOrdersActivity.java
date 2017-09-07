@@ -36,8 +36,8 @@ import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.AppConstant;
+import ig.com.digitalmandi.util.Helper;
 import ig.com.digitalmandi.util.LoadMoreClass;
-import ig.com.digitalmandi.util.Utils;
 import okhttp3.ResponseBody;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -92,12 +92,12 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
         SupplierOrderListRequest supplierOrderListRequest = new SupplierOrderListRequest();
 
         if (mDateEnd != null)
-            supplierOrderListRequest.setEndDate(Utils.getDateString(mDateEnd.getTime(), AppConstant.API_DATE_FORMAT));
+            supplierOrderListRequest.setEndDate(Helper.getDateString(mDateEnd.getTime(), AppConstant.API_DATE_FORMAT));
         else
             supplierOrderListRequest.setEndDate("");
 
         if (mDateStart != null)
-            supplierOrderListRequest.setStartDate(Utils.getDateString(mDateStart.getTime(), AppConstant.API_DATE_FORMAT));
+            supplierOrderListRequest.setStartDate(Helper.getDateString(mDateStart.getTime(), AppConstant.API_DATE_FORMAT));
         else
             supplierOrderListRequest.setStartDate("");
 
@@ -164,7 +164,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
             case R.id.orders_menu_add:
                 Intent intent = new Intent(mBaseActivity, AddItemInOrderActivity.class);
                 intent.putExtra(AppConstant.KEY_OBJECT, mCustomerObj);
-                Utils.onActivityStartForResult(this, false, null, intent, null, AppConstant.REQUEST_CODE_PLACE_NEW_ORDER);
+                Helper.onActivityStartForResult(this, false, null, intent, null, AppConstant.REQUEST_CODE_PLACE_NEW_ORDER);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -228,7 +228,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
     }
 
     @Override
-    public void onDateSelectedCallBack(int id, Date pDate, String pDateAppShownFormat, long pDateMilliSeconds, int pMaxDaysInSelectedMonth) {
+    public void onDateSelectedCallBack(int id, Date pDate, String pDateAppShownFormat, int pMaxDaysInSelectedMonth) {
         switch (id) {
             case DatePickerClass.START_DATE:
                 mDateStart = pDate;
@@ -304,7 +304,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
                 orderDetailsRequest.setMessage(getString(R.string.string_order_id_details, mOrderObj.getOrderId()));
                 Intent intent = new Intent(mBaseActivity, OrderDetailsActivity.class);
                 intent.putExtra(AppConstant.KEY_OBJECT, orderDetailsRequest);
-                Utils.onActivityStart(mBaseActivity, false, null, intent, null);
+                Helper.onActivityStart(mBaseActivity, false, null, intent, null);
                 break;
             }
             case AppConstant.OPERATION_ORDER_PAYMENT_DETAILS: {
@@ -317,7 +317,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
 
                 Intent intent = new Intent(mBaseActivity, PaymentsActivity.class);
                 intent.putExtra(AppConstant.KEY_OBJECT, paymentsRequest);
-                Utils.onActivityStart(mBaseActivity, false, null, intent, null);
+                Helper.onActivityStart(mBaseActivity, false, null, intent, null);
                 break;
             }
             case AppConstant.OPERATION_ORDER_BILL_PRINT: {
@@ -349,9 +349,9 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
 
                         @Override
                         public void onResponse(ResponseBody pResponse, BaseActivity pBaseActivity) {
-                            boolean writeSuccessfully = Utils.writePdf(pResponse, mOrderObj.getOrderId(), true);
+                            boolean writeSuccessfully = Helper.writePdf(pResponse, mOrderObj.getOrderId(), true);
                             if (writeSuccessfully) {
-                                Utils.readPdf(mBaseActivity, mOrderObj.getOrderId(), true);
+                                Helper.readPdf(mBaseActivity, mOrderObj.getOrderId(), true);
                             } else {
                                 mBaseActivity.showToast(getString(R.string.string_failed_to_get_pdf_from_server));
                             }

@@ -13,7 +13,7 @@ import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 public class ForgotPasswordDialog extends BaseDialog implements View.OnClickListener {
 
@@ -35,7 +35,7 @@ public class ForgotPasswordDialog extends BaseDialog implements View.OnClickList
     public void onClick(View v) {
 
         String emailAddress = mEditTxtEmail.getText().toString().trim();
-        if (Utils.isEmpty(emailAddress) || !Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
+        if (Helper.isEmpty(emailAddress) || !Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
             mBaseActivity.showToast(mBaseActivity.getString(R.string.enter_valid_email_address));
             return;
         }

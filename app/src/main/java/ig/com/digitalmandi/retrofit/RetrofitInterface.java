@@ -14,7 +14,7 @@ import ig.com.digitalmandi.bean.request.seller.SellerOrdersRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerProductListRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerUnitListRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierListRequest;
-import ig.com.digitalmandi.bean.request.seller.SupplierOrderAddReq;
+import ig.com.digitalmandi.bean.request.seller.SupplierOrderAddRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderBillPrintRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderListRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierProductModifyRequest;
@@ -110,7 +110,7 @@ public interface RetrofitInterface {
     Call<OrderDetailResponse> orderDetailsOfGivenCustomer(@Body OrderDetailsRequest orderDetailsRequest);
 
     @POST(INSERT_NEW_ORDER)
-    Call<EmptyResponse> insertNewOrder(@Body SupplierOrderAddReq supplierOrderAddReq);
+    Call<EmptyResponse> insertNewOrder(@Body SupplierOrderAddRequest supplierOrderAddReq);
 
     @POST(DELETE_ORDER)
     Call<EmptyResponse> deleteOrder(@Body ItemDeleteRequest itemDeleteRequest);

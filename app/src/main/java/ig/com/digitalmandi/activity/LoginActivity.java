@@ -15,7 +15,7 @@ import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.AppSharedPrefs;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
@@ -44,7 +44,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_SIGN_UP) {
-                Utils.onActivityStart(mBaseActivity, true, null, null, SyncActivity.class);
+                Helper.onActivityStart(mBaseActivity, true, null, null, SyncActivity.class);
             }
         }
     }
@@ -61,34 +61,34 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
 
             case R.id.activity_login_btn_signup:
-                Utils.onHideSoftKeyBoard(mBaseActivity, mEdtTxtEmail);
-                Utils.onHideSoftKeyBoard(mBaseActivity, mEdtTxtPassword);
-                Utils.onActivityStartForResult(mBaseActivity, false, null, null, SignUpActivity.class, REQUEST_CODE_SIGN_UP);
+                Helper.onHideSoftKeyBoard(mBaseActivity, mEdtTxtEmail);
+                Helper.onHideSoftKeyBoard(mBaseActivity, mEdtTxtPassword);
+                Helper.onActivityStartForResult(mBaseActivity, false, null, null, SignUpActivity.class, REQUEST_CODE_SIGN_UP);
                 break;
         }
     }
 
     private void appLogin() {
 
-        Utils.onHideSoftKeyBoard(this, mEdtTxtEmail);
-        Utils.onHideSoftKeyBoard(this, mEdtTxtPassword);
+        Helper.onHideSoftKeyBoard(this, mEdtTxtEmail);
+        Helper.onHideSoftKeyBoard(this, mEdtTxtPassword);
 
         String emailAddress = mEdtTxtEmail.getText().toString();
         String password = mEdtTxtPassword.getText().toString();
 
-        if (Utils.isEmpty(emailAddress) || !Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
+        if (Helper.isEmpty(emailAddress) || !Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
             showToast(getString(R.string.string_enter_valid_email_address));
             return;
         }
-        if (Utils.isEmpty(password) || password.length() < 6) {
+        if (Helper.isEmpty(password) || password.length() < 6) {
             showToast(getString(R.string.string_password_at_least_six_char_long));
             return;
         }
 
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUserEmailAddress(emailAddress);
-        loginRequest.setUserPassword(Utils.getBase64String(password));
-        loginRequest.setDeviceId(Utils.getDeviceId(this));
+        loginRequest.setUserPassword(Helper.getBase64String(password));
+        loginRequest.setDeviceId(Helper.getDeviceId(this));
         loginRequest.setDeviceType(AppConstant.ANDROID_DEVICE);
         loginRequest.setDeviceToken("");
 

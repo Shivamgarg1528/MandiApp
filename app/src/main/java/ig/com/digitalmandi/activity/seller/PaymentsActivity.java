@@ -17,7 +17,7 @@ import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.AppConstant;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 public class PaymentsActivity extends ListBaseActivity<PaymentsResponse.Payment> implements View.OnClickListener, EventCallback {
 
@@ -61,7 +61,7 @@ public class PaymentsActivity extends ListBaseActivity<PaymentsResponse.Payment>
     @Override
     protected void getIntentData() {
         mPaymentsRequest = (PaymentsRequest) getIntent().getSerializableExtra(AppConstant.KEY_OBJECT);
-        mOrderAmt = Float.parseFloat(Utils.formatStringUpTo2Precision(mPaymentsRequest.getOrderAmount()));
+        mOrderAmt = Float.parseFloat(Helper.formatStringUpTo2Precision(mPaymentsRequest.getOrderAmount()));
     }
 
     @Override
@@ -97,13 +97,13 @@ public class PaymentsActivity extends ListBaseActivity<PaymentsResponse.Payment>
         interestDueAmt = interestAmt - interestPaidAmt;
         totalPaid = paidAmt + interestPaidAmt;
 
-        ((AppCompatTextView) findViewById(R.id.activity_purchase_payment_tv_order_amount)).setText(Utils.formatStringUpTo2Precision(String.valueOf(mOrderAmt)));
-        ((AppCompatTextView) findViewById(R.id.activity_purchase_payment_tv_paid_amount)).setText(Utils.formatStringUpTo2Precision(String.valueOf(paidAmt)));
-        ((AppCompatTextView) findViewById(R.id.activity_purchase_payment_tv_due_amount)).setText(Utils.formatStringUpTo2Precision(String.valueOf(dueAmt)));
-        ((AppCompatTextView) findViewById(R.id.activity_purchase_payment_tv_interest_amount)).setText(Utils.formatStringUpTo2Precision(String.valueOf(interestAmt)));
-        ((AppCompatTextView) findViewById(R.id.activity_purchase_payment_tv_interest_paid_amount)).setText(Utils.formatStringUpTo2Precision(String.valueOf(interestPaidAmt)));
-        ((AppCompatTextView) findViewById(R.id.activity_purchase_payment_tv_interest_due_amount)).setText(Utils.formatStringUpTo2Precision(String.valueOf(interestDueAmt)));
-        ((AppCompatTextView) findViewById(R.id.activity_purchase_payment_tv_total_paid_amount)).setText(Utils.formatStringUpTo2Precision(String.valueOf(totalPaid)));
+        ((AppCompatTextView) findViewById(R.id.activity_purchase_payment_tv_order_amount)).setText(Helper.formatStringUpTo2Precision(String.valueOf(mOrderAmt)));
+        ((AppCompatTextView) findViewById(R.id.activity_purchase_payment_tv_paid_amount)).setText(Helper.formatStringUpTo2Precision(String.valueOf(paidAmt)));
+        ((AppCompatTextView) findViewById(R.id.activity_purchase_payment_tv_due_amount)).setText(Helper.formatStringUpTo2Precision(String.valueOf(dueAmt)));
+        ((AppCompatTextView) findViewById(R.id.activity_purchase_payment_tv_interest_amount)).setText(Helper.formatStringUpTo2Precision(String.valueOf(interestAmt)));
+        ((AppCompatTextView) findViewById(R.id.activity_purchase_payment_tv_interest_paid_amount)).setText(Helper.formatStringUpTo2Precision(String.valueOf(interestPaidAmt)));
+        ((AppCompatTextView) findViewById(R.id.activity_purchase_payment_tv_interest_due_amount)).setText(Helper.formatStringUpTo2Precision(String.valueOf(interestDueAmt)));
+        ((AppCompatTextView) findViewById(R.id.activity_purchase_payment_tv_total_paid_amount)).setText(Helper.formatStringUpTo2Precision(String.valueOf(totalPaid)));
 
         if (dueAmt > 0 || interestDueAmt > 0) {
             findViewById(R.id.activity_purchase_payment_tv_payment).setVisibility(View.VISIBLE);

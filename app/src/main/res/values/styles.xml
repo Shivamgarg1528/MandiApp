@@ -27,7 +27,7 @@
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="colorAccent">@android:color/white</item>
         <item name="android:textColorPrimary">@color/colorWhite</item>
-        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingTop">1dp</item>
         <item name="android:textSize">16sp</item>
     </style>
 
@@ -39,7 +39,7 @@
         <item name="android:textColorSecondary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:textColorPrimary">@color/colorPrimary</item>
-        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingTop">1dp</item>
         <item name="android:textSize">16sp</item>
     </style>
 
@@ -60,6 +60,5 @@
         <item name="DialogSpotColor">@color/colorAccent</item>
         <item name="DialogSpotCount">5</item>
     </style>
-
 
 </resources>

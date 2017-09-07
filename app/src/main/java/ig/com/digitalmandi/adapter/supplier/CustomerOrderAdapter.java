@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.response.seller.OrderResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 public class CustomerOrderAdapter extends RecyclerView.Adapter<CustomerOrderAdapter.ViewHolder> {
 
@@ -30,14 +29,6 @@ public class CustomerOrderAdapter extends RecyclerView.Adapter<CustomerOrderAdap
         this.mEventCallback = pEventCallback;
     }
 
-    public void notifyData(TextView emptyView) {
-        if (mDataList.isEmpty())
-            emptyView.setVisibility(View.VISIBLE);
-        else
-            emptyView.setVisibility(View.GONE);
-        notifyDataSetChanged();
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View holderView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout_supplier_order_cardview, parent, false);
@@ -49,14 +40,14 @@ public class CustomerOrderAdapter extends RecyclerView.Adapter<CustomerOrderAdap
         OrderResponse.Order data = mDataList.get(position);
 
         holder.mTextViewOrderDate.setText(data.getOrderDate());
-        holder.mTextViewSubTotal.setText(Utils.formatStringUpTo2Precision(data.getOrderSubTotalAmt()));
-        holder.mTextViewOrderExpenses.setText(Utils.formatStringUpTo2Precision(data.getOrderDaamiAmt()));
-        holder.mTextViewLabourValue.setText(Utils.formatStringUpTo2Precision(data.getOrderLabourAmt()));
-        holder.mTextViewBardanaValue.setText(Utils.formatStringUpTo2Precision(data.getOrderBardanaAmt()));
-        holder.mTextViewTotalValue.setText(Utils.formatStringUpTo2Precision(data.getOrderTotalAmt()));
-        holder.mTextViewVehicleRent.setText(Utils.formatStringUpTo2Precision(data.getVechileRent()));
+        holder.mTextViewSubTotal.setText(Helper.formatStringUpTo2Precision(data.getOrderSubTotalAmt()));
+        holder.mTextViewOrderExpenses.setText(Helper.formatStringUpTo2Precision(data.getOrderDaamiAmt()));
+        holder.mTextViewLabourValue.setText(Helper.formatStringUpTo2Precision(data.getOrderLabourAmt()));
+        holder.mTextViewBardanaValue.setText(Helper.formatStringUpTo2Precision(data.getOrderBardanaAmt()));
+        holder.mTextViewTotalValue.setText(Helper.formatStringUpTo2Precision(data.getOrderTotalAmt()));
+        holder.mTextViewVehicleRent.setText(Helper.formatStringUpTo2Precision(data.getVechileRent()));
         holder.mTextViewDriverNo.setText(String.format("%s%s", data.getDriverNumber(), mBaseActivity.getString(R.string.string_driver_mobile)));
-        holder.mTextViewTotalNagAndQuintal.setText(String.format("%s (N) - %s (Q)", Utils.formatStringUpTo2Precision(data.getOrderTotalNag()), Utils.formatStringUpTo2Precision(data.getOrderTotalQuintal())));
+        holder.mTextViewTotalNagAndQuintal.setText(String.format("%s (N) - %s (Q)", Helper.formatStringUpTo2Precision(data.getOrderTotalNag()), Helper.formatStringUpTo2Precision(data.getOrderTotalQuintal())));
         holder.mTextViewOrderId.setText(data.getOrderId());
 
         holder.mParentView.setOnLongClickListener(new View.OnLongClickListener() {

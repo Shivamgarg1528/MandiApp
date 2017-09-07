@@ -21,8 +21,8 @@ import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.AppSharedPrefs;
+import ig.com.digitalmandi.util.Helper;
 import ig.com.digitalmandi.util.ModifyPreference;
-import ig.com.digitalmandi.util.Utils;
 
 public class UnitFragment extends ListBaseFragment<SellerUnitList.Unit> {
 
@@ -85,7 +85,7 @@ public class UnitFragment extends ListBaseFragment<SellerUnitList.Unit> {
             case AppConstant.OPERATION_EDIT: {
                 Intent intent = new Intent(mBaseActivity, SellerUnitModifyActivity.class);
                 intent.putExtra(AppConstant.KEY_OBJECT, pUnit);
-                Utils.onActivityStartForResultInFragment(this, false, null, intent, null, AppConstant.REQUEST_CODE_EDIT);
+                Helper.onActivityStartForResultInFragment(this, false, null, intent, null, AppConstant.REQUEST_CODE_EDIT);
                 break;
             }
 

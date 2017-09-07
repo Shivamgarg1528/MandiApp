@@ -26,7 +26,7 @@ import ig.com.digitalmandi.bean.AbstractResponse;
 import ig.com.digitalmandi.callback.ApiCallback;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 public abstract class ListBaseFragment<T> extends BaseFragment implements EventCallback<T>, SearchView.OnQueryTextListener, ApiCallback, SwipeRefreshLayout.OnRefreshListener {
 
@@ -90,7 +90,7 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
         switch (item.getItemId()) {
             case R.id.supplier_menu_add:
                 Intent intent = getRequestedIntent();
-                Utils.onActivityStartForResultInFragment(this, false, null, intent, null, AppConstant.REQUEST_CODE_EDIT);
+                Helper.onActivityStartForResultInFragment(this, false, null, intent, null, AppConstant.REQUEST_CODE_EDIT);
                 return true;
 
             case R.id.supplier_menu_sort: {

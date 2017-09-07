@@ -25,8 +25,7 @@ import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.AppSharedPrefs;
-import ig.com.digitalmandi.util.EditTextVerification;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 
 public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, ImageDialog.OnItemSelectedListener, View.OnClickListener {
@@ -154,7 +153,7 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
 
     @Override
     public void onImageReceived(Bitmap pBitmap) {
-        mStringBase64 = Utils.getStringImage(pBitmap);
+        mStringBase64 = Helper.getStringImage(pBitmap);
         mCircleImageUser.setImageBitmap(pBitmap);
     }
 
@@ -173,9 +172,9 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
 
         RegistrationRequest registrationRequest = new RegistrationRequest();
         registrationRequest.setUserName(name);
-        registrationRequest.setUserPassword(Utils.getBase64String(password));
+        registrationRequest.setUserPassword(Helper.getBase64String(password));
         registrationRequest.setDeviceType(AppConstant.ANDROID_DEVICE);
-        registrationRequest.setDeviceId(Utils.getDeviceId(mBaseActivity));
+        registrationRequest.setDeviceId(Helper.getDeviceId(mBaseActivity));
         registrationRequest.setDeviceToken("");
         registrationRequest.setUserAddress(address);
         registrationRequest.setUserFirmName(firmName);
@@ -218,22 +217,22 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
         String tinNumber = mEditTxtTinNumber.getText().toString();
         String firmName = mEditTxtFirmName.getText().toString();
 
-        if (!EditTextVerification.isPersonNameOk(name, mBaseActivity)) {
+        if (!Helper.isPersonNameOk(name, mBaseActivity)) {
             return false;
-        } else if (!EditTextVerification.isPhoneNoOk(phoneNo, mBaseActivity)) {
+        } else if (!Helper.isPhoneNoOk(phoneNo, mBaseActivity)) {
             return false;
-        } else if (!EditTextVerification.isEmailAddressOk(email, mBaseActivity)) {
+        } else if (!Helper.isEmailAddressOk(email, mBaseActivity)) {
             return false;
-        } else if (!EditTextVerification.isPasswordOk(password, mBaseActivity)) {
+        } else if (!Helper.isPasswordOk(password, mBaseActivity)) {
             return false;
-        } else if (!EditTextVerification.isPasswordOk(cPassword, mBaseActivity)) {
+        } else if (!Helper.isPasswordOk(cPassword, mBaseActivity)) {
             return false;
         } else if (!cPassword.equals(password)) {
             showToast(getString(R.string.string_password_match_failed));
             return false;
-        } else if (!EditTextVerification.isTinNoOk(tinNumber, mBaseActivity)) {
+        } else if (!Helper.isTinNoOk(tinNumber, mBaseActivity)) {
             return false;
-        } else if (!EditTextVerification.isFirmOk(firmName, mBaseActivity)) {
+        } else if (!Helper.isFirmOk(firmName, mBaseActivity)) {
             return false;
         } else if (mIndexOfUserType <= 0) {
             showToast(getString(R.string.string_please_select_appropriate_customer_type));

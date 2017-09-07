@@ -36,9 +36,6 @@ public class AppConstant {
     public static final String API_DATE_FORMAT = "yyyy-MM-dd";
     public static final String APP_DATE_FORMAT = "dd-MMM-yyyy";
 
-    public static final String CUSTOMER_ID_ORDER = "customerId";
-    public static final String USER_SELLER_ID = "";
-
     /* Key*/
     public static final String KEY_OBJECT = "keyObject";
 
@@ -64,6 +61,7 @@ public class AppConstant {
     public static final int OPERATION_ORDER_PAYMENT_DETAILS = 7;
     public static final int OPERATION_ORDER_DETAILS = 8;
     public static final int OPERATION_ORDER_BILL_PRINT = 9;
+    public static final int OPERATION_UPDATE = 11;
 
     /* Operation On Items*/
     public static final String ADD = "add";

@@ -10,7 +10,7 @@ import java.util.List;
 
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.bean.response.seller.OrderDetailResponse;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.ViewHolder> {
 
@@ -30,12 +30,12 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     public void onBindViewHolder(ViewHolder holder, final int position) {
         OrderDetailResponse.OrderDetail data = mDataList.get(position);
         holder.mTextViewName.setText(data.getProductName());
-        holder.mTextViewUnit.setText(Utils.formatStringUpTo2Precision(data.getUnitValue()));
+        holder.mTextViewUnit.setText(Helper.formatStringUpTo2Precision(data.getUnitValue()));
         holder.mTextViewQty.setText(data.getQty());
-        holder.mTextViewPrice.setText(Utils.formatStringUpTo2Precision(data.getPrice()));
-        holder.mTextViewTotalAmount.setText(Utils.formatStringUpTo2Precision(data.getTotalPrice()));
-        holder.mTextViewQtyInKg.setText(Utils.formatStringUpTo2Precision(data.getQtyInKg()) + "(KG)");
-        holder.mTextViewQtyInQuintal.setText(Utils.formatStringUpTo2Precision(String.valueOf(Float.parseFloat(data.getQtyInKg()) * .01f)) + "(Q)");
+        holder.mTextViewPrice.setText(Helper.formatStringUpTo2Precision(data.getPrice()));
+        holder.mTextViewTotalAmount.setText(Helper.formatStringUpTo2Precision(data.getTotalPrice()));
+        holder.mTextViewQtyInKg.setText(Helper.formatStringUpTo2Precision(data.getQtyInKg()) + "(KG)");
+        holder.mTextViewQtyInQuintal.setText(Helper.formatStringUpTo2Precision(String.valueOf(Float.parseFloat(data.getQtyInKg()) * .01f)) + "(Q)");
     }
 
     @Override

@@ -7,15 +7,15 @@ import android.widget.NumberPicker;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.callback.EventCallback;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
-public class QtyPickerDialog extends BaseDialog implements View.OnClickListener {
+public class QuantityDialog extends BaseDialog implements View.OnClickListener {
 
     private final EventCallback mEventCallback;
     private final int mDefaultValue;
     private NumberPicker mNumberPickerQty;
 
-    public QtyPickerDialog(int pDefaultValue, BaseActivity pBaseActivity, EventCallback pEventCallback) {
+    public QuantityDialog(int pDefaultValue, BaseActivity pBaseActivity, EventCallback pEventCallback) {
         super(pBaseActivity);
         mEventCallback = pEventCallback;
         mDefaultValue = pDefaultValue;
@@ -23,7 +23,7 @@ public class QtyPickerDialog extends BaseDialog implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
-        Utils.onHideSoftKeyBoard(mBaseActivity, mNumberPickerQty);
+        Helper.onHideSoftKeyBoard(mBaseActivity, mNumberPickerQty);
         mEventCallback.onEvent(0, mNumberPickerQty.getValue());
         dismiss();
     }

@@ -14,7 +14,7 @@ import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.AppConstant;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 public class SellerUnitModifyActivity extends BaseActivity implements View.OnClickListener {
 
@@ -51,15 +51,15 @@ public class SellerUnitModifyActivity extends BaseActivity implements View.OnCli
         switch (view.getId()) {
 
             case R.id.activity_unit_modify_btn_add:
-                Utils.onHideSoftKeyBoard(this, mEditTxtUnitValue);
+                Helper.onHideSoftKeyBoard(this, mEditTxtUnitValue);
 
                 String unitName = mEditTxtUnitName.getText().toString();
                 String unitValue = mEditTxtUnitValue.getText().toString();
 
-                if (Utils.isEmpty(unitName)) {
+                if (Helper.isEmpty(unitName)) {
                     mBaseActivity.showToast(getString(R.string.please_enter_unit_name));
                     return;
-                } else if (Utils.isEmpty(unitValue) || !Utils.isFloat(unitValue)) {
+                } else if (Helper.isEmpty(unitValue) || !Helper.isFloat(unitValue)) {
                     mBaseActivity.showToast(getString(R.string.unit_value_must_be_greater_than_zero));
                     return;
                 } else if (mUnitObject != null) {

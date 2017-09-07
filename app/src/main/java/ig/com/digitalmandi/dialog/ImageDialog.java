@@ -13,7 +13,7 @@ import com.nguyenhoanglam.imagepicker.model.Image;
 
 import java.util.ArrayList;
 
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 public class ImageDialog {
 
@@ -36,8 +36,8 @@ public class ImageDialog {
                 case REQUEST_CODE_IMAGE:
                     ArrayList<Image> images = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
                     if (images != null && images.size() > 0) {
-                        if (!Utils.isEmpty(images.get(0).getPath())) {
-                            mListener.onImageReceived(Utils.getBitmapFromPath(images.get(0).getPath(), mImageWidth, mImageHeight));
+                        if (!Helper.isEmpty(images.get(0).getPath())) {
+                            mListener.onImageReceived(Helper.getBitmapFromPath(images.get(0).getPath(), mImageWidth, mImageHeight));
                         }
                     }
                     break;

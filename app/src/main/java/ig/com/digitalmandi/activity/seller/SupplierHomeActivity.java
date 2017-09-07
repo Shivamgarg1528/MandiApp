@@ -22,7 +22,7 @@ import ig.com.digitalmandi.fragment.supplier.LogoutFragment;
 import ig.com.digitalmandi.fragment.supplier.ProductFragment;
 import ig.com.digitalmandi.fragment.supplier.PurchaseFragment;
 import ig.com.digitalmandi.fragment.supplier.UnitFragment;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 public class SupplierHomeActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -41,7 +41,7 @@ public class SupplierHomeActivity extends BaseActivity implements NavigationView
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                Utils.onHideSoftKeyBoard(mBaseActivity, drawerView);
+                Helper.onHideSoftKeyBoard(mBaseActivity, drawerView);
             }
         };
         mDrawerView.addDrawerListener(mActionBarToggle);
@@ -53,7 +53,7 @@ public class SupplierHomeActivity extends BaseActivity implements NavigationView
         View headerView = navigationView.getHeaderView(0);
         headerView.setOnClickListener(this);
         CircleImageView mImageViewUser = (CircleImageView) headerView.findViewById(R.id.layout_activity_sign_up_btn_user_image);
-        Utils.setImage(mBaseActivity, mLoginUser.getUserImageUrl(), mImageViewUser);
+        Helper.setImage(mBaseActivity, mLoginUser.getUserImageUrl(), mImageViewUser);
         AppCompatTextView mTextViewUserName = (AppCompatTextView) headerView.findViewById(R.id.mTextViewUserInfoName);
         mTextViewUserName.setText(mLoginUser.getUserName() + "\n" + mLoginUser.getUserMobileNo());
         onItemSelected(R.id.supplier_nav_menu_customer, getString(R.string.customers));

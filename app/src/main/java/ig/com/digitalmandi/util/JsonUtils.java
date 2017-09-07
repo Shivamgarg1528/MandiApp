@@ -4,16 +4,16 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-public final class JsonUtils {
+final class JsonUtils {
 
     private final static Gson M_GSON = new Gson();
     private static final String LOG_TAG = "JsonUtils";
 
-    public static String jsonify(Object object) {
+    static String jsonify(Object object) {
         return M_GSON.toJson(object);
     }
 
-    public static <T> T objectify(String pJson, Class<T> pType) {
+    static <T> T objectify(String pJson, Class<T> pType) {
         if (pJson == null || pJson.trim().length() == 0) {
             return null;
         }

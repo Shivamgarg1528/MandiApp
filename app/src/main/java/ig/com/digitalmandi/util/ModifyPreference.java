@@ -38,9 +38,10 @@ public class ModifyPreference {
                 if (ResponseVerification.isResponseOk(pResponse, true)) {
                     AppSharedPrefs.getInstance(mBaseActivity).setSellerCustomers(pResponse);
                 }
-                mListener.onApiResponse();
+                if (mListener != null) {
+                    mListener.onApiResponse();
+                }
             }
-
         });
     }
 
@@ -58,7 +59,9 @@ public class ModifyPreference {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     AppSharedPrefs.getInstance(mBaseActivity).setSellerUnits(pResponse);
                 }
-                mListener.onApiResponse();
+                if (mListener != null) {
+                    mListener.onApiResponse();
+                }
             }
         });
     }
@@ -76,7 +79,9 @@ public class ModifyPreference {
                 if (ResponseVerification.isResponseOk(pResponse, true)) {
                     AppSharedPrefs.getInstance(mBaseActivity).setSellerProducts(pResponse);
                 }
-                mListener.onApiResponse();
+                if (mListener != null) {
+                    mListener.onApiResponse();
+                }
             }
 
         });

@@ -8,8 +8,8 @@ import ig.com.digitalmandi.bean.response.LoginResponse;
 import ig.com.digitalmandi.callback.ApiCallback;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.AppSharedPrefs;
+import ig.com.digitalmandi.util.Helper;
 import ig.com.digitalmandi.util.ModifyPreference;
-import ig.com.digitalmandi.util.Utils;
 
 public class SyncActivity extends BaseActivity implements ApiCallback {
 
@@ -26,15 +26,14 @@ public class SyncActivity extends BaseActivity implements ApiCallback {
         modifyPreference.addOrUpdateSellerCustomers();
         modifyPreference.addOrUpdateSellerProducts();
         modifyPreference.addOrUpdateSellerUnits();
-
     }
 
     public void startAfterSync() {
         LoginResponse.LoginUser loginUserModel = AppSharedPrefs.getInstance(this).getLoginUserModel();
         if (loginUserModel.getUserType() == AppConstant.SELLER) {
-            Utils.onActivityStart(mBaseActivity, true, null, null, SupplierHomeActivity.class);
+            Helper.onActivityStart(mBaseActivity, true, null, null, SupplierHomeActivity.class);
         } else if (loginUserModel.getUserType() == AppConstant.CUSTOMER) {
-            //Utils.onActivityStart(mBaseActivity, true, null, null, CustomerHomeActivity.class);
+            //Helper.onActivityStart(mBaseActivity, true, null, null, CustomerHomeActivity.class);
         }
     }
 

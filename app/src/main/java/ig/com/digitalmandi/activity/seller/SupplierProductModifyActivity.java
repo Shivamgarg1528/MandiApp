@@ -17,7 +17,7 @@ import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.AppConstant;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 public class SupplierProductModifyActivity extends BaseActivity implements View.OnClickListener, ImageDialog.OnItemSelectedListener {
 
@@ -45,7 +45,7 @@ public class SupplierProductModifyActivity extends BaseActivity implements View.
 
         if (mProductObject != null) {
             mEditTextProductName.setText(mProductObject.getProductName());
-            Utils.setImage(this, AppConstant.END_POINT.concat("product/201610111330154088.png"), mImageViewProduct);
+            Helper.setImage(this, AppConstant.END_POINT.concat("product/201610111330154088.png"), mImageViewProduct);
             setTitle(getString(R.string.update_product_string, mProductObject.getProductName()));
             return;
         }
@@ -63,10 +63,10 @@ public class SupplierProductModifyActivity extends BaseActivity implements View.
 
             case R.id.activity_product_modify_btn_submit:
 
-                Utils.onHideSoftKeyBoard(this, mEditTextProductName);
+                Helper.onHideSoftKeyBoard(this, mEditTextProductName);
 
                 String productName = mEditTextProductName.getText().toString();
-                if (Utils.isEmpty(productName)) {
+                if (Helper.isEmpty(productName)) {
                     mBaseActivity.showToast(getString(R.string.please_enter_product_name));
                     return;
                 }
@@ -77,7 +77,7 @@ public class SupplierProductModifyActivity extends BaseActivity implements View.
                 supplierProductModifyRequest.setSellerId(mLoginUser.getSellerId());
 
                 if (mProductObject != null) {
-                    //mStringBase64 = Utils.getStringImage(((BitmapDrawable) mImageViewProduct.getDrawable()).getBitmap());
+                    //mStringBase64 = Helper.getStringImage(((BitmapDrawable) mImageViewProduct.getDrawable()).getBitmap());
                     supplierProductModifyRequest.setProductImageBase64(mStringBase64);
                     supplierProductModifyRequest.setProductId(mProductObject.getProductId());
                     supplierProductModifyRequest.setProductOperation(AppConstant.UPDATE);
@@ -126,6 +126,6 @@ public class SupplierProductModifyActivity extends BaseActivity implements View.
     @Override
     public void onImageReceived(Bitmap pBitmap) {
         mImageViewProduct.setImageBitmap(pBitmap);
-        mStringBase64 = Utils.getStringImage(pBitmap);
+        mStringBase64 = Helper.getStringImage(pBitmap);
     }
 }

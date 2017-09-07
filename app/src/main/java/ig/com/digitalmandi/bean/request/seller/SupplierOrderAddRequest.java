@@ -6,7 +6,7 @@ import java.util.List;
  * Created by shiva on 10/27/2016.
  */
 
-public class SupplierOrderAddReq {
+public class SupplierOrderAddRequest {
 
     /**
      * customerId : 1

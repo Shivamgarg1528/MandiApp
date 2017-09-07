@@ -21,14 +21,13 @@ import ig.com.digitalmandi.bean.response.seller.SellerProductList;
 import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.dialog.DatePickerClass;
-import ig.com.digitalmandi.dialog.QtyPickerDialog;
+import ig.com.digitalmandi.dialog.QuantityDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.AppSharedPrefs;
-import ig.com.digitalmandi.util.SpinnerHelper;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 public class SupplierPurchaseActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, DatePickerClass.OnDateSelected, View.OnClickListener {
 
@@ -62,51 +61,51 @@ public class SupplierPurchaseActivity extends BaseActivity implements AdapterVie
         initializedProductAndUnitList();
 
         mEditTextPersonName = (AppCompatEditText) findViewById(R.id.mEditPersonNamePurchase);
-        mEditTextProductPrice = (AppCompatEditText) findViewById(R.id.mEditProductPrice);
+        mEditTextProductPrice = (AppCompatEditText) findViewById(R.id.layout_edt_product_price);
 
-        mTextViewQty = (AppCompatTextView) findViewById(R.id.qtyTextView);
+        mTextViewQty = (AppCompatTextView) findViewById(R.id.layout_tv_qty);
         mTextViewQty.setOnClickListener(this);
 
         mButtonPurchaseDate = (AppCompatButton) findViewById(R.id.dialog_purchase_payment_tv_payment_date);
         mButtonPurchaseDate.setOnClickListener(this);
 
-        findViewById(R.id.saveBtnPurchase).setOnClickListener(this);
-        findViewById(R.id.decreaseQtyBtn).setOnClickListener(this);
-        findViewById(R.id.increaseQtyBtn).setOnClickListener(this);
+        findViewById(R.id.layout_btn_save).setOnClickListener(this);
+        findViewById(R.id.layout_btn_decrease_qty).setOnClickListener(this);
+        findViewById(R.id.layout_btn_increase_qty).setOnClickListener(this);
 
         AppCompatSpinner spinnerProduct = (AppCompatSpinner) findViewById(R.id.mSpinnerProductListPurchase);
-        spinnerProduct.setAdapter(SpinnerHelper.getAdapter(this, mProductNameList.toArray(new String[mProductNameList.size()])));
+        spinnerProduct.setAdapter(Helper.getAdapter(this, mProductNameList.toArray(new String[mProductNameList.size()])));
         spinnerProduct.setOnItemSelectedListener(this);
 
-        AppCompatSpinner spinnerUnit = (AppCompatSpinner) findViewById(R.id.mSpinnerUnitListPurchase);
-        spinnerUnit.setAdapter(SpinnerHelper.getAdapter(this, mUnitNameList.toArray(new String[mUnitNameList.size()])));
+        AppCompatSpinner spinnerUnit = (AppCompatSpinner) findViewById(R.id.layout_spinner_unit);
+        spinnerUnit.setAdapter(Helper.getAdapter(this, mUnitNameList.toArray(new String[mUnitNameList.size()])));
         spinnerUnit.setOnItemSelectedListener(this);
 
-        AppCompatSpinner spinnerKgPrice = (AppCompatSpinner) findViewById(R.id.mSpinnerKgPrice);
-        spinnerKgPrice.setAdapter(SpinnerHelper.getAdapter(this, R.array.string_array_kg_price));
+        AppCompatSpinner spinnerKgPrice = (AppCompatSpinner) findViewById(R.id.layout_spinner_kg_price);
+        spinnerKgPrice.setAdapter(Helper.getAdapter(this, R.array.string_array_kg_price));
         spinnerKgPrice.setOnItemSelectedListener(this);
 
         AppCompatSpinner spinnerLabour = (AppCompatSpinner) findViewById(R.id.mSpinnerLabour);
-        spinnerLabour.setAdapter(SpinnerHelper.getAdapter(this, R.array.string_array_labour_cost));
+        spinnerLabour.setAdapter(Helper.getAdapter(this, R.array.string_array_labour_cost));
         spinnerLabour.setOnItemSelectedListener(this);
         spinnerLabour.setSelection(3, true);
 
         AppCompatSpinner spinnerDaami = (AppCompatSpinner) findViewById(R.id.mSpinnerDaami);
-        spinnerDaami.setAdapter(SpinnerHelper.getAdapter(this, R.array.string_array_dami_amount));
+        spinnerDaami.setAdapter(Helper.getAdapter(this, R.array.string_array_dami_amount));
         spinnerDaami.setOnItemSelectedListener(this);
         spinnerDaami.setSelection(1, true);
     }
 
     @Override
     public void onClick(View view) {
-        Utils.onHideSoftKeyBoard(this, mEditTextProductPrice);
+        Helper.onHideSoftKeyBoard(this, mEditTextProductPrice);
         switch (view.getId()) {
 
-            case R.id.decreaseQtyBtn:
+            case R.id.layout_btn_decrease_qty:
                 decreaseQtyByOne();
                 break;
 
-            case R.id.increaseQtyBtn:
+            case R.id.layout_btn_increase_qty:
                 increaseQtyByOne();
                 break;
 
@@ -114,19 +113,19 @@ public class SupplierPurchaseActivity extends BaseActivity implements AdapterVie
                 DatePickerClass.showDatePicker(this, DatePickerClass.ORDER_DATE, this);
                 break;
 
-            case R.id.saveBtnPurchase:
+            case R.id.layout_btn_save:
                 createOrder();
                 break;
 
-            case R.id.qtyTextView:
-                QtyPickerDialog qtyPickerDialog = new QtyPickerDialog(Integer.parseInt(mTextViewQty.getText().toString()), this, new EventCallback() {
+            case R.id.layout_tv_qty:
+                QuantityDialog quantityDialog = new QuantityDialog(Integer.parseInt(mTextViewQty.getText().toString()), mBaseActivity, new EventCallback() {
                     @Override
                     public void onEvent(int pOperationType, Object pObject) {
                         mProductQty = (int) pObject;
                         updateQtyTextView();
                     }
                 });
-                qtyPickerDialog.show();
+                quantityDialog.show();
                 break;
         }
     }
@@ -136,7 +135,7 @@ public class SupplierPurchaseActivity extends BaseActivity implements AdapterVie
 
         switch (adapterView.getId()) {
 
-            case R.id.mSpinnerUnitListPurchase:
+            case R.id.layout_spinner_unit:
                 mUnit = mUnitList.get(position);
                 break;
 
@@ -152,7 +151,7 @@ public class SupplierPurchaseActivity extends BaseActivity implements AdapterVie
                 mDaamiPriceInPercentage = Float.parseFloat((String) adapterView.getSelectedItem());
                 break;
 
-            case R.id.mSpinnerKgPrice:
+            case R.id.layout_spinner_kg_price:
                 mProductPriceAccTo40Kg = Float.parseFloat((String) adapterView.getSelectedItem()) == 40;
                 break;
         }
@@ -164,7 +163,7 @@ public class SupplierPurchaseActivity extends BaseActivity implements AdapterVie
     }
 
     @Override
-    public void onDateSelectedCallBack(int id, Date pDate, String pDateAppShownFormat, long pDateMilliSeconds, int pMaxDaysInSelectedMonth) {
+    public void onDateSelectedCallBack(int id, Date pDate, String pDateAppShownFormat, int pMaxDaysInSelectedMonth) {
         mDatePurchase = pDate;
         mButtonPurchaseDate.setText(pDateAppShownFormat);
     }
@@ -179,8 +178,8 @@ public class SupplierPurchaseActivity extends BaseActivity implements AdapterVie
         if (mDatePurchase == null
                 || mProduct == null
                 || mUnit == null
-                || !Utils.isFloat(mEditTextProductPrice.getText().toString())
-                || Utils.isEmpty(personName)) {
+                || !Helper.isFloat(mEditTextProductPrice.getText().toString())
+                || Helper.isEmpty(personName)) {
             mBaseActivity.showToast("Provide All Information");
             return;
         }
@@ -210,7 +209,7 @@ public class SupplierPurchaseActivity extends BaseActivity implements AdapterVie
         supplierPurchaseAddRequest.setProductQty(mProductQty);
         supplierPurchaseAddRequest.setPurchaseAmtAcc40Kg(productPriceAccTo40Kg);
         supplierPurchaseAddRequest.setPurchaseAmtAcc100kg(productPriceAccTo100Kg);
-        supplierPurchaseAddRequest.setPurchaseDate(Utils.getDateString(mDatePurchase.getTime(), "yyyy-MM-dd"));
+        supplierPurchaseAddRequest.setPurchaseDate(Helper.getDateString(mDatePurchase.getTime(), "yyyy-MM-dd"));
         supplierPurchaseAddRequest.setSubTotalAmt(purchaseAmt);
         supplierPurchaseAddRequest.setTotalAmount(purchaseAmt + daamiCost + totalLabourCost);
         supplierPurchaseAddRequest.setUnitId(mUnit.getUnitId());

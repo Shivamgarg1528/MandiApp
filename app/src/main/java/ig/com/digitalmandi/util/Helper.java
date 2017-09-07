@@ -19,19 +19,26 @@ import android.os.Environment;
 import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.URLUtil;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,7 +60,9 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import ig.com.digitalmandi.BuildConfig;
+import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
+import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 import okhttp3.ResponseBody;
 
 
@@ -61,7 +70,7 @@ import okhttp3.ResponseBody;
  * @author shivam.garg
  */
 
-public class Utils {
+public class Helper {
 
     public static void vibrate(Context pContext) {
         Vibrator vb = (Vibrator) pContext.getSystemService(Context.VIBRATOR_SERVICE);
@@ -86,7 +95,7 @@ public class Utils {
     public static void setImage(Context mContext, String url, View imageVew) {
         try {
             if (URLUtil.isValidUrl(url)) {
-                Picasso.with(mContext).load(url).into((ImageView) imageVew);
+                Glide.with(mContext).load(url).into((ImageView) imageVew);
             }
         } catch (Exception ignored) {
         }
@@ -672,7 +681,7 @@ public class Utils {
             if (!dir.isDirectory()) {
                 boolean isSuccess = dir.mkdir();
                 if (BuildConfig.DEBUG) {
-                    Log.d("Utils", "Dir Created ? true/false =" + isSuccess);
+                    Log.d("Helper", "Dir Created ? true/false =" + isSuccess);
                 }
             }
             String fileName = (pOrderOrPaymentBill ? AppConstant.ORDER_BILL_PREFIX : AppConstant.PAYMENT_BILL_PREFIX).concat(pPdfId).concat(".pdf");
@@ -680,7 +689,7 @@ public class Utils {
             if (!pdfFile.isFile()) {
                 boolean isSuccess = pdfFile.createNewFile();
                 if (BuildConfig.DEBUG) {
-                    Log.d("Utils", "File Created ? true/false =" + isSuccess);
+                    Log.d("Helper", "File Created ? true/false =" + isSuccess);
                 }
             }
             byte[] bytes = new byte[4096];
@@ -724,7 +733,7 @@ public class Utils {
                 .concat("/")
                 .concat((pOrderOrPaymentBill ? AppConstant.ORDER_BILL_PREFIX : AppConstant.PAYMENT_BILL_PREFIX).concat(pPdfId).concat(".pdf"));
         if (BuildConfig.DEBUG) {
-            Log.d("Utils", filePath);
+            Log.d("Helper", filePath);
         }
         File file = new File(filePath);
         Uri uri = Uri.fromFile(file);
@@ -735,6 +744,88 @@ public class Utils {
         } catch (ActivityNotFoundException e) {
             Toast.makeText(pBaseActivity, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public static void changeSellerOrderResponse(List<SellerOrderResponse.Order> pDataList) {
+        for (int index = pDataList.size() - 1; index >= 0; index--) {
+            pDataList.get(index).setSumOfProductInKg(pDataList.get(index).getSumOfProductInKg());
+        }
+    }
+
+    public static boolean isEmailAddressOk(String pEmailAddress, BaseActivity pBaseActivity) {
+        if (isEmpty(pEmailAddress) || !Patterns.EMAIL_ADDRESS.matcher(pEmailAddress).matches()) {
+            pBaseActivity.showToast(pBaseActivity.getString(R.string.enter_valid_email_address));
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isPasswordOk(String pPassword, BaseActivity pBaseActivity) {
+        if (isEmpty(pPassword) || pPassword.length() < 6) {
+            pBaseActivity.showToast(pBaseActivity.getString(R.string.string_password_at_least_six_char_long));
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isTinNoOk(String pTinNumber, BaseActivity pBaseActivity) {
+        if (isEmpty(pTinNumber)) {
+            pBaseActivity.showToast(pBaseActivity.getString(R.string.string_enter_tin_number));
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isFirmOk(String pFirmName, BaseActivity pBaseActivity) {
+        if (isEmpty(pFirmName)) {
+            pBaseActivity.showToast(pBaseActivity.getString(R.string.string_please_enter_firm_name));
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isPhoneNoOk(String pPhoneNo, BaseActivity pBaseActivity) {
+        if (isEmpty(pPhoneNo) || pPhoneNo.length() != 10) {
+            pBaseActivity.showToast(pBaseActivity.getString(R.string.string_enter_valid_phone_number));
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isPersonNameOk(String pName, BaseActivity pBaseActivity) {
+        if (isEmpty(pName) || pName.length() < 3) {
+            pBaseActivity.showToast(pBaseActivity.getString(R.string.string_name_at_least_three_char_long));
+            return false;
+        }
+        return true;
+    }
+
+    public static SpinnerAdapter getAdapter(final BaseActivity pBaseActivity, int pStringArrayId) {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter(pBaseActivity, android.R.layout.simple_spinner_item, pBaseActivity.getResources().getStringArray(pStringArrayId)) {
+            @NonNull
+            @Override
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                ((TextView) view.findViewById(android.R.id.text1)).setTextColor(ContextCompat.getColor(pBaseActivity, R.color.colorWhite));
+                return view;
+            }
+        };
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        return arrayAdapter;
+    }
+
+    public static SpinnerAdapter getAdapter(final BaseActivity pBaseActivity, String[] pStringArray) {
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter(pBaseActivity, android.R.layout.simple_spinner_item, pStringArray) {
+            @NonNull
+            @Override
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                ((TextView) view.findViewById(android.R.id.text1)).setTextColor(ContextCompat.getColor(pBaseActivity, R.color.colorWhite));
+                return view;
+            }
+        };
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        return arrayAdapter;
     }
 }
 

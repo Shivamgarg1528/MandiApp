@@ -17,8 +17,8 @@ import ig.com.digitalmandi.dialog.CustomerDialog;
 import ig.com.digitalmandi.fragment.ListBaseFragment;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.AppSharedPrefs;
+import ig.com.digitalmandi.util.Helper;
 import ig.com.digitalmandi.util.ModifyPreference;
-import ig.com.digitalmandi.util.Utils;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class CustomerFragment extends ListBaseFragment<SellerCustomerList.Customer> implements EasyPermissions.PermissionCallbacks {
@@ -97,7 +97,7 @@ public class CustomerFragment extends ListBaseFragment<SellerCustomerList.Custom
             case AppConstant.OPERATION_CUSTOMER_ORDERS: {
                 Intent intent = new Intent(mBaseActivity, CustomerOrdersActivity.class);
                 intent.putExtra(AppConstant.KEY_OBJECT, pCustomer);
-                Utils.onActivityStart(mBaseActivity, false, null, intent, null);
+                Helper.onActivityStart(mBaseActivity, false, null, intent, null);
                 break;
             }
 

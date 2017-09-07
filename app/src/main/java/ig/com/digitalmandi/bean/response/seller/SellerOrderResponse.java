@@ -3,6 +3,7 @@ package ig.com.digitalmandi.bean.response.seller;
 import java.io.Serializable;
 
 import ig.com.digitalmandi.bean.AbstractResponse;
+import ig.com.digitalmandi.util.Helper;
 
 public class SellerOrderResponse extends AbstractResponse<SellerOrderResponse.Order> {
 
@@ -29,40 +30,34 @@ public class SellerOrderResponse extends AbstractResponse<SellerOrderResponse.Or
         private String createdOn;
         private String updatedOn;
         private String sellerId;
-        private String stockQty         = "0";
-        private String localSoldQty     = "0";
-        private String sumOfProductInKg = "0";
+        private String sumOfProductInKg;
+
+        // Locally Added
+        private String stockQtyInKg = "0";
+        private String localSoldQtyInKg = "0";
+
 
         public String getSumOfProductInKg() {
-            if(sumOfProductInKg == null)
-                sumOfProductInKg = "0";
             return sumOfProductInKg;
         }
 
         public void setSumOfProductInKg(String sumOfProductInKg) {
-            if (sumOfProductInKg == null)
+            if (Helper.isEmpty(sumOfProductInKg)) {
                 this.sumOfProductInKg = "0";
-            this.stockQty = String.valueOf(Float.parseFloat(productInKg) - Float.parseFloat(this.sumOfProductInKg));
+            }
+            this.stockQtyInKg = String.valueOf(Float.parseFloat(productInKg) - Float.parseFloat(this.sumOfProductInKg));
         }
 
-        public String onGetLeftQty() {
-            return String.valueOf(Float.parseFloat(stockQty) - Float.parseFloat(localSoldQty));
+        public String getLeftQty() {
+            return String.valueOf(Float.parseFloat(stockQtyInKg) - Float.parseFloat(localSoldQtyInKg));
         }
 
-        public String getStockQty() {
-            return stockQty;
+        public String getLocalSoldQtyInKg() {
+            return localSoldQtyInKg;
         }
 
-        public void setStockQty(String stockQty) {
-            this.stockQty = stockQty;
-        }
-
-        public String getLocalSoldQty() {
-            return localSoldQty;
-        }
-
-        public void setLocalSoldQty(String localSoldQty) {
-            this.localSoldQty = localSoldQty;
+        public void setLocalSoldQtyInKg(String localSoldQtyInKg) {
+            this.localSoldQtyInKg = localSoldQtyInKg;
         }
 
         public String getPurchaseId() {

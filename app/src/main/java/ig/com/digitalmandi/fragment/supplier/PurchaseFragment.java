@@ -1,6 +1,5 @@
 package ig.com.digitalmandi.fragment.supplier;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,8 +36,8 @@ import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.AppConstant;
+import ig.com.digitalmandi.util.Helper;
 import ig.com.digitalmandi.util.LoadMoreClass;
-import ig.com.digitalmandi.util.Utils;
 
 public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order> implements SearchView.OnQueryTextListener, DatePickerClass.OnDateSelected, View.OnClickListener, EventCallback<SellerOrderResponse.Order> {
 
@@ -104,12 +103,12 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
         }
         SellerOrdersRequest sellerOrdersRequest = new SellerOrdersRequest();
         if (mDateEnd != null)
-            sellerOrdersRequest.setEndDate(Utils.getDateString(mDateEnd.getTime(), AppConstant.API_DATE_FORMAT));
+            sellerOrdersRequest.setEndDate(Helper.getDateString(mDateEnd.getTime(), AppConstant.API_DATE_FORMAT));
         else
             sellerOrdersRequest.setEndDate("");
 
         if (mDateStart != null)
-            sellerOrdersRequest.setStartDate(Utils.getDateString(mDateStart.getTime(), AppConstant.API_DATE_FORMAT));
+            sellerOrdersRequest.setStartDate(Helper.getDateString(mDateStart.getTime(), AppConstant.API_DATE_FORMAT));
         else
             sellerOrdersRequest.setStartDate("");
 
@@ -160,18 +159,6 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case AppConstant.REQUEST_CODE_PLACE_NEW_ORDER:
-                    fetchData(true);
-                    break;
-            }
-        }
-    }
-
-    @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
     }
@@ -217,7 +204,7 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
     }
 
     @Override
-    public void onDateSelectedCallBack(int id, Date pDate, String pDateAppShownFormat, long pDateMilliSeconds, int pMaxDaysInSelectedMonth) {
+    public void onDateSelectedCallBack(int id, Date pDate, String pDateAppShownFormat, int pMaxDaysInSelectedMonth) {
         switch (id) {
             case DatePickerClass.START_DATE:
                 mDateStart = pDate;
@@ -297,7 +284,7 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
 
                 Intent intent = new Intent(mBaseActivity, OrderDetailsActivity.class);
                 intent.putExtra(AppConstant.KEY_OBJECT, orderDetailsRequest);
-                Utils.onActivityStart(mBaseActivity, false, null, intent, null);
+                Helper.onActivityStart(mBaseActivity, false, null, intent, null);
                 break;
             }
             case AppConstant.OPERATION_ORDER_PAYMENT_DETAILS: {
@@ -310,7 +297,7 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
 
                 Intent intent = new Intent(mBaseActivity, PaymentsActivity.class);
                 intent.putExtra(AppConstant.KEY_OBJECT, paymentsRequest);
-                Utils.onActivityStart(mBaseActivity, false, null, intent, null);
+                Helper.onActivityStart(mBaseActivity, false, null, intent, null);
                 break;
             }
         }

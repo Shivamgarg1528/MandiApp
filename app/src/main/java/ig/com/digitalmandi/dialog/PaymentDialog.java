@@ -23,7 +23,7 @@ import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.AppConstant;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateSelected, View.OnClickListener, TextWatcher {
 
@@ -54,7 +54,7 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
         this.mOrderIdStr = pOrderIdStr;
         this.mPaymentFlag = pPaymentFlag;
         this.mEventCallBack = pEventCallBack;
-        this.mDatePurchase = Utils.onConvertStringToDate(pOrderDateStr, AppConstant.API_DATE_FORMAT);
+        this.mDatePurchase = Helper.onConvertStringToDate(pOrderDateStr, AppConstant.API_DATE_FORMAT);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
 
     @Override
     public void onClick(View view) {
-        Utils.onHideSoftKeyBoard(mBaseActivity, mEditTextPaymentAmt);
+        Helper.onHideSoftKeyBoard(mBaseActivity, mEditTextPaymentAmt);
         switch (view.getId()) {
 
             case R.id.dialog_purchase_payment_tv_payment_date:
@@ -96,7 +96,7 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
     }
 
     @Override
-    public void onDateSelectedCallBack(int id, Date pDate, String pDateAppShownFormat, long pDateMilliSeconds, int pMaxDaysInSelectedMonth) {
+    public void onDateSelectedCallBack(int id, Date pDate, String pDateAppShownFormat, int pMaxDaysInSelectedMonth) {
         mDatePayment = null;
         if (pDate.before(mDatePurchase)) {
             mBaseActivity.showToast(mBaseActivity.getString(R.string.string_invalid_payment_date));
@@ -129,7 +129,7 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
         String payAmountStr = mEditTextPaymentAmt.getText().toString();
         String interestRateStr = mEditTextInterestRate.getText().toString();
 
-        if (Utils.isEmpty(payAmountStr) || Utils.isEmpty(interestRateStr)) {
+        if (Helper.isEmpty(payAmountStr) || Helper.isEmpty(interestRateStr)) {
             mEditTextInterestAmt.setText("0.00");
         } else {
             float payAmount = 0;
@@ -145,12 +145,12 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
             if (mInterestDays > 0) {
                 interestAmount = ((payAmount * rateOfInterest * mInterestDays) / (mDaysInMonth * 100.f));
             }
-            mEditTextInterestAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(interestAmount)));
+            mEditTextInterestAmt.setText(Helper.formatStringUpTo2Precision(String.valueOf(interestAmount)));
         }
     }
 
     private void findInterestDays() {
-        int numberOfDays = Utils.getNumberOfDaysBetweenDate(mDatePayment, mDatePurchase);
+        int numberOfDays = Helper.getNumberOfDaysBetweenDate(mDatePayment, mDatePurchase);
         mInterestDays = numberOfDays - OFFERS_DAYS;
         if (mInterestDays <= 0) {
             mTextViewInterestDays.setText(R.string.string_no_interest_days);
@@ -167,11 +167,11 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
         String interestRateStr = mEditTextInterestRate.getText().toString();
         String interestAmtStr = mEditTextInterestAmt.getText().toString();
 
-        if (Utils.isEmpty(payAmountStr)) {
+        if (Helper.isEmpty(payAmountStr)) {
             mBaseActivity.showToast(mBaseActivity.getString(R.string.string_please_enter_payment_amount));
-        } else if (Utils.isEmpty(interestRateStr)) {
+        } else if (Helper.isEmpty(interestRateStr)) {
             mBaseActivity.showToast(mBaseActivity.getString(R.string.string_interest_rate_can_not_be_empty));
-        } else if (Utils.isEmpty(interestAmtStr)) {
+        } else if (Helper.isEmpty(interestAmtStr)) {
             mBaseActivity.showToast(mBaseActivity.getString(R.string.string_interest_amount_can_not_be_empty));
         } else {
             float payAmount = Float.parseFloat(payAmountStr);
@@ -180,13 +180,13 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
 
             if (mInterestDays > 0) {
                 interestAmount = ((payAmount * rateOfInterest * mInterestDays) / (mDaysInMonth * 100.f));
-                mEditTextInterestAmt.setText(Utils.formatStringUpTo2Precision(String.valueOf(interestAmount)));
+                mEditTextInterestAmt.setText(Helper.formatStringUpTo2Precision(String.valueOf(interestAmount)));
             }
 
             boolean isInterestPaid = ((CheckBox) findViewById(R.id.dialog_purchase_payment_cb_interest_paid)).isChecked();
 
             final PaymentRequest paymentRequest = new PaymentRequest();
-            paymentRequest.setDate(Utils.getDateString(mDatePayment.getTime(), AppConstant.API_DATE_FORMAT));
+            paymentRequest.setDate(Helper.getDateString(mDatePayment.getTime(), AppConstant.API_DATE_FORMAT));
             paymentRequest.setFlag(mPaymentFlag);
             paymentRequest.setId(mOrderIdStr);
             paymentRequest.setAmount(payAmountStr);
@@ -195,7 +195,7 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
             paymentRequest.setInterestPaid(isInterestPaid ? AppConstant.INTEREST_PAID : AppConstant.INTEREST_UNPAID);
             paymentRequest.setPaymentType((String) mSpinnerPaymentType.getSelectedItem());
 
-            String paidAmt = Utils.formatStringUpTo2Precision(String.valueOf(isInterestPaid ? payAmount + interestAmount : payAmount));
+            String paidAmt = Helper.formatStringUpTo2Precision(String.valueOf(isInterestPaid ? payAmount + interestAmount : payAmount));
             String messageWithAmount = mBaseActivity.getString(R.string.string_continue_for_payment, paidAmt);
 
             MyAlertDialog.showAlertDialog(mBaseActivity, messageWithAmount, true, new OnClickListener() {

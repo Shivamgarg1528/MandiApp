@@ -10,14 +10,12 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 public class SellerOrderAdapter extends RecyclerView.Adapter<SellerOrderAdapter.ViewHolder> {
 
@@ -42,20 +40,20 @@ public class SellerOrderAdapter extends RecyclerView.Adapter<SellerOrderAdapter.
         SellerOrderResponse.Order data = mDataList.get(position);
 
         holder.rowPurchasePersonName.setText(data.getNameOfPerson());
-        holder.rowPurchaseDate.setText(Utils.onConvertDateStringToOtherStringFormat(data.getPurchaseDate()));
+        holder.rowPurchaseDate.setText(Helper.onConvertDateStringToOtherStringFormat(data.getPurchaseDate()));
 
         holder.rowPurchaseProductName.setText(data.getProductName());
-        holder.rowPurchaseProductUnit.setText(Utils.formatStringUpTo2Precision(data.getUnitValue()));
+        holder.rowPurchaseProductUnit.setText(Helper.formatStringUpTo2Precision(data.getUnitValue()));
         holder.rowPurchaseProductQty.setText(data.getProductQty());
-        holder.rowPurchaseProductPrice.setText(Utils.formatStringUpTo2Precision(data.getPurchaseAmtAcc100Kg()));
+        holder.rowPurchaseProductPrice.setText(Helper.formatStringUpTo2Precision(data.getPurchaseAmtAcc100Kg()));
 
-        holder.rowPurchaseSubTotal.setText(Utils.formatStringUpTo2Precision(data.getSubTotalAmt()));
-        holder.rowPurchaseDaamiValue.setText(Utils.formatStringUpTo2Precision(data.getDaamiCost()));
-        holder.rowPurchaseLabourValue.setText(Utils.formatStringUpTo2Precision(data.getLabourCost()));
-        holder.rowPurchaseTotalValue.setText(Utils.formatStringUpTo2Precision(data.getTotalAmount()));
+        holder.rowPurchaseSubTotal.setText(Helper.formatStringUpTo2Precision(data.getSubTotalAmt()));
+        holder.rowPurchaseDaamiValue.setText(Helper.formatStringUpTo2Precision(data.getDaamiCost()));
+        holder.rowPurchaseLabourValue.setText(Helper.formatStringUpTo2Precision(data.getLabourCost()));
+        holder.rowPurchaseTotalValue.setText(Helper.formatStringUpTo2Precision(data.getTotalAmount()));
 
-        holder.rowPurchaseQtyInHand.setText("Kg (" + Utils.formatStringUpTo2Precision(data.getProductInKg()) + ")");
-        holder.rowPurchaseQtySold.setText("Kg (" + Utils.formatStringUpTo2Precision(data.getSumOfProductInKg()) + ")");
+        holder.rowPurchaseQtyInHand.setText("Kg (" + Helper.formatStringUpTo2Precision(data.getProductInKg()) + ")");
+        holder.rowPurchaseQtySold.setText("Kg (" + Helper.formatStringUpTo2Precision(data.getSumOfProductInKg()) + ")");
 
         holder.parentView.setOnLongClickListener(new View.OnLongClickListener() {
 
@@ -103,36 +101,40 @@ public class SellerOrderAdapter extends RecyclerView.Adapter<SellerOrderAdapter.
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.rowPurchasePersonName)
+
+
         AppCompatTextView rowPurchasePersonName;
-        @BindView(R.id.rowPurchaseDate)
         AppCompatTextView rowPurchaseDate;
-        @BindView(R.id.rowPurchaseProductName)
         AppCompatTextView rowPurchaseProductName;
-        @BindView(R.id.rowPurchaseProductQty)
         AppCompatTextView rowPurchaseProductQty;
-        @BindView(R.id.rowPurchaseProductPrice)
         AppCompatTextView rowPurchaseProductPrice;
-        @BindView(R.id.rowPurchaseDaamiValue)
         AppCompatTextView rowPurchaseDaamiValue;
-        @BindView(R.id.rowPurchaseLabourValue)
         AppCompatTextView rowPurchaseLabourValue;
-        @BindView(R.id.rowPurchaseTotalValue)
         AppCompatTextView rowPurchaseTotalValue;
-        @BindView(R.id.rowPurchaseQtyInHand)
         AppCompatTextView rowPurchaseQtyInHand;
-        @BindView(R.id.rowPurchaseQtySold)
         AppCompatTextView rowPurchaseQtySold;
-        @BindView(R.id.rowPurchaseProductUnit)
         AppCompatTextView rowPurchaseProductUnit;
-        @BindView(R.id.rowPurchaseSubTotal)
         AppCompatTextView rowPurchaseSubTotal;
         View parentView;
-
         public ViewHolder(View itemView) {
             super(itemView);
             parentView = itemView;
-            ButterKnife.bind(this, itemView);
+            findView(itemView);
+        }
+
+        private void findView(View itemView) {
+            rowPurchasePersonName = (AppCompatTextView) itemView.findViewById(R.id.rowPurchasePersonName);
+            rowPurchaseDate = (AppCompatTextView) itemView.findViewById(R.id.rowPurchaseDate);
+            rowPurchaseProductName = (AppCompatTextView) itemView.findViewById(R.id.rowPurchaseProductName);
+            rowPurchaseProductQty = (AppCompatTextView) itemView.findViewById(R.id.rowPurchaseProductQty);
+            rowPurchaseProductPrice = (AppCompatTextView) itemView.findViewById(R.id.rowPurchaseProductPrice);
+            rowPurchaseDaamiValue = (AppCompatTextView) itemView.findViewById(R.id.rowPurchaseDaamiValue);
+            rowPurchaseLabourValue = (AppCompatTextView) itemView.findViewById(R.id.rowPurchaseLabourValue);
+            rowPurchaseTotalValue = (AppCompatTextView) itemView.findViewById(R.id.rowPurchaseTotalValue);
+            rowPurchaseQtyInHand = (AppCompatTextView) itemView.findViewById(R.id.rowPurchaseQtyInHand);
+            rowPurchaseQtySold = (AppCompatTextView) itemView.findViewById(R.id.rowPurchaseQtySold);
+            rowPurchaseProductUnit = (AppCompatTextView) itemView.findViewById(R.id.rowPurchaseProductUnit);
+            rowPurchaseSubTotal = (AppCompatTextView) itemView.findViewById(R.id.rowPurchaseSubTotal);
         }
     }
 }

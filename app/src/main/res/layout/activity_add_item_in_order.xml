@@ -7,29 +7,29 @@
 
     <include layout="@layout/layout_common_top_bar" />
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#F1F1F1"
             android:orientation="vertical">
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true" />
+                android:background="@color/colorPrimary" />
 
             <android.support.v7.widget.AppCompatTextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="04dp"
-                android:text="Items"
+                android:padding="6dp"
+                android:text="@string/string_stock_items"
                 android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
-                android:textStyle="italic" />
+                android:textStyle="italic|bold" />
 
             <View
                 android:layout_width="match_parent"
@@ -37,21 +37,16 @@
                 android:background="@color/colorPrimary" />
 
             <FrameLayout
-                android:id="@+id/mFrameLayoutParent"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="#F1F1F1">
+                android:layout_height="200dp">
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerViewItems"
+                    android:id="@+id/layout_activity_add_item_rv_items"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager">
-                </android.support.v7.widget.RecyclerView>
+                    android:layout_height="match_parent" />
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/emptyTextViewItems"
+                    android:id="@+id/layout_activity_add_item_tv_empty_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -62,15 +57,19 @@
 
             </FrameLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
 
             <android.support.v7.widget.AppCompatTextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="04dp"
-                android:text="Cart Items"
+                android:padding="6dp"
+                android:text="@string/string_cart_items"
                 android:textColor="@color/colorPrimary"
                 android:textSize="15sp"
-                android:textStyle="italic" />
+                android:textStyle="italic|bold" />
 
             <View
                 android:layout_width="match_parent"
@@ -80,89 +79,109 @@
             <include
                 layout="@layout/layout_common_list"
                 android:layout_width="match_parent"
-                android:layout_height="230dp" />
-
-
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="04dp"
-                android:text="Details"
-                android:textColor="@color/colorPrimary"
-                android:textSize="15sp"
-                android:textStyle="italic" />
+                android:layout_height="200dp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorPrimary" />
 
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="@string/string_details"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:textStyle="italic|bold" />
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/dialog_purchase_payment_tv_payment_date"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="07dp"
-                android:background="@drawable/selector_blue_button"
-                android:gravity="center"
-                android:text="Order Date"
-                android:textColor="@drawable/selector_blue_button_text"
-                android:textSize="20sp" />
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="04dp"
+                android:layout_margin="6dp"
                 android:background="@color/colorPrimary"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="8dp">
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="05dp"
-                    android:text="Expenses (%)"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="15sp" />
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/dialog_purchase_payment_tv_payment_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/selector_white_button"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:text="@string/string_order_date"
+                    android:textColor="@drawable/selector_white_button_text"
+                    android:textSize="22sp" />
 
-                <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/mSpinnerExpenses"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    app:backgroundTint="@color/colorWhite"></android.support.v7.widget.AppCompatSpinner>
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Bardana Cost"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="15sp" />
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/string_expenses"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
 
-                <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/mSpinnerBardana"
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/mSpinnerExpenses"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        app:backgroundTint="@color/colorWhite" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    app:backgroundTint="@color/colorWhite"></android.support.v7.widget.AppCompatSpinner>
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Labour Cost"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="15sp" />
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/string_bardana_cost"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
 
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/mSpinnerBardana"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        app:backgroundTint="@color/colorWhite" />
+                </LinearLayout>
 
-                <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/mSpinnerLabour"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    app:backgroundTint="@color/colorWhite"></android.support.v7.widget.AppCompatSpinner>
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/string_labour_cost"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="15sp" />
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/mSpinnerLabour"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        app:backgroundTint="@color/colorWhite" />
+                </LinearLayout>
+
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -174,7 +193,7 @@
                         android:id="@+id/mEditTextVechileRent100Kg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Quintal Cost"
+                        android:hint="@string/string_quintal_cost"
                         android:inputType="numberDecimal"
                         android:maxLength="@integer/priceValueLimit"
                         android:maxLines="1"
@@ -194,7 +213,7 @@
                         android:id="@+id/mEditTextDriverName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Driver Name"
+                        android:hint="@string/string_driver_name"
                         android:inputType="textPersonName"
                         android:maxLength="20"
                         android:textColor="@color/colorWhite"
@@ -211,7 +230,7 @@
                         android:id="@+id/mEditTextDriverPhoneNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Driver Phone No"
+                        android:hint="@string/string_driver_phone_no"
                         android:inputType="phone"
                         android:maxLength="10"
                         android:textColor="@color/colorWhite"
@@ -228,7 +247,7 @@
                         android:id="@+id/mEditTextDriverVehicleNo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Vehicle No"
+                        android:hint="@string/string_vehicle_no"
                         android:imeOptions="actionDone"
                         android:inputType="textCapCharacters"
                         android:maxLength="15"
@@ -238,12 +257,10 @@
                 </android.support.design.widget.TextInputLayout>
 
 
-
-
                 <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="03dp">
+                    android:layout_margin="6dp">
 
                     <TableRow
                         android:layout_width="match_parent"
@@ -256,7 +273,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".7"
-                            android:text="SubTotal Amount"
+                            android:text="@string/string_sub_total"
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
 
@@ -265,8 +282,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".3"
-                            android:gravity="center|right"
-                            android:text="0.00"
+                            android:gravity="center|end"
+
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
                     </TableRow>
@@ -282,7 +299,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".5"
-                            android:text="Expenses"
+                            android:text="@string/string_expenses"
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
 
@@ -291,8 +308,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".5"
-                            android:gravity="center|right"
-                            android:text="0.00"
+                            android:gravity="center|end"
+
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
                     </TableRow>
@@ -308,7 +325,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".5"
-                            android:text="Labour Amount"
+                            android:text="@string/string_labour_cost"
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
 
@@ -317,8 +334,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".5"
-                            android:gravity="center|right"
-                            android:text="0.00"
+                            android:gravity="center|end"
+
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
                     </TableRow>
@@ -334,7 +351,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".5"
-                            android:text="Bardaana Amount"
+                            android:text="@string/string_bardana_cost"
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
 
@@ -343,8 +360,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".5"
-                            android:gravity="center|right"
-                            android:text="0.00"
+                            android:gravity="center|end"
+
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
                     </TableRow>
@@ -360,7 +377,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".7"
-                            android:text="Total Amount"
+                            android:text="@string/string_total_amount"
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
 
@@ -369,8 +386,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".3"
-                            android:gravity="center|right"
-                            android:text="0.00"
+                            android:gravity="center|end"
+
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
                     </TableRow>
@@ -386,7 +403,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".7"
-                            android:text="Vehicle Amount"
+                            android:text="@string/string_vehicle_cost"
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
 
@@ -395,8 +412,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".3"
-                            android:gravity="center|right"
-                            android:text="0.00"
+                            android:gravity="center|end"
+
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
                     </TableRow>
@@ -412,7 +429,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".7"
-                            android:text="Total Load (Q)"
+                            android:text="@string/string_total_load_q"
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
 
@@ -421,8 +438,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".3"
-                            android:gravity="center|right"
-                            android:text="0.00"
+                            android:gravity="center|end"
+
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
                     </TableRow>
@@ -438,7 +455,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".7"
-                            android:text="Total Nag"
+                            android:text="@string/string_total_nag"
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
 
@@ -447,39 +464,27 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".3"
-                            android:gravity="center|right"
-                            android:text="0.00"
+                            android:gravity="center|end"
+
                             android:textColor="@color/colorWhite"
                             android:textSize="15sp" />
                     </TableRow>
 
                 </TableLayout>
 
-
-                <LinearLayout
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/dialog_purchase_payment_tv_payment"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:gravity="right"
-                    android:orientation="horizontal"
-                    android:padding="03dp"
-                    android:weightSum="1">
+                    android:background="@drawable/selector_white_button"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:text="@string/string_place_order"
+                    android:textColor="@drawable/selector_white_button_text"
+                    android:textSize="22sp" />
 
-
-                    <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/dialog_purchase_payment_tv_payment"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight=".6"
-                        android:background="@drawable/selector_white_button"
-                        android:gravity="center"
-                        android:padding="05dp"
-                        android:text="Place Order"
-                        android:textColor="@drawable/selector_white_button_text"
-                        android:textSize="22sp" />
-
-                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

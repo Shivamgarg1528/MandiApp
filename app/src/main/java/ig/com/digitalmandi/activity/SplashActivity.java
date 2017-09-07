@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.bean.response.LoginResponse;
 import ig.com.digitalmandi.util.AppSharedPrefs;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 public class SplashActivity extends BaseActivity implements Runnable {
 
@@ -35,8 +35,8 @@ public class SplashActivity extends BaseActivity implements Runnable {
     public void run() {
         LoginResponse.LoginUser loginUserModel = AppSharedPrefs.getInstance(mBaseActivity).getLoginUserModel();
         if (loginUserModel != null)
-            Utils.onActivityStart(mBaseActivity, true, null, null, SyncActivity.class);
+            Helper.onActivityStart(mBaseActivity, true, null, null, SyncActivity.class);
         else
-            Utils.onActivityStart(mBaseActivity, true, null, null, LoginActivity.class);
+            Helper.onActivityStart(mBaseActivity, true, null, null, LoginActivity.class);
     }
 }

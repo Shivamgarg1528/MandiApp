@@ -73,7 +73,7 @@
                         android:textSize="15sp" />
 
                     <android.support.v7.widget.AppCompatSpinner
-                        android:id="@+id/mSpinnerUnitListPurchase"
+                        android:id="@+id/layout_spinner_unit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
@@ -99,7 +99,7 @@
                         android:weightSum="100">
 
                         <android.support.v7.widget.AppCompatImageView
-                            android:id="@+id/decreaseQtyBtn"
+                            android:id="@+id/layout_btn_decrease_qty"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="25"
@@ -112,7 +112,7 @@
                             android:background="@color/colorWhite" />
 
                         <android.support.v7.widget.AppCompatTextView
-                            android:id="@+id/qtyTextView"
+                            android:id="@+id/layout_tv_qty"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="48"
@@ -128,7 +128,7 @@
                             android:background="@color/colorWhite" />
 
                         <android.support.v7.widget.AppCompatImageView
-                            android:id="@+id/increaseQtyBtn"
+                            android:id="@+id/layout_btn_increase_qty"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="25"
@@ -184,7 +184,7 @@
                             app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
                             <android.support.v7.widget.AppCompatEditText
-                                android:id="@+id/mEditProductPrice"
+                                android:id="@+id/layout_edt_product_price"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Product Price"
@@ -213,10 +213,10 @@
                                 android:textSize="15sp" />
 
                             <android.support.v7.widget.AppCompatSpinner
-                                android:id="@+id/mSpinnerKgPrice"
+                                android:id="@+id/layout_spinner_kg_price"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:backgroundTint="@color/colorWhite"></android.support.v7.widget.AppCompatSpinner>
+                                app:backgroundTint="@color/colorWhite" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -253,7 +253,7 @@
                         android:textSize="23sp" />
 
                     <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/saveBtnPurchase"
+                        android:id="@+id/layout_btn_save"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"

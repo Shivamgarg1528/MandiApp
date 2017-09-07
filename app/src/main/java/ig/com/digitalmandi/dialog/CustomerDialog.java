@@ -11,7 +11,7 @@ import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 
 public class CustomerDialog extends BaseDialog implements View.OnClickListener {
@@ -33,7 +33,7 @@ public class CustomerDialog extends BaseDialog implements View.OnClickListener {
         findViewById(R.id.dialog_layout_customer_info_iv_call).setOnClickListener(this);
 
         View customerImage = findViewById(R.id.dialog_layout_customer_info_iv_customer_image);
-        Utils.setImage(mBaseActivity, "http://via.placeholder.com/350x150", customerImage);
+        Helper.setImage(mBaseActivity, "http://via.placeholder.com/350x150", customerImage);
 
         TextView textViewCustomerName = (TextView) findViewById(R.id.dialog_layout_customer_info_tv_customer_name);
         textViewCustomerName.setText(mCustomer.getUserName() + "\n" + mCustomer.getUserMobileNo());

@@ -14,7 +14,7 @@ import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
-import ig.com.digitalmandi.util.Utils;
+import ig.com.digitalmandi.util.Helper;
 
 public class SupplierCustomerAdapter extends RecyclerView.Adapter<SupplierCustomerAdapter.ViewHolder> {
 
@@ -41,7 +41,7 @@ public class SupplierCustomerAdapter extends RecyclerView.Adapter<SupplierCustom
         holder.mTextViewCustomerFirmName.setText(data.getUserFirmName());
         holder.mTextViewCustomerName.setText(data.getUserName());
 
-        Utils.setImage(mBaseActivity, data.getUserImageUrl(), holder.mTextViewCustomerImage);
+        Helper.setImage(mBaseActivity, data.getUserImageUrl(), holder.mTextViewCustomerImage);
 
         holder.mTextViewCustomerImage.setOnClickListener(new View.OnClickListener() {
 
