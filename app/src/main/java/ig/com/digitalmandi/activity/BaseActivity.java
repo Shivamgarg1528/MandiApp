@@ -1,7 +1,6 @@
 package ig.com.digitalmandi.activity;
 
 import android.app.AlertDialog;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -23,12 +22,10 @@ import retrofit2.Call;
 
 public abstract class BaseActivity<T> extends AppCompatActivity {
 
-    public Resources mResources;
     public Call mApiEnqueueObject;
     protected BaseActivity mBaseActivity;
     protected Toolbar mToolBar;
     protected List<T> mDataList = new ArrayList<>();
-    protected List<T> mBackUpList = new ArrayList<>();
     protected LoginResponse.LoginUser mLoginUser;
     private AlertDialog mProgressDialog;
 
@@ -62,35 +59,10 @@ public abstract class BaseActivity<T> extends AppCompatActivity {
             mApiEnqueueObject.cancel();
     }
 
-    private void onCreateWeakReference(BaseActivity appCompatActivity) {
-        mBaseActivity = new WeakReference<>(appCompatActivity).get();
-        mResources = getResources();
-    }
-
-    /**
-     * we are overriding this method to do our work
-     *
-     * @param savedInstanceState same bundle passed here from child activity
-     * @param layoutId           that you want to render over to screen
-     */
-    protected void onCreate(Bundle savedInstanceState, int layoutId) {
-        super.onCreate(savedInstanceState);
-        onCreateWeakReference(this);
-        //ApplicationClass.getInstance();
-        try {
-            if (layoutId > 0)
-                setContentView(layoutId);
-            mToolBar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(mToolBar);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        onCreateWeakReference(this);
+        mBaseActivity = new WeakReference<>(this).get();
         mLoginUser = AppSharedPrefs.getInstance(mBaseActivity).getLoginUserModel();
     }
 
@@ -105,9 +77,8 @@ public abstract class BaseActivity<T> extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);

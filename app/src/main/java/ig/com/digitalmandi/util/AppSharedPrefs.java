@@ -3,8 +3,6 @@ package ig.com.digitalmandi.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.List;
-
 import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
 import ig.com.digitalmandi.bean.response.LoginResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerProductList;
@@ -22,7 +20,6 @@ public class AppSharedPrefs {
     private static AppSharedPrefs sAppSharedPrefs;
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
-    private List<SellerCustomerList.Customer> sellerCustomerList;
 
     private AppSharedPrefs(Context pContext) {
         mSharedPreferences = pContext.getSharedPreferences("AppPreference", Context.MODE_PRIVATE);
