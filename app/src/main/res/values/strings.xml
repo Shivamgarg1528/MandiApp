@@ -173,12 +173,12 @@
     <string name="string_allow_customer_to_make_a_call">Allow Access To Make Call</string>
     <string name="string_allow_external_storage_access">Allow Access External Storage For Reading And Writing Data</string>
 
-    <!-- Customer Order's Activity-->
+    <!-- Customer Purchase's Activity-->
     <string name="string_no_customer_orders_found_please_add_new_order">No Order Found\nPlease Add New Order</string>
     <string name="string_start_date">Start Date</string>
     <string name="string_end_date">End Date</string>
     <string name="string_reset_filter">Reset Filter</string>
-    <string name="string_driver_mobile">(M)</string>
+
     <string name="string_order_details">Order Details</string>
     <string name="string_bill_print">Bill Print</string>
     <string name="string_sub_total">Sub Total</string>
@@ -199,7 +199,7 @@
     <string name="string_order_deleted_unsuccessfully">Sorry You Can\'t Delete This Order</string>
     <string name="string_continue_to_delete_order">Continue,To Delete This Order!</string>
 
-    <!-- Order Details-->
+    <!-- Purchase Details-->
     <string name="string_order_id_details">Order (%s) Details</string>
     <string name="string_no_customer_order_details_found_please_try_again_later">No Order Details Found\nPlease Try Again Later</string>
     <string name="string_no_customer_payment_found_please_pay_due_amount">No Payment Found\nPlease Pay Due Amount</string>
@@ -231,7 +231,7 @@
     <string name="string_payment_done_successfully">Payment Done SuccessFully</string>
     <string name="string_continue_for_payment">Continue To Pay Rs %s</string>
 
-    <!-- Order Details-->
+    <!-- Purchase Details-->
     <string name="string_name">Name</string>
     <string name="string_unit">Unit</string>
     <string name="string_qty">Qty</string>
@@ -276,5 +276,13 @@
     <string name="string_please_enter_valid_rent">Please Enter Valid Vehicle Rent</string>
     <string name="please_provide_vechile_number">Please Provide Vehicle Number</string>
     <string name="string_continue_to_place_order">Continue, To Place Order !</string>
+
+
+    <string name="string_kg">%s(KG)</string>
+    <string name="string_driver_mobile">(M)</string>
+    <string name="string_qunital">%s(Q)</string>
+    <string name="string_kg_in_hand">(Kg) In-Hand </string>
+    <string name="string_kg_sold">(Kg) Sold </string>
+    <string name="string_daami">Daami</string>
 
 </resources>

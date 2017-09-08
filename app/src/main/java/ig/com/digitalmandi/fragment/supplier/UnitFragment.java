@@ -9,7 +9,7 @@ import java.util.Comparator;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.activity.seller.SellerUnitModifyActivity;
-import ig.com.digitalmandi.adapter.supplier.SupplierUnitAdapter;
+import ig.com.digitalmandi.adapter.supplier.UnitAdapter;
 import ig.com.digitalmandi.bean.request.seller.ItemDeleteRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierUnitModifyRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
@@ -33,7 +33,7 @@ public class UnitFragment extends ListBaseFragment<SellerUnitList.Unit> {
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        return new SupplierUnitAdapter(mDataList, mBaseActivity, this);
+        return new UnitAdapter(mBaseActivity, mDataList, this);
     }
 
     @Override

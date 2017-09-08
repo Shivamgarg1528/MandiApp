@@ -19,15 +19,15 @@ import java.util.List;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.activity.ListBaseActivity;
-import ig.com.digitalmandi.adapter.supplier.CustomerOrderAdapter;
+import ig.com.digitalmandi.adapter.supplier.OrderAdapter;
+import ig.com.digitalmandi.bean.request.seller.CustomerResponse;
 import ig.com.digitalmandi.bean.request.seller.ItemDeleteRequest;
 import ig.com.digitalmandi.bean.request.seller.OrderDetailsRequest;
 import ig.com.digitalmandi.bean.request.seller.PaymentsRequest;
-import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderBillPrintRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderListRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
-import ig.com.digitalmandi.bean.response.seller.OrderResponse;
+import ig.com.digitalmandi.bean.response.seller.OrdersResponse;
 import ig.com.digitalmandi.bean.response.seller.SupplierBillPrintRes;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.dialog.DatePickerClass;
@@ -41,7 +41,7 @@ import ig.com.digitalmandi.util.LoadMoreClass;
 import okhttp3.ResponseBody;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order> implements SearchView.OnQueryTextListener, DatePickerClass.OnDateSelected, EasyPermissions.PermissionCallbacks, View.OnClickListener, EventCallback {
+public class CustomerOrdersActivity extends ListBaseActivity<OrdersResponse.Order> implements SearchView.OnQueryTextListener, DatePickerClass.OnDateSelected, EasyPermissions.PermissionCallbacks, View.OnClickListener, EventCallback {
 
     private int mPageCount = 1;
     private boolean mLoadMore = false;
@@ -49,7 +49,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
     private Date mDateStart;
     private Date mDateEnd;
 
-    private SellerCustomerList.Customer mCustomerObj;
+    private CustomerResponse.Customer mCustomerObj;
     private final LoadMoreClass mLoadMoreClass = new LoadMoreClass() {
 
         @Override
@@ -61,14 +61,14 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
             fetchData(false);
         }
     };
-    private OrderResponse.Order mOrderObj;
+    private OrdersResponse.Order mOrderObj;
     private SearchView mSearchView;
     private AppCompatButton mBtnStartDate;
     private AppCompatButton mBtnEndDate;
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        return new CustomerOrderAdapter(mDataList, this, this);
+        return new OrderAdapter(this, mDataList, this);
     }
 
     @Override
@@ -104,10 +104,10 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
         supplierOrderListRequest.setPage(String.valueOf(mPageCount));
 
         mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().getOrdersOfGivenCustomer(supplierOrderListRequest);
-        mApiEnqueueObject.enqueue(new RetrofitCallBack<OrderResponse>(mBaseActivity, false) {
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<OrdersResponse>(mBaseActivity, false) {
 
             @Override
-            public void onResponse(OrderResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(OrdersResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     if (pResponse.getResult().size() == 0) {
                         pBaseActivity.showToast(getString(R.string.string_no_orders_found));
@@ -127,7 +127,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
 
     @Override
     protected void getIntentData() {
-        mCustomerObj = (SellerCustomerList.Customer) getIntent().getSerializableExtra(AppConstant.KEY_OBJECT);
+        mCustomerObj = (CustomerResponse.Customer) getIntent().getSerializableExtra(AppConstant.KEY_OBJECT);
     }
 
     @Override
@@ -137,10 +137,10 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
         setToolbar(true);
         setTitle(mCustomerObj.getUserName().toUpperCase() + getString(R.string.string_customer_orders));
 
-        mBtnStartDate = (AppCompatButton) findViewById(R.id.activity_orders_btn_start_date);
+        mBtnStartDate = findViewById(R.id.activity_orders_btn_start_date);
         mBtnStartDate.setOnClickListener(this);
 
-        mBtnEndDate = (AppCompatButton) findViewById(R.id.activity_orders_btn_end_date);
+        mBtnEndDate = findViewById(R.id.activity_orders_btn_end_date);
         mBtnEndDate.setOnClickListener(this);
 
         findViewById(R.id.activity_orders_btn_reset_date).setOnClickListener(this);
@@ -188,7 +188,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
     @Override
     public boolean onQueryTextChange(String newText) {
         mDataList.clear();
-        for (OrderResponse.Order order : mBackUpList) {
+        for (OrdersResponse.Order order : mBackUpList) {
             if (order.getOrderDate().contains(newText) || order.getDriverNumber().contains(newText) || order.getOrderId().contains(newText)) {
                 mDataList.add(order);
             }
@@ -261,7 +261,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
 
     @Override
     public void onEvent(int pOperationType, Object pObject) {
-        mOrderObj = (OrderResponse.Order) pObject;
+        mOrderObj = (OrdersResponse.Order) pObject;
 
         switch (pOperationType) {
             case AppConstant.OPERATION_DELETE: {

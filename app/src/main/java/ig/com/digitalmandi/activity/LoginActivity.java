@@ -32,8 +32,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         setTitle(getString(R.string.login_title));
 
-        mEdtTxtEmail = (AppCompatEditText) findViewById(R.id.activity_login_edt_email_address);
-        mEdtTxtPassword = (AppCompatEditText) findViewById(R.id.activity_login_edt_password);
+        mEdtTxtEmail = findViewById(R.id.activity_login_edt_email_address);
+        mEdtTxtPassword = findViewById(R.id.activity_login_edt_password);
 
         findViewById(R.id.activity_login_btn_login).setOnClickListener(this);
         findViewById(R.id.activity_login_btn_forgot_password).setOnClickListener(this);
@@ -61,8 +61,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
 
             case R.id.activity_login_btn_signup:
-                Helper.onHideSoftKeyBoard(mBaseActivity, mEdtTxtEmail);
-                Helper.onHideSoftKeyBoard(mBaseActivity, mEdtTxtPassword);
+                Helper.hideSoftKeyBoard(mBaseActivity, mEdtTxtEmail);
+                Helper.hideSoftKeyBoard(mBaseActivity, mEdtTxtPassword);
                 Helper.onActivityStartForResult(mBaseActivity, false, null, null, SignUpActivity.class, REQUEST_CODE_SIGN_UP);
                 break;
         }
@@ -70,8 +70,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private void appLogin() {
 
-        Helper.onHideSoftKeyBoard(this, mEdtTxtEmail);
-        Helper.onHideSoftKeyBoard(this, mEdtTxtPassword);
+        Helper.hideSoftKeyBoard(this, mEdtTxtEmail);
+        Helper.hideSoftKeyBoard(this, mEdtTxtPassword);
 
         String emailAddress = mEdtTxtEmail.getText().toString();
         String password = mEdtTxtPassword.getText().toString();

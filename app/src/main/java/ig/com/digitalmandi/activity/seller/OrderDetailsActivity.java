@@ -20,7 +20,7 @@ public class OrderDetailsActivity extends ListBaseActivity<OrderDetailResponse.O
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        return new OrderDetailAdapter(mDataList);
+        return new OrderDetailAdapter(this, mDataList, this, false);
     }
 
     @Override

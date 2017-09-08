@@ -16,7 +16,7 @@ import java.util.List;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.request.seller.SupplierPurchaseAddRequest;
-import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
+import ig.com.digitalmandi.bean.response.seller.PurchaseResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerProductList;
 import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
 import ig.com.digitalmandi.callback.EventCallback;
@@ -57,37 +57,37 @@ public class SupplierPurchaseActivity extends BaseActivity implements AdapterVie
         setTitle(getString(R.string.string_add_purchased_product));
         initializedProductAndUnitList();
 
-        mEditTextPersonName = (AppCompatEditText) findViewById(R.id.mEditPersonNamePurchase);
-        mEditTextProductPrice = (AppCompatEditText) findViewById(R.id.layout_edt_product_price);
+        mEditTextPersonName = findViewById(R.id.mEditPersonNamePurchase);
+        mEditTextProductPrice = findViewById(R.id.layout_edt_product_price);
 
-        mTextViewQty = (AppCompatTextView) findViewById(R.id.layout_tv_qty);
+        mTextViewQty = findViewById(R.id.layout_tv_qty);
         mTextViewQty.setOnClickListener(this);
 
-        mButtonPurchaseDate = (AppCompatButton) findViewById(R.id.dialog_purchase_payment_tv_payment_date);
+        mButtonPurchaseDate = findViewById(R.id.dialog_purchase_payment_tv_payment_date);
         mButtonPurchaseDate.setOnClickListener(this);
 
         findViewById(R.id.layout_btn_save).setOnClickListener(this);
         findViewById(R.id.layout_btn_decrease_qty).setOnClickListener(this);
         findViewById(R.id.layout_btn_increase_qty).setOnClickListener(this);
 
-        AppCompatSpinner spinnerProduct = (AppCompatSpinner) findViewById(R.id.mSpinnerProductListPurchase);
+        AppCompatSpinner spinnerProduct = findViewById(R.id.mSpinnerProductListPurchase);
         spinnerProduct.setAdapter(Helper.getAdapter(this, mProductNameList.toArray(new String[mProductNameList.size()])));
         spinnerProduct.setOnItemSelectedListener(this);
 
-        AppCompatSpinner spinnerUnit = (AppCompatSpinner) findViewById(R.id.layout_spinner_unit);
+        AppCompatSpinner spinnerUnit = findViewById(R.id.layout_spinner_unit);
         spinnerUnit.setAdapter(Helper.getAdapter(this, mUnitNameList.toArray(new String[mUnitNameList.size()])));
         spinnerUnit.setOnItemSelectedListener(this);
 
-        AppCompatSpinner spinnerKgPrice = (AppCompatSpinner) findViewById(R.id.layout_spinner_kg_price);
+        AppCompatSpinner spinnerKgPrice = findViewById(R.id.layout_spinner_kg_price);
         spinnerKgPrice.setAdapter(Helper.getAdapter(this, R.array.string_array_kg_price));
         spinnerKgPrice.setOnItemSelectedListener(this);
 
-        AppCompatSpinner spinnerLabour = (AppCompatSpinner) findViewById(R.id.mSpinnerLabour);
+        AppCompatSpinner spinnerLabour = findViewById(R.id.mSpinnerLabour);
         spinnerLabour.setAdapter(Helper.getAdapter(this, R.array.string_array_labour_cost));
         spinnerLabour.setOnItemSelectedListener(this);
         spinnerLabour.setSelection(3, true);
 
-        AppCompatSpinner spinnerDaami = (AppCompatSpinner) findViewById(R.id.mSpinnerDaami);
+        AppCompatSpinner spinnerDaami = findViewById(R.id.mSpinnerDaami);
         spinnerDaami.setAdapter(Helper.getAdapter(this, R.array.string_array_dami_amount));
         spinnerDaami.setOnItemSelectedListener(this);
         spinnerDaami.setSelection(1, true);
@@ -95,7 +95,7 @@ public class SupplierPurchaseActivity extends BaseActivity implements AdapterVie
 
     @Override
     public void onClick(View view) {
-        Helper.onHideSoftKeyBoard(this, mEditTextProductPrice);
+        Helper.hideSoftKeyBoard(this, mEditTextProductPrice);
         switch (view.getId()) {
 
             case R.id.layout_btn_decrease_qty:
@@ -221,10 +221,10 @@ public class SupplierPurchaseActivity extends BaseActivity implements AdapterVie
         supplierPurchaseAddRequest.setSellerId(mLoginUser.getSellerId());
 
         mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().purchaseModification(supplierPurchaseAddRequest);
-        mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerOrderResponse>(this, true) {
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<PurchaseResponse>(this, true) {
 
             @Override
-            public void onResponse(SellerOrderResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(PurchaseResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     setResult(RESULT_OK, null);
                     finish();

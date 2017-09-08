@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
-import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
+import ig.com.digitalmandi.bean.request.seller.CustomerResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
@@ -17,7 +17,7 @@ import ig.com.digitalmandi.util.Helper;
 public class CustomerDialog extends BaseDialog implements View.OnClickListener {
 
     private final EventCallback mEventCallback;
-    private SellerCustomerList.Customer mCustomer;
+    private CustomerResponse.Customer mCustomer;
 
     public CustomerDialog(BaseActivity pBaseActivity, EventCallback pEventCallback) {
         super(pBaseActivity);
@@ -35,11 +35,11 @@ public class CustomerDialog extends BaseDialog implements View.OnClickListener {
         View customerImage = findViewById(R.id.dialog_layout_customer_info_iv_customer_image);
         Helper.setImage(mBaseActivity, "http://via.placeholder.com/350x150", customerImage);
 
-        TextView textViewCustomerName = (TextView) findViewById(R.id.dialog_layout_customer_info_tv_customer_name);
+        TextView textViewCustomerName = findViewById(R.id.dialog_layout_customer_info_tv_customer_name);
         textViewCustomerName.setText(mCustomer.getUserName() + "\n" + mCustomer.getUserMobileNo());
     }
 
-    public void show(SellerCustomerList.Customer pCustomer) {
+    public void show(CustomerResponse.Customer pCustomer) {
         this.mCustomer = pCustomer;
         show();
     }

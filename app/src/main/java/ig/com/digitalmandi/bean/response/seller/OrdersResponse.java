@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import ig.com.digitalmandi.bean.AbstractResponse;
 
-public class OrderResponse extends AbstractResponse<OrderResponse.Order> {
+public class OrdersResponse extends AbstractResponse<OrdersResponse.Order> {
 
     public static class Order implements Serializable {
 
@@ -32,10 +32,6 @@ public class OrderResponse extends AbstractResponse<OrderResponse.Order> {
             return orderId;
         }
 
-        public String getCustomerId() {
-            return customerId;
-        }
-
         public String getSellerId() {
             return sellerId;
         }
@@ -56,32 +52,12 @@ public class OrderResponse extends AbstractResponse<OrderResponse.Order> {
             return orderDaamiAmt;
         }
 
-        public String getOrderDaamiValue() {
-            return orderDaamiValue;
-        }
-
         public String getOrderLabourAmt() {
             return orderLabourAmt;
         }
 
-        public String getOrderLabourValue() {
-            return orderLabourValue;
-        }
-
-        public String getDriverVechileNo() {
-            return driverVechileNo;
-        }
-
         public String getVechileRent() {
             return vechileRent;
-        }
-
-        public String getVechileRentValue() {
-            return vechileRentValue;
-        }
-
-        public String getDriverName() {
-            return driverName;
         }
 
         public String getDriverNumber() {
@@ -92,16 +68,16 @@ public class OrderResponse extends AbstractResponse<OrderResponse.Order> {
             return orderBardanaAmt;
         }
 
-        public String getOrderBardanaValue() {
-            return orderBardanaValue;
-        }
-
         public String getOrderTotalNag() {
             return orderTotalNag;
         }
 
         public String getOrderTotalQuintal() {
             return orderTotalQuintal;
+        }
+
+        public String getDriverName() {
+            return driverName;
         }
     }
 }

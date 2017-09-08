@@ -23,7 +23,7 @@ public class QuantityDialog extends BaseDialog implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        Helper.onHideSoftKeyBoard(mBaseActivity, mNumberPickerQty);
+        Helper.hideSoftKeyBoard(mBaseActivity, mNumberPickerQty);
         mEventCallback.onEvent(0, mNumberPickerQty.getValue());
         dismiss();
     }
@@ -35,7 +35,7 @@ public class QuantityDialog extends BaseDialog implements View.OnClickListener {
 
         findViewById(R.id.layout_dialog_qty_change_btn_set).setOnClickListener(this);
 
-        mNumberPickerQty = (NumberPicker) findViewById(R.id.layout_dialog_qty_change_number_picker);
+        mNumberPickerQty = findViewById(R.id.layout_dialog_qty_change_number_picker);
         mNumberPickerQty.setMinValue(1);
         mNumberPickerQty.setMaxValue(1000);
         mNumberPickerQty.setValue(mDefaultValue);

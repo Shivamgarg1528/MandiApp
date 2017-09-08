@@ -13,7 +13,6 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
@@ -36,7 +35,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,13 +45,8 @@ import java.util.concurrent.TimeUnit;
 import ig.com.digitalmandi.BuildConfig;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
-import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
+import ig.com.digitalmandi.bean.response.seller.PurchaseResponse;
 import okhttp3.ResponseBody;
-
-
-/**
- * @author shivam.garg
- */
 
 public class Helper {
 
@@ -70,15 +63,14 @@ public class Helper {
         }
     }
 
-    public static void setImage(Context mContext, String url, View imageVew) {
-        try {
-            if (URLUtil.isValidUrl(url)) {
-                Glide.with(mContext).load(url).into((ImageView) imageVew);
-            }
-        } catch (Exception ignored) {
+    public static void setImage(Context pContext, String pUrl, View pView) {
+        ImageView imageView = (ImageView) pView;
+        if (URLUtil.isValidUrl(pUrl)) {
+            Glide.with(pContext).load(pUrl).placeholder(R.mipmap.ic_launcher).into(imageView);
+        } else {
+            imageView.setImageResource(R.mipmap.ic_launcher);
         }
     }
-
 
     public static Bitmap getBitmapFromPath(String pCurrentPhotoPath, int pTargetW, int pTargetH) {
 
@@ -100,26 +92,16 @@ public class Helper {
         return BitmapFactory.decodeFile(pCurrentPhotoPath, bmOptions);
     }
 
-    public static String getStringImage(Bitmap bmp) {
+    public static String getStringImage(Bitmap pBitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        pBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] imageBytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
 
-
     public static String getDeviceId(Context mContext) {
         return Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
-
-
-    private static <T> T onGetWeakReference(T anyObject) {
-        if (anyObject != null)
-            return new WeakReference<>(anyObject).get();
-        else
-            return null;
-    }
-
 
     /**
      * to start any android activity
@@ -174,7 +156,7 @@ public class Helper {
     /**
      * to start any android activity for result but in fragment
      *
-     * @param fragment         specify the reference of fragment from where you want to start new activity
+     * @param fragmentRef      specify the reference of fragment from where you want to start new activity
      * @param isNoHistoryTrue  true if you want to finish previous activity otherwise false
      * @param flagsArray       A flag array that you want to bind with requested component or new int[]{} if you want to skip
      * @param predefinedIntent A reference of intent that you want to fire otherwise null in case (if you want to specify the targetClassName)
@@ -182,19 +164,21 @@ public class Helper {
      * @param requestCode      Any integer code
      */
 
-    public static <T> void onActivityStartForResultInFragment(Fragment fragment, boolean isNoHistoryTrue, int[] flagsArray, Intent predefinedIntent, Class<T> targetClassName, int requestCode) {
-        Fragment fragmentRef = onGetWeakReference(fragment);
+    public static <T> void onActivityStartForResultInFragment(Fragment fragmentRef, boolean isNoHistoryTrue, int[] flagsArray, Intent predefinedIntent, Class<T> targetClassName, int requestCode) {
         if (fragmentRef != null) {
             if (predefinedIntent == null) {
-                predefinedIntent = new Intent(fragment.getActivity(), targetClassName);
-                for (int flags : flagsArray) predefinedIntent.addFlags(flags);
+                predefinedIntent = new Intent(fragmentRef.getActivity(), targetClassName);
+            }
+            if (flagsArray != null) {
+                for (int flags : flagsArray) {
+                    predefinedIntent.addFlags(flags);
+                }
             }
             fragmentRef.startActivityForResult(predefinedIntent, requestCode);
             if (isNoHistoryTrue)
                 fragmentRef.getActivity().finish();
         }
     }
-
 
     /**
      * format the float value in 2 precision
@@ -204,16 +188,13 @@ public class Helper {
      */
 
     public static String formatStringUpTo2Precision(String value) {
-        try {
-            if (isEmpty(value))
-                return "0.00";
-            float conversion = Float.parseFloat(value);
-            return String.format(Locale.getDefault(), "%.2f", conversion);
-        } catch (NumberFormatException e) {
+        if (isEmpty(value))
             return "0.00";
-        }
+        else if (!isFloat(value))
+            return "0.00";
+        else
+            return String.format(Locale.getDefault(), "%.2f", Float.parseFloat(value));
     }
-
 
     /**
      * Hiding the KeyBoard from screen
@@ -222,11 +203,10 @@ public class Helper {
      * @param obtainedEditText a view from which you want to take token for hiding the keyboard
      */
 
-    public static void onHideSoftKeyBoard(Context mContext, View obtainedEditText) {
+    public static void hideSoftKeyBoard(Context mContext, View obtainedEditText) {
         InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(obtainedEditText.getWindowToken(), 0);
     }
-
 
     /**
      * convert into base64 of given string
@@ -249,81 +229,48 @@ public class Helper {
     /**
      * to get the date object of given dateString
      *
-     * @param dateString given string that you want to convert
-     * @param format     given format in which you want to convert default format is 'yyyy-MM-dd HH:mm:ss'
+     * @param pDateStr given string that you want to convert
+     * @param pFormat  given format in which you want to convert default format is 'yyyy-MM-dd HH:mm:ss'
      * @return convert date object
      */
 
-    public static Date onConvertStringToDate(String dateString, String format) {
-        Date date;
-
-        if (TextUtils.isEmpty(format))
-            format = "yyyy-MM-dd HH:mm:ss";
-
-        SimpleDateFormat df = new SimpleDateFormat(format, Locale.getDefault());
+    public static Date getDateObject(String pDateStr, String pFormat) {
         try {
-            date = df.parse(dateString);
+            SimpleDateFormat df = new SimpleDateFormat(pFormat, Locale.getDefault());
+            return df.parse(pDateStr);
         } catch (Exception ex) {
-            ex.printStackTrace();
-            df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-            try {
-                date = df.parse(dateString);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                date = new Date();
-            }
+            return new Date();
         }
-        return date;
     }
 
-    public static String getDateString(long pMilliSeconds, String pDateFormat) {
-        SimpleDateFormat formatter = new SimpleDateFormat(pDateFormat);
+    public static String getDateString(long pMilliSeconds, String pFormat) {
+        SimpleDateFormat formatter = new SimpleDateFormat(pFormat);
         return formatter.format(pMilliSeconds);
     }
 
-    public static String onConvertDateStringToOtherStringFormat(String dateStr) {
+    public static String getAppDateFormatFromApiDateFormat(String pDateStr) {
         SimpleDateFormat fromFormat = new SimpleDateFormat(AppConstant.API_DATE_FORMAT);
-        SimpleDateFormat toFormat = new SimpleDateFormat(AppConstant.API_DATE_FORMAT);
+        SimpleDateFormat toFormat = new SimpleDateFormat(AppConstant.APP_DATE_FORMAT);
         Date date;
         try {
-            date = fromFormat.parse(dateStr);
+            date = fromFormat.parse(pDateStr);
         } catch (ParseException e) {
             e.printStackTrace();
-            return dateStr;
+            return pDateStr;
         }
         return toFormat.format(date);
     }
 
-    /*    public static boolean isGoogleServiceAvailable(Activity activity) {
-        Activity weakRef = onGetWeakReference(activity);
-
-        if (weakRef != null) {
-            GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-            int resultCode = apiAvailability.isGooglePlayServicesAvailable(weakRef);
-            if (resultCode != ConnectionResult.SUCCESS) {
-                if (apiAvailability.isUserResolvableError(resultCode)) {
-                    apiAvailability.getErrorDialog(weakRef, resultCode,9000).show();
-                } else {
-                    onShowToast(weakRef,"Your Device Does Not Have Google Play Service");
-                    weakRef.finish();
-                }
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }*/
-
-    public static boolean isAutoTimeEnableInDevice(Context mContext) {
+    public static boolean isAutoTimeEnableInDevice(Context pContext) {
         if (Build.VERSION.SDK_INT > 17) {
-            return android.provider.Settings.Global.getInt(mContext.getContentResolver(), android.provider.Settings.Global.AUTO_TIME, 0) != 0;
+            return android.provider.Settings.Global.getInt(pContext.getContentResolver(), android.provider.Settings.Global.AUTO_TIME, 0) != 0;
         } else {
-            return android.provider.Settings.System.getInt(mContext.getContentResolver(), android.provider.Settings.System.AUTO_TIME, 0) != 0;
+            return android.provider.Settings.System.getInt(pContext.getContentResolver(), android.provider.Settings.System.AUTO_TIME, 0) != 0;
         }
     }
 
-    public static int getNumberOfDaysBetweenDate(Date paymentDate, Date purchaseDate) {
-        long diff = paymentDate.getTime() - purchaseDate.getTime();
+    public static int getNumberOfDaysBetweenDate(Date pStartDate, Date pEndDate) {
+        long diff = pStartDate.getTime() - pEndDate.getTime();
         return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
@@ -400,7 +347,7 @@ public class Helper {
         }
     }
 
-    public static void changeSellerOrderResponse(List<SellerOrderResponse.Order> pDataList) {
+    public static void changeSellerOrderResponse(List<PurchaseResponse.Purchase> pDataList) {
         for (int index = pDataList.size() - 1; index >= 0; index--) {
             pDataList.get(index).setSumOfProductInKg(pDataList.get(index).getSumOfProductInKg());
         }

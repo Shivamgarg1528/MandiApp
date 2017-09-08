@@ -2,7 +2,7 @@ package ig.com.digitalmandi.bean.response.seller;
 
 import ig.com.digitalmandi.bean.AbstractResponse;
 
-public class PaymentsResponse extends AbstractResponse<PaymentsResponse.Payment> {
+public class Payments extends AbstractResponse<Payments.Payment> {
 
     public static class Payment {
 
@@ -16,10 +16,6 @@ public class PaymentsResponse extends AbstractResponse<PaymentsResponse.Payment>
         private String interestRate;
         private String paymentType;
 
-        public String getPaymentId() {
-            return paymentId;
-        }
-
         public String getId() {
             return id;
         }
@@ -30,10 +26,6 @@ public class PaymentsResponse extends AbstractResponse<PaymentsResponse.Payment>
 
         public String getAmount() {
             return amount;
-        }
-
-        public String getFlag() {
-            return flag;
         }
 
         public String getInterestAmt() {

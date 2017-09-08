@@ -11,8 +11,8 @@ import java.util.List;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.seller.CustomerOrdersActivity;
 import ig.com.digitalmandi.activity.seller.SupplierCustomerAddActivity;
-import ig.com.digitalmandi.adapter.supplier.SupplierCustomerAdapter;
-import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
+import ig.com.digitalmandi.adapter.supplier.CustomerAdapter;
+import ig.com.digitalmandi.bean.request.seller.CustomerResponse;
 import ig.com.digitalmandi.dialog.CustomerDialog;
 import ig.com.digitalmandi.fragment.ListBaseFragment;
 import ig.com.digitalmandi.util.AppConstant;
@@ -21,18 +21,18 @@ import ig.com.digitalmandi.util.Helper;
 import ig.com.digitalmandi.util.ModifyPreference;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class CustomerFragment extends ListBaseFragment<SellerCustomerList.Customer> implements EasyPermissions.PermissionCallbacks {
+public class CustomerFragment extends ListBaseFragment<CustomerResponse.Customer> implements EasyPermissions.PermissionCallbacks {
 
     private CustomerDialog mCustomerDialog;
 
     @Override
-    protected SellerCustomerList getResponse() {
+    protected CustomerResponse getResponse() {
         return AppSharedPrefs.getInstance(mBaseActivity).getSellerCustomers();
     }
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        return new SupplierCustomerAdapter(mDataList, mBaseActivity, this);
+        return new CustomerAdapter(mBaseActivity, mDataList, this);
     }
 
     @Override
@@ -55,15 +55,15 @@ public class CustomerFragment extends ListBaseFragment<SellerCustomerList.Custom
     protected Comparator getComparator(int pComparatorType) {
         switch (pComparatorType) {
             case AppConstant.COMPARATOR_ALPHA: {
-                return new Comparator<SellerCustomerList.Customer>() {
-                    public int compare(SellerCustomerList.Customer left, SellerCustomerList.Customer right) {
+                return new Comparator<CustomerResponse.Customer>() {
+                    public int compare(CustomerResponse.Customer left, CustomerResponse.Customer right) {
                         return String.CASE_INSENSITIVE_ORDER.compare(left.getUserName(), right.getUserName());
                     }
                 };
             }
             case AppConstant.COMPARATOR_PHONE: {
-                return new Comparator<SellerCustomerList.Customer>() {
-                    public int compare(SellerCustomerList.Customer left, SellerCustomerList.Customer right) {
+                return new Comparator<CustomerResponse.Customer>() {
+                    public int compare(CustomerResponse.Customer left, CustomerResponse.Customer right) {
                         return String.CASE_INSENSITIVE_ORDER.compare(left.getUserMobileNo(), right.getUserMobileNo());
                     }
                 };
@@ -75,7 +75,7 @@ public class CustomerFragment extends ListBaseFragment<SellerCustomerList.Custom
     @Override
     public boolean onQueryTextChange(String pNewText) {
         mDataList.clear();
-        for (SellerCustomerList.Customer data : mBackUpList) {
+        for (CustomerResponse.Customer data : mBackUpList) {
             if (data.getUserFirmName().toLowerCase().contains(pNewText.toLowerCase()) || data.getUserName().toLowerCase().contains(pNewText.toLowerCase())) {
                 mDataList.add(data);
             }
@@ -85,7 +85,7 @@ public class CustomerFragment extends ListBaseFragment<SellerCustomerList.Custom
     }
 
     @Override
-    public void onEvent(int pOperationType, SellerCustomerList.Customer pCustomer) {
+    public void onEvent(int pOperationType, CustomerResponse.Customer pCustomer) {
         switch (pOperationType) {
 
             case AppConstant.OPERATION_CUSTOMER_OPEN: {

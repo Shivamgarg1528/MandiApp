@@ -48,7 +48,7 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
         this.mOrderIdStr = pOrderIdStr;
         this.mPaymentFlag = pPaymentFlag;
         this.mEventCallBack = pEventCallBack;
-        this.mDatePurchase = Helper.onConvertStringToDate(pOrderDateStr, AppConstant.API_DATE_FORMAT);
+        this.mDatePurchase = Helper.getDateObject(pOrderDateStr, AppConstant.API_DATE_FORMAT);
     }
 
     @Override
@@ -56,19 +56,19 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dilaog_purchase_payment);
 
-        mLinearLayoutParent = (LinearLayout) findViewById(R.id.dialog_purchase_payment_ll_parent);
-        mTextViewInterestDays = (AppCompatTextView) findViewById(R.id.dialog_purchase_payment_tv_interest_days);
-        mSpinnerPaymentType = (AppCompatSpinner) findViewById(R.id.dialog_purchase_payment_spinner_payment_type);
+        mLinearLayoutParent = findViewById(R.id.dialog_purchase_payment_ll_parent);
+        mTextViewInterestDays = findViewById(R.id.dialog_purchase_payment_tv_interest_days);
+        mSpinnerPaymentType = findViewById(R.id.dialog_purchase_payment_spinner_payment_type);
 
-        mEditTextPaymentAmt = (AppCompatEditText) findViewById(R.id.dialog_purchase_payment_edt_payment_amount);
+        mEditTextPaymentAmt = findViewById(R.id.dialog_purchase_payment_edt_payment_amount);
         mEditTextPaymentAmt.addTextChangedListener(this);
 
-        mEditTextInterestRate = (AppCompatEditText) findViewById(R.id.dialog_purchase_payment_edt_rate_of_interest);
+        mEditTextInterestRate = findViewById(R.id.dialog_purchase_payment_edt_rate_of_interest);
         mEditTextInterestRate.addTextChangedListener(this);
 
-        mEditTextInterestAmt = (AppCompatEditText) findViewById(R.id.dialog_purchase_payment_edt_interest_amount);
+        mEditTextInterestAmt = findViewById(R.id.dialog_purchase_payment_edt_interest_amount);
 
-        mButtonPaymentDate = (AppCompatButton) findViewById(R.id.dialog_purchase_payment_tv_payment_date);
+        mButtonPaymentDate = findViewById(R.id.dialog_purchase_payment_tv_payment_date);
         mButtonPaymentDate.setOnClickListener(this);
 
         findViewById(R.id.dialog_purchase_payment_tv_payment).setOnClickListener(this);
@@ -76,7 +76,7 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
 
     @Override
     public void onClick(View view) {
-        Helper.onHideSoftKeyBoard(mBaseActivity, mEditTextPaymentAmt);
+        Helper.hideSoftKeyBoard(mBaseActivity, mEditTextPaymentAmt);
         switch (view.getId()) {
 
             case R.id.dialog_purchase_payment_tv_payment_date:

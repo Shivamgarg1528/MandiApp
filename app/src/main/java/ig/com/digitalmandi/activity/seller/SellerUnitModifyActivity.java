@@ -30,8 +30,8 @@ public class SellerUnitModifyActivity extends BaseActivity implements View.OnCli
         setToolbar(true);
 
         findViewById(R.id.activity_unit_modify_btn_add).setOnClickListener(this);
-        mEditTxtUnitName = (AppCompatEditText) findViewById(R.id.activity_unit_modify_edt_unit_name);
-        mEditTxtUnitValue = (AppCompatEditText) findViewById(R.id.activity_unit_modify_edt_unit_value);
+        mEditTxtUnitName = findViewById(R.id.activity_unit_modify_edt_unit_name);
+        mEditTxtUnitValue = findViewById(R.id.activity_unit_modify_edt_unit_value);
 
         Intent intent = getIntent();
         mUnitObject = (SellerUnitList.Unit) intent.getSerializableExtra(AppConstant.KEY_OBJECT);
@@ -51,7 +51,7 @@ public class SellerUnitModifyActivity extends BaseActivity implements View.OnCli
         switch (view.getId()) {
 
             case R.id.activity_unit_modify_btn_add:
-                Helper.onHideSoftKeyBoard(this, mEditTxtUnitValue);
+                Helper.hideSoftKeyBoard(this, mEditTxtUnitValue);
 
                 String unitName = mEditTxtUnitName.getText().toString();
                 String unitValue = mEditTxtUnitValue.getText().toString();

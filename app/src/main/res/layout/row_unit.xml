@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="90dp"
-    card_view:cardBackgroundColor="@color/colorWhite"
-    card_view:cardCornerRadius="2dp"
-    card_view:cardElevation="1dp"
-    card_view:cardUseCompatPadding="true">
+    style="@style/CardViewStyle"
+    android:layout_height="60dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:background="@color/colorPrimary" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:baselineAligned="false"
-        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -24,15 +23,17 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/row_layout_unit_cardview_txtview_unit_name"
+                android:id="@+id/row_unit_tv_unit_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
                 android:padding="2dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/rowParentColor" />
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/row_layout_unit_cardview_txtview_unit_value"
+                android:id="@+id/row_unit_tv_unit_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
@@ -42,7 +43,7 @@
         </LinearLayout>
 
         <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/row_layout_unit_card_view_img_status"
+            android:id="@+id/row_unit_img_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

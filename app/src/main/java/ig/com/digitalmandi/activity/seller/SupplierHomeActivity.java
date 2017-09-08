@@ -36,25 +36,25 @@ public class SupplierHomeActivity extends BaseActivity implements NavigationView
         setContentView(R.layout.activity_supplier_home);
         setToolbar(true);
 
-        mDrawerView = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerView = findViewById(R.id.drawer_layout);
         mActionBarToggle = new ActionBarDrawerToggle(this, mDrawerView, mToolBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                Helper.onHideSoftKeyBoard(mBaseActivity, drawerView);
+                Helper.hideSoftKeyBoard(mBaseActivity, drawerView);
             }
         };
         mDrawerView.addDrawerListener(mActionBarToggle);
         mActionBarToggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         View headerView = navigationView.getHeaderView(0);
         headerView.setOnClickListener(this);
-        CircleImageView mImageViewUser = (CircleImageView) headerView.findViewById(R.id.layout_activity_sign_up_btn_user_image);
+        CircleImageView mImageViewUser = headerView.findViewById(R.id.layout_activity_sign_up_btn_user_image);
         Helper.setImage(mBaseActivity, mLoginUser.getUserImageUrl(), mImageViewUser);
-        AppCompatTextView mTextViewUserName = (AppCompatTextView) headerView.findViewById(R.id.mTextViewUserInfoName);
+        AppCompatTextView mTextViewUserName = headerView.findViewById(R.id.mTextViewUserInfoName);
         mTextViewUserName.setText(mLoginUser.getUserName() + "\n" + mLoginUser.getUserMobileNo());
         onItemSelected(R.id.supplier_nav_menu_customer, getString(R.string.customers));
     }

@@ -12,8 +12,8 @@ import java.util.List;
 
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
-import ig.com.digitalmandi.bean.request.seller.SupplierOrderAddRequest;
-import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
+import ig.com.digitalmandi.bean.response.seller.OrderDetailResponse;
+import ig.com.digitalmandi.bean.response.seller.PurchaseResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
@@ -24,7 +24,7 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
 
     private final BaseActivity mBaseActivity;
     private final EventCallback mEventCallback;
-    private final SellerOrderResponse.Order mItemObject;
+    private final PurchaseResponse.Purchase mItemObject;
     private final List<SellerUnitList.Unit> mUnitList = new ArrayList<>(0);
     private AppCompatTextView mTextViewQty;
     private AppCompatTextView mTextViewPurchasedQtyInKg;
@@ -36,7 +36,7 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
     private float mMaxQtyInKg = 0.0f;
     private int mProductQty = 1;
 
-    public AddItemDialog(BaseActivity pBaseActivity, SellerOrderResponse.Order pItemObject, EventCallback pEventCallback) {
+    public AddItemDialog(BaseActivity pBaseActivity, PurchaseResponse.Purchase pItemObject, EventCallback pEventCallback) {
         super(pBaseActivity);
         mBaseActivity = pBaseActivity;
         mItemObject = pItemObject;
@@ -67,16 +67,16 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
         findViewById(R.id.layout_btn_decrease_qty).setOnClickListener(this);
         findViewById(R.id.layout_btn_save).setOnClickListener(this);
 
-        mTextViewQty = (AppCompatTextView) findViewById(R.id.layout_tv_qty);
+        mTextViewQty = findViewById(R.id.layout_tv_qty);
         mTextViewQty.setOnClickListener(this);
 
-        mEditProductPrice = (AppCompatEditText) findViewById(R.id.layout_edt_product_price);
+        mEditProductPrice = findViewById(R.id.layout_edt_product_price);
 
-        AppCompatSpinner spinnerUnit = (AppCompatSpinner) findViewById(R.id.layout_spinner_unit);
+        AppCompatSpinner spinnerUnit = findViewById(R.id.layout_spinner_unit);
         spinnerUnit.setAdapter(Helper.getAdapter(mBaseActivity, mUnitArray));
         spinnerUnit.setOnItemSelectedListener(this);
 
-        AppCompatSpinner spinnerKgPrice = (AppCompatSpinner) findViewById(R.id.layout_spinner_kg_price);
+        AppCompatSpinner spinnerKgPrice = findViewById(R.id.layout_spinner_kg_price);
         spinnerKgPrice.setAdapter(Helper.getAdapter(mBaseActivity, R.array.string_array_kg_price));
         spinnerKgPrice.setOnItemSelectedListener(this);
 
@@ -86,12 +86,12 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
             ex.printStackTrace();
         }
 
-        mTextViewPurchasedQtyInKg = (AppCompatTextView) findViewById(R.id.layout_tv_purchased_qty_in_kg);
+        mTextViewPurchasedQtyInKg = findViewById(R.id.layout_tv_purchased_qty_in_kg);
 
-        AppCompatTextView textViewMaxQtyInKg = (AppCompatTextView) findViewById(R.id.layout_tv_max_qty_in_kg);
+        AppCompatTextView textViewMaxQtyInKg = findViewById(R.id.layout_tv_max_qty_in_kg);
         textViewMaxQtyInKg.setText(String.format(mBaseActivity.getString(R.string.string_max_qty), Helper.formatStringUpTo2Precision("" + mMaxQtyInKg)));
 
-        AppCompatTextView textViewProductName = (AppCompatTextView) findViewById(R.id.layout_tv_product_name);
+        AppCompatTextView textViewProductName = findViewById(R.id.layout_tv_product_name);
         textViewProductName.setText(mItemObject.getProductName());
     }
 
@@ -104,7 +104,7 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
                 break;
 
             case R.id.layout_tv_qty:
-                Helper.onHideSoftKeyBoard(mBaseActivity, mEditProductPrice);
+                Helper.hideSoftKeyBoard(mBaseActivity, mEditProductPrice);
                 QuantityDialog quantityDialog = new QuantityDialog(Integer.parseInt(mTextViewQty.getText().toString()), mBaseActivity, new EventCallback() {
                     @Override
                     public void onEvent(int pOperationType, Object pObject) {
@@ -170,7 +170,7 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
 
         float actualPurchaseAmt = totalProductKg * productPriceAccTo100Kg * .01f;
 
-        SupplierOrderAddRequest.OrderDetailsBean addedObject = new SupplierOrderAddRequest.OrderDetailsBean();
+        OrderDetailResponse.OrderDetail addedObject = new OrderDetailResponse.OrderDetail();
         addedObject.setUnitId(mSelectedUnit.getUnitId());
         addedObject.setUnitValue(Helper.formatStringUpTo2Precision(mSelectedUnit.getKgValue()));
         addedObject.setProductId(mItemObject.getProductId());

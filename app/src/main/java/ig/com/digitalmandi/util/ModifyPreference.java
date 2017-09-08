@@ -1,7 +1,7 @@
 package ig.com.digitalmandi.util;
 
 import ig.com.digitalmandi.activity.BaseActivity;
-import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
+import ig.com.digitalmandi.bean.request.seller.CustomerResponse;
 import ig.com.digitalmandi.bean.request.seller.SellerCustomerListRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerProductListRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerUnitListRequest;
@@ -31,10 +31,10 @@ public class ModifyPreference {
         sellerCustomerListRequest.setSellerId(mLoginUser.getSellerId());
 
         mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().supplierCustomerList(sellerCustomerListRequest);
-        mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerCustomerList>(mBaseActivity, false) {
+        mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<CustomerResponse>(mBaseActivity, false) {
 
             @Override
-            public void onResponse(SellerCustomerList pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(CustomerResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, true)) {
                     AppSharedPrefs.getInstance(mBaseActivity).setSellerCustomers(pResponse);
                 }

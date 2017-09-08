@@ -3,7 +3,7 @@ package ig.com.digitalmandi.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
+import ig.com.digitalmandi.bean.request.seller.CustomerResponse;
 import ig.com.digitalmandi.bean.response.LoginResponse;
 import ig.com.digitalmandi.bean.response.seller.SellerProductList;
 import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
@@ -44,13 +44,13 @@ public class AppSharedPrefs {
         mEditor.commit();
     }
 
-    public SellerCustomerList getSellerCustomers() {
+    public CustomerResponse getSellerCustomers() {
         String json = mSharedPreferences.getString(KEY_SELLER_CUSTOMERS, DEFAULT);
-        return JsonUtils.objectify(json, SellerCustomerList.class);
+        return JsonUtils.objectify(json, CustomerResponse.class);
     }
 
-    public void setSellerCustomers(SellerCustomerList pSellerCustomerListRes) {
-        mEditor.putString(KEY_SELLER_CUSTOMERS, JsonUtils.jsonify(pSellerCustomerListRes));
+    void setSellerCustomers(CustomerResponse pCustomerResponseRes) {
+        mEditor.putString(KEY_SELLER_CUSTOMERS, JsonUtils.jsonify(pCustomerResponseRes));
         mEditor.commit();
     }
 
@@ -59,7 +59,7 @@ public class AppSharedPrefs {
         return JsonUtils.objectify(json, SellerUnitList.class);
     }
 
-    public void setSellerUnits(SellerUnitList pSellerUnitList) {
+    void setSellerUnits(SellerUnitList pSellerUnitList) {
         mEditor.putString(KEY_SELLER_UNITS, JsonUtils.jsonify(pSellerUnitList));
         mEditor.commit();
     }
@@ -69,7 +69,7 @@ public class AppSharedPrefs {
         return JsonUtils.objectify(json, SellerProductList.class);
     }
 
-    public void setSellerProducts(SellerProductList pSellerProductList) {
+    void setSellerProducts(SellerProductList pSellerProductList) {
         mEditor.putString(KEY_SELLER_PRODUCTS, JsonUtils.jsonify(pSellerProductList));
         mEditor.commit();
     }

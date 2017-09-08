@@ -31,7 +31,7 @@ public class DatePickerClass {
                 selectedCalendar.set(year, monthOfYear, dayOfMonth);
                 String pDateApiFormat = Helper.getDateString(selectedCalendar.getTimeInMillis(), AppConstant.API_DATE_FORMAT);
                 String pDateAppFormat = Helper.getDateString(selectedCalendar.getTimeInMillis(), AppConstant.APP_DATE_FORMAT);
-                Date pDate = Helper.onConvertStringToDate(pDateApiFormat, AppConstant.API_DATE_FORMAT);
+                Date pDate = Helper.getDateObject(pDateApiFormat, AppConstant.API_DATE_FORMAT);
                 pDateSelectedCallback.onDateSelectedCallBack(pId, pDate, pDateAppFormat, selectedCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));

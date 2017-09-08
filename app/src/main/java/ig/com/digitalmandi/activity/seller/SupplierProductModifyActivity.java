@@ -34,10 +34,10 @@ public class SupplierProductModifyActivity extends BaseActivity implements View.
         setContentView(R.layout.activity_product_modify);
         setToolbar(true);
 
-        mEditTextProductName = (AppCompatEditText) findViewById(R.id.activity_product_modify_edt_product_name);
+        mEditTextProductName = findViewById(R.id.activity_product_modify_edt_product_name);
         findViewById(R.id.activity_product_modify_btn_submit).setOnClickListener(this);
 
-        mImageViewProduct = (AppCompatImageView) findViewById(R.id.activity_product_modify_iv_product_image);
+        mImageViewProduct = findViewById(R.id.activity_product_modify_iv_product_image);
         mImageViewProduct.setOnClickListener(this);
 
         Intent intent = getIntent();
@@ -63,7 +63,7 @@ public class SupplierProductModifyActivity extends BaseActivity implements View.
 
             case R.id.activity_product_modify_btn_submit:
 
-                Helper.onHideSoftKeyBoard(this, mEditTextProductName);
+                Helper.hideSoftKeyBoard(this, mEditTextProductName);
 
                 String productName = mEditTextProductName.getText().toString();
                 if (Helper.isEmpty(productName)) {

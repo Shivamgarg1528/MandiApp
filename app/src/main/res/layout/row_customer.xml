@@ -18,7 +18,7 @@
             android:gravity="center">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/row_layout_seller_customer_iv_customer_image"
+                android:id="@+id/row_customer_iv_customer_image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
@@ -35,7 +35,7 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/row_layout_seller_customer_tv_customer_name"
+                android:id="@+id/row_customer_tv_customer_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
@@ -44,7 +44,7 @@
                 android:textColor="@color/rowParentColor" />
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/row_layout_seller_customer_tv_customer_firm_name"
+                android:id="@+id/row_customer_tv_customer_firm_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
@@ -65,8 +65,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginStart="80dp"
+        android:layout_height="1dp"
         android:background="@color/lineColor" />
 
 </LinearLayout>

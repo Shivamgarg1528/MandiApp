@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true"
-    card_view:cardBackgroundColor="@color/colorWhite"
-    card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="4dp"
-    card_view:cardUseCompatPadding="true">
+    style="@style/CardViewStyle">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:background="@color/colorPrimary" />
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp">
+        android:padding="6dp">
 
         <TableRow
             android:layout_width="match_parent"
@@ -23,17 +21,17 @@
             android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/rowPurchasePaymentdate"
+                android:id="@+id/row_payment_tv_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:maxLength="17"
                 android:maxLines="1"
                 android:textColor="@color/rowParentColor"
-                android:textSize="27sp" />
+                android:textSize="25sp" />
 
             <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/rowPurchaseCheckBox"
+                android:id="@+id/row_payment_cb_interest_paid"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".7"
@@ -41,7 +39,7 @@
                 android:clickable="false"
                 android:text="@string/string_interest_paid"
                 android:textColor="@color/colorBlack"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
         </TableRow>
 
@@ -54,18 +52,17 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
                 android:maxLines="1"
                 android:text="@string/string_paid_amount"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/rowParentColor" />
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/rowPurchaseAmtPaidValue"
+                android:id="@+id/row_payment_tv_paid_amount"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center|end"
+                android:gravity="end"
                 android:maxLines="1"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/rowChildColor" />
@@ -81,18 +78,17 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
                 android:maxLines="1"
                 android:text="@string/string_interest_amount"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/rowParentColor" />
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/rowPurchaseInterestAmt"
+                android:id="@+id/row_payment_tv_interest_amount"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center|end"
+                android:gravity="end"
                 android:maxLines="1"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/rowChildColor" />
@@ -121,17 +117,17 @@
                 android:orientation="vertical">
 
                 <View
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_gravity="end"
                     android:background="@color/colorAccent" />
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/rowPurchaseTotalAmtPaid"
+                    android:id="@+id/row_payment_tv_total_paid_amount"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center|end"
+                    android:gravity="end"
                     android:maxLines="1"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/colorPrimary" />
@@ -142,27 +138,27 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/mTextViewInterestRate"
+                android:id="@+id/row_payment_tv_interest_rate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
                 android:maxLines="1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/holo_red_dark" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/holo_green_dark" />
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/rowPurchasePaymentType"
+                android:id="@+id/row_payment_tv_payment_type"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".7"
-                android:gravity="center_vertical|end"
+                android:layout_weight="1"
+                android:gravity="end"
                 android:maxLines="1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/holo_red_dark" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/holo_orange_dark" />
 
         </TableRow>
     </TableLayout>

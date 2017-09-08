@@ -12,8 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ig.com.digitalmandi.R;
+import ig.com.digitalmandi.callback.EventCallback;
 
-public abstract class ListBaseActivity<T> extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public abstract class ListBaseActivity<T> extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, EventCallback {
 
     protected final List<T> mDataList = new ArrayList<>(0);
     protected final List<T> mBackUpList = new ArrayList<>(0);
@@ -38,13 +39,13 @@ public abstract class ListBaseActivity<T> extends BaseActivity implements SwipeR
         setContentView(getLayoutId());
         getIntentData();
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_common_list_swipe);
+        mSwipeRefreshLayout = findViewById(R.id.layout_common_list_swipe);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mTextViewEmpty = (AppCompatTextView) findViewById(R.id.layout_common_list_tv_empty_text_view);
         mTextViewEmpty.setText(getEmptyTextStringId());
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.layout_common_list_recycler_view);
+        mRecyclerView = findViewById(R.id.layout_common_list_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter = getAdapter());
         fetchData(true);
@@ -59,5 +60,10 @@ public abstract class ListBaseActivity<T> extends BaseActivity implements SwipeR
     public void onRefresh() {
         mSwipeRefreshLayout.setRefreshing(false);
         fetchData(true);
+    }
+
+    @Override
+    public void onEvent(int pOperationType, Object pObject) {
+
     }
 }

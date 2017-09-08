@@ -20,14 +20,14 @@ import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.activity.seller.OrderDetailsActivity;
 import ig.com.digitalmandi.activity.seller.PaymentsActivity;
 import ig.com.digitalmandi.activity.seller.SupplierPurchaseActivity;
-import ig.com.digitalmandi.adapter.supplier.SellerOrderAdapter;
+import ig.com.digitalmandi.adapter.supplier.PurchaseAdapter;
 import ig.com.digitalmandi.bean.AbstractResponse;
 import ig.com.digitalmandi.bean.request.seller.ItemDeleteRequest;
 import ig.com.digitalmandi.bean.request.seller.OrderDetailsRequest;
 import ig.com.digitalmandi.bean.request.seller.PaymentsRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerOrdersRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
-import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
+import ig.com.digitalmandi.bean.response.seller.PurchaseResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.dialog.DatePickerClass;
 import ig.com.digitalmandi.dialog.PreConfirmDialog;
@@ -39,7 +39,7 @@ import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
 import ig.com.digitalmandi.util.LoadMoreClass;
 
-public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order> implements SearchView.OnQueryTextListener, DatePickerClass.OnDateSelected, View.OnClickListener, EventCallback<SellerOrderResponse.Order> {
+public class PurchaseFragment extends ListBaseFragment<PurchaseResponse.Purchase> implements SearchView.OnQueryTextListener, DatePickerClass.OnDateSelected, View.OnClickListener, EventCallback<PurchaseResponse.Purchase> {
 
     private int mPageCount = 1;
     private boolean mLoadMore = false;
@@ -71,9 +71,9 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         view.findViewById(R.id.layout_fragment_seller_orders_btn_reset_date).setOnClickListener(this);
-        mBtnStartDate = (AppCompatButton) view.findViewById(R.id.layout_fragment_seller_orders_btn_start_date);
+        mBtnStartDate = view.findViewById(R.id.layout_fragment_seller_orders_btn_start_date);
         mBtnStartDate.setOnClickListener(this);
-        mBtnEndDate = (AppCompatButton) view.findViewById(R.id.layout_fragment_seller_orders_btn_end_date);
+        mBtnEndDate = view.findViewById(R.id.layout_fragment_seller_orders_btn_end_date);
         mBtnEndDate.setOnClickListener(this);
         mRecyclerView.addOnScrollListener(mLoadMoreClass);
         fetchData(true);
@@ -86,7 +86,7 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        return new SellerOrderAdapter(mDataList, mBaseActivity, this);
+        return new PurchaseAdapter(mBaseActivity, mDataList, this);
     }
 
     @Override
@@ -116,10 +116,10 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
         sellerOrdersRequest.setFlag(AppConstant.PURCHASE_LIST_PAGING);
 
         mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().purchaseList(sellerOrdersRequest);
-        mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerOrderResponse>(mBaseActivity, false) {
+        mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<PurchaseResponse>(mBaseActivity, false) {
 
             @Override
-            public void onResponse(SellerOrderResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(PurchaseResponse pResponse, BaseActivity pBaseActivity) {
 
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     if (pResponse.getResult().size() == 0) {
@@ -147,8 +147,8 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
     protected Comparator getComparator(int pComparatorType) {
         switch (pComparatorType) {
             case AppConstant.COMPARATOR_ALPHA: {
-                return new Comparator<SellerOrderResponse.Order>() {
-                    public int compare(SellerOrderResponse.Order left, SellerOrderResponse.Order right) {
+                return new Comparator<PurchaseResponse.Purchase>() {
+                    public int compare(PurchaseResponse.Purchase left, PurchaseResponse.Purchase right) {
                         return String.CASE_INSENSITIVE_ORDER.compare(left.getNameOfPerson(), right.getNameOfPerson());
                     }
                 };
@@ -165,7 +165,7 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
     @Override
     public boolean onQueryTextChange(String newText) {
         mDataList.clear();
-        for (SellerOrderResponse.Order model : mBackUpList) {
+        for (PurchaseResponse.Purchase model : mBackUpList) {
             if (model.getPurchaseDate().contains(newText) || model.getNameOfPerson().toLowerCase().contains(newText.toLowerCase()) || model.getProductName().toLowerCase().contains(newText.toLowerCase())) {
                 mDataList.add(model);
             }
@@ -241,7 +241,7 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
     }
 
     @Override
-    public void onEvent(int pOperationType, final SellerOrderResponse.Order pOrderObj) {
+    public void onEvent(int pOperationType, final PurchaseResponse.Purchase pPurchaseObj) {
 
         switch (pOperationType) {
             case AppConstant.OPERATION_DELETE: {
@@ -254,7 +254,7 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
 
                             ItemDeleteRequest itemDeleteRequest = new ItemDeleteRequest();
                             itemDeleteRequest.setFlag(AppConstant.DELETE_OR_PAYMENT_PURCHASE);
-                            itemDeleteRequest.setId(pOrderObj.getPurchaseId());
+                            itemDeleteRequest.setId(pPurchaseObj.getPurchaseId());
 
                             mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().deletePurchase(itemDeleteRequest);
                             mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
@@ -278,8 +278,8 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
 
                 OrderDetailsRequest orderDetailsRequest = new OrderDetailsRequest();
                 orderDetailsRequest.setFlag(AppConstant.COLUMN_PURCHASE_ID);
-                orderDetailsRequest.setId(pOrderObj.getPurchaseId());
-                orderDetailsRequest.setMessage(getString(R.string.string_sold_details_of_items, pOrderObj.getNameOfPerson()));
+                orderDetailsRequest.setId(pPurchaseObj.getPurchaseId());
+                orderDetailsRequest.setMessage(getString(R.string.string_sold_details_of_items, pPurchaseObj.getNameOfPerson()));
 
                 Intent intent = new Intent(mBaseActivity, OrderDetailsActivity.class);
                 intent.putExtra(AppConstant.KEY_OBJECT, orderDetailsRequest);
@@ -290,9 +290,9 @@ public class PurchaseFragment extends ListBaseFragment<SellerOrderResponse.Order
 
                 PaymentsRequest paymentsRequest = new PaymentsRequest();
                 paymentsRequest.setFlag(AppConstant.DELETE_OR_PAYMENT_PURCHASE);
-                paymentsRequest.setId(pOrderObj.getPurchaseId());
-                paymentsRequest.setOrderDate(pOrderObj.getPurchaseDate());
-                paymentsRequest.setOrderAmount(pOrderObj.getTotalAmount());
+                paymentsRequest.setId(pPurchaseObj.getPurchaseId());
+                paymentsRequest.setOrderDate(pPurchaseObj.getPurchaseDate());
+                paymentsRequest.setOrderAmount(pPurchaseObj.getTotalAmount());
 
                 Intent intent = new Intent(mBaseActivity, PaymentsActivity.class);
                 intent.putExtra(AppConstant.KEY_OBJECT, paymentsRequest);

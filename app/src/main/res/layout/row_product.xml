@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="90dp"
-    card_view:cardBackgroundColor="@color/colorWhite"
-    card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="1dp"
-    card_view:cardUseCompatPadding="true">
+    style="@style/CardViewStyle">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:background="@color/colorPrimary" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="6dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/row_layout_product_card_view_iv_product_image"
+            android:id="@+id/row_product_iv_product_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_user_selected"
+            android:src="@mipmap/ic_launcher"
             app:civ_border_color="@android:color/black"
             app:civ_border_width="2dp" />
 
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/row_layout_product_card_view_tv_product_info"
+            android:id="@+id/row_product_tv_product_info"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
+            android:maxLines="1"
+            android:paddingEnd="5dp"
             android:paddingStart="5dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/rowParentColor"
-            android:textStyle="italic" />
+            android:textColor="@color/rowParentColor" />
 
         <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/row_layout_product_card_view_img_status"
+            android:id="@+id/row_product_iv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

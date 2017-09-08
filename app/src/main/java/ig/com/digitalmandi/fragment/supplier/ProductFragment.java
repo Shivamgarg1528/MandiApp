@@ -10,7 +10,7 @@ import java.util.Comparator;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.activity.seller.SupplierProductModifyActivity;
-import ig.com.digitalmandi.adapter.supplier.SupplierProductAdapter;
+import ig.com.digitalmandi.adapter.supplier.ProductAdapter;
 import ig.com.digitalmandi.bean.AbstractResponse;
 import ig.com.digitalmandi.bean.request.seller.ItemDeleteRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierProductModifyRequest;
@@ -35,7 +35,7 @@ public class ProductFragment extends ListBaseFragment<SellerProductList.Product>
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        return new SupplierProductAdapter(mDataList, mBaseActivity, this);
+        return new ProductAdapter(mBaseActivity, mDataList, this);
     }
 
     @Override

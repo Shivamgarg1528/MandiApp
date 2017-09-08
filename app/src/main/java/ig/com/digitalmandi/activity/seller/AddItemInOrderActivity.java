@@ -21,13 +21,14 @@ import java.util.List;
 
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
-import ig.com.digitalmandi.adapter.supplier.ItemsCartAdapter;
-import ig.com.digitalmandi.adapter.supplier.ItemsStockAdapter;
-import ig.com.digitalmandi.bean.request.seller.SellerCustomerList;
+import ig.com.digitalmandi.adapter.supplier.OrderDetailAdapter;
+import ig.com.digitalmandi.adapter.supplier.StockAdapter;
+import ig.com.digitalmandi.bean.request.seller.CustomerResponse;
 import ig.com.digitalmandi.bean.request.seller.SellerOrdersRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderAddRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
-import ig.com.digitalmandi.bean.response.seller.SellerOrderResponse;
+import ig.com.digitalmandi.bean.response.seller.OrderDetailResponse;
+import ig.com.digitalmandi.bean.response.seller.PurchaseResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.dialog.AddItemDialog;
 import ig.com.digitalmandi.dialog.DatePickerClass;
@@ -38,10 +39,10 @@ import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
 
-public class AddItemInOrderActivity extends BaseActivity<SellerOrderResponse.Order> implements AdapterView.OnItemSelectedListener, EventCallback<SellerOrderResponse.Order>, TextWatcher, View.OnClickListener {
+public class AddItemInOrderActivity extends BaseActivity<PurchaseResponse.Purchase> implements AdapterView.OnItemSelectedListener, EventCallback<PurchaseResponse.Purchase>, TextWatcher, View.OnClickListener {
 
     private final SupplierOrderAddRequest mOrderAddRequest = new SupplierOrderAddRequest();
-    private final List<SupplierOrderAddRequest.OrderDetailsBean> mListCartItem = new ArrayList<>();
+    private final List<OrderDetailResponse.OrderDetail> mListCartItem = new ArrayList<>();
     private AppCompatEditText mEditTextDriverName;
     private AppCompatEditText mEditTextDriverPhoneNumber;
     private AppCompatEditText mEditTextVechileRent100Kg;
@@ -69,9 +70,9 @@ public class AddItemInOrderActivity extends BaseActivity<SellerOrderResponse.Ord
     private float mBardanaAmt;
     private float mTotalQtyInKg;
     private float mTotalVechileAmt;
-    private SellerCustomerList.Customer mCustomerObj;
-    private ItemsCartAdapter mCartAdapter;
-    private ItemsStockAdapter mStockAdapter;
+    private CustomerResponse.Customer mCustomerObj;
+    private OrderDetailAdapter mCartAdapter;
+    private StockAdapter mStockAdapter;
 
     private Date mDateOrder;
 
@@ -83,14 +84,14 @@ public class AddItemInOrderActivity extends BaseActivity<SellerOrderResponse.Ord
         setToolbar(true);
         setTitle(getString(R.string.string_add_items));
 
-        mCustomerObj = (SellerCustomerList.Customer) getIntent().getSerializableExtra(AppConstant.KEY_OBJECT);
+        mCustomerObj = (CustomerResponse.Customer) getIntent().getSerializableExtra(AppConstant.KEY_OBJECT);
 
         findViewById(R.id.dialog_purchase_payment_tv_payment).setOnClickListener(this);
 
-        mButtonOrderDate = (AppCompatButton) findViewById(R.id.dialog_purchase_payment_tv_payment_date);
+        mButtonOrderDate = findViewById(R.id.dialog_purchase_payment_tv_payment_date);
         mButtonOrderDate.setOnClickListener(this);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_common_list_swipe);
+        mSwipeRefreshLayout = findViewById(R.id.layout_common_list_swipe);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
@@ -99,38 +100,38 @@ public class AddItemInOrderActivity extends BaseActivity<SellerOrderResponse.Ord
             }
         });
 
-        mEditTextDriverName = (AppCompatEditText) findViewById(R.id.mEditTextDriverName);
-        mEditTextDriverPhoneNumber = (AppCompatEditText) findViewById(R.id.mEditTextDriverPhoneNumber);
-        mTextViewSubTotalAmt = (AppCompatTextView) findViewById(R.id.mTextViewSubTotalAmt);
-        mTextViewExpensesAmt = (AppCompatTextView) findViewById(R.id.mTextViewExpensesAmt);
-        mTextViewLabourAmt = (AppCompatTextView) findViewById(R.id.mTextViewLaboutAmt);
-        mTextViewBardanaAmt = (AppCompatTextView) findViewById(R.id.mTextViewBardanaAmt);
-        mTextViewTotalAmt = (AppCompatTextView) findViewById(R.id.mTextViewTotalAmt);
-        mTextViewVechileAmt = (AppCompatTextView) findViewById(R.id.mTextViewVechileAmt);
-        mTextViewTotalLoadInQuintal = (AppCompatTextView) findViewById(R.id.mTextViewTotalLoadInQuintal);
+        mEditTextDriverName = findViewById(R.id.mEditTextDriverName);
+        mEditTextDriverPhoneNumber = findViewById(R.id.mEditTextDriverPhoneNumber);
+        mTextViewSubTotalAmt = findViewById(R.id.mTextViewSubTotalAmt);
+        mTextViewExpensesAmt = findViewById(R.id.mTextViewExpensesAmt);
+        mTextViewLabourAmt = findViewById(R.id.mTextViewLaboutAmt);
+        mTextViewBardanaAmt = findViewById(R.id.mTextViewBardanaAmt);
+        mTextViewTotalAmt = findViewById(R.id.mTextViewTotalAmt);
+        mTextViewVechileAmt = findViewById(R.id.mTextViewVechileAmt);
+        mTextViewTotalLoadInQuintal = findViewById(R.id.mTextViewTotalLoadInQuintal);
 
-        mEditTextDriverVehicleNo = (AppCompatEditText) findViewById(R.id.mEditTextDriverVehicleNo);
-        mTextViewTotalNag = (AppCompatTextView) findViewById(R.id.mTextViewTotalNag);
+        mEditTextDriverVehicleNo = findViewById(R.id.mEditTextDriverVehicleNo);
+        mTextViewTotalNag = findViewById(R.id.mTextViewTotalNag);
 
 
-        mTextViewEmptyCart = (AppCompatTextView) findViewById(R.id.layout_common_list_tv_empty_text_view);
+        mTextViewEmptyCart = findViewById(R.id.layout_common_list_tv_empty_text_view);
         mTextViewEmptyCart.setText(R.string.string_please_add_item_into_cart);
 
-        mTextViewEmptyStock = (AppCompatTextView) findViewById(R.id.layout_activity_add_item_tv_empty_view);
+        mTextViewEmptyStock = findViewById(R.id.layout_activity_add_item_tv_empty_view);
         mTextViewEmptyStock.setText(R.string.string_no_purchased_item_found_please_add_item_first);
 
         mOrderAddRequest.setOrderDetails(mListCartItem);
 
-        RecyclerView recyclerViewCart = (RecyclerView) findViewById(R.id.layout_common_list_recycler_view);
+        RecyclerView recyclerViewCart = findViewById(R.id.layout_common_list_recycler_view);
         recyclerViewCart.setHasFixedSize(true);
         recyclerViewCart.setLayoutManager(new LinearLayoutManager(mBaseActivity));
-        recyclerViewCart.setAdapter(mCartAdapter = new ItemsCartAdapter(mListCartItem, mBaseActivity, new EventCallback() {
+        recyclerViewCart.setAdapter(mCartAdapter = new OrderDetailAdapter(mBaseActivity, mListCartItem, new EventCallback() {
 
             @Override
             public void onEvent(int pOperationType, Object pObject) {
                 if (pOperationType == AppConstant.OPERATION_DELETE) {
-                    SupplierOrderAddRequest.OrderDetailsBean removedObject = (SupplierOrderAddRequest.OrderDetailsBean) pObject;
-                    for (SellerOrderResponse.Order traversedObject : mDataList) {
+                    OrderDetailResponse.OrderDetail removedObject = (OrderDetailResponse.OrderDetail) pObject;
+                    for (PurchaseResponse.Purchase traversedObject : mDataList) {
                         if (traversedObject.getPurchaseId().equalsIgnoreCase(removedObject.getPurchaseId())) {
                             traversedObject.setLocalSoldQtyInKg(String.valueOf(Float.parseFloat(traversedObject.getLocalSoldQtyInKg()) - (Float.parseFloat(removedObject.getQtyInKg()))));
                             setTextAfterCalculation();
@@ -139,40 +140,40 @@ public class AddItemInOrderActivity extends BaseActivity<SellerOrderResponse.Ord
                     }
                 }
             }
-        }));
+        }, true));
 
-        RecyclerView recyclerViewStock = (RecyclerView) findViewById(R.id.layout_activity_add_item_rv_items);
+        RecyclerView recyclerViewStock = findViewById(R.id.layout_activity_add_item_rv_items);
         recyclerViewStock.setHasFixedSize(true);
         recyclerViewStock.setLayoutManager(new GridLayoutManager(mBaseActivity, 2));
-        recyclerViewStock.setAdapter(mStockAdapter = new ItemsStockAdapter(mBaseActivity, mDataList, this));
+        recyclerViewStock.setAdapter(mStockAdapter = new StockAdapter(mBaseActivity, mDataList, this));
         mStockAdapter.notifyData(mTextViewEmptyStock);
 
-        AppCompatSpinner spinnerBardana = (AppCompatSpinner) findViewById(R.id.mSpinnerBardana);
+        AppCompatSpinner spinnerBardana = findViewById(R.id.mSpinnerBardana);
         spinnerBardana.setAdapter(Helper.getAdapter(mBaseActivity, R.array.string_array_labour_cost));
         spinnerBardana.setOnItemSelectedListener(this);
         spinnerBardana.setSelection(15, true);
 
-        AppCompatSpinner spinnerExpenses = (AppCompatSpinner) findViewById(R.id.mSpinnerExpenses);
+        AppCompatSpinner spinnerExpenses = findViewById(R.id.mSpinnerExpenses);
         spinnerExpenses.setAdapter(Helper.getAdapter(mBaseActivity, R.array.string_array_labour_cost));
         spinnerExpenses.setOnItemSelectedListener(this);
         spinnerExpenses.setSelection(5, true);
 
-        AppCompatSpinner spinnerLabour = (AppCompatSpinner) findViewById(R.id.mSpinnerLabour);
+        AppCompatSpinner spinnerLabour = findViewById(R.id.mSpinnerLabour);
         spinnerLabour.setAdapter(Helper.getAdapter(mBaseActivity, R.array.string_array_labour_cost));
         spinnerLabour.setOnItemSelectedListener(this);
         spinnerLabour.setSelection(5, true);
 
-        mEditTextVechileRent100Kg = (AppCompatEditText) findViewById(R.id.mEditTextVechileRent100Kg);
+        mEditTextVechileRent100Kg = findViewById(R.id.mEditTextVechileRent100Kg);
         mEditTextVechileRent100Kg.addTextChangedListener(this);
 
         initializedStock();
     }
 
     @Override
-    public void onEvent(int pOperationType, SellerOrderResponse.Order pObject) {
-        AddItemDialog dialog = new AddItemDialog(mBaseActivity, pObject, new EventCallback<SupplierOrderAddRequest.OrderDetailsBean>() {
+    public void onEvent(int pOperationType, PurchaseResponse.Purchase pObject) {
+        AddItemDialog dialog = new AddItemDialog(mBaseActivity, pObject, new EventCallback<OrderDetailResponse.OrderDetail>() {
             @Override
-            public void onEvent(int pOperationType, SupplierOrderAddRequest.OrderDetailsBean pObject) {
+            public void onEvent(int pOperationType, OrderDetailResponse.OrderDetail pObject) {
                 mListCartItem.add(0, pObject);
                 setTextAfterCalculation();
             }
@@ -263,10 +264,10 @@ public class AddItemInOrderActivity extends BaseActivity<SellerOrderResponse.Ord
         sellerOrdersRequest.setFlag(AppConstant.PURCHASE_LIST_ALL);
 
         mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().purchaseList(sellerOrdersRequest);
-        mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerOrderResponse>(mBaseActivity, false) {
+        mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<PurchaseResponse>(mBaseActivity, false) {
 
             @Override
-            public void onResponse(SellerOrderResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(PurchaseResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     mDataList.clear();
                     mDataList.addAll(pResponse.getResult());
@@ -282,7 +283,7 @@ public class AddItemInOrderActivity extends BaseActivity<SellerOrderResponse.Ord
         mTotalQty = 0;
         mSubTotalAmt = 0;
         mTotalQtyInKg = 0;
-        for (SupplierOrderAddRequest.OrderDetailsBean object : mListCartItem) {
+        for (OrderDetailResponse.OrderDetail object : mListCartItem) {
             mTotalQty += Float.parseFloat(object.getQty());
             mSubTotalAmt += Float.parseFloat(object.getTotalPrice());
             mTotalQtyInKg += Float.parseFloat(object.getQtyInKg());
@@ -307,7 +308,7 @@ public class AddItemInOrderActivity extends BaseActivity<SellerOrderResponse.Ord
     }
 
     private void placeOrder() {
-        Helper.onHideSoftKeyBoard(mBaseActivity, mEditTextDriverVehicleNo);
+        Helper.hideSoftKeyBoard(mBaseActivity, mEditTextDriverVehicleNo);
 
         if (mDataList.isEmpty()) {
             mBaseActivity.showToast(getString(R.string.string_no_purchased_item_found_please_add_item_first));

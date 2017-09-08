@@ -8,9 +8,9 @@ import android.view.View;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.activity.ListBaseActivity;
-import ig.com.digitalmandi.adapter.supplier.SupplierPurchasePaymentAdapter;
+import ig.com.digitalmandi.adapter.supplier.PaymentAdapter;
 import ig.com.digitalmandi.bean.request.seller.PaymentsRequest;
-import ig.com.digitalmandi.bean.response.seller.PaymentsResponse;
+import ig.com.digitalmandi.bean.response.seller.Payments;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.dialog.PaymentDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
@@ -19,14 +19,14 @@ import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
 
-public class PaymentsActivity extends ListBaseActivity<PaymentsResponse.Payment> implements View.OnClickListener, EventCallback {
+public class PaymentsActivity extends ListBaseActivity<Payments.Payment> implements View.OnClickListener, EventCallback {
 
     private PaymentsRequest mPaymentsRequest;
     private float mOrderAmt = 0.0f;
 
     @Override
     protected RecyclerView.Adapter getAdapter() {
-        return new SupplierPurchasePaymentAdapter(mDataList);
+        return new PaymentAdapter(this, mDataList, this);
     }
 
     @Override
@@ -43,10 +43,10 @@ public class PaymentsActivity extends ListBaseActivity<PaymentsResponse.Payment>
     protected void fetchData(final boolean pRefresh) {
 
         mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().supplierPurchasePaymentList(mPaymentsRequest);
-        mApiEnqueueObject.enqueue(new RetrofitCallBack<PaymentsResponse>(mBaseActivity, false) {
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<Payments>(mBaseActivity, false) {
 
             @Override
-            public void onResponse(PaymentsResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(Payments pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     if (pRefresh) {
                         mDataList.clear();
@@ -87,7 +87,7 @@ public class PaymentsActivity extends ListBaseActivity<PaymentsResponse.Payment>
         float interestDueAmt;
         float totalPaid;
 
-        for (PaymentsResponse.Payment payment : mDataList) {
+        for (Payments.Payment payment : mDataList) {
             paidAmt += Float.parseFloat(payment.getAmount());
             interestAmt += Float.parseFloat(payment.getInterestAmt());
             interestPaidAmt += AppConstant.INTEREST_PAID.equalsIgnoreCase(payment.getInterestPaid()) ? Float.parseFloat(payment.getInterestAmt()) : 0.0f;

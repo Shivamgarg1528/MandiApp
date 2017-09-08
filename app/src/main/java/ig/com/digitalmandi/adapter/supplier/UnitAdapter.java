@@ -13,40 +13,37 @@ import java.util.List;
 
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
+import ig.com.digitalmandi.adapter.BaseAdapter;
 import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
 
-public class SupplierUnitAdapter extends RecyclerView.Adapter<SupplierUnitAdapter.ViewHolder> {
+public class UnitAdapter extends BaseAdapter<SellerUnitList.Unit> {
 
-    private final BaseActivity mBaseActivity;
-    private final List<SellerUnitList.Unit> mDataList;
-    private final EventCallback mListener;
-
-    public SupplierUnitAdapter(List<SellerUnitList.Unit> pDataList, BaseActivity pBaseActivity, EventCallback pListener) {
-        this.mDataList = pDataList;
-        this.mBaseActivity = pBaseActivity;
-        this.mListener = pListener;
+    public UnitAdapter(BaseActivity pBaseActivity, List<SellerUnitList.Unit> pDataList, EventCallback pEventCallback) {
+        super(pBaseActivity, pDataList, pEventCallback);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_unit_cardview, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_unit, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        final ViewHolder viewHolder = (ViewHolder) holder;
         SellerUnitList.Unit data = mDataList.get(position);
-        holder.mTextViewUnitName.setText(data.getUnitName());
-        holder.mTextViewUnitInfo.setText(data.getKgValue());
-        holder.mImageViewStatus.setImageResource(AppConstant.ENABLE.equalsIgnoreCase(data.getUnitStatus()) ? R.drawable.ic_checkbox_checked : R.drawable.ic_checkbox_unchecked);
 
-        holder.mParentView.setOnLongClickListener(new View.OnLongClickListener() {
+        viewHolder.mTextViewUnitName.setText(data.getUnitName());
+        viewHolder.mTextViewUnitInfo.setText(data.getKgValue());
+        viewHolder.mImageViewStatus.setImageResource(AppConstant.ENABLE.equalsIgnoreCase(data.getUnitStatus()) ? R.drawable.ic_checkbox_checked : R.drawable.ic_checkbox_unchecked);
+
+        viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(final View view) {
 
-                final SellerUnitList.Unit data = mDataList.get(holder.getAdapterPosition());
+                final SellerUnitList.Unit data = mDataList.get(viewHolder.getAdapterPosition());
                 CharSequence dataStatus = AppConstant.ENABLE.equalsIgnoreCase(data.getUnitStatus()) ? mBaseActivity.getString(R.string.string_disable) : mBaseActivity.getString(R.string.string_enable);
 
                 CharSequence[] charSequenceArray = {
@@ -62,15 +59,15 @@ public class SupplierUnitAdapter extends RecyclerView.Adapter<SupplierUnitAdapte
                         switch (item) {
 
                             case 0:
-                                mListener.onEvent(AppConstant.OPERATION_DELETE, data);
+                                mEventCallback.onEvent(AppConstant.OPERATION_DELETE, data);
                                 break;
 
                             case 1:
-                                mListener.onEvent(AppConstant.OPERATION_EDIT, data);
+                                mEventCallback.onEvent(AppConstant.OPERATION_EDIT, data);
                                 break;
 
                             case 2:
-                                mListener.onEvent(AppConstant.OPERATION_STATUS_MODIFY, data);
+                                mEventCallback.onEvent(AppConstant.OPERATION_STATUS_MODIFY, data);
                                 break;
                         }
                     }
@@ -81,24 +78,17 @@ public class SupplierUnitAdapter extends RecyclerView.Adapter<SupplierUnitAdapte
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return mDataList.size();
-    }
+    private static class ViewHolder extends RecyclerView.ViewHolder {
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-
-        final View mParentView;
-        final AppCompatTextView mTextViewUnitName;
-        final AppCompatTextView mTextViewUnitInfo;
-        final AppCompatImageView mImageViewStatus;
+        private final AppCompatTextView mTextViewUnitName;
+        private final AppCompatTextView mTextViewUnitInfo;
+        private final AppCompatImageView mImageViewStatus;
 
         ViewHolder(View view) {
             super(view);
-            mParentView = view;
-            mTextViewUnitName = (AppCompatTextView) mParentView.findViewById(R.id.row_layout_unit_cardview_txtview_unit_name);
-            mTextViewUnitInfo = (AppCompatTextView) mParentView.findViewById(R.id.row_layout_unit_cardview_txtview_unit_value);
-            mImageViewStatus = (AppCompatImageView) mParentView.findViewById(R.id.row_layout_unit_card_view_img_status);
+            mTextViewUnitName = view.findViewById(R.id.row_unit_tv_unit_name);
+            mTextViewUnitInfo = view.findViewById(R.id.row_unit_tv_unit_value);
+            mImageViewStatus = view.findViewById(R.id.row_unit_img_status);
         }
     }
 }
