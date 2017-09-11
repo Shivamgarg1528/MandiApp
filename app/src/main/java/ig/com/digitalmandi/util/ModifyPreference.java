@@ -6,8 +6,8 @@ import ig.com.digitalmandi.bean.request.seller.SellerCustomerListRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerProductListRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerUnitListRequest;
 import ig.com.digitalmandi.bean.response.LoginResponse;
-import ig.com.digitalmandi.bean.response.seller.SellerProductList;
-import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
+import ig.com.digitalmandi.bean.response.seller.ProductResponse;
+import ig.com.digitalmandi.bean.response.seller.UnitResponse;
 import ig.com.digitalmandi.callback.ApiCallback;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
@@ -52,10 +52,10 @@ public class ModifyPreference {
 
 
         mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().supplierUnitList(sellerUnitListRequest);
-        mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerUnitList>(mBaseActivity, false) {
+        mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<UnitResponse>(mBaseActivity, false) {
 
             @Override
-            public void onResponse(SellerUnitList pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(UnitResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     AppSharedPrefs.getInstance(mBaseActivity).setSellerUnits(pResponse);
                 }
@@ -72,10 +72,10 @@ public class ModifyPreference {
         sellerProductListRequest.setSellerId(mLoginUser.getSellerId());
 
         mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().supplierProductList(sellerProductListRequest);
-        mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerProductList>(mBaseActivity, false) {
+        mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<ProductResponse>(mBaseActivity, false) {
 
             @Override
-            public void onResponse(SellerProductList pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(ProductResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, true)) {
                     AppSharedPrefs.getInstance(mBaseActivity).setSellerProducts(pResponse);
                 }

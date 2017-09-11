@@ -13,43 +13,29 @@ import com.nguyenhoanglam.imagepicker.model.Image;
 
 import java.util.ArrayList;
 
+import ig.com.digitalmandi.R;
+import ig.com.digitalmandi.activity.BaseActivity;
+import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
 
 public class ImageDialog {
-
-    private static final int REQUEST_CODE_IMAGE = 100;
 
     private final AppCompatActivity mActivity;
     private final OnItemSelectedListener mListener;
     private final int mImageWidth;
     private final int mImageHeight;
 
-    public ImageDialog(AppCompatActivity pActivity, OnItemSelectedListener pListener, int pImageWidth, int pImageHeight) {
-        this.mActivity = pActivity;
+    public ImageDialog(BaseActivity pBaseActivity, OnItemSelectedListener pListener, int pImageWidth, int pImageHeight) {
+        this.mActivity = pBaseActivity;
         this.mListener = pListener;
         this.mImageWidth = pImageWidth;
         this.mImageHeight = pImageHeight;
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && data != null) {
-            switch (requestCode) {
-                case REQUEST_CODE_IMAGE:
-                    ArrayList<Image> images = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
-                    if (images != null && images.size() > 0) {
-                        if (!Helper.isEmpty(images.get(0).getPath())) {
-                            mListener.onImageReceived(Helper.getBitmapFromPath(images.get(0).getPath(), mImageWidth, mImageHeight));
-                        }
-                    }
-                    break;
-            }
-        }
-    }
-
     public void show() {
-        final CharSequence[] items = {"Select Image", "Remove", "Cancel"};
+        final CharSequence[] items = {mActivity.getString(R.string.string_select_image), mActivity.getString(R.string.string_remove), mActivity.getString(R.string.string_cancel)};
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        builder.setTitle("Photo!");
+        builder.setTitle(R.string.string_photo);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
@@ -58,9 +44,9 @@ public class ImageDialog {
                         ImagePicker
                                 .create(mActivity)
                                 .folderMode(true)
-                                .folderTitle("Images")
+                                .folderTitle(mActivity.getString(R.string.string_images))
                                 .single()
-                                .start(REQUEST_CODE_IMAGE);
+                                .start(AppConstant.REQUEST_CODE_IMAGE);
                         break;
                     }
                     case 1:
@@ -74,6 +60,21 @@ public class ImageDialog {
             }
         });
         builder.show();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            switch (requestCode) {
+                case AppConstant.REQUEST_CODE_IMAGE:
+                    ArrayList<Image> images = data.getParcelableArrayListExtra(ImagePickerActivity.INTENT_EXTRA_SELECTED_IMAGES);
+                    if (images != null && images.size() > 0) {
+                        if (!Helper.isEmpty(images.get(0).getPath())) {
+                            mListener.onImageReceived(Helper.getBitmapFromPath(images.get(0).getPath(), mImageWidth, mImageHeight));
+                        }
+                    }
+                    break;
+            }
+        }
     }
 
     public interface OnItemSelectedListener {

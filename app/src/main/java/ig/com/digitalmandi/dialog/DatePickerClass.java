@@ -12,10 +12,10 @@ import ig.com.digitalmandi.util.Helper;
 
 public class DatePickerClass {
 
-    public static final int START_DATE = 0x1;
-    public static final int END_DATE = 0x2;
-    public static final int PAYMENT_DATE = 0x3;
-    public static final int ORDER_DATE = 0x4;
+    public static final int START_DATE = 1;
+    public static final int END_DATE = 2;
+    public static final int PAYMENT_DATE = 3;
+    public static final int ORDER_DATE = 4;
 
     public static void showDatePicker(BaseActivity pBaseActivity, final int pId, final OnDateSelected pDateSelectedCallback) {
 

@@ -12,14 +12,14 @@ import java.util.List;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.adapter.BaseAdapter;
-import ig.com.digitalmandi.bean.response.seller.Payments;
+import ig.com.digitalmandi.bean.response.seller.PaymentResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
 
-public class PaymentAdapter extends BaseAdapter<Payments.Payment> {
+public class PaymentAdapter extends BaseAdapter<PaymentResponse.Payment> {
 
-    public PaymentAdapter(BaseActivity pBaseActivity, List<Payments.Payment> pDataList, EventCallback pEventCallback) {
+    public PaymentAdapter(BaseActivity pBaseActivity, List<PaymentResponse.Payment> pDataList, EventCallback pEventCallback) {
         super(pBaseActivity, pDataList, pEventCallback);
     }
 
@@ -32,7 +32,7 @@ public class PaymentAdapter extends BaseAdapter<Payments.Payment> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        Payments.Payment data = mDataList.get(position);
+        PaymentResponse.Payment data = mDataList.get(position);
 
         viewHolder.mTextViewPaymentAmountPaid.setText(Helper.formatStringUpTo2Precision(data.getAmount()));
         viewHolder.mTextViewPaymentInterestAmount.setText(Helper.formatStringUpTo2Precision(data.getInterestAmt()));

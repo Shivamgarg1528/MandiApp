@@ -14,13 +14,13 @@ import java.util.List;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.adapter.BaseAdapter;
-import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
+import ig.com.digitalmandi.bean.response.seller.UnitResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
 
-public class UnitAdapter extends BaseAdapter<SellerUnitList.Unit> {
+public class UnitAdapter extends BaseAdapter<UnitResponse.Unit> {
 
-    public UnitAdapter(BaseActivity pBaseActivity, List<SellerUnitList.Unit> pDataList, EventCallback pEventCallback) {
+    public UnitAdapter(BaseActivity pBaseActivity, List<UnitResponse.Unit> pDataList, EventCallback pEventCallback) {
         super(pBaseActivity, pDataList, pEventCallback);
     }
 
@@ -33,7 +33,7 @@ public class UnitAdapter extends BaseAdapter<SellerUnitList.Unit> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        SellerUnitList.Unit data = mDataList.get(position);
+        UnitResponse.Unit data = mDataList.get(position);
 
         viewHolder.mTextViewUnitName.setText(data.getUnitName());
         viewHolder.mTextViewUnitInfo.setText(data.getKgValue());
@@ -43,7 +43,7 @@ public class UnitAdapter extends BaseAdapter<SellerUnitList.Unit> {
             @Override
             public boolean onLongClick(final View view) {
 
-                final SellerUnitList.Unit data = mDataList.get(viewHolder.getAdapterPosition());
+                final UnitResponse.Unit data = mDataList.get(viewHolder.getAdapterPosition());
                 CharSequence dataStatus = AppConstant.ENABLE.equalsIgnoreCase(data.getUnitStatus()) ? mBaseActivity.getString(R.string.string_disable) : mBaseActivity.getString(R.string.string_enable);
 
                 CharSequence[] charSequenceArray = {

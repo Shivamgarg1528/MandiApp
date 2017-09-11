@@ -10,7 +10,6 @@ import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.Comparator;
 import java.util.Date;
@@ -29,8 +28,8 @@ import ig.com.digitalmandi.bean.request.seller.SellerOrdersRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.bean.response.seller.PurchaseResponse;
 import ig.com.digitalmandi.callback.EventCallback;
+import ig.com.digitalmandi.dialog.ConfirmDialog;
 import ig.com.digitalmandi.dialog.DatePickerClass;
-import ig.com.digitalmandi.dialog.PreConfirmDialog;
 import ig.com.digitalmandi.fragment.ListBaseFragment;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
@@ -123,7 +122,7 @@ public class PurchaseFragment extends ListBaseFragment<PurchaseResponse.Purchase
 
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     if (pResponse.getResult().size() == 0) {
-                        Toast.makeText(pBaseActivity, "No Purchased Item Found", Toast.LENGTH_SHORT).show();
+                        pBaseActivity.showToast(getString(R.string.string_no_purchased_item_found));
                     }
                     if (pRefresh) {
                         mRecyclerView.scrollToPosition(0);
@@ -189,7 +188,7 @@ public class PurchaseFragment extends ListBaseFragment<PurchaseResponse.Purchase
             }
 
             case R.id.layout_fragment_seller_orders_btn_reset_date: {
-                PreConfirmDialog.showAlertDialog(mBaseActivity, getString(R.string.string_reset_applied_filters), true, new DialogInterface.OnClickListener() {
+                ConfirmDialog.show(mBaseActivity, getString(R.string.string_reset_applied_filters), true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_POSITIVE) {
@@ -246,7 +245,7 @@ public class PurchaseFragment extends ListBaseFragment<PurchaseResponse.Purchase
         switch (pOperationType) {
             case AppConstant.OPERATION_DELETE: {
 
-                PreConfirmDialog.showAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_order), true, new DialogInterface.OnClickListener() {
+                ConfirmDialog.show(mBaseActivity, getString(R.string.string_continue_to_delete_order), true, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

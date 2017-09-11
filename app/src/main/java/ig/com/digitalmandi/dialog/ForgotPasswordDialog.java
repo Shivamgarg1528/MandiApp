@@ -10,25 +10,33 @@ import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.request.ForgotPasswordRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
+import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
 import ig.com.digitalmandi.util.Helper;
 
-public class ForgotPasswordDialog extends BaseDialog implements View.OnClickListener {
+public class ForgotPasswordDialog extends BaseDialog {
 
     private AppCompatEditText mEditTxtEmail;
 
     public ForgotPasswordDialog(@NonNull BaseActivity pBaseActivity) {
-        super(pBaseActivity);
+        super(pBaseActivity, new EventCallback() {
+            @Override
+            public void onEvent(int pOperationType, Object pObject) {
+
+            }
+        });
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.dialog_forgot_password);
         findViewById(R.id.layout_forgot_password_btn_submit).setOnClickListener(this);
-        mEditTxtEmail = (AppCompatEditText) findViewById(R.id.layout_forgot_password_edt_email);
+
+        mEditTxtEmail = findViewById(R.id.layout_forgot_password_edt_email);
     }
 
     @Override
@@ -54,7 +62,6 @@ public class ForgotPasswordDialog extends BaseDialog implements View.OnClickList
                     mBaseActivity.showToast(mBaseActivity.getString(R.string.enter_valid_email_address));
                 }
             }
-
         });
     }
 }

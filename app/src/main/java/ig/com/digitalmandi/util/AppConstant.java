@@ -34,10 +34,14 @@ public class AppConstant {
     public static final int REQUEST_CODE_CALL_PERMISSION = 2;
     public static final int REQUEST_CODE_WRITE_PERMISSION = 3;
     public static final int REQUEST_CODE_PLACE_NEW_ORDER = 4;
+    public static final int REQUEST_CODE_IMAGE = 5;
+
     /* Comparator*/
     public static final int COMPARATOR_ALPHA = 1;
     public static final int COMPARATOR_PHONE = 2;
     /* Operations On Events */
+
+    public static final int OPERATION_NONE = 0;
     public static final int OPERATION_EDIT = 1;
     public static final int OPERATION_DELETE = 2;
     public static final int OPERATION_STATUS_MODIFY = 3;
@@ -60,6 +64,7 @@ public class AppConstant {
     static final String DIRECTORY_NAME = "DIGITAL_MANDI";
     static final String ORDER_BILL_PREFIX = "Order_#";
     static final String PAYMENT_BILL_PREFIX = "Payment_#";
+
 }
 
 

@@ -2,9 +2,9 @@ package ig.com.digitalmandi.bean.response.seller;
 
 import ig.com.digitalmandi.bean.AbstractResponse;
 
-public class SupplierListResponse extends AbstractResponse<SupplierListResponse.ResultBean> {
+public class SellerResponse extends AbstractResponse<SellerResponse.Seller> {
 
-    public static class ResultBean {
+    public static class Seller {
 
         private String userName;
         private String userId;

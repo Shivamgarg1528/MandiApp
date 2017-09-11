@@ -156,17 +156,17 @@
     <string name="go">Go</string>
 
     <!-- Unit Fragment-->
-    <string name="string_no_unit_found_please_add_new_unit">No Unit Found\nPlease Add New Unit</string>
-    <string name="string_continue_to_delete_unit">Continue, To Delete Unit!</string>
+    <string name="string_no_unit_found_please_add_new_unit">No Unit Available\nPlease Add Unit</string>
+    <string name="string_continue_to_delete_unit">Continue, To Delete Unit !!!</string>
     <string name="string_sorry_you_cant_delete_this_unit">Sorry You can\'t delete this unit</string>
 
     <!-- Product Fragment-->
-    <string name="string_no_product_found_please_add_new_product">No Product Found\nPlease Add New Product</string>
-    <string name="string_continue_to_delete_product">Continue, To Delete Product!</string>
+    <string name="string_no_product_found_please_add_new_product">No Product Available\nPlease Add Product</string>
+    <string name="string_continue_to_delete_product">Continue, To Delete Product !!!</string>
     <string name="string_sorry_you_cant_delete_this_product">Sorry You can\'t delete this product</string>
 
     <!--Customer Fragment-->
-    <string name="string_no_customer_found_please_add_new_customer">No Customer Found\nPlease Add New Customer</string>
+    <string name="string_no_customer_found_please_add_new_customer">No Customer Available\nPlease Add Customer</string>
     <string name="string_customer_orders">\'s Orders</string>
 
     <!-- Runtime Permission text-->
@@ -174,7 +174,7 @@
     <string name="string_allow_external_storage_access">Allow Access External Storage For Reading And Writing Data</string>
 
     <!-- Customer Purchase's Activity-->
-    <string name="string_no_customer_orders_found_please_add_new_order">No Order Found\nPlease Add New Order</string>
+    <string name="string_no_customer_orders_found_please_add_new_order">No Order Available\nPlease Add Order</string>
     <string name="string_start_date">Start Date</string>
     <string name="string_end_date">End Date</string>
     <string name="string_reset_filter">Reset Filter</string>
@@ -193,16 +193,16 @@
     <string name="string_please_select_end_date">Please Select End Date</string>
     <string name="string_start_date_must_less_than_end_date">Start Date Must Be Greater Or Equals To End Date</string>
     <string name="string_please_enable_auto_date_time_from_setting">Please Enable Auto Date From Device</string>
-    <string name="string_reset_applied_filters">Reset Applied Filters</string>
+    <string name="string_reset_applied_filters">Continue, To Reset Applied Filters !!!</string>
     <string name="string_failed_to_get_pdf_from_server">Failed To Get PDF From Server</string>
     <string name="string_order_deleted_successfully">Order Deleted Successfully</string>
     <string name="string_order_deleted_unsuccessfully">Sorry You Can\'t Delete This Order</string>
-    <string name="string_continue_to_delete_order">Continue,To Delete This Order!</string>
+    <string name="string_continue_to_delete_order">Continue, To Delete Order !!!</string>
 
     <!-- Purchase Details-->
     <string name="string_order_id_details">Order (%s) Details</string>
-    <string name="string_no_customer_order_details_found_please_try_again_later">No Order Details Found\nPlease Try Again Later</string>
-    <string name="string_no_customer_payment_found_please_pay_due_amount">No Payment Found\nPlease Pay Due Amount</string>
+    <string name="string_no_customer_order_details_found_please_try_again_later">No Order Details Available</string>
+    <string name="string_no_customer_payment_found_please_pay_due_amount">No Payment Available\nPlease Pay</string>
 
     <!--Payment Details Activity -->
     <string name="string_new_payment">New Payment</string>
@@ -270,12 +270,12 @@
     <string name="string_rs_in_kg">Rs In Kg</string>
     <string name="string_save">SAVE</string>
     <string name="string_please_add_item_into_cart">Please Add Item Into Cart</string>
-    <string name="string_no_purchased_item_found_please_add_item_first">No Purchased Item Found Please Purchase Item First</string>
+    <string name="string_no_purchased_item_found_please_add_item_first">No Purchased Available\nPlease Purchase First</string>
     <string name="string_add_items">Add Items</string>
     <string name="string_please_select_order_date_first">Please Select Order Date First</string>
     <string name="string_please_enter_valid_rent">Please Enter Valid Vehicle Rent</string>
     <string name="please_provide_vechile_number">Please Provide Vehicle Number</string>
-    <string name="string_continue_to_place_order">Continue, To Place Order !</string>
+    <string name="string_continue_to_place_order">Continue, To Place Order !!!</string>
 
 
     <string name="string_kg">%s(KG)</string>
@@ -284,5 +284,11 @@
     <string name="string_kg_in_hand">(Kg) In-Hand </string>
     <string name="string_kg_sold">(Kg) Sold </string>
     <string name="string_daami">Daami</string>
+    <string name="string_select_image">Select Image</string>
+    <string name="string_remove">Remove</string>
+    <string name="string_cancel">Cancel</string>
+    <string name="string_photo">Photo!</string>
+    <string name="string_images">Images</string>
+    <string name="string_no_purchased_item_found">No Purchased Item Found</string>
 
 </resources>

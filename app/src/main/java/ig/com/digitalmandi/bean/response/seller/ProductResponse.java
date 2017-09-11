@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import ig.com.digitalmandi.bean.AbstractResponse;
 
-public class SellerProductList extends AbstractResponse<SellerProductList.Product> {
+public class ProductResponse extends AbstractResponse<ProductResponse.Product> {
 
     public static class Product implements Serializable {
         private String productId;

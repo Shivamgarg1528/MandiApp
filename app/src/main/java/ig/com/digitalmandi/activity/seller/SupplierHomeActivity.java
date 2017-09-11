@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import ig.com.digitalmandi.R;
@@ -123,6 +122,5 @@ public class SupplierHomeActivity extends BaseActivity implements NavigationView
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(mBaseActivity, "I am tapped", Toast.LENGTH_SHORT).show();
     }
 }

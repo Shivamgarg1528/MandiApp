@@ -6,9 +6,9 @@ import android.support.v7.app.AlertDialog;
 
 import ig.com.digitalmandi.R;
 
-public class PreConfirmDialog {
+public class ConfirmDialog {
 
-    public static void showAlertDialog(Context pContext, String pMessage, boolean pNegativeBtn, DialogInterface.OnClickListener pListener) {
+    public static void show(Context pContext, String pMessage, boolean pNegativeBtn, DialogInterface.OnClickListener pListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(pContext);
         builder.setTitle(pMessage);
         builder.setPositiveButton(pContext.getString(R.string.string_continue), pListener);

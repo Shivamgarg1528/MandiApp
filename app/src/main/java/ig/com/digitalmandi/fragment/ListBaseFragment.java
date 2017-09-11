@@ -53,7 +53,7 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_supplier_product_unit_purchase, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_product_unit_purchase, container, false);
         return mRootView;
     }
 
@@ -62,14 +62,14 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_common_list_swipe);
+        mSwipeRefreshLayout = view.findViewById(R.id.layout_common_list_swipe);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        mTextViewEmpty = (TextView) view.findViewById(R.id.layout_common_list_tv_empty_text_view);
+        mTextViewEmpty = view.findViewById(R.id.layout_common_list_tv_empty_text_view);
         mTextViewEmpty.setText(getEmptyTextStringId());
 
         // create adapter and set on recycler view
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.layout_common_list_recycler_view);
+        mRecyclerView = view.findViewById(R.id.layout_common_list_recycler_view);
         mRecyclerView.setAdapter(mAdapter = getAdapter());
         mRecyclerView.setHasFixedSize(true);
 

@@ -2,7 +2,7 @@ package ig.com.digitalmandi.bean.response.seller;
 
 import ig.com.digitalmandi.bean.AbstractResponse;
 
-public class Payments extends AbstractResponse<Payments.Payment> {
+public class PaymentResponse extends AbstractResponse<PaymentResponse.Payment> {
 
     public static class Payment {
 

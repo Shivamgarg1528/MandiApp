@@ -24,7 +24,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -343,7 +342,7 @@ public class Helper {
         try {
             pBaseActivity.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(pBaseActivity, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
+            pBaseActivity.showToast("No Application available to view PDF");
         }
     }
 

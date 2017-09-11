@@ -9,7 +9,7 @@ import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.request.seller.SupplierUnitModifyRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
-import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
+import ig.com.digitalmandi.bean.response.seller.UnitResponse;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
@@ -21,7 +21,7 @@ public class SellerUnitModifyActivity extends BaseActivity implements View.OnCli
     private AppCompatEditText mEditTxtUnitName;
     private AppCompatEditText mEditTxtUnitValue;
 
-    private SellerUnitList.Unit mUnitObject;
+    private UnitResponse.Unit mUnitObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class SellerUnitModifyActivity extends BaseActivity implements View.OnCli
         mEditTxtUnitValue = findViewById(R.id.activity_unit_modify_edt_unit_value);
 
         Intent intent = getIntent();
-        mUnitObject = (SellerUnitList.Unit) intent.getSerializableExtra(AppConstant.KEY_OBJECT);
+        mUnitObject = (UnitResponse.Unit) intent.getSerializableExtra(AppConstant.KEY_OBJECT);
 
         if (mUnitObject != null) {
             mEditTxtUnitName.setText(mUnitObject.getUnitName());

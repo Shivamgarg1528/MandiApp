@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/xml_blue_view_selected" android:state_pressed="true" />
-    <item android:drawable="@drawable/xml_blue_view_unselected" />
+    <item android:color="@color/colorPrimary" android:drawable="@drawable/xml_blue_view_selected" android:state_pressed="true" />
+    <item android:color="@color/colorWhite" android:drawable="@drawable/xml_blue_view_unselected" />
 </selector>

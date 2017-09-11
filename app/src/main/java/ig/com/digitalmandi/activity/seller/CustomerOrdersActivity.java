@@ -27,11 +27,11 @@ import ig.com.digitalmandi.bean.request.seller.PaymentsRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderBillPrintRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderListRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
-import ig.com.digitalmandi.bean.response.seller.OrdersResponse;
-import ig.com.digitalmandi.bean.response.seller.SupplierBillPrintRes;
+import ig.com.digitalmandi.bean.response.seller.BillPrintResponse;
+import ig.com.digitalmandi.bean.response.seller.OrderResponse;
 import ig.com.digitalmandi.callback.EventCallback;
+import ig.com.digitalmandi.dialog.ConfirmDialog;
 import ig.com.digitalmandi.dialog.DatePickerClass;
-import ig.com.digitalmandi.dialog.PreConfirmDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
 import ig.com.digitalmandi.retrofit.RetrofitWebClient;
@@ -41,7 +41,7 @@ import ig.com.digitalmandi.util.LoadMoreClass;
 import okhttp3.ResponseBody;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class CustomerOrdersActivity extends ListBaseActivity<OrdersResponse.Order> implements SearchView.OnQueryTextListener, DatePickerClass.OnDateSelected, EasyPermissions.PermissionCallbacks, View.OnClickListener, EventCallback {
+public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order> implements SearchView.OnQueryTextListener, DatePickerClass.OnDateSelected, EasyPermissions.PermissionCallbacks, View.OnClickListener, EventCallback {
 
     private int mPageCount = 1;
     private boolean mLoadMore = false;
@@ -61,7 +61,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrdersResponse.Orde
             fetchData(false);
         }
     };
-    private OrdersResponse.Order mOrderObj;
+    private OrderResponse.Order mOrderObj;
     private SearchView mSearchView;
     private AppCompatButton mBtnStartDate;
     private AppCompatButton mBtnEndDate;
@@ -73,7 +73,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrdersResponse.Orde
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_orders;
+        return R.layout.activity_order;
     }
 
     @Override
@@ -104,10 +104,10 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrdersResponse.Orde
         supplierOrderListRequest.setPage(String.valueOf(mPageCount));
 
         mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().getOrdersOfGivenCustomer(supplierOrderListRequest);
-        mApiEnqueueObject.enqueue(new RetrofitCallBack<OrdersResponse>(mBaseActivity, false) {
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<OrderResponse>(mBaseActivity, false) {
 
             @Override
-            public void onResponse(OrdersResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(OrderResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     if (pResponse.getResult().size() == 0) {
                         pBaseActivity.showToast(getString(R.string.string_no_orders_found));
@@ -188,7 +188,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrdersResponse.Orde
     @Override
     public boolean onQueryTextChange(String newText) {
         mDataList.clear();
-        for (OrdersResponse.Order order : mBackUpList) {
+        for (OrderResponse.Order order : mBackUpList) {
             if (order.getOrderDate().contains(newText) || order.getDriverNumber().contains(newText) || order.getOrderId().contains(newText)) {
                 mDataList.add(order);
             }
@@ -212,7 +212,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrdersResponse.Orde
             }
 
             case R.id.activity_orders_btn_reset_date: {
-                PreConfirmDialog.showAlertDialog(this, getString(R.string.string_reset_applied_filters), true, new DialogInterface.OnClickListener() {
+                ConfirmDialog.show(this, getString(R.string.string_reset_applied_filters), true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_POSITIVE) {
@@ -261,12 +261,12 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrdersResponse.Orde
 
     @Override
     public void onEvent(int pOperationType, Object pObject) {
-        mOrderObj = (OrdersResponse.Order) pObject;
+        mOrderObj = (OrderResponse.Order) pObject;
 
         switch (pOperationType) {
             case AppConstant.OPERATION_DELETE: {
 
-                PreConfirmDialog.showAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_order), true, new DialogInterface.OnClickListener() {
+                ConfirmDialog.show(mBaseActivity, getString(R.string.string_continue_to_delete_order), true, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -336,10 +336,10 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrdersResponse.Orde
         supplierOrderBillPrintRequest.setOrderId(mOrderObj.getOrderId());
 
         mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().orderBillPrint(supplierOrderBillPrintRequest);
-        mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierBillPrintRes>(mBaseActivity) {
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<BillPrintResponse>(mBaseActivity) {
 
             @Override
-            public void onResponse(SupplierBillPrintRes pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(BillPrintResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, true)) {
 
                     mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().downloadFileWithDynamicUrlSync(pResponse.getResult().get(0).getURL());

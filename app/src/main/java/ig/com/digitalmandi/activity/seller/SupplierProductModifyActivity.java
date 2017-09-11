@@ -11,7 +11,7 @@ import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.request.seller.SupplierProductModifyRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
-import ig.com.digitalmandi.bean.response.seller.SellerProductList;
+import ig.com.digitalmandi.bean.response.seller.ProductResponse;
 import ig.com.digitalmandi.dialog.ImageDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
@@ -23,7 +23,7 @@ public class SupplierProductModifyActivity extends BaseActivity implements View.
 
     private AppCompatEditText mEditTextProductName;
 
-    private SellerProductList.Product mProductObject;
+    private ProductResponse.Product mProductObject;
     private AppCompatImageView mImageViewProduct;
     private ImageDialog mDialogImagePicker;
     private String mStringBase64;
@@ -41,7 +41,7 @@ public class SupplierProductModifyActivity extends BaseActivity implements View.
         mImageViewProduct.setOnClickListener(this);
 
         Intent intent = getIntent();
-        mProductObject = (SellerProductList.Product) intent.getSerializableExtra(AppConstant.KEY_OBJECT);
+        mProductObject = (ProductResponse.Product) intent.getSerializableExtra(AppConstant.KEY_OBJECT);
 
         if (mProductObject != null) {
             mEditTextProductName.setText(mProductObject.getProductName());

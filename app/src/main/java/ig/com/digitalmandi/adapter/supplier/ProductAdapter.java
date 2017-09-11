@@ -15,14 +15,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.adapter.BaseAdapter;
-import ig.com.digitalmandi.bean.response.seller.SellerProductList;
+import ig.com.digitalmandi.bean.response.seller.ProductResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
 
-public class ProductAdapter extends BaseAdapter<SellerProductList.Product> {
+public class ProductAdapter extends BaseAdapter<ProductResponse.Product> {
 
-    public ProductAdapter(BaseActivity pBaseActivity, List<SellerProductList.Product> pDataList, EventCallback pEventCallback) {
+    public ProductAdapter(BaseActivity pBaseActivity, List<ProductResponse.Product> pDataList, EventCallback pEventCallback) {
         super(pBaseActivity, pDataList, pEventCallback);
     }
 
@@ -35,7 +35,7 @@ public class ProductAdapter extends BaseAdapter<SellerProductList.Product> {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        SellerProductList.Product data = mDataList.get(position);
+        ProductResponse.Product data = mDataList.get(position);
 
         Helper.setImage(mBaseActivity, data.getProductImage(), viewHolder.mCircleIVProductImage);
 
@@ -45,7 +45,7 @@ public class ProductAdapter extends BaseAdapter<SellerProductList.Product> {
             @Override
             public boolean onLongClick(final View view) {
 
-                final SellerProductList.Product data = mDataList.get(viewHolder.getAdapterPosition());
+                final ProductResponse.Product data = mDataList.get(viewHolder.getAdapterPosition());
                 CharSequence dataStatus = data.getProductStatus().equalsIgnoreCase(AppConstant.ENABLE) ? mBaseActivity.getString(R.string.string_disable) : mBaseActivity.getString(R.string.string_enable);
 
                 CharSequence[] charSequenceArray = {

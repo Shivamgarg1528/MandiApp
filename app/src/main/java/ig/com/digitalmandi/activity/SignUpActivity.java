@@ -18,7 +18,7 @@ import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.bean.request.seller.RegistrationRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierListRequest;
 import ig.com.digitalmandi.bean.response.LoginResponse;
-import ig.com.digitalmandi.bean.response.seller.SupplierListResponse;
+import ig.com.digitalmandi.bean.response.seller.SellerResponse;
 import ig.com.digitalmandi.dialog.ImageDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
@@ -31,7 +31,7 @@ import ig.com.digitalmandi.util.Helper;
 public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, ImageDialog.OnItemSelectedListener, View.OnClickListener {
 
     private final List<String> mSellerNameList = new ArrayList<>(0);
-    private final List<SupplierListResponse.ResultBean> mSellerList = new ArrayList<>(0);
+    private final List<SellerResponse.Seller> mSellerList = new ArrayList<>(0);
     private AppCompatEditText mEditTxtName;
     private AppCompatEditText mEditTxtPhoneNumber;
     private AppCompatEditText mEditTxtEmail;
@@ -60,20 +60,20 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
         setTitle(getString(R.string.string_sign_up));
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        mEditTxtName = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_name);
-        mEditTxtPhoneNumber = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_phone);
-        mEditTxtEmail = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_email_address);
-        mEditTxtPassword = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_password);
-        mEditTxtConfirmPassword = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_confirm_password);
-        mEditTxtFirmName = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_firm_name);
-        mEditTxtTinNumber = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_tin_number);
-        mEditTxtLandMark = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_land_mark);
-        mEditTxtAddress = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_address);
+        mEditTxtName = findViewById(R.id.layout_activity_sign_up_edt_name);
+        mEditTxtPhoneNumber = findViewById(R.id.layout_activity_sign_up_edt_phone);
+        mEditTxtEmail = findViewById(R.id.layout_activity_sign_up_edt_email_address);
+        mEditTxtPassword = findViewById(R.id.layout_activity_sign_up_edt_password);
+        mEditTxtConfirmPassword = findViewById(R.id.layout_activity_sign_up_edt_confirm_password);
+        mEditTxtFirmName = findViewById(R.id.layout_activity_sign_up_edt_firm_name);
+        mEditTxtTinNumber = findViewById(R.id.layout_activity_sign_up_edt_tin_number);
+        mEditTxtLandMark = findViewById(R.id.layout_activity_sign_up_edt_land_mark);
+        mEditTxtAddress = findViewById(R.id.layout_activity_sign_up_edt_address);
 
-        AppCompatSpinner spinnerUserType = (AppCompatSpinner) findViewById(R.id.layout_activity_sign_up_spinner_user_type);
+        AppCompatSpinner spinnerUserType = findViewById(R.id.layout_activity_sign_up_spinner_user_type);
         spinnerUserType.setOnItemSelectedListener(this);
 
-        mCircleImageUser = (CircleImageView) findViewById(R.id.layout_activity_sign_up_btn_user_image);
+        mCircleImageUser = findViewById(R.id.layout_activity_sign_up_btn_user_image);
         mCircleImageUser.setOnClickListener(this);
 
         findViewById(R.id.layout_activity_sign_up_btn_submit).setOnClickListener(this);
@@ -82,7 +82,7 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
         mSellerAdapter = new ArrayAdapter(mBaseActivity, android.R.layout.simple_spinner_item, mSellerNameList);
         mSellerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        mSpinnerSeller = (AppCompatSpinner) findViewById(R.id.layout_activity_sign_up_spinner_seller);
+        mSpinnerSeller = findViewById(R.id.layout_activity_sign_up_spinner_seller);
         mSpinnerSeller.setAdapter(mSellerAdapter);
         mSpinnerSeller.setOnItemSelectedListener(this);
     }
@@ -248,13 +248,13 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
         supplierListRequest.setCustomerType(String.valueOf(AppConstant.SELLER));
 
         mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().sellerInfo(supplierListRequest);
-        mApiEnqueueObject.enqueue(new RetrofitCallBack<SupplierListResponse>(this) {
+        mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerResponse>(this) {
 
             @Override
-            public void onResponse(SupplierListResponse pResponse, BaseActivity pBaseActivity) {
+            public void onResponse(SellerResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, true)) {
 
-                    SupplierListResponse.ResultBean tempItem = new SupplierListResponse.ResultBean();
+                    SellerResponse.Seller tempItem = new SellerResponse.Seller();
                     tempItem.setUserId("0");
                     tempItem.setUserName(getString(R.string.string_please_select_any_supplier));
 
@@ -263,8 +263,8 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
                     mSellerList.add(0, tempItem);
 
                     mSellerNameList.clear();
-                    for (SupplierListResponse.ResultBean resultBean : mSellerList) {
-                        mSellerNameList.add(resultBean.getUserName());
+                    for (SellerResponse.Seller seller : mSellerList) {
+                        mSellerNameList.add(seller.getUserName());
                     }
                     mSellerAdapter.notifyDataSetChanged();
                 } else

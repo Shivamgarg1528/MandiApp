@@ -16,18 +16,16 @@ import ig.com.digitalmandi.util.Helper;
 
 public class CustomerDialog extends BaseDialog implements View.OnClickListener {
 
-    private final EventCallback mEventCallback;
     private CustomerResponse.Customer mCustomer;
 
     public CustomerDialog(BaseActivity pBaseActivity, EventCallback pEventCallback) {
-        super(pBaseActivity);
-        this.mEventCallback = pEventCallback;
+        super(pBaseActivity, pEventCallback);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_layout_customer_info);
+        setContentView(R.layout.dialog_customer_info);
 
         findViewById(R.id.dialog_layout_customer_info_iv_info).setOnClickListener(this);
         findViewById(R.id.dialog_layout_customer_info_iv_call).setOnClickListener(this);

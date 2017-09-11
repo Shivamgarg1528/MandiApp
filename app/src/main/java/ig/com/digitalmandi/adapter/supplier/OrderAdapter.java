@@ -13,14 +13,14 @@ import java.util.List;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.adapter.BaseAdapter;
-import ig.com.digitalmandi.bean.response.seller.OrdersResponse;
+import ig.com.digitalmandi.bean.response.seller.OrderResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
 
-public class OrderAdapter extends BaseAdapter<OrdersResponse.Order> {
+public class OrderAdapter extends BaseAdapter<OrderResponse.Order> {
 
-    public OrderAdapter(BaseActivity pBaseActivity, List<OrdersResponse.Order> pDataList, EventCallback pEventCallback) {
+    public OrderAdapter(BaseActivity pBaseActivity, List<OrderResponse.Order> pDataList, EventCallback pEventCallback) {
         super(pBaseActivity, pDataList, pEventCallback);
     }
 
@@ -33,7 +33,7 @@ public class OrderAdapter extends BaseAdapter<OrdersResponse.Order> {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        OrdersResponse.Order data = mDataList.get(position);
+        OrderResponse.Order data = mDataList.get(position);
 
         viewHolder.mTextViewOrderDate.setText(Helper.getAppDateFormatFromApiDateFormat(data.getOrderDate()));
         viewHolder.mTextViewSubTotal.setText(Helper.formatStringUpTo2Precision(data.getOrderSubTotalAmt()));
@@ -50,7 +50,7 @@ public class OrderAdapter extends BaseAdapter<OrdersResponse.Order> {
 
             @Override
             public boolean onLongClick(View v) {
-                final OrdersResponse.Order orderObject = mDataList.get(viewHolder.getAdapterPosition());
+                final OrderResponse.Order orderObject = mDataList.get(viewHolder.getAdapterPosition());
                 CharSequence array[] = {
                         mBaseActivity.getString(R.string.string_delete),
                         mBaseActivity.getString(R.string.string_payment_details),

@@ -13,8 +13,8 @@ import ig.com.digitalmandi.adapter.supplier.UnitAdapter;
 import ig.com.digitalmandi.bean.request.seller.ItemDeleteRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierUnitModifyRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
-import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
-import ig.com.digitalmandi.dialog.PreConfirmDialog;
+import ig.com.digitalmandi.bean.response.seller.UnitResponse;
+import ig.com.digitalmandi.dialog.ConfirmDialog;
 import ig.com.digitalmandi.fragment.ListBaseFragment;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
@@ -24,10 +24,10 @@ import ig.com.digitalmandi.util.AppSharedPrefs;
 import ig.com.digitalmandi.util.Helper;
 import ig.com.digitalmandi.util.ModifyPreference;
 
-public class UnitFragment extends ListBaseFragment<SellerUnitList.Unit> {
+public class UnitFragment extends ListBaseFragment<UnitResponse.Unit> {
 
     @Override
-    protected SellerUnitList getResponse() {
+    protected UnitResponse getResponse() {
         return AppSharedPrefs.getInstance(mBaseActivity).getSellerUnits();
     }
 
@@ -56,8 +56,8 @@ public class UnitFragment extends ListBaseFragment<SellerUnitList.Unit> {
     protected Comparator getComparator(int pComparatorType) {
         switch (pComparatorType) {
             case AppConstant.COMPARATOR_ALPHA: {
-                return new Comparator<SellerUnitList.Unit>() {
-                    public int compare(SellerUnitList.Unit left, SellerUnitList.Unit right) {
+                return new Comparator<UnitResponse.Unit>() {
+                    public int compare(UnitResponse.Unit left, UnitResponse.Unit right) {
                         return String.CASE_INSENSITIVE_ORDER.compare(left.getUnitName(), right.getUnitName());
                     }
                 };
@@ -69,7 +69,7 @@ public class UnitFragment extends ListBaseFragment<SellerUnitList.Unit> {
     @Override
     public boolean onQueryTextChange(String pNewText) {
         mDataList.clear();
-        for (SellerUnitList.Unit data : mBackUpList) {
+        for (UnitResponse.Unit data : mBackUpList) {
             if (data.getUnitName().toLowerCase().contains(pNewText.toLowerCase())) {
                 mDataList.add(data);
             }
@@ -79,7 +79,7 @@ public class UnitFragment extends ListBaseFragment<SellerUnitList.Unit> {
     }
 
     @Override
-    public void onEvent(int pOperationType, final SellerUnitList.Unit pUnit) {
+    public void onEvent(int pOperationType, final UnitResponse.Unit pUnit) {
         switch (pOperationType) {
 
             case AppConstant.OPERATION_EDIT: {
@@ -90,7 +90,7 @@ public class UnitFragment extends ListBaseFragment<SellerUnitList.Unit> {
             }
 
             case AppConstant.OPERATION_DELETE: {
-                PreConfirmDialog.showAlertDialog(mBaseActivity, getString(R.string.string_continue_to_delete_unit), true, new DialogInterface.OnClickListener() {
+                ConfirmDialog.show(mBaseActivity, getString(R.string.string_continue_to_delete_unit), true, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_POSITIVE) {

@@ -22,14 +22,14 @@ import ig.com.digitalmandi.bean.request.seller.SupplierPurchaseAddRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierUnitModifyRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.bean.response.LoginResponse;
+import ig.com.digitalmandi.bean.response.seller.BillPrintResponse;
 import ig.com.digitalmandi.bean.response.seller.OrderDetailResponse;
-import ig.com.digitalmandi.bean.response.seller.OrdersResponse;
-import ig.com.digitalmandi.bean.response.seller.Payments;
+import ig.com.digitalmandi.bean.response.seller.OrderResponse;
+import ig.com.digitalmandi.bean.response.seller.PaymentResponse;
+import ig.com.digitalmandi.bean.response.seller.ProductResponse;
 import ig.com.digitalmandi.bean.response.seller.PurchaseResponse;
-import ig.com.digitalmandi.bean.response.seller.SellerProductList;
-import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
-import ig.com.digitalmandi.bean.response.seller.SupplierBillPrintRes;
-import ig.com.digitalmandi.bean.response.seller.SupplierListResponse;
+import ig.com.digitalmandi.bean.response.seller.SellerResponse;
+import ig.com.digitalmandi.bean.response.seller.UnitResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -71,7 +71,7 @@ public interface RetrofitInterface {
     Call<LoginResponse> registerUser(@Body RegistrationRequest registrationRequest);
 
     @POST(SELLER_API)
-    Call<SupplierListResponse> sellerInfo(@Body SupplierListRequest sellerReqModel);
+    Call<SellerResponse> sellerInfo(@Body SupplierListRequest sellerReqModel);
 
     @POST(FORGOT_API)
     Call<EmptyResponse> forgotPassword(@Body ForgotPasswordRequest forgotPasswordRequest);
@@ -80,10 +80,10 @@ public interface RetrofitInterface {
     Call<CustomerResponse> supplierCustomerList(@Body SellerCustomerListRequest supplierCustomerReqModel);
 
     @POST(PRODUCT_API)
-    Call<SellerProductList> supplierProductList(@Body SellerProductListRequest supplierProductReqModel);
+    Call<ProductResponse> supplierProductList(@Body SellerProductListRequest supplierProductReqModel);
 
     @POST(UNIT_API)
-    Call<SellerUnitList> supplierUnitList(@Body SellerUnitListRequest supplierUnitReqModel);
+    Call<UnitResponse> supplierUnitList(@Body SellerUnitListRequest supplierUnitReqModel);
 
     @POST(PRODUCT_MODIFIED_API)
     Call<EmptyResponse> modifiedProduct(@Body SupplierProductModifyRequest supplierProductModifyRequestModel);
@@ -101,10 +101,10 @@ public interface RetrofitInterface {
     Call<EmptyResponse> doPurchase(@Body PaymentRequest purchasePaymentReqModel);
 
     @POST(PURCHASE_PAYMENT_LIST)
-    Call<Payments> supplierPurchasePaymentList(@Body PaymentsRequest paymentListReqModel);
+    Call<PaymentResponse> supplierPurchasePaymentList(@Body PaymentsRequest paymentListReqModel);
 
     @POST(CUSTOMER_ORDER_LIST)
-    Call<OrdersResponse> getOrdersOfGivenCustomer(@Body SupplierOrderListRequest supplierOrderListRequest);
+    Call<OrderResponse> getOrdersOfGivenCustomer(@Body SupplierOrderListRequest supplierOrderListRequest);
 
     @POST(CUSTOMER_ORDER_DETAIL_LIST)
     Call<OrderDetailResponse> orderDetailsOfGivenCustomer(@Body OrderDetailsRequest orderDetailsRequest);
@@ -122,7 +122,7 @@ public interface RetrofitInterface {
     Call<EmptyResponse> deleteProductUnit(@Body ItemDeleteRequest itemDeleteRequest);
 
     @POST(ORDER_BILL_PRINT)
-    Call<SupplierBillPrintRes> orderBillPrint(@Body SupplierOrderBillPrintRequest supplierOrderBillPrintReq);
+    Call<BillPrintResponse> orderBillPrint(@Body SupplierOrderBillPrintRequest supplierOrderBillPrintReq);
 
     @GET
     Call<ResponseBody> downloadFileWithDynamicUrlSync(@Url String fileUrl);

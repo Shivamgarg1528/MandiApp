@@ -16,9 +16,9 @@ import java.util.List;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.request.seller.SupplierPurchaseAddRequest;
+import ig.com.digitalmandi.bean.response.seller.ProductResponse;
 import ig.com.digitalmandi.bean.response.seller.PurchaseResponse;
-import ig.com.digitalmandi.bean.response.seller.SellerProductList;
-import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
+import ig.com.digitalmandi.bean.response.seller.UnitResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.dialog.DatePickerClass;
 import ig.com.digitalmandi.dialog.QuantityDialog;
@@ -31,8 +31,8 @@ import ig.com.digitalmandi.util.Helper;
 
 public class SupplierPurchaseActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, DatePickerClass.OnDateSelected, View.OnClickListener {
 
-    private final List<SellerUnitList.Unit> mUnitList = new ArrayList<>(0);
-    private final List<SellerProductList.Product> mProductList = new ArrayList<>(0);
+    private final List<UnitResponse.Unit> mUnitList = new ArrayList<>(0);
+    private final List<ProductResponse.Product> mProductList = new ArrayList<>(0);
     private final List<String> mUnitNameList = new ArrayList<>(0);
     private final List<String> mProductNameList = new ArrayList<>(0);
     // Default values
@@ -45,8 +45,8 @@ public class SupplierPurchaseActivity extends BaseActivity implements AdapterVie
     private AppCompatEditText mEditTextProductPrice;
     private AppCompatButton mButtonPurchaseDate;
     private Date mDatePurchase;
-    private SellerProductList.Product mProduct;
-    private SellerUnitList.Unit mUnit;
+    private ProductResponse.Product mProduct;
+    private UnitResponse.Unit mUnit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,13 +115,13 @@ public class SupplierPurchaseActivity extends BaseActivity implements AdapterVie
                 break;
 
             case R.id.layout_tv_qty:
-                QuantityDialog quantityDialog = new QuantityDialog(Integer.parseInt(mTextViewQty.getText().toString()), mBaseActivity, new EventCallback() {
+                QuantityDialog quantityDialog = new QuantityDialog(mBaseActivity, new EventCallback() {
                     @Override
                     public void onEvent(int pOperationType, Object pObject) {
                         mProductQty = (int) pObject;
                         updateQtyTextView();
                     }
-                });
+                }, Integer.parseInt(mTextViewQty.getText().toString()));
                 quantityDialog.show();
                 break;
         }
@@ -257,14 +257,14 @@ public class SupplierPurchaseActivity extends BaseActivity implements AdapterVie
         mUnitList.clear();
         mUnitNameList.clear();
         mUnitList.addAll(prefs.getSellerUnits().getResult());
-        for (SellerUnitList.Unit unit : mUnitList) {
+        for (UnitResponse.Unit unit : mUnitList) {
             mUnitNameList.add(unit.getUnitName());
         }
 
         mProductList.clear();
         mProductNameList.clear();
         mProductList.addAll(prefs.getSellerProducts().getResult());
-        for (SellerProductList.Product product : mProductList) {
+        for (ProductResponse.Product product : mProductList) {
             mProductNameList.add(product.getProductName());
         }
     }

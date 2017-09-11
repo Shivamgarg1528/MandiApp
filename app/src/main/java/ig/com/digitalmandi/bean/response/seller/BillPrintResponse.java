@@ -6,9 +6,9 @@ import ig.com.digitalmandi.bean.AbstractResponse;
  * Created by shivam.garg on 11-11-2016.
  */
 
-public class SupplierBillPrintRes extends AbstractResponse<SupplierBillPrintRes.ResultBean> {
+public class BillPrintResponse extends AbstractResponse<BillPrintResponse.Bill> {
 
-    public static class ResultBean {
+    public static class Bill {
         private String URL;
 
         public String getURL() {

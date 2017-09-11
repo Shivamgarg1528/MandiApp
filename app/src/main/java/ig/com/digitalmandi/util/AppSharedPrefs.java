@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 
 import ig.com.digitalmandi.bean.request.seller.CustomerResponse;
 import ig.com.digitalmandi.bean.response.LoginResponse;
-import ig.com.digitalmandi.bean.response.seller.SellerProductList;
-import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
+import ig.com.digitalmandi.bean.response.seller.ProductResponse;
+import ig.com.digitalmandi.bean.response.seller.UnitResponse;
 
 public class AppSharedPrefs {
 
@@ -54,23 +54,23 @@ public class AppSharedPrefs {
         mEditor.commit();
     }
 
-    public SellerUnitList getSellerUnits() {
+    public UnitResponse getSellerUnits() {
         String json = mSharedPreferences.getString(KEY_SELLER_UNITS, DEFAULT);
-        return JsonUtils.objectify(json, SellerUnitList.class);
+        return JsonUtils.objectify(json, UnitResponse.class);
     }
 
-    void setSellerUnits(SellerUnitList pSellerUnitList) {
-        mEditor.putString(KEY_SELLER_UNITS, JsonUtils.jsonify(pSellerUnitList));
+    void setSellerUnits(UnitResponse pUnitResponse) {
+        mEditor.putString(KEY_SELLER_UNITS, JsonUtils.jsonify(pUnitResponse));
         mEditor.commit();
     }
 
-    public SellerProductList getSellerProducts() {
+    public ProductResponse getSellerProducts() {
         String json = mSharedPreferences.getString(KEY_SELLER_PRODUCTS, DEFAULT);
-        return JsonUtils.objectify(json, SellerProductList.class);
+        return JsonUtils.objectify(json, ProductResponse.class);
     }
 
-    void setSellerProducts(SellerProductList pSellerProductList) {
-        mEditor.putString(KEY_SELLER_PRODUCTS, JsonUtils.jsonify(pSellerProductList));
+    void setSellerProducts(ProductResponse pProductResponse) {
+        mEditor.putString(KEY_SELLER_PRODUCTS, JsonUtils.jsonify(pProductResponse));
         mEditor.commit();
     }
 

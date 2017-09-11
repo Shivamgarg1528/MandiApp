@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import ig.com.digitalmandi.bean.AbstractResponse;
 
-public class OrdersResponse extends AbstractResponse<OrdersResponse.Order> {
+public class OrderResponse extends AbstractResponse<OrderResponse.Order> {
 
     public static class Order implements Serializable {
 

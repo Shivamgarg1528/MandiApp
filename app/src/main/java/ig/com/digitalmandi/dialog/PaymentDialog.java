@@ -31,7 +31,6 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
     private final Date mDatePurchase;
     private final String mOrderIdStr;
     private final String mPaymentFlag;
-    private final EventCallback mEventCallBack;
     private AppCompatEditText mEditTextPaymentAmt;
     private AppCompatEditText mEditTextInterestRate;
     private AppCompatEditText mEditTextInterestAmt;
@@ -44,10 +43,9 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
     private int mDaysInMonth = 30;
 
     public PaymentDialog(BaseActivity pBaseActivity, EventCallback pEventCallBack, String pOrderIdStr, String pOrderDateStr, String pPaymentFlag) {
-        super(pBaseActivity);
+        super(pBaseActivity, pEventCallBack);
         this.mOrderIdStr = pOrderIdStr;
         this.mPaymentFlag = pPaymentFlag;
-        this.mEventCallBack = pEventCallBack;
         this.mDatePurchase = Helper.getDateObject(pOrderDateStr, AppConstant.API_DATE_FORMAT);
     }
 
@@ -192,7 +190,7 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
             String paidAmt = Helper.formatStringUpTo2Precision(String.valueOf(isInterestPaid ? payAmount + interestAmount : payAmount));
             String messageWithAmount = mBaseActivity.getString(R.string.string_continue_for_payment, paidAmt);
 
-            PreConfirmDialog.showAlertDialog(mBaseActivity, messageWithAmount, true, new OnClickListener() {
+            ConfirmDialog.show(mBaseActivity, messageWithAmount, true, new OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == DialogInterface.BUTTON_POSITIVE) {
@@ -203,7 +201,7 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
                             public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
                                 if (ResponseVerification.isResponseOk(pResponse)) {
                                     mBaseActivity.showToast(pBaseActivity.getString(R.string.string_payment_done_successfully));
-                                    mEventCallBack.onEvent(0, null);
+                                    mEventCallback.onEvent(0, null);
                                     dismiss();
                                 } else {
                                     mBaseActivity.showToast(pResponse.getMessage());

@@ -3,12 +3,12 @@ package ig.com.digitalmandi.activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -29,9 +29,33 @@ public abstract class BaseActivity<T> extends AppCompatActivity {
     protected LoginResponse.LoginUser mLoginUser;
     private AlertDialog mProgressDialog;
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mBaseActivity = new WeakReference<>(this).get();
+        mLoginUser = AppSharedPrefs.getInstance(mBaseActivity).getLoginUserModel();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mApiEnqueueObject != null) {
+            mApiEnqueueObject.cancel();
+        }
+        super.onDestroy();
+    }
+
     public void showOrHideProgressBar(boolean pShownOrHide) {
         try {
-            ProgressBar progressBar = (ProgressBar) findViewById(R.id.layout_common_list_progress_bar);
+            ProgressBar progressBar = findViewById(R.id.layout_common_list_progress_bar);
             progressBar.setIndeterminate(true);
             progressBar.setVisibility(pShownOrHide ? View.VISIBLE : View.INVISIBLE);
         } catch (Exception ex) {
@@ -52,22 +76,8 @@ public abstract class BaseActivity<T> extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mApiEnqueueObject != null)
-            mApiEnqueueObject.cancel();
-    }
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mBaseActivity = new WeakReference<>(this).get();
-        mLoginUser = AppSharedPrefs.getInstance(mBaseActivity).getLoginUserModel();
-    }
-
     protected void setToolbar(boolean pHomeUpEnable) {
-        mToolBar = (Toolbar) findViewById(R.id.toolbar);
+        mToolBar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolBar);
         if (pHomeUpEnable && getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -75,16 +85,10 @@ public abstract class BaseActivity<T> extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public void showToast(String pMessage) {
-        Toast.makeText(mBaseActivity, pMessage, Toast.LENGTH_SHORT).show();
+        if (mToolBar != null) {
+            Snackbar snackbar = Snackbar.make(mToolBar, pMessage, Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
     }
 }

@@ -14,7 +14,7 @@ import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.response.seller.OrderDetailResponse;
 import ig.com.digitalmandi.bean.response.seller.PurchaseResponse;
-import ig.com.digitalmandi.bean.response.seller.SellerUnitList;
+import ig.com.digitalmandi.bean.response.seller.UnitResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.AppSharedPrefs;
@@ -22,30 +22,26 @@ import ig.com.digitalmandi.util.Helper;
 
 public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
-    private final BaseActivity mBaseActivity;
-    private final EventCallback mEventCallback;
     private final PurchaseResponse.Purchase mItemObject;
-    private final List<SellerUnitList.Unit> mUnitList = new ArrayList<>(0);
+    private final List<UnitResponse.Unit> mUnitList = new ArrayList<>(0);
     private AppCompatTextView mTextViewQty;
     private AppCompatTextView mTextViewPurchasedQtyInKg;
     private AppCompatEditText mEditProductPrice;
     private String[] mUnitArray;
-    private SellerUnitList.Unit mSelectedUnit;
+    private UnitResponse.Unit mSelectedUnit;
 
     private boolean isProductPriceAccTo40Kg = false;
     private float mMaxQtyInKg = 0.0f;
     private int mProductQty = 1;
 
     public AddItemDialog(BaseActivity pBaseActivity, PurchaseResponse.Purchase pItemObject, EventCallback pEventCallback) {
-        super(pBaseActivity);
-        mBaseActivity = pBaseActivity;
+        super(pBaseActivity, pEventCallback);
         mItemObject = pItemObject;
-        mEventCallback = pEventCallback;
     }
 
     @Override
     public void show() {
-        SellerUnitList sellerUnits = AppSharedPrefs.getInstance(mBaseActivity).getSellerUnits();
+        UnitResponse sellerUnits = AppSharedPrefs.getInstance(mBaseActivity).getSellerUnits();
         mUnitList.clear();
         mUnitList.addAll(sellerUnits.getResult());
         if (mUnitList.isEmpty()) {
@@ -105,13 +101,13 @@ public class AddItemDialog extends BaseDialog implements AdapterView.OnItemSelec
 
             case R.id.layout_tv_qty:
                 Helper.hideSoftKeyBoard(mBaseActivity, mEditProductPrice);
-                QuantityDialog quantityDialog = new QuantityDialog(Integer.parseInt(mTextViewQty.getText().toString()), mBaseActivity, new EventCallback() {
+                QuantityDialog quantityDialog = new QuantityDialog(mBaseActivity, new EventCallback() {
                     @Override
                     public void onEvent(int pOperationType, Object pObject) {
                         mProductQty = (int) pObject;
                         updateQtyTextView();
                     }
-                });
+                }, Integer.parseInt(mTextViewQty.getText().toString()));
                 quantityDialog.show();
                 break;
 
