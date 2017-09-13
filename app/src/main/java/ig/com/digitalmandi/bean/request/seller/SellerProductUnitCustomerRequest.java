@@ -4,7 +4,7 @@ package ig.com.digitalmandi.bean.request.seller;
  * Created by Shivam.Garg on 12-10-2016.
  */
 
-public class SellerUnitListRequest {
+public class SellerProductUnitCustomerRequest {
     /**
      * sellerId : 1
      */

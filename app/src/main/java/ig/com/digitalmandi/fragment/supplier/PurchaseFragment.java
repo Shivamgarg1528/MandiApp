@@ -33,7 +33,7 @@ import ig.com.digitalmandi.dialog.DatePickerClass;
 import ig.com.digitalmandi.fragment.ListBaseFragment;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
 import ig.com.digitalmandi.util.LoadMoreClass;
@@ -114,7 +114,7 @@ public class PurchaseFragment extends ListBaseFragment<PurchaseResponse.Purchase
         sellerOrdersRequest.setPage(String.valueOf(mPageCount));
         sellerOrdersRequest.setFlag(AppConstant.PURCHASE_LIST_PAGING);
 
-        mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().purchaseList(sellerOrdersRequest);
+        mBaseActivity.mApiEnqueueObject = RetrofitClient.getInstance().getInterface().purchaseList(sellerOrdersRequest);
         mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<PurchaseResponse>(mBaseActivity, false) {
 
             @Override
@@ -255,7 +255,7 @@ public class PurchaseFragment extends ListBaseFragment<PurchaseResponse.Purchase
                             itemDeleteRequest.setFlag(AppConstant.DELETE_OR_PAYMENT_PURCHASE);
                             itemDeleteRequest.setId(pPurchaseObj.getPurchaseId());
 
-                            mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().deletePurchase(itemDeleteRequest);
+                            mBaseActivity.mApiEnqueueObject = RetrofitClient.getInstance().getInterface().deletePurchase(itemDeleteRequest);
                             mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
 
                                 @Override

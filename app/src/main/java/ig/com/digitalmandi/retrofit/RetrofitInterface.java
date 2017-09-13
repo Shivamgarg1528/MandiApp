@@ -9,10 +9,8 @@ import ig.com.digitalmandi.bean.request.seller.OrderDetailsRequest;
 import ig.com.digitalmandi.bean.request.seller.PaymentRequest;
 import ig.com.digitalmandi.bean.request.seller.PaymentsRequest;
 import ig.com.digitalmandi.bean.request.seller.RegistrationRequest;
-import ig.com.digitalmandi.bean.request.seller.SellerCustomerListRequest;
 import ig.com.digitalmandi.bean.request.seller.SellerOrdersRequest;
-import ig.com.digitalmandi.bean.request.seller.SellerProductListRequest;
-import ig.com.digitalmandi.bean.request.seller.SellerUnitListRequest;
+import ig.com.digitalmandi.bean.request.seller.SellerProductUnitCustomerRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierListRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderAddRequest;
 import ig.com.digitalmandi.bean.request.seller.SupplierOrderBillPrintRequest;
@@ -77,13 +75,13 @@ public interface RetrofitInterface {
     Call<EmptyResponse> forgotPassword(@Body ForgotPasswordRequest forgotPasswordRequest);
 
     @POST(CUSTOMER_API)
-    Call<CustomerResponse> supplierCustomerList(@Body SellerCustomerListRequest supplierCustomerReqModel);
+    Call<CustomerResponse> supplierCustomerList(@Body SellerProductUnitCustomerRequest sellerProductUnitCustomerRequest);
 
     @POST(PRODUCT_API)
-    Call<ProductResponse> supplierProductList(@Body SellerProductListRequest supplierProductReqModel);
+    Call<ProductResponse> supplierProductList(@Body SellerProductUnitCustomerRequest sellerProductUnitCustomerRequest);
 
     @POST(UNIT_API)
-    Call<UnitResponse> supplierUnitList(@Body SellerUnitListRequest supplierUnitReqModel);
+    Call<UnitResponse> supplierUnitList(@Body SellerProductUnitCustomerRequest sellerProductUnitCustomerRequest);
 
     @POST(PRODUCT_MODIFIED_API)
     Call<EmptyResponse> modifiedProduct(@Body SupplierProductModifyRequest supplierProductModifyRequestModel);

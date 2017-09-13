@@ -15,7 +15,7 @@ import ig.com.digitalmandi.bean.response.LoginResponse;
 import ig.com.digitalmandi.dialog.ImageDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
 
@@ -45,17 +45,17 @@ public class SupplierCustomerAddActivity extends BaseActivity implements ImageDi
         setTitle(getString(R.string.add_new_customer));
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        mEditTxtName = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_name);
-        mEditTxtPhoneNumber = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_phone);
-        mEditTxtEmail = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_email_address);
-        mEditTxtPassword = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_password);
-        mEditTxtConfirmPassword = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_confirm_password);
-        mEditTxtFirmName = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_firm_name);
-        mEditTxtTinNumber = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_tin_number);
-        mEditTxtLandMark = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_land_mark);
-        mEditTxtAddress = (AppCompatEditText) findViewById(R.id.layout_activity_sign_up_edt_address);
+        mEditTxtName = findViewById(R.id.layout_activity_sign_up_edt_name);
+        mEditTxtPhoneNumber = findViewById(R.id.layout_activity_sign_up_edt_phone);
+        mEditTxtEmail = findViewById(R.id.layout_activity_sign_up_edt_email_address);
+        mEditTxtPassword = findViewById(R.id.layout_activity_sign_up_edt_password);
+        mEditTxtConfirmPassword = findViewById(R.id.layout_activity_sign_up_edt_confirm_password);
+        mEditTxtFirmName = findViewById(R.id.layout_activity_sign_up_edt_firm_name);
+        mEditTxtTinNumber = findViewById(R.id.layout_activity_sign_up_edt_tin_number);
+        mEditTxtLandMark = findViewById(R.id.layout_activity_sign_up_edt_land_mark);
+        mEditTxtAddress = findViewById(R.id.layout_activity_sign_up_edt_address);
 
-        mCircleImageUser = (CircleImageView) findViewById(R.id.layout_activity_sign_up_btn_user_image);
+        mCircleImageUser = findViewById(R.id.layout_activity_sign_up_btn_user_image);
         mCircleImageUser.setOnClickListener(this);
 
         findViewById(R.id.layout_activity_sign_up_btn_submit).setOnClickListener(this);
@@ -128,7 +128,7 @@ public class SupplierCustomerAddActivity extends BaseActivity implements ImageDi
         registrationRequest.setUserType(String.valueOf(AppConstant.CUSTOMER));
         registrationRequest.setSellerId(mLoginUser.getSellerId());
 
-        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().registerUser(registrationRequest);
+        mApiEnqueueObject = RetrofitClient.getInstance().getInterface().registerUser(registrationRequest);
         mApiEnqueueObject.enqueue(new RetrofitCallBack<LoginResponse>(this) {
             @Override
             public void onResponse(LoginResponse pResponse, BaseActivity pBaseActivity) {

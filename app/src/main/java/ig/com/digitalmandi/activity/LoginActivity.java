@@ -12,7 +12,7 @@ import ig.com.digitalmandi.bean.response.LoginResponse;
 import ig.com.digitalmandi.dialog.ForgotPasswordDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.AppSharedPrefs;
 import ig.com.digitalmandi.util.Helper;
@@ -92,7 +92,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         loginRequest.setDeviceType(AppConstant.ANDROID_DEVICE);
         loginRequest.setDeviceToken("");
 
-        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().loginUser(loginRequest);
+        mApiEnqueueObject = RetrofitClient.getInstance().getInterface().loginUser(loginRequest);
         mApiEnqueueObject.enqueue(new RetrofitCallBack<LoginResponse>(this) {
             @Override
             public void onResponse(LoginResponse pResponse, BaseActivity pBaseActivity) {

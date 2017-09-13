@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -32,11 +31,11 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
 
     protected final List<T> mDataList = new ArrayList<>(0);
     protected final List<T> mBackUpList = new ArrayList<>(0);
-
     protected RecyclerView mRecyclerView;
-    private TextView mTextViewEmpty;
-    private RecyclerView.Adapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private TextView mTextViewEmpty;
+
+    private RecyclerView.Adapter mAdapter;
 
     protected abstract AbstractResponse getResponse();
 
@@ -81,7 +80,7 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.supplier_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.supplier_menu_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
     }
 
@@ -105,12 +104,6 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
     public boolean onQueryTextSubmit(String query) {
         return true;
     }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
-    }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -153,10 +146,5 @@ public abstract class ListBaseFragment<T> extends BaseFragment implements EventC
     public void onRefresh() {
         mSwipeRefreshLayout.setRefreshing(false);
         fetchData(true);
-    }
-
-    @Override
-    public void onEvent(int pOperationType, T pObject) {
-
     }
 }

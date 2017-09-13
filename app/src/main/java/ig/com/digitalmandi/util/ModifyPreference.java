@@ -2,16 +2,14 @@ package ig.com.digitalmandi.util;
 
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.bean.request.seller.CustomerResponse;
-import ig.com.digitalmandi.bean.request.seller.SellerCustomerListRequest;
-import ig.com.digitalmandi.bean.request.seller.SellerProductListRequest;
-import ig.com.digitalmandi.bean.request.seller.SellerUnitListRequest;
+import ig.com.digitalmandi.bean.request.seller.SellerProductUnitCustomerRequest;
 import ig.com.digitalmandi.bean.response.LoginResponse;
 import ig.com.digitalmandi.bean.response.seller.ProductResponse;
 import ig.com.digitalmandi.bean.response.seller.UnitResponse;
 import ig.com.digitalmandi.callback.ApiCallback;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 
 public class ModifyPreference {
 
@@ -27,10 +25,10 @@ public class ModifyPreference {
 
     public void addOrUpdateSellerCustomers() {
 
-        SellerCustomerListRequest sellerCustomerListRequest = new SellerCustomerListRequest();
-        sellerCustomerListRequest.setSellerId(mLoginUser.getSellerId());
+        SellerProductUnitCustomerRequest sellerProductUnitCustomerRequest = new SellerProductUnitCustomerRequest();
+        sellerProductUnitCustomerRequest.setSellerId(mLoginUser.getSellerId());
 
-        mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().supplierCustomerList(sellerCustomerListRequest);
+        mBaseActivity.mApiEnqueueObject = RetrofitClient.getInstance().getInterface().supplierCustomerList(sellerProductUnitCustomerRequest);
         mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<CustomerResponse>(mBaseActivity, false) {
 
             @Override
@@ -47,11 +45,10 @@ public class ModifyPreference {
 
     public void addOrUpdateSellerUnits() {
 
-        SellerUnitListRequest sellerUnitListRequest = new SellerUnitListRequest();
-        sellerUnitListRequest.setSellerId(mLoginUser.getSellerId());
+        SellerProductUnitCustomerRequest sellerProductUnitCustomerRequest = new SellerProductUnitCustomerRequest();
+        sellerProductUnitCustomerRequest.setSellerId(mLoginUser.getSellerId());
 
-
-        mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().supplierUnitList(sellerUnitListRequest);
+        mBaseActivity.mApiEnqueueObject = RetrofitClient.getInstance().getInterface().supplierUnitList(sellerProductUnitCustomerRequest);
         mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<UnitResponse>(mBaseActivity, false) {
 
             @Override
@@ -68,10 +65,10 @@ public class ModifyPreference {
 
     public void addOrUpdateSellerProducts() {
 
-        SellerProductListRequest sellerProductListRequest = new SellerProductListRequest();
-        sellerProductListRequest.setSellerId(mLoginUser.getSellerId());
+        SellerProductUnitCustomerRequest sellerProductUnitCustomerRequest = new SellerProductUnitCustomerRequest();
+        sellerProductUnitCustomerRequest.setSellerId(mLoginUser.getSellerId());
 
-        mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().supplierProductList(sellerProductListRequest);
+        mBaseActivity.mApiEnqueueObject = RetrofitClient.getInstance().getInterface().supplierProductList(sellerProductUnitCustomerRequest);
         mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<ProductResponse>(mBaseActivity, false) {
 
             @Override
@@ -83,7 +80,6 @@ public class ModifyPreference {
                     mListener.onApiResponse();
                 }
             }
-
         });
     }
 }

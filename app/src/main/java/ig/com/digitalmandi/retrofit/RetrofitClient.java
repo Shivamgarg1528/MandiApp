@@ -8,12 +8,12 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitWebClient {
+public class RetrofitClient {
 
-    private static RetrofitWebClient sInstance;
+    private static RetrofitClient sInstance;
     private final RetrofitInterface mRetrofitInterface;
 
-    private RetrofitWebClient() {
+    private RetrofitClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).readTimeout(15, TimeUnit.SECONDS).connectTimeout(15, TimeUnit.SECONDS).build();
@@ -25,9 +25,9 @@ public class RetrofitWebClient {
         mRetrofitInterface = retrofit.create(RetrofitInterface.class);
     }
 
-    public static RetrofitWebClient getInstance() {
+    public static RetrofitClient getInstance() {
         if (sInstance == null)
-            sInstance = new RetrofitWebClient();
+            sInstance = new RetrofitClient();
         return sInstance;
     }
 

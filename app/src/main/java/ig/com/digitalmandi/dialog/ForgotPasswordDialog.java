@@ -13,7 +13,7 @@ import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.Helper;
 
 public class ForgotPasswordDialog extends BaseDialog {
@@ -51,7 +51,7 @@ public class ForgotPasswordDialog extends BaseDialog {
         ForgotPasswordRequest forgotPasswordRequest = new ForgotPasswordRequest();
         forgotPasswordRequest.setUserEmailAddress(emailAddress);
 
-        mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().forgotPassword(forgotPasswordRequest);
+        mBaseActivity.mApiEnqueueObject = RetrofitClient.getInstance().getInterface().forgotPassword(forgotPasswordRequest);
         mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
             @Override
             public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {

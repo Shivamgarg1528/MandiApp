@@ -11,7 +11,7 @@ import ig.com.digitalmandi.bean.request.seller.OrderDetailsRequest;
 import ig.com.digitalmandi.bean.response.seller.OrderDetailResponse;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.AppConstant;
 
 public class OrderDetailsActivity extends ListBaseActivity<OrderDetailResponse.OrderDetail> {
@@ -35,7 +35,7 @@ public class OrderDetailsActivity extends ListBaseActivity<OrderDetailResponse.O
 
     @Override
     protected void fetchData(final boolean pRefresh) {
-        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().orderDetailsOfGivenCustomer(mOrderDetailsRequest);
+        mApiEnqueueObject = RetrofitClient.getInstance().getInterface().orderDetailsOfGivenCustomer(mOrderDetailsRequest);
         mApiEnqueueObject.enqueue(new RetrofitCallBack<OrderDetailResponse>(mBaseActivity, false) {
 
             @Override
@@ -62,5 +62,10 @@ public class OrderDetailsActivity extends ListBaseActivity<OrderDetailResponse.O
         super.onCreate(savedInstanceState);
         setToolbar(true);
         setTitle(mOrderDetailsRequest.getMessage());
+    }
+
+    @Override
+    public void onEvent(int pOperationType, OrderDetailResponse.OrderDetail pObject) {
+
     }
 }

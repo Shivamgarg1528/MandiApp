@@ -15,7 +15,7 @@ import ig.com.digitalmandi.bean.response.seller.ProductResponse;
 import ig.com.digitalmandi.dialog.ImageDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
 
@@ -88,7 +88,7 @@ public class SupplierProductModifyActivity extends BaseActivity implements View.
                     supplierProductModifyRequest.setProductImageBase64(mStringBase64);
                 }
 
-                mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().modifiedProduct(supplierProductModifyRequest);
+                mApiEnqueueObject = RetrofitClient.getInstance().getInterface().modifiedProduct(supplierProductModifyRequest);
                 mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(this) {
                     @Override
                     public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {

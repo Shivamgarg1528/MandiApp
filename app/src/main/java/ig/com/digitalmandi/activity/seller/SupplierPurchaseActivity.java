@@ -24,7 +24,7 @@ import ig.com.digitalmandi.dialog.DatePickerClass;
 import ig.com.digitalmandi.dialog.QuantityDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.AppSharedPrefs;
 import ig.com.digitalmandi.util.Helper;
@@ -220,7 +220,7 @@ public class SupplierPurchaseActivity extends BaseActivity implements AdapterVie
         supplierPurchaseAddRequest.setPurchaseOperation(AppConstant.ADD);
         supplierPurchaseAddRequest.setSellerId(mLoginUser.getSellerId());
 
-        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().purchaseModification(supplierPurchaseAddRequest);
+        mApiEnqueueObject = RetrofitClient.getInstance().getInterface().purchaseModification(supplierPurchaseAddRequest);
         mApiEnqueueObject.enqueue(new RetrofitCallBack<PurchaseResponse>(this, true) {
 
             @Override

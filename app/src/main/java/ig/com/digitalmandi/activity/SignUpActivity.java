@@ -22,7 +22,7 @@ import ig.com.digitalmandi.bean.response.seller.SellerResponse;
 import ig.com.digitalmandi.dialog.ImageDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.AppSharedPrefs;
 import ig.com.digitalmandi.util.Helper;
@@ -188,7 +188,7 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
         else
             registrationRequest.setSellerId(String.valueOf(mIndexOfSelectedSeller));
 
-        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().registerUser(registrationRequest);
+        mApiEnqueueObject = RetrofitClient.getInstance().getInterface().registerUser(registrationRequest);
         mApiEnqueueObject.enqueue(new RetrofitCallBack<LoginResponse>(this) {
             @Override
             public void onResponse(LoginResponse pResponse, BaseActivity pBaseActivity) {
@@ -247,7 +247,7 @@ public class SignUpActivity extends BaseActivity implements AdapterView.OnItemSe
         SupplierListRequest supplierListRequest = new SupplierListRequest();
         supplierListRequest.setCustomerType(String.valueOf(AppConstant.SELLER));
 
-        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().sellerInfo(supplierListRequest);
+        mApiEnqueueObject = RetrofitClient.getInstance().getInterface().sellerInfo(supplierListRequest);
         mApiEnqueueObject.enqueue(new RetrofitCallBack<SellerResponse>(this) {
 
             @Override

@@ -21,7 +21,7 @@ import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
 
@@ -195,7 +195,7 @@ public class PaymentDialog extends BaseDialog implements DatePickerClass.OnDateS
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == DialogInterface.BUTTON_POSITIVE) {
 
-                        mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().doPurchase(paymentRequest);
+                        mBaseActivity.mApiEnqueueObject = RetrofitClient.getInstance().getInterface().doPurchase(paymentRequest);
                         mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
                             @Override
                             public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {

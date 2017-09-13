@@ -18,7 +18,7 @@ import ig.com.digitalmandi.dialog.ConfirmDialog;
 import ig.com.digitalmandi.fragment.ListBaseFragment;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.AppSharedPrefs;
 import ig.com.digitalmandi.util.Helper;
@@ -99,7 +99,7 @@ public class UnitFragment extends ListBaseFragment<UnitResponse.Unit> {
                             itemDeleteRequest.setFlag(AppConstant.DELETE_UNIT);
                             itemDeleteRequest.setId(pUnit.getUnitId());
 
-                            mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().deleteProductUnit(itemDeleteRequest);
+                            mBaseActivity.mApiEnqueueObject = RetrofitClient.getInstance().getInterface().deleteProductUnit(itemDeleteRequest);
                             mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
                                 @Override
                                 public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
@@ -125,7 +125,7 @@ public class UnitFragment extends ListBaseFragment<UnitResponse.Unit> {
                 supplierUnitModifyRequest.setUnitStatus(AppConstant.ENABLE.equalsIgnoreCase(pUnit.getUnitStatus()) ? AppConstant.DISABLE : AppConstant.ENABLE);
                 supplierUnitModifyRequest.setOperation(AppConstant.DELETE);
 
-                mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().modifiedUnit(supplierUnitModifyRequest);
+                mBaseActivity.mApiEnqueueObject = RetrofitClient.getInstance().getInterface().modifiedUnit(supplierUnitModifyRequest);
                 mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
 
                     @Override

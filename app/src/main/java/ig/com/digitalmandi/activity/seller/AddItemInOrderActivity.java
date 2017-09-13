@@ -35,7 +35,7 @@ import ig.com.digitalmandi.dialog.ConfirmDialog;
 import ig.com.digitalmandi.dialog.DatePickerClass;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
 
@@ -263,7 +263,7 @@ public class AddItemInOrderActivity extends BaseActivity<PurchaseResponse.Purcha
         sellerOrdersRequest.setPage("1");
         sellerOrdersRequest.setFlag(AppConstant.PURCHASE_LIST_ALL);
 
-        mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().purchaseList(sellerOrdersRequest);
+        mBaseActivity.mApiEnqueueObject = RetrofitClient.getInstance().getInterface().purchaseList(sellerOrdersRequest);
         mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<PurchaseResponse>(mBaseActivity, false) {
 
             @Override
@@ -350,7 +350,7 @@ public class AddItemInOrderActivity extends BaseActivity<PurchaseResponse.Purcha
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_POSITIVE) {
-                            mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().insertNewOrder(mOrderAddRequest);
+                            mApiEnqueueObject = RetrofitClient.getInstance().getInterface().insertNewOrder(mOrderAddRequest);
                             mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity, true) {
 
                                 @Override

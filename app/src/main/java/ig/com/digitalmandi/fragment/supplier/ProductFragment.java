@@ -20,7 +20,7 @@ import ig.com.digitalmandi.dialog.ConfirmDialog;
 import ig.com.digitalmandi.fragment.ListBaseFragment;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.AppSharedPrefs;
 import ig.com.digitalmandi.util.Helper;
@@ -102,7 +102,7 @@ public class ProductFragment extends ListBaseFragment<ProductResponse.Product> {
                             itemDeleteRequest.setFlag(AppConstant.DELETE_PRODUCT);
                             itemDeleteRequest.setId(pProduct.getProductId());
 
-                            mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().deleteProductUnit(itemDeleteRequest);
+                            mBaseActivity.mApiEnqueueObject = RetrofitClient.getInstance().getInterface().deleteProductUnit(itemDeleteRequest);
                             mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
                                 @Override
                                 public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {
@@ -128,7 +128,7 @@ public class ProductFragment extends ListBaseFragment<ProductResponse.Product> {
                 supplierProductModifyRequest.setProductStatus(AppConstant.ENABLE.equalsIgnoreCase(pProduct.getProductStatus()) ? AppConstant.DISABLE : AppConstant.ENABLE);
                 supplierProductModifyRequest.setProductOperation(AppConstant.DELETE);
 
-                mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().modifiedProduct(supplierProductModifyRequest);
+                mBaseActivity.mApiEnqueueObject = RetrofitClient.getInstance().getInterface().modifiedProduct(supplierProductModifyRequest);
                 mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
                     @Override
                     public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {

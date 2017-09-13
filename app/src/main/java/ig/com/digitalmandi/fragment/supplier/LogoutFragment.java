@@ -7,7 +7,7 @@ import ig.com.digitalmandi.bean.request.LogoutRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.AppSharedPrefs;
 import ig.com.digitalmandi.util.Helper;
 
@@ -20,7 +20,7 @@ public class LogoutFragment extends EmptyFragment {
         LogoutRequest logoutRequest = new LogoutRequest();
         logoutRequest.setDeviceId(Helper.getDeviceId(mBaseActivity));
 
-        mBaseActivity.mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().logoutUser(logoutRequest);
+        mBaseActivity.mApiEnqueueObject = RetrofitClient.getInstance().getInterface().logoutUser(logoutRequest);
         mBaseActivity.mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
 
             @Override

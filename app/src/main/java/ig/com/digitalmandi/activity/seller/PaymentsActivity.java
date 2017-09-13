@@ -11,15 +11,14 @@ import ig.com.digitalmandi.activity.ListBaseActivity;
 import ig.com.digitalmandi.adapter.supplier.PaymentAdapter;
 import ig.com.digitalmandi.bean.request.seller.PaymentsRequest;
 import ig.com.digitalmandi.bean.response.seller.PaymentResponse;
-import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.dialog.PaymentDialog;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
 
-public class PaymentsActivity extends ListBaseActivity<PaymentResponse.Payment> implements View.OnClickListener, EventCallback {
+public class PaymentsActivity extends ListBaseActivity<PaymentResponse.Payment> implements View.OnClickListener {
 
     private PaymentsRequest mPaymentsRequest;
     private float mOrderAmt = 0.0f;
@@ -42,13 +41,14 @@ public class PaymentsActivity extends ListBaseActivity<PaymentResponse.Payment> 
     @Override
     protected void fetchData(final boolean pRefresh) {
 
-        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().supplierPurchasePaymentList(mPaymentsRequest);
+        mApiEnqueueObject = RetrofitClient.getInstance().getInterface().supplierPurchasePaymentList(mPaymentsRequest);
         mApiEnqueueObject.enqueue(new RetrofitCallBack<PaymentResponse>(mBaseActivity, false) {
 
             @Override
             public void onResponse(PaymentResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, false)) {
                     if (pRefresh) {
+                        mRecyclerView.scrollToPosition(0);
                         mDataList.clear();
                     }
                     mDataList.addAll(pResponse.getResult());
@@ -113,7 +113,7 @@ public class PaymentsActivity extends ListBaseActivity<PaymentResponse.Payment> 
     }
 
     @Override
-    public void onEvent(int pOperationType, Object pObject) {
+    public void onEvent(int pOperationType, PaymentResponse.Payment pObject) {
         fetchData(true);
     }
 }

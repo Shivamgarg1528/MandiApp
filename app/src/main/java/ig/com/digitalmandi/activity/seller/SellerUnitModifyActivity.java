@@ -12,7 +12,7 @@ import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.bean.response.seller.UnitResponse;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
 
@@ -84,7 +84,7 @@ public class SellerUnitModifyActivity extends BaseActivity implements View.OnCli
                     supplierUnitModifyRequest.setOperation(AppConstant.ADD);
                 }
 
-                mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().modifiedUnit(supplierUnitModifyRequest);
+                mApiEnqueueObject = RetrofitClient.getInstance().getInterface().modifiedUnit(supplierUnitModifyRequest);
                 mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
                     @Override
                     public void onResponse(EmptyResponse pResponse, BaseActivity pBaseActivity) {

@@ -29,19 +29,18 @@ import ig.com.digitalmandi.bean.request.seller.SupplierOrderListRequest;
 import ig.com.digitalmandi.bean.response.EmptyResponse;
 import ig.com.digitalmandi.bean.response.seller.BillPrintResponse;
 import ig.com.digitalmandi.bean.response.seller.OrderResponse;
-import ig.com.digitalmandi.callback.EventCallback;
 import ig.com.digitalmandi.dialog.ConfirmDialog;
 import ig.com.digitalmandi.dialog.DatePickerClass;
 import ig.com.digitalmandi.retrofit.ResponseVerification;
 import ig.com.digitalmandi.retrofit.RetrofitCallBack;
-import ig.com.digitalmandi.retrofit.RetrofitWebClient;
+import ig.com.digitalmandi.retrofit.RetrofitClient;
 import ig.com.digitalmandi.util.AppConstant;
 import ig.com.digitalmandi.util.Helper;
 import ig.com.digitalmandi.util.LoadMoreClass;
 import okhttp3.ResponseBody;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order> implements SearchView.OnQueryTextListener, DatePickerClass.OnDateSelected, EasyPermissions.PermissionCallbacks, View.OnClickListener, EventCallback {
+public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order> implements SearchView.OnQueryTextListener, DatePickerClass.OnDateSelected, EasyPermissions.PermissionCallbacks, View.OnClickListener {
 
     private int mPageCount = 1;
     private boolean mLoadMore = false;
@@ -103,7 +102,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
         supplierOrderListRequest.setSellerId(mLoginUser.getSellerId());
         supplierOrderListRequest.setPage(String.valueOf(mPageCount));
 
-        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().getOrdersOfGivenCustomer(supplierOrderListRequest);
+        mApiEnqueueObject = RetrofitClient.getInstance().getInterface().getOrdersOfGivenCustomer(supplierOrderListRequest);
         mApiEnqueueObject.enqueue(new RetrofitCallBack<OrderResponse>(mBaseActivity, false) {
 
             @Override
@@ -260,8 +259,8 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
     }
 
     @Override
-    public void onEvent(int pOperationType, Object pObject) {
-        mOrderObj = (OrderResponse.Order) pObject;
+    public void onEvent(int pOperationType, OrderResponse.Order pObject) {
+        mOrderObj = pObject;
 
         switch (pOperationType) {
             case AppConstant.OPERATION_DELETE: {
@@ -276,7 +275,7 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
                             itemDeleteRequest.setFlag(AppConstant.DELETE_OR_PAYMENT_ORDER);
                             itemDeleteRequest.setId(mOrderObj.getOrderId());
 
-                            mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().deleteOrder(itemDeleteRequest);
+                            mApiEnqueueObject = RetrofitClient.getInstance().getInterface().deleteOrder(itemDeleteRequest);
                             mApiEnqueueObject.enqueue(new RetrofitCallBack<EmptyResponse>(mBaseActivity) {
 
                                 @Override
@@ -335,14 +334,14 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
         supplierOrderBillPrintRequest.setSellerId(mLoginUser.getSellerId());
         supplierOrderBillPrintRequest.setOrderId(mOrderObj.getOrderId());
 
-        mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().orderBillPrint(supplierOrderBillPrintRequest);
+        mApiEnqueueObject = RetrofitClient.getInstance().getInterface().orderBillPrint(supplierOrderBillPrintRequest);
         mApiEnqueueObject.enqueue(new RetrofitCallBack<BillPrintResponse>(mBaseActivity) {
 
             @Override
             public void onResponse(BillPrintResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, true)) {
 
-                    mApiEnqueueObject = RetrofitWebClient.getInstance().getInterface().downloadFileWithDynamicUrlSync(pResponse.getResult().get(0).getURL());
+                    mApiEnqueueObject = RetrofitClient.getInstance().getInterface().downloadFileWithDynamicUrlSync(pResponse.getResult().get(0).getURL());
                     mApiEnqueueObject.enqueue(new RetrofitCallBack<ResponseBody>(mBaseActivity) {
 
                         @Override

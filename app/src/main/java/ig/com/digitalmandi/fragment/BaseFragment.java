@@ -19,8 +19,9 @@ public abstract class BaseFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if (context instanceof AppCompatActivity)
+        if (context instanceof AppCompatActivity) {
             mBaseActivity = (BaseActivity) context;
+        }
 
         setRetainInstance(true);
         setHasOptionsMenu(true);

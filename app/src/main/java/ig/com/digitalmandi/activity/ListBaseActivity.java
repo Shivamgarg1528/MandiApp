@@ -14,14 +14,14 @@ import java.util.List;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.callback.EventCallback;
 
-public abstract class ListBaseActivity<T> extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, EventCallback {
+public abstract class ListBaseActivity<T> extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, EventCallback<T> {
 
     protected final List<T> mDataList = new ArrayList<>(0);
     protected final List<T> mBackUpList = new ArrayList<>(0);
     protected RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private TextView mTextViewEmpty;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private TextView mTextViewEmpty;
+    private RecyclerView.Adapter mAdapter;
 
     protected abstract RecyclerView.Adapter getAdapter();
 
@@ -48,6 +48,7 @@ public abstract class ListBaseActivity<T> extends BaseActivity implements SwipeR
         mRecyclerView = findViewById(R.id.layout_common_list_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter = getAdapter());
+
         fetchData(true);
     }
 
@@ -60,10 +61,5 @@ public abstract class ListBaseActivity<T> extends BaseActivity implements SwipeR
     public void onRefresh() {
         mSwipeRefreshLayout.setRefreshing(false);
         fetchData(true);
-    }
-
-    @Override
-    public void onEvent(int pOperationType, Object pObject) {
-
     }
 }
