@@ -12,12 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="30dp"
-            android:background="@drawable/xml_corner_app_bg" />
+            android:background="@drawable/xml_corner_stroke_blue_solid_white_bg" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -26,7 +25,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="40dp"
-            android:background="@drawable/xml_corner_app_bg" />
+            android:background="@drawable/xml_corner_stroke_blue_solid_white_bg" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -51,7 +50,7 @@
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Product Name"
+                        android:text="@string/string_product_name"
                         android:textColor="@color/colorWhite"
                         android:textSize="15sp" />
 
@@ -60,7 +59,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:layout_marginTop="8dp"
                         app:backgroundTint="@color/colorWhite">
 
                     </android.support.v7.widget.AppCompatSpinner>
@@ -68,7 +66,7 @@
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Kg Per Quantity"
+                        android:text="@string/string_kg_per_quantity"
                         android:textColor="@color/colorWhite"
                         android:textSize="15sp" />
 
@@ -85,7 +83,7 @@
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Quantity"
+                        android:text="@string/string_quantity"
                         android:textColor="@color/colorWhite"
                         android:textSize="15sp" />
 
@@ -118,7 +116,6 @@
                             android:layout_weight="48"
                             android:gravity="center"
                             android:maxLines="1"
-                            android:text="1"
                             android:textColor="@color/colorWhite"
                             android:textSize="40sp" />
 
@@ -140,7 +137,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="05dp"
-                        android:text="Daami (%)"
+                        android:text="@string/string_daami_per"
                         android:textColor="@color/colorWhite"
                         android:textSize="15sp" />
 
@@ -155,7 +152,7 @@
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Labour Cost (Rs Per 100kg)"
+                        android:text="@string/string_labour_cost_rs_per_100kg"
                         android:textColor="@color/colorWhite"
                         android:textSize="15sp" />
 
@@ -187,7 +184,7 @@
                                 android:id="@+id/layout_edt_product_price"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Product Price"
+                                android:hint="@string/string_product_price"
                                 android:inputType="numberDecimal"
                                 android:maxLength="8"
                                 android:textSize="18sp" />
@@ -201,14 +198,14 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:layout_weight="40"
                             android:orientation="vertical">
 
                             <android.support.v7.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Rs In Kg"
+                                android:text="@string/string_rs_in_kg"
                                 android:textColor="@color/colorWhite"
                                 android:textSize="15sp" />
 
@@ -231,7 +228,7 @@
                             android:id="@+id/mEditPersonNamePurchase"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Person Name"
+                            android:hint="@string/string_person_name"
                             android:imeOptions="actionDone"
                             android:inputType="textPersonName"
                             android:maxLength="40"
@@ -243,12 +240,12 @@
                         android:id="@+id/dialog_purchase_payment_tv_payment_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="end"
                         android:layout_marginTop="6dp"
                         android:background="@drawable/xml_white_view_selector"
                         android:gravity="center"
                         android:padding="05sp"
-                        android:text="Select Purchase Date"
+                        android:text="@string/string_select_purchase_date"
                         android:textColor="@drawable/xml_white_view_text_selector"
                         android:textSize="23sp" />
 
@@ -256,12 +253,12 @@
                         android:id="@+id/layout_btn_save"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
+                        android:layout_gravity="end"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/xml_white_view_selector"
                         android:gravity="center"
                         android:padding="05sp"
-                        android:text="SAVE"
+                        android:text="@string/string_save"
                         android:textColor="@drawable/xml_white_view_text_selector"
                         android:textSize="23sp" />
 

@@ -8,10 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import ig.com.digitalmandi.R;
 import ig.com.digitalmandi.activity.BaseActivity;
 import ig.com.digitalmandi.adapter.BaseAdapter;
@@ -37,7 +37,7 @@ public class ProductAdapter extends BaseAdapter<ProductResponse.Product> {
         final ViewHolder viewHolder = (ViewHolder) holder;
         ProductResponse.Product data = mDataList.get(position);
 
-        Helper.setImage(mBaseActivity, data.getProductImage(), viewHolder.mCircleIVProductImage);
+        Helper.setImage(mBaseActivity, data.getProductImage(), viewHolder.mImageViewProduct);
 
         viewHolder.mTextViewProductName.setText(data.getProductName());
         viewHolder.mImageViewStatus.setImageResource(AppConstant.ENABLE.equalsIgnoreCase(data.getProductStatus()) ? R.drawable.ic_checkbox_checked : R.drawable.ic_checkbox_unchecked);
@@ -84,13 +84,13 @@ public class ProductAdapter extends BaseAdapter<ProductResponse.Product> {
     private static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final AppCompatTextView mTextViewProductName;
-        private final CircleImageView mCircleIVProductImage;
+        private final ImageView mImageViewProduct;
         private final AppCompatImageView mImageViewStatus;
 
         ViewHolder(View view) {
             super(view);
             mTextViewProductName = view.findViewById(R.id.row_product_tv_product_info);
-            mCircleIVProductImage = view.findViewById(R.id.row_product_iv_product_image);
+            mImageViewProduct = view.findViewById(R.id.row_product_iv_product_image);
             mImageViewStatus = view.findViewById(R.id.row_product_iv_status);
         }
     }

@@ -44,7 +44,7 @@ public class ForgotPasswordDialog extends BaseDialog {
 
         String emailAddress = mEditTxtEmail.getText().toString().trim();
         if (Helper.isEmpty(emailAddress) || !Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
-            mBaseActivity.showToast(mBaseActivity.getString(R.string.enter_valid_email_address));
+            mBaseActivity.showToast(mBaseActivity.getString(R.string.string_enter_valid_email_address));
             return;
         }
 
@@ -59,7 +59,7 @@ public class ForgotPasswordDialog extends BaseDialog {
                     dismiss();
                     mBaseActivity.showToast(mBaseActivity.getString((R.string.string_password_has_been_sent)));
                 } else {
-                    mBaseActivity.showToast(mBaseActivity.getString(R.string.enter_valid_email_address));
+                    mBaseActivity.showToast(mBaseActivity.getString(R.string.string_enter_valid_email_address));
                 }
             }
         });

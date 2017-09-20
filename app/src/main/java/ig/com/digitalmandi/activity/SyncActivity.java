@@ -19,6 +19,7 @@ public class SyncActivity extends BaseActivity implements ApiCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sync);
+
         setToolbar(false);
         setTitle(getString(R.string.string_syncing));
 
@@ -28,21 +29,17 @@ public class SyncActivity extends BaseActivity implements ApiCallback {
         modifyPreference.addOrUpdateSellerUnits();
     }
 
-    private void startAfterSync() {
-        LoginResponse.LoginUser loginUserModel = AppSharedPrefs.getInstance(this).getLoginUserModel();
-        if (loginUserModel.getUserType() == AppConstant.SELLER) {
-            Helper.onActivityStart(mBaseActivity, true, null, null, SupplierHomeActivity.class);
-        } else if (loginUserModel.getUserType() == AppConstant.CUSTOMER) {
-            //Helper.onActivityStart(mBaseActivity, true, null, null, CustomerHomeActivity.class);
-        }
-    }
-
     @Override
     public void onApiResponse() {
         ++mApiCount;
         if (mApiCount == 3) {
             mBaseActivity.showToast(getString(R.string.string_sync_completed));
-            startAfterSync();
+            LoginResponse.LoginUser loginUserModel = AppSharedPrefs.getInstance(this).getLoginUserModel();
+            if (loginUserModel.getUserType() == AppConstant.SELLER) {
+                Helper.onActivityStart(mBaseActivity, true, null, null, SupplierHomeActivity.class);
+            } else if (loginUserModel.getUserType() == AppConstant.CUSTOMER) {
+                // Helper.onActivityStart(mBaseActivity, true, null, null, CustomerHomeActivity.class);
+            }
         }
     }
 }

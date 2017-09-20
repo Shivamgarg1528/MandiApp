@@ -30,7 +30,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setContentView(R.layout.activity_login);
         setToolbar(false);
 
-        setTitle(getString(R.string.login_title));
+        setTitle(getString(R.string.string_login));
 
         mEdtTxtEmail = findViewById(R.id.activity_login_edt_email_address);
         mEdtTxtPassword = findViewById(R.id.activity_login_edt_password);
@@ -100,7 +100,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     AppSharedPrefs.getInstance(mBaseActivity).setLoginUserModel(pResponse.getResult().get(0));
                     onActivityResult(REQUEST_CODE_SIGN_UP, RESULT_OK, null);
                 } else
-                    showToast(getString(R.string.string_login_failed));
+                    showToast(getString(R.string.string_login_failed_please_check_your_credentials));
             }
 
         });

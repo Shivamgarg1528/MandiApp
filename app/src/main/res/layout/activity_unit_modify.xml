@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@drawable/xml_white_view_selector"
-            android:text="@string/submit"
+            android:text="@string/string_submit"
             android:textColor="@drawable/xml_white_view_text_selector"
             android:textSize="20sp" />
 

@@ -91,6 +91,8 @@ public class SupplierPurchaseActivity extends BaseActivity implements AdapterVie
         spinnerDaami.setAdapter(Helper.getAdapter(this, R.array.string_array_dami_amount));
         spinnerDaami.setOnItemSelectedListener(this);
         spinnerDaami.setSelection(1, true);
+
+        updateQtyTextView();
     }
 
     @Override

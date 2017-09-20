@@ -42,7 +42,7 @@ public class SupplierCustomerAddActivity extends BaseActivity implements ImageDi
 
         setContentView(R.layout.activity_customer_add);
         setToolbar(true);
-        setTitle(getString(R.string.add_new_customer));
+        setTitle(getString(R.string.string_add_new_customer_title));
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         mEditTxtName = findViewById(R.id.layout_activity_sign_up_edt_name);

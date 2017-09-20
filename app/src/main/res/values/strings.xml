@@ -53,27 +53,6 @@
     </string-array>
 
 
-    <string name="app_name">DigitalMandi</string>
-    <string name="string_login">LOGIN</string>
-    <string name="registered_email_address">Registered Email Address</string>
-    <string name="password">Password</string>
-    <string name="forgot_password">Forgot Password ?</string>
-    <string name="enter_valid_email_address">Please Enter Valid Email Address</string>
-    <string name="register">Register</string>
-
-    <!-- Register start-->
-    <string name="name">Name*</string>
-    <string name="reg_password">Password*</string>
-    <string name="confirm_password">Confirm Password*</string>
-    <string name="email_address">Email Address*</string>
-    <string name="phone_number">Phone Number*</string>
-    <string name="firm_name">Firm Name*</string>
-    <string name="tin_number">Tin Number*</string>
-    <string name="landmark">LandMark</string>
-    <string name="addresss">Address</string>
-    <string name="submit">Submit</string>
-    <string name="successfully_registered">SuccessFully Registered</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -97,63 +76,46 @@
     <string name="unsuccesfully_logout">Failed To Logout User</string>
     <string name="successfully_logout">SuccessFully Logout</string>
 
-    <string name="login_title">Login</string>
-    <string name="add_new_customer">Add New Customer</string>
-    <string name="enter_payment_amount">Enter Payment Amount</string>
-    <string name="interest_amt">Interest Amt</string>
-    <string name="is_interest_also_paid">Interest Paid ?</string>
-    <string name="payment_history_title">Payment History ( %s )</string>
+    <string name="string_add_new_customer_title">Add New Customer</string>
+    <string name="string_payment_history_title">Payment History ( %s )</string>
 
-    <!-- Register end-->
+    <string name="string_enter_payment_amount">Enter Payment Amt</string>
+    <string name="string_interest_amt">Interest Amt</string>
+    <string name="string_is_interest_also_paid">Interest Paid ?</string>
+
 
     <!-- New String-->
+    <!-- App Name-->
+    <string name="app_name">DigitalMandi</string>
 
     <!--Splash-->
     <string name="string_dm">DM</string>
 
     <!-- Login-->
-    <string name="string_enter_valid_email_address">Please Enter Valid Email Address</string>
-    <string name="string_login_failed">Login Failed. Please Check Your Credential</string>
-    <string name="string_password_at_least_six_char_long">Password At-Least Six Character Long</string>
+    <string name="string_login">LOGIN</string>
+    <string name="string_registered_email_address">Registered Email Address</string>
+    <string name="string_password">Password</string>
+    <string name="string_forgot_password">Forgot Password ?</string>
+    <string name="string_register">Register</string>
 
     <!--Sign Up-->
-    <string name="string_sign_up">SignUp</string>
-    <string name="string_enter_tin_number">Please Enter Firm Tin Number</string>
-    <string name="string_enter_valid_phone_number">Please Enter Valid Phone Number</string>
-    <string name="string_name_at_least_three_char_long">Name At-Least Three Character Long</string>
-    <string name="string_password_match_failed">Password Match Failed</string>
-    <string name="string_please_enter_firm_name">Please Enter Firm Name</string>
-    <string name="string_failed_to_register_new_user">Failed To Registered New User</string>
+    <string name="string_name_star">Name*</string>
+    <string name="string_password_star">Password*</string>
+    <string name="string_confirm_password_star">Confirm Password*</string>
+    <string name="string_email_address_star">Email Address*</string>
+    <string name="string_phone_number_star">Phone Number*</string>
+    <string name="string_firm_name_star">Firm Name*</string>
+    <string name="string_tin_number_star">Tin Number*</string>
+    <string name="string_landmark_star">LandMark</string>
+    <string name="string_address_star">Address</string>
     <string name="string_please_select_appropriate_customer_type">Please Select Appropriate Customer Type From Drop Down</string>
     <string name="string_please_select_any_supplier_from_drop_down">Please Select Any Supplier From Drop Down</string>
     <string name="string_please_select_any_supplier">Please Select Any Supplier…</string>
+    <string name="string_already_have_an_account_login">Already Have An Account ? Login</string>
 
-    <!--Sync Activity-->
+    <!--Sync-->
     <string name="sync_in_progress_please_wait">Syncing in progress\nPlease Wait…</string>
     <string name="string_syncing">Syncing</string>
-    <string name="string_sync_completed">Syncing Completed</string>
-
-    <!--Error Alert Message-->
-    <string name="please_contact_app_admin_for_better_support">Please Contact App Admin For Better Support For ( %s )</string>
-    <string name="string_password_has_been_sent">Password Has Been Sent On Your Registered Email Address</string>
-    <string name="already_have_an_account_login">Already Have An Account ? Login</string>
-
-    <!-- Operations Text-->
-    <string name="string_search">Search</string>
-    <string name="string_sort_alphabetically">Sort Alphabetically</string>
-    <string name="string_report">Report</string>
-    <string name="string_add">Add</string>
-    <string name="string_disable">Disable</string>
-    <string name="string_enable">Enable</string>
-    <string name="string_delete">Delete</string>
-    <string name="string_edit">Edit</string>
-    <string name="string_select_operation">Select Operation</string>
-    <string name="string_continue">Continue</string>
-    <string name="string_leave">Leave</string>
-    <string name="string_no_modification_done">No Modification Done</string>
-    <string name="string_error_in_on_response">Error In onResponse</string>
-    <string name="string_error_in_on_failure">Error In onFailure</string>
-    <string name="go">Go</string>
 
     <!-- Unit Fragment-->
     <string name="string_no_unit_found_please_add_new_unit">No Unit Available\nPlease Add Unit</string>
@@ -169,15 +131,8 @@
     <string name="string_no_customer_found_please_add_new_customer">No Customer Available\nPlease Add Customer</string>
     <string name="string_customer_orders">\'s Orders</string>
 
-    <!-- Runtime Permission text-->
-    <string name="string_allow_customer_to_make_a_call">Allow Access To Make Call</string>
-    <string name="string_allow_external_storage_access">Allow Access External Storage For Reading And Writing Data</string>
-
     <!-- Customer Purchase's Activity-->
     <string name="string_no_customer_orders_found_please_add_new_order">No Order Available\nPlease Add Order</string>
-    <string name="string_start_date">Start Date</string>
-    <string name="string_end_date">End Date</string>
-    <string name="string_reset_filter">Reset Filter</string>
 
     <string name="string_order_details">Order Details</string>
     <string name="string_bill_print">Bill Print</string>
@@ -290,5 +245,59 @@
     <string name="string_photo">Photo!</string>
     <string name="string_images">Images</string>
     <string name="string_no_purchased_item_found">No Purchased Item Found</string>
+    <string name="string_product_name">Product Name</string>
+    <string name="string_labour_cost_100kg">Labour Cost/100kg</string>
+    <string name="string_select_purchase_date">Select Purchase Date</string>
+    <string name="string_person_name">Person Name</string>
+    <string name="string_units">Units</string>
+    <string name="string_purchase">Purchase</string>
+    <string name="string_daami_per">Daami (%)</string>
+    <string name="string_labour_cost_rs_per_100kg">Labour Cost (Rs Per 100kg)</string>
+
+    <!--Error Alert Message-->
+    <string name="please_contact_app_admin_for_better_support">Please Contact App Admin For Better Support For ( %s )</string>
+
+    <!-- Operations Text-->
+    <string name="string_search">Search</string>
+    <string name="string_sort_alphabetically">Sort Alphabetically</string>
+    <string name="string_report">Report</string>
+    <string name="string_add">Add</string>
+    <string name="string_disable">Disable</string>
+    <string name="string_enable">Enable</string>
+    <string name="string_delete">Delete</string>
+    <string name="string_edit">Edit</string>
+    <string name="string_select_operation">Select Operation</string>
+    <string name="string_continue">Continue</string>
+    <string name="string_leave">Leave</string>
+    <string name="string_no_modification_done">No Modification Done</string>
+    <string name="string_error_in_on_response">Error In onResponse</string>
+    <string name="string_error_in_on_failure">Error In onFailure</string>
+    <string name="go">Go</string>
+    <string name="string_start_date">Start Date</string>
+    <string name="string_end_date">End Date</string>
+    <string name="string_reset_filter">Reset Filter</string>
+
+    <string name="string_submit">Submit</string>
+
+    <!-- Runtime Permission text-->
+    <string name="string_allow_customer_to_make_a_call">Allow Access To Make Call</string>
+    <string name="string_allow_external_storage_access">Allow Access External Storage For Reading And Writing Data</string>
+
+
+    <!-- Toast Message-->
+    <string name="string_enter_valid_email_address">Please Enter Valid Email Address</string>
+    <string name="string_login_failed_please_check_your_credentials">Login Failed. Please Check Your Credential</string>
+    <string name="string_password_at_least_six_char_long">Password At-Least Six Character Long</string>
+    <string name="string_sign_up">SignUp</string>
+    <string name="string_enter_tin_number">Please Enter Firm Tin Number</string>
+    <string name="string_enter_valid_phone_number">Please Enter Valid Phone Number</string>
+    <string name="string_name_at_least_three_char_long">Name At-Least Three Character Long</string>
+    <string name="string_password_match_failed">Password Match Failed</string>
+    <string name="string_please_enter_firm_name">Please Enter Firm Name</string>
+    <string name="string_failed_to_register_new_user">Failed To Registered New User</string>
+    <string name="string_sync_completed">Syncing Completed</string>
+    <string name="successfully_registered">SuccessFully Registered</string>
+    <string name="string_password_has_been_sent">Password Has Been Sent On Your Registered Email Address</string>
+
 
 </resources>

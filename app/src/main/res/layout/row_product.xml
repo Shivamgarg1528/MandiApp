@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/CardViewStyle">
+    style="@style/CardViewStyle"
+    app:cardElevation="1dp">
 
     <View
         android:layout_width="match_parent"
@@ -12,17 +13,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:orientation="horizontal"
         android:padding="6dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/row_product_iv_product_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@mipmap/ic_launcher"
-            app:civ_border_color="@android:color/black"
-            app:civ_border_width="2dp" />
+            android:contentDescription=""
+            android:src="@mipmap/ic_launcher" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/row_product_tv_product_info"

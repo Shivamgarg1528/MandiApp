@@ -23,13 +23,13 @@
         android:id="@+id/supplier_nav_menu_unit"
         android:checked="true"
         android:icon="@drawable/ic_unit"
-        android:title="Units" />
+        android:title="@string/string_units" />
 
     <item
         android:id="@+id/supplier_nav_menu_purchase"
         android:checked="true"
         android:icon="@drawable/ic_purchase"
-        android:title="Purchase" />
+        android:title="@string/string_purchase" />
 
     <item
         android:id="@+id/supplier_nav_menu_settings"

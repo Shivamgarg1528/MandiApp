@@ -20,10 +20,6 @@ public class LoginResponse extends AbstractResponse<LoginResponse.LoginUser> {
         private String updatedOn;
         private String userImageUrl;
 
-        public String getUserId() {
-            return userId;
-        }
-
         public String getUserName() {
             return userName;
         }

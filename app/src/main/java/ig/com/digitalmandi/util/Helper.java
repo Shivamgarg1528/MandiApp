@@ -73,7 +73,7 @@ public class Helper {
     public static void setImage(Context pContext, String pUrl, View pView) {
         ImageView imageView = (ImageView) pView;
         if (URLUtil.isValidUrl(pUrl)) {
-            Glide.with(pContext).load(pUrl).placeholder(R.mipmap.ic_launcher).into(imageView);
+            Glide.with(pContext).load(pUrl).placeholder(R.drawable.image_placeholder).into(imageView);
         } else {
             imageView.setImageResource(R.mipmap.ic_launcher);
         }
@@ -362,7 +362,7 @@ public class Helper {
 
     public static boolean isEmailAddressOk(String pEmailAddress, BaseActivity pBaseActivity) {
         if (isEmpty(pEmailAddress) || !Patterns.EMAIL_ADDRESS.matcher(pEmailAddress).matches()) {
-            pBaseActivity.showToast(pBaseActivity.getString(R.string.enter_valid_email_address));
+            pBaseActivity.showToast(pBaseActivity.getString(R.string.string_enter_valid_email_address));
             return false;
         }
         return true;

@@ -340,8 +340,16 @@ public class CustomerOrdersActivity extends ListBaseActivity<OrderResponse.Order
             @Override
             public void onResponse(BillPrintResponse pResponse, BaseActivity pBaseActivity) {
                 if (ResponseVerification.isResponseOk(pResponse, true)) {
+                    String billUrl = pResponse.getResult().get(0).getURL();
 
-                    mApiEnqueueObject = RetrofitClient.getInstance().getInterface().downloadFileWithDynamicUrlSync(pResponse.getResult().get(0).getURL());
+                    /*if (!billUrl.isEmpty()) {
+                        Intent intent = new Intent(mBaseActivity, WebViewActivity.class);
+                        intent.putExtra(AppConstant.KEY_OBJECT, billUrl);
+                        startActivity(intent);
+                        return;
+                    }*/
+
+                    mApiEnqueueObject = RetrofitClient.getInstance().getInterface().downloadFileWithDynamicUrlSync(billUrl);
                     mApiEnqueueObject.enqueue(new RetrofitCallBack<ResponseBody>(mBaseActivity) {
 
                         @Override

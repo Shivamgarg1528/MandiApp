@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/dialog_purchase_payment_tv_interest_days"
@@ -63,7 +63,7 @@
                 android:id="@+id/dialog_purchase_payment_edt_payment_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/enter_payment_amount"
+                android:hint="@string/string_enter_payment_amount"
                 android:inputType="numberDecimal"
                 android:maxLength="8"
                 android:textColor="@color/colorAccent"
@@ -82,7 +82,6 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/string_interest_rate"
                 android:inputType="numberDecimal"
-                android:text="1.00"
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp" />
         </android.support.design.widget.TextInputLayout>
@@ -97,12 +96,11 @@
                 android:id="@+id/dialog_purchase_payment_edt_interest_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/interest_amt"
+                android:hint="@string/string_interest_amt"
                 android:imeOptions="actionDone"
                 android:inputType="numberDecimal"
                 android:maxLength="8"
                 android:maxLines="1"
-                android:text="0.00"
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp" />
         </android.support.design.widget.TextInputLayout>
@@ -120,7 +118,7 @@
                 android:layout_weight=".5"
                 android:checked="true"
                 android:gravity="center_vertical"
-                android:text="@string/is_interest_also_paid"
+                android:text="@string/string_is_interest_also_paid"
                 android:textColor="@color/colorPrimary" />
 
             <android.support.v7.widget.AppCompatButton

@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="30dp"
-            android:background="@drawable/xml_corner_app_bg" />
+            android:background="@drawable/xml_corner_stroke_blue_solid_white_bg" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="40dp"
-            android:background="@drawable/xml_corner_app_bg">
+            android:background="@drawable/xml_corner_stroke_blue_solid_white_bg">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -70,7 +70,7 @@
                             android:id="@+id/activity_login_edt_email_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/registered_email_address"
+                            android:hint="@string/string_registered_email_address"
                             android:inputType="textEmailAddress"
                             android:textColor="@color/colorPrimary"
                             android:textSize="22sp" />
@@ -86,7 +86,7 @@
                             android:id="@+id/activity_login_edt_password"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/password"
+                            android:hint="@string/string_password"
                             android:imeOptions="actionDone"
                             android:inputType="textPassword"
                             android:maxLength="12"
@@ -111,7 +111,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
-                        android:text="@string/forgot_password"
+                        android:text="@string/string_forgot_password"
                         android:textColor="@color/colorPrimary"
                         android:textSize="20dip" />
                 </LinearLayout>

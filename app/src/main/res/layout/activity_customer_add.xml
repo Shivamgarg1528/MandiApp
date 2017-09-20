@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="30dp"
-            android:background="@drawable/xml_corner_app_bg" />
+            android:background="@drawable/xml_corner_stroke_blue_solid_white_bg" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="40dp"
-            android:background="@drawable/xml_corner_app_bg" />
+            android:background="@drawable/xml_corner_stroke_blue_solid_white_bg" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -53,8 +53,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/leftLine"
                     android:layout_alignTop="@+id/leftLine"
-                    android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@+id/leftLine"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@+id/leftLine"
                     android:text="@string/new_customer"
                     android:textColor="@android:color/white"
                     android:textSize="30sp"
@@ -93,7 +93,7 @@
                                 android:id="@+id/layout_activity_sign_up_edt_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/name"
+                                android:hint="@string/string_name_star"
                                 android:inputType="textPersonName"
                                 android:textSize="22sp" />
 
@@ -108,7 +108,7 @@
                                 android:id="@+id/layout_activity_sign_up_edt_phone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/phone_number"
+                                android:hint="@string/string_phone_number_star"
                                 android:inputType="phone"
                                 android:maxLength="10"
                                 android:textSize="22sp" />
@@ -123,7 +123,7 @@
                                 android:id="@+id/layout_activity_sign_up_edt_email_address"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/email_address"
+                                android:hint="@string/string_email_address_star"
                                 android:inputType="textEmailAddress"
                                 android:textSize="22sp" />
                         </android.support.design.widget.TextInputLayout>
@@ -137,7 +137,7 @@
                                 android:id="@+id/layout_activity_sign_up_edt_password"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/reg_password"
+                                android:hint="@string/string_password_star"
                                 android:inputType="textPassword"
                                 android:textSize="22sp" />
                         </android.support.design.widget.TextInputLayout>
@@ -152,7 +152,7 @@
                                 android:id="@+id/layout_activity_sign_up_edt_confirm_password"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/confirm_password"
+                                android:hint="@string/string_confirm_password_star"
                                 android:inputType="textPassword"
                                 android:textSize="22sp" />
                         </android.support.design.widget.TextInputLayout>
@@ -166,7 +166,7 @@
                                 android:id="@+id/layout_activity_sign_up_edt_firm_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/firm_name"
+                                android:hint="@string/string_firm_name_star"
                                 android:inputType="text"
                                 android:textSize="22sp" />
                         </android.support.design.widget.TextInputLayout>
@@ -180,7 +180,7 @@
                                 android:id="@+id/layout_activity_sign_up_edt_tin_number"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/tin_number"
+                                android:hint="@string/string_tin_number_star"
                                 android:inputType="number"
                                 android:textSize="22sp" />
                         </android.support.design.widget.TextInputLayout>
@@ -195,7 +195,7 @@
                                 android:id="@+id/layout_activity_sign_up_edt_land_mark"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/landmark"
+                                android:hint="@string/string_landmark_star"
                                 android:inputType="text"
                                 android:textSize="22sp" />
                         </android.support.design.widget.TextInputLayout>
@@ -209,7 +209,7 @@
                                 android:id="@+id/layout_activity_sign_up_edt_address"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/addresss"
+                                android:hint="@string/string_address_star"
                                 android:inputType="text"
                                 android:textSize="22sp" />
                         </android.support.design.widget.TextInputLayout>
@@ -220,7 +220,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:background="@drawable/xml_white_view_selector"
-                            android:text="@string/submit"
+                            android:text="@string/string_submit"
                             android:textColor="@drawable/xml_white_view_text_selector"
                             android:textSize="20sp" />
 

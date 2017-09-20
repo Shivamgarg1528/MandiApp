@@ -68,7 +68,7 @@ public class PaymentsActivity extends ListBaseActivity<PaymentResponse.Payment> 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setToolbar(true);
-        setTitle(getString(R.string.payment_history_title, mPaymentsRequest.getId()));
+        setTitle(getString(R.string.string_payment_history_title, mPaymentsRequest.getId()));
         findViewById(R.id.activity_purchase_payment_tv_payment).setOnClickListener(this);
     }
 
